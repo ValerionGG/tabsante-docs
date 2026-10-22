@@ -31,8 +31,8 @@ h2{margin:44px 0 6px;font-size:22px;letter-spacing:-.02em;font-weight:800}
 .video{background:var(--surface);border:1px solid var(--bord);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;
  box-shadow:0 1px 2px rgba(15,23,42,.04),0 8px 24px rgba(15,23,42,.04)}
 .cadre{background:#0F172A}
-.poste .cadre{aspect-ratio:1280/800}
-.terminal .cadre{aspect-ratio:390/844;max-height:620px;display:flex;justify-content:center}
+.poste .cadre{aspect-ratio:var(--ratio)}
+.terminal .cadre{aspect-ratio:var(--ratio);max-height:620px;display:flex;justify-content:center}
 video{display:block;width:100%;height:100%;object-fit:contain;background:#0F172A}
 .terminal video{width:auto;max-width:100%}
 .texte{padding:16px 18px 18px;display:flex;flex-direction:column;gap:6px}
@@ -70,12 +70,12 @@ footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--bord);color:v
     <p class="sous">Au domicile du patient, sur le téléphone, même hors connexion.</p>
     <div class="grille terminal">
       <article class="video terminal" id="01-terminal-passage">
-        <div class="cadre"><video controls preload="none" playsinline poster="01-terminal-passage.jpg" width="390" height="844" aria-describedby="01-terminal-passage-d">
+        <div class="cadre" style="--ratio:390/964"><video controls preload="none" playsinline poster="01-terminal-passage.jpg" width="390" height="964" aria-describedby="01-terminal-passage-d">
           <source src="01-terminal-passage.mp4" type="video/mp4">
           <a href="01-terminal-passage.mp4">Télécharger la vidéo</a>
         </video></div>
         <div class="texte">
-          <p class="meta"><span class="num">01</span><span class="pastille"><time datetime="PT66S">1 min 06 s</time></span><span class="poids">1,7 Mo</span></p>
+          <p class="meta"><span class="num">01</span><span class="pastille"><time datetime="PT66S">1 min 06 s</time></span><span class="poids">1,4 Mo</span></p>
           <h3>Un passage, de la tournée au reçu</h3>
           <p id="01-terminal-passage-d">Sur le terminal, Claire ouvre son prochain patient, suit la fiche de soin étape par étape, signe d’un appui maintenu et obtient le reçu, coté par le serveur.</p>
           <details><summary>Transcription</summary><ol><li>La tournée du jour : le prochain passage en tête, les soins à faire et ce qu’il faut savoir avant d’arriver.</li><li>Claire ouvre le dossier de M. Garnier, prévu ce matin pour un pansement.</li><li>L’allergie à l’iode est mise en avant : elle concerne justement le pansement du jour.</li><li>Elle commence le passage depuis la plaie active.</li><li>La fiche de soin se suit par étapes ; les mesures de la plaie sont reprises du dernier passage.</li><li>À chaque passage : saignement, douleur et signes d’infection.</li><li>Puis les deux drains de Redon : volume recueilli et aspect.</li><li>Tout est renseigné. La signature se fait d’un appui maintenu : pas de geste involontaire.</li><li>Le reçu : qui a signé, quand, et où en est l’envoi au cabinet, chiffré sur le téléphone.</li><li>À la réception, le serveur cote le passage et explique chaque ligne. Rien n’est saisi deux fois.</li><li>« Patient suivant » enchaîne sur la suite de la tournée, sans repasser par la liste.</li></ol>
@@ -83,12 +83,12 @@ footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--bord);color:v
         </div>
       </article>
       <article class="video terminal" id="02-terminal-fin-de-journee">
-        <div class="cadre"><video controls preload="none" playsinline poster="02-terminal-fin-de-journee.jpg" width="390" height="844" aria-describedby="02-terminal-fin-de-journee-d">
+        <div class="cadre" style="--ratio:390/964"><video controls preload="none" playsinline poster="02-terminal-fin-de-journee.jpg" width="390" height="964" aria-describedby="02-terminal-fin-de-journee-d">
           <source src="02-terminal-fin-de-journee.mp4" type="video/mp4">
           <a href="02-terminal-fin-de-journee.mp4">Télécharger la vidéo</a>
         </video></div>
         <div class="texte">
-          <p class="meta"><span class="num">02</span><span class="pastille"><time datetime="PT67S">1 min 07 s</time></span><span class="poids">2,3 Mo</span></p>
+          <p class="meta"><span class="num">02</span><span class="pastille"><time datetime="PT64S">1 min 04 s</time></span><span class="poids">2,2 Mo</span></p>
           <h3>Fin de journée et transmission dictée</h3>
           <p id="02-terminal-fin-de-journee-d">Le bilan du jour, puis une transmission ciblée dictée, rangée par le téléphone en cible, données, actions et résultat, relue et envoyée.</p>
           <details><summary>Transcription</summary><ol><li>En fin de tournée, Claire ouvre « Fin de journée », tout en bas de la liste.</li><li>Le bilan du jour : passages signés, ce qui reste à faire, ce qui attend l’envoi, les transmissions écrites.</li><li>Plus bas, les cotations provisoires de ses patients, calculées par le serveur.</li><li>Pour la relève, elle écrit une transmission depuis « Liaisons ».</li><li>Une transmission ciblée, pour M. Garnier.</li><li>Elle la dicte avec le micro du clavier du téléphone : le texte s’écrit au fil de la parole.</li><li>« Structurer » range le texte en cible, données, actions et résultat, sur le téléphone, sans réseau.</li><li>C’est une proposition : Claire relit chaque champ et complète le résultat.</li><li>Elle confirme l’avoir relue : l’envoi se débloque.</li><li>Envoyée : la relève la lit au cabinet ; hors connexion, elle partirait au retour du réseau.</li></ol>
@@ -96,7 +96,7 @@ footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--bord);color:v
         </div>
       </article>
       <article class="video terminal" id="09-terminal-aide-soignante">
-        <div class="cadre"><video controls preload="none" playsinline poster="09-terminal-aide-soignante.jpg" width="390" height="844" aria-describedby="09-terminal-aide-soignante-d">
+        <div class="cadre" style="--ratio:390/964"><video controls preload="none" playsinline poster="09-terminal-aide-soignante.jpg" width="390" height="964" aria-describedby="09-terminal-aide-soignante-d">
           <source src="09-terminal-aide-soignante.mp4" type="video/mp4">
           <a href="09-terminal-aide-soignante.mp4">Télécharger la vidéo</a>
         </video></div>
@@ -116,12 +116,12 @@ footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--bord);color:v
     <p class="sous">Au cabinet : facturation, preuves, contrôle, plaies et planning.</p>
     <div class="grille poste">
       <article class="video poste" id="03-poste-facturation">
-        <div class="cadre"><video controls preload="none" playsinline poster="03-poste-facturation.jpg" width="1280" height="800" aria-describedby="03-poste-facturation-d">
+        <div class="cadre" style="--ratio:1280/922"><video controls preload="none" playsinline poster="03-poste-facturation.jpg" width="1280" height="922" aria-describedby="03-poste-facturation-d">
           <source src="03-poste-facturation.mp4" type="video/mp4">
           <a href="03-poste-facturation.mp4">Télécharger la vidéo</a>
         </video></div>
         <div class="texte">
-          <p class="meta"><span class="num">04</span><span class="pastille"><time datetime="PT77S">1 min 17 s</time></span><span class="poids">3,5 Mo</span></p>
+          <p class="meta"><span class="num">04</span><span class="pastille"><time datetime="PT78S">1 min 18 s</time></span><span class="poids">3,7 Mo</span></p>
           <h3>La facturation de bout en bout</h3>
           <p id="03-poste-facturation-d">La file de contrôle et son « Pourquoi ? », l’arbitrage, la feuille de soins, la sécurisation par cartes, « vérifier puis télétransmettre », puis les rejets.</p>
           <details><summary>Transcription</summary><ol><li>Cinq étapes, du soin signé au retour de l’Assurance maladie. D’abord, la file de contrôle.</li><li>Cette cotation diverge entre la signature et le moteur : « Pourquoi ? » l’explique, règle de la NGAP à l’appui.</li><li>Claire arbitre : elle confirme la cotation du moteur, avec un motif tracé au journal.</li><li>Étape 2, « Facturer » : les actes confirmés, regroupés par patient. Une feuille de soins par groupe.</li><li>Claire crée la feuille de soins électronique de Mme Lefèvre.</li><li>Chaque ligne cite l’acte signé, son empreinte et sa règle. Reste à la sécuriser.</li><li>Sécuriser : carte Vitale du patient et carte CPS de l’infirmière, toutes deux simulées ici.</li><li>Sécurisée, signature vérifiée. Elle part ensuite avec le lot.</li><li>« Vérifier puis télétransmettre » : un contrôle de cohérence complet avant tout envoi.</li><li>Empreintes, prescriptions, fréquences, saisies différées, journal : rien ne bloque. Le lot part.</li><li>Lot télétransmis, accusé de réception reçu (simulé : rien ne quitte la démonstration).</li><li>Étape 5, les retours : chaque rejet dit sa cause et ce qu’il faut faire pour refacturer.</li></ol>
@@ -129,25 +129,25 @@ footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--bord);color:v
         </div>
       </article>
       <article class="video poste" id="04-poste-recu-cotation">
-        <div class="cadre"><video controls preload="none" playsinline poster="04-poste-recu-cotation.jpg" width="1280" height="800" aria-describedby="04-poste-recu-cotation-d">
+        <div class="cadre" style="--ratio:1280/922"><video controls preload="none" playsinline poster="04-poste-recu-cotation.jpg" width="1280" height="922" aria-describedby="04-poste-recu-cotation-d">
           <source src="04-poste-recu-cotation.mp4" type="video/mp4">
           <a href="04-poste-recu-cotation.mp4">Télécharger la vidéo</a>
         </video></div>
         <div class="texte">
-          <p class="meta"><span class="num">05</span><span class="pastille"><time datetime="PT66S">1 min 06 s</time></span><span class="poids">4,4 Mo</span></p>
+          <p class="meta"><span class="num">05</span><span class="pastille"><time datetime="PT80S">1 min 20 s</time></span><span class="poids">6,4 Mo</span></p>
           <h3>Le reçu de cotation, ligne par ligne</h3>
           <p id="04-poste-recu-cotation-d">Chaque ligne et sa règle NGAP : l’article 11 B, les majorations du dimanche et de nuit simulées sans rien écrire, puis l’IFD et les indemnités kilométriques.</p>
-          <details><summary>Transcription</summary><ol><li>Depuis la facturation, Claire ouvre le reçu du passage de M. Tessier, le 17 octobre.</li><li>Deux soins au même passage : article 11 B, le plus fort coefficient à taux plein, le second à 50 %.</li><li>Chaque règle s’ouvre et s’explique en clair, avec sa référence et son calcul.</li><li>« Et si… » : le même passage un dimanche, la prescription le précisant. Rien n’est écrit.</li><li>La majoration du dimanche apparaît, à côté de la cotation réelle.</li><li>À 21 h, horaire imposé : la majoration de nuit prend sa place. Les deux ne se cumulent pas.</li><li>Le déplacement, enfin, dans « Simuler une cotation » : un passage à domicile porte son IFD.</li><li>Hors de l’agglomération, à 14 km du cabinet en plaine : les indemnités kilométriques s’ajoutent, franchise déduite.</li><li>La cotation du moteur se recalcule : chaque ligne garde son « Pourquoi ? ».</li></ol>
+          <details><summary>Transcription</summary><ol><li>Depuis la facturation, Claire ouvre le reçu du passage de M. Tessier, le 20 octobre.</li><li>Deux soins au même passage : article 11 B, le plus fort coefficient à taux plein, le second à 50 %.</li><li>Chaque règle s’ouvre et s’explique en clair, avec sa référence et son calcul.</li><li>« Et si… » : le même passage un dimanche, la prescription le précisant. Rien n’est écrit.</li><li>La majoration du dimanche apparaît, à côté de la cotation réelle.</li><li>À 21 h, horaire imposé : la majoration de nuit prend sa place. Les deux ne se cumulent pas.</li><li>Le déplacement, enfin, dans « Simuler une cotation » : un passage à domicile porte son IFD.</li><li>Hors de l’agglomération, à 14 km du cabinet en plaine : les indemnités kilométriques s’ajoutent, franchise déduite.</li><li>La cotation du moteur se recalcule : chaque ligne garde son « Pourquoi ? ».</li></ol>
             <p class="vtt"><a href="04-poste-recu-cotation.vtt" download>Sous-titres WebVTT</a></p></details>
         </div>
       </article>
       <article class="video poste" id="05-poste-controle-cpam">
-        <div class="cadre"><video controls preload="none" playsinline poster="05-poste-controle-cpam.jpg" width="1280" height="800" aria-describedby="05-poste-controle-cpam-d">
+        <div class="cadre" style="--ratio:1280/922"><video controls preload="none" playsinline poster="05-poste-controle-cpam.jpg" width="1280" height="922" aria-describedby="05-poste-controle-cpam-d">
           <source src="05-poste-controle-cpam.mp4" type="video/mp4">
           <a href="05-poste-controle-cpam.mp4">Télécharger la vidéo</a>
         </video></div>
         <div class="texte">
-          <p class="meta"><span class="num">06</span><span class="pastille"><time datetime="PT49S">0 min 49 s</time></span><span class="poids">1,9 Mo</span></p>
+          <p class="meta"><span class="num">06</span><span class="pastille"><time datetime="PT49S">0 min 49 s</time></span><span class="poids">2 Mo</span></p>
           <h3>Le mode contrôle CPAM</h3>
           <p id="05-poste-controle-cpam-d">Le cabinet remet au contrôleur un accès limité, en lecture seule, puis ouvre exactement la vue qu’il lira : intégrité, actes, cotations et preuves.</p>
           <details><summary>Transcription</summary><ol><li>Lors d’un contrôle, le cabinet remet un accès limité : un patient, une période, une durée.</li><li>Lecture seule : les actes, leurs cotations, leurs preuves et l’intégrité. Rien d’autre du dossier.</li><li>Le lien et son QR ne s’affichent qu’une fois (masqués ici) : le serveur n’en garde que l’empreinte.</li><li>« Voir ce que lit le contrôleur » ouvre sa vue, telle qu’il la verra.</li><li>La vue du contrôleur : le cabinet, la période, la date de lecture et la fin de validité de l’accès.</li><li>Intégrité vérifiée, actes horodatés et signés chez le patient ; sa lecture est elle-même tracée.</li><li>Puis chaque acte de la période, avec sa cotation et sa preuve.</li></ol>
@@ -155,12 +155,12 @@ footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--bord);color:v
         </div>
       </article>
       <article class="video poste" id="06-poste-preuve-pdf">
-        <div class="cadre"><video controls preload="none" playsinline poster="06-poste-preuve-pdf.jpg" width="1280" height="800" aria-describedby="06-poste-preuve-pdf-d">
+        <div class="cadre" style="--ratio:1280/922"><video controls preload="none" playsinline poster="06-poste-preuve-pdf.jpg" width="1280" height="922" aria-describedby="06-poste-preuve-pdf-d">
           <source src="06-poste-preuve-pdf.mp4" type="video/mp4">
           <a href="06-poste-preuve-pdf.mp4">Télécharger la vidéo</a>
         </video></div>
         <div class="texte">
-          <p class="meta"><span class="num">07</span><span class="pastille"><time datetime="PT66S">1 min 06 s</time></span><span class="poids">3,7 Mo</span></p>
+          <p class="meta"><span class="num">07</span><span class="pastille"><time datetime="PT67S">1 min 07 s</time></span><span class="poids">3,8 Mo</span></p>
           <h3>Le dossier de preuve et le PDF scellé</h3>
           <p id="06-poste-preuve-pdf-d">La preuve d’un acte, puis le dossier d’une période en PDF scellé par le serveur, reconnu authentique, et refusé dès qu’on le modifie d’un octet.</p>
           <details><summary>Transcription</summary><ol><li>Depuis n’importe quelle cotation, « Voir la preuve » ouvre le dossier de l’acte : ici, un soin de Mme Lefèvre.</li><li>Empreinte conforme, journal intact, signature de l’infirmière : rien n’a changé depuis le soin.</li><li>Qui, quand, où : réalisé, signé sur le terminal, reçu et scellé au serveur, avec le délai de transmission.</li><li>La prescription, l’objet suivi, puis ce qui a été saisi au passage.</li><li>Pour un contrôle, tous les actes d’une période : ici, trois jours de soins de Mme Lefèvre.</li><li>« PDF scellé » : produit par le serveur et inscrit au journal d’audit.</li><li>Le PDF : la garde du dossier, puis chaque acte avec sa preuve et son empreinte.</li><li>N’importe qui peut le faire vérifier au cabinet : page « Preuves », « Vérifier un dossier remis ».</li><li>Document authentique : l’empreinte du fichier est celle que le journal a scellée.</li><li>Le même fichier modifié d’un seul octet : aucun dossier ne porte cette empreinte.</li></ol>
@@ -168,25 +168,25 @@ footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--bord);color:v
         </div>
       </article>
       <article class="video poste" id="07-poste-mesure-plaie">
-        <div class="cadre"><video controls preload="none" playsinline poster="07-poste-mesure-plaie.jpg" width="1280" height="800" aria-describedby="07-poste-mesure-plaie-d">
+        <div class="cadre" style="--ratio:1280/922"><video controls preload="none" playsinline poster="07-poste-mesure-plaie.jpg" width="1280" height="922" aria-describedby="07-poste-mesure-plaie-d">
           <source src="07-poste-mesure-plaie.mp4" type="video/mp4">
           <a href="07-poste-mesure-plaie.mp4">Télécharger la vidéo</a>
         </video></div>
         <div class="texte">
-          <p class="meta"><span class="num">08</span><span class="pastille"><time datetime="PT59S">0 min 59 s</time></span><span class="poids">2,3 Mo</span></p>
+          <p class="meta"><span class="num">08</span><span class="pastille"><time datetime="PT61S">1 min 01 s</time></span><span class="poids">2,2 Mo</span></p>
           <h3>Mesurer une plaie sur photo</h3>
           <p id="07-poste-mesure-plaie-d">La réglette photographiée, le contour proposé autour du lit de la plaie, la surface enregistrée et signée, puis la courbe de cicatrisation.</p>
-          <details><summary>Transcription</summary><ol><li>Les plaies en cours : dernière surface, évolution depuis J0 et suivi.</li><li>L’ulcère de M. Bernard est en amélioration. Claire ouvre son suivi.</li><li>La courbe de surface depuis J0, et les photos de chaque pansement.</li><li>Sur la photo du 20 octobre, « Mesurer » ouvre l’atelier de mesure.</li><li>Claire reprend la mesure : d’abord la réglette photographiée, posée d’une graduation à l’autre.</li><li>Puis le contour : l’outil le propose depuis le lit de la plaie, Claire l’ajuste au besoin.</li><li>La surface s’affiche aussitôt, comparée au rectangle longueur × largeur du passage.</li><li>Enregistrée, elle est datée, signée de son nom, et ne se modifie plus.</li><li>Retour au suivi : la mesure sur photo rejoint l’évolution de la plaie.</li></ol>
+          <details><summary>Transcription</summary><ol><li>Les plaies en cours : dernière surface, évolution depuis J0 et suivi.</li><li>L’ulcère de M. Bernard est en amélioration. Claire ouvre son suivi.</li><li>La courbe de surface depuis J0, et les photos de chaque pansement.</li><li>Sur la photo la plus récente, « Mesurer » ouvre l’atelier de mesure.</li><li>Claire reprend la mesure : d’abord la réglette photographiée, posée d’une graduation à l’autre.</li><li>Puis le contour : l’outil le propose depuis le lit de la plaie, Claire l’ajuste au besoin.</li><li>La surface s’affiche aussitôt, comparée au rectangle longueur × largeur du passage.</li><li>Enregistrée, elle est datée, signée de son nom, et ne se modifie plus.</li><li>Retour au suivi : la mesure sur photo rejoint l’évolution de la plaie.</li></ol>
             <p class="vtt"><a href="07-poste-mesure-plaie.vtt" download>Sous-titres WebVTT</a></p></details>
         </div>
       </article>
       <article class="video poste" id="08-poste-planning">
-        <div class="cadre"><video controls preload="none" playsinline poster="08-poste-planning.jpg" width="1280" height="800" aria-describedby="08-poste-planning-d">
+        <div class="cadre" style="--ratio:1280/922"><video controls preload="none" playsinline poster="08-poste-planning.jpg" width="1280" height="922" aria-describedby="08-poste-planning-d">
           <source src="08-poste-planning.mp4" type="video/mp4">
           <a href="08-poste-planning.mp4">Télécharger la vidéo</a>
         </video></div>
         <div class="texte">
-          <p class="meta"><span class="num">09</span><span class="pastille"><time datetime="PT43S">0 min 43 s</time></span><span class="poids">2,8 Mo</span></p>
+          <p class="meta"><span class="num">09</span><span class="pastille"><time datetime="PT43S">0 min 43 s</time></span><span class="poids">2,9 Mo</span></p>
           <h3>Le planning, au glisser-déposer</h3>
           <p id="08-poste-planning-d">La planification du jour et ses garde-fous, puis le planning de la semaine : une personne glissée sur une case, sa charge affichée avant de confier.</p>
           <details><summary>Transcription</summary><ol><li>La planification du jour : chaque infirmière, ses passages et sa charge. Ce matin, Claire dépasse sa journée de référence.</li><li>Claire essaie de faire glisser le passage de Mme Lefèvre vers la colonne de Paul.</li><li>Refusé, avec la raison : Paul ne tient aucune tournée ce matin. Il faut d’abord la lui confier.</li><li>Plus bas, le planning de la semaine : qui tient chaque tournée, matin, midi, soir et nuit.</li><li>Pour confier un moment à venir, on fait glisser une personne de l’équipe sur sa case : Paul, dimanche matin.</li><li>Avant de confier, la charge de Paul s’affiche : rien n’est enregistré sans confirmation.</li><li>Confié : la case du dimanche matin porte maintenant son nom.</li></ol>
@@ -197,7 +197,7 @@ footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--bord);color:v
   </section>
 
   <footer>
-    <p>9 vidéos, 23,7 Mo au total · MP4 (H.264), sous-titres incrustés et fichiers WebVTT · enregistrées les 22 et 23 octobre 2026 sur la démonstration locale.</p>
+    <p>9 vidéos, 25,7 Mo au total · MP4 (H.264), sous-titres incrustés sous l’image et fichiers WebVTT · enregistrées les 22 et 23 octobre 2026 sur la démonstration locale.</p>
   </footer>
 </main>
 </body>

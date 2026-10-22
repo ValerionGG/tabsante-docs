@@ -1,31 +1,31 @@
 WEBVTT
 
-00:00:04.719 --> 00:00:07.657
+00:00:04.729 --> 00:00:07.774
 Depuis n’importe quelle cotation, « Voir la preuve » ouvre le dossier de l’acte : ici, un soin de Mme Lefèvre.
 
-00:00:07.659 --> 00:00:12.674
+00:00:07.783 --> 00:00:12.795
 Empreinte conforme, journal intact, signature de l’infirmière : rien n’a changé depuis le soin.
 
-00:00:12.676 --> 00:00:18.241
+00:00:12.801 --> 00:00:18.376
 Qui, quand, où : réalisé, signé sur le terminal, reçu et scellé au serveur, avec le délai de transmission.
 
-00:00:18.242 --> 00:00:28.294
+00:00:18.377 --> 00:00:28.399
 La prescription, l’objet suivi, puis ce qui a été saisi au passage.
 
-00:00:28.296 --> 00:00:31.959
+00:00:28.401 --> 00:00:32.061
 Pour un contrôle, tous les actes d’une période : ici, trois jours de soins de Mme Lefèvre.
 
-00:00:31.962 --> 00:00:39.552
+00:00:32.065 --> 00:00:39.909
 « PDF scellé » : produit par le serveur et inscrit au journal d’audit.
 
-00:00:39.554 --> 00:00:48.943
+00:00:39.911 --> 00:00:49.306
 Le PDF : la garde du dossier, puis chaque acte avec sa preuve et son empreinte.
 
-00:00:48.944 --> 00:00:54.244
+00:00:49.308 --> 00:00:55.309
 N’importe qui peut le faire vérifier au cabinet : page « Preuves », « Vérifier un dossier remis ».
 
-00:00:54.245 --> 00:00:58.758
+00:00:55.311 --> 00:00:59.824
 Document authentique : l’empreinte du fichier est celle que le journal a scellée.
 
-00:00:58.759 --> 00:01:05.029
+00:00:59.827 --> 00:01:06.168
 Le même fichier modifié d’un seul octet : aucun dossier ne porte cette empreinte.
