@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Démonstration statique de TabSanté : le poste fixe du cabinet et le terminal de tournée, sur un cabinet infirmier fictif. Rien n'est enregistré.">
+<title>TabSanté — démonstration</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23355EDD'/%3E%3Cpath d='M16 9v14M9 16h14' stroke='white' stroke-width='3.5' stroke-linecap='round'/%3E%3C/svg%3E">
+<style>
+@font-face { font-family: 'Inter Variable'; font-style: normal; font-weight: 100 900; font-display: swap; src: url(inter.woff2) format('woff2'); }
+:root {
+  --fond: #F6F5F2; --surface: #FFFFFF; --surface-2: #F9F8F6; --neutre-50: #F2F1EE; --bord: #E3E1DE; --filet: #EFEDEA;
+  --champ: #8A8782; --encre: #181B20; --encre-2: #3A3E46; --discret: #5F636C;
+  --primaire: #355EDD; --primaire-fonce: #2B4FC4; --primaire-50: #ECF2FE; --primaire-100: #DCE4FA;
+  --succes: #156F41; --succes-50: #E5FAEB; --alerte: #905211; --alerte-50: #FFF3DF; --alerte-200: #F2D19B; --alerte-encre: #6B3A0A;
+  --rose: #C11574; --rose-50: #FDF2FA; --violet: #5925DC; --violet-50: #F4F3FF;
+  --f: 'Inter Variable', 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --rayon: 14px; --rayon-c: 10px; --sortie: cubic-bezier(.16, 1, .3, 1);
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--fond); color: var(--encre); font: 400 16px/1.55 var(--f); font-feature-settings: 'cv11'; }
+a { color: var(--primaire); }
+:focus-visible { outline: 2px solid var(--primaire); outline-offset: 2px; border-radius: 6px; }
+.page { max-width: 1120px; margin: 0 auto; padding: 0 24px 64px; }
+
+.tete { display: flex; align-items: center; gap: 12px; padding: 20px 0; }
+.marque { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 17px; letter-spacing: -0.01em; color: var(--encre); text-decoration: none; }
+.marque i { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 9px; background: var(--primaire); color: #fff; }
+.pastille { font-size: 12.5px; font-weight: 600; color: var(--alerte-encre); background: var(--alerte-50); border: 1px solid var(--alerte-200); padding: 3px 10px; border-radius: 999px; }
+.tete .doc { margin-left: auto; font-size: 14px; font-weight: 550; color: var(--encre-2); text-decoration: none; }
+.tete .doc:hover { color: var(--primaire); }
+
+.intro { padding: 40px 0 36px; max-width: 760px; }
+.surtitre { margin: 0 0 12px; font-size: 13px; font-weight: 650; letter-spacing: .06em; text-transform: uppercase; color: var(--primaire); }
+h1 { margin: 0; font-size: clamp(30px, 4.6vw, 46px); line-height: 1.08; font-weight: 750; letter-spacing: -0.03em; text-wrap: balance; }
+.chapo { margin: 18px 0 0; font-size: 18px; color: var(--encre-2); max-width: 640px; text-wrap: pretty; }
+
+h2 { display: flex; align-items: center; gap: 12px; margin: 0 0 16px; font-size: 19px; font-weight: 650; letter-spacing: -0.015em; }
+h2 .num { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: var(--encre); color: #fff; font-size: 13px; font-weight: 700; font-variant-numeric: tabular-nums; }
+section + section { margin-top: 40px; }
+
+.profils { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; border: 0; padding: 0; margin: 0; }
+.profils legend { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+.profil { position: relative; display: flex; gap: 12px; align-items: flex-start; padding: 16px; border-radius: var(--rayon); background: var(--surface);
+  border: 1px solid var(--bord); cursor: pointer; transition: border-color 120ms, background 120ms, box-shadow 120ms; }
+.profil:hover { border-color: var(--champ); }
+.profil input { position: absolute; opacity: 0; pointer-events: none; }
+.profil:has(input:checked) { border-color: var(--primaire); background: var(--primaire-50); box-shadow: 0 0 0 1px var(--primaire); }
+.profil:has(input:focus-visible) { outline: 2px solid var(--primaire); outline-offset: 3px; }
+.avatar { flex: none; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; font-weight: 700; font-size: 14px; }
+.a1 { background: var(--primaire-100); color: var(--primaire-fonce); } .a2 { background: var(--succes-50); color: var(--succes); }
+.a3 { background: var(--violet-50); color: var(--violet); } .a4 { background: var(--rose-50); color: var(--rose); }
+.profil b { display: block; font-weight: 650; }
+.profil small { display: block; color: var(--discret); font-size: 13.5px; line-height: 1.4; margin-top: 2px; }
+.coche { position: absolute; top: 14px; right: 14px; width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid var(--champ); }
+.profil:has(input:checked) .coche { border-color: var(--primaire); background: var(--primaire) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.5l2.5 2.5L12 5.5' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/14px no-repeat; }
+
+.apps { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.app { display: grid; grid-template-columns: auto 1fr; gap: 6px 18px; align-items: start; padding: 24px; border-radius: var(--rayon);
+  background: var(--surface); border: 1px solid var(--bord); color: inherit; text-decoration: none; transition: border-color 120ms, transform 160ms var(--sortie), box-shadow 160ms; }
+.app:hover { border-color: var(--primaire-100); box-shadow: 0 12px 28px -18px rgba(24, 27, 32, .35); transform: translateY(-1px); }
+.app:active { transform: scale(.99); }
+.app .ic { grid-row: span 3; display: grid; place-items: center; width: 52px; height: 52px; border-radius: 12px; background: var(--primaire-50); color: var(--primaire); }
+.app h3 { margin: 0; font-size: 20px; font-weight: 650; letter-spacing: -0.015em; }
+.app p { margin: 0; color: var(--encre-2); }
+.app .aller { margin-top: 10px; display: block; font-weight: 600; color: var(--primaire); }
+.app .aller svg { vertical-align: -3px; margin-left: 4px; }
+.app .qui { font-weight: 600; }
+
+.parcours { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.parcours li { display: flex; flex-direction: column; padding: 20px; border-radius: var(--rayon); background: var(--surface); border: 1px solid var(--bord); }
+.parcours h3 { margin: 0 0 8px; font-size: 16.5px; font-weight: 650; letter-spacing: -0.01em; line-height: 1.3; }
+.puces { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+.puce { font-size: 12.5px; font-weight: 550; padding: 2px 9px; border-radius: 999px; background: var(--neutre-50); color: var(--encre-2); }
+.parcours ol { margin: 0 0 16px; padding-left: 20px; color: var(--encre-2); font-size: 14.5px; }
+.parcours ol li { display: list-item; padding: 0; border: 0; background: none; margin: 2px 0; }
+.parcours .commencer { margin-top: auto; align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; padding: 9px 14px; border-radius: var(--rayon-c);
+  border: 1px solid var(--bord); background: var(--surface); color: var(--encre); font-weight: 600; font-size: 14.5px; text-decoration: none; transition: border-color 120ms, background 120ms; }
+.parcours .commencer:hover { border-color: var(--primaire); color: var(--primaire); background: var(--primaire-50); }
+
+.rappel { margin-top: 40px; display: grid; grid-template-columns: auto 1fr; gap: 4px 16px; padding: 22px 24px; border-radius: var(--rayon);
+  background: var(--alerte-50); border: 1px solid var(--alerte-200); color: var(--alerte-encre); }
+.rappel .ic { grid-row: span 2; color: var(--alerte); padding-top: 2px; }
+.rappel h2 { margin: 0; font-size: 16.5px; color: var(--alerte-encre); }
+.rappel ul { margin: 6px 0 0; padding-left: 18px; font-size: 15px; }
+.rappel li { margin: 3px 0; }
+.pied { margin-top: 32px; font-size: 13.5px; color: var(--discret); }
+
+@media (max-width: 960px) {
+  .profils { grid-template-columns: 1fr 1fr; }
+  .parcours { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 640px) {
+  .page { padding: 0 16px 48px; }
+  .tete .doc { display: none; }
+  .intro { padding: 20px 0 28px; }
+  .chapo { font-size: 16.5px; }
+  .profils, .apps, .parcours { grid-template-columns: 1fr; }
+  .profil { padding: 14px; }
+  .app { padding: 18px; gap: 4px 14px; }
+  .app .ic { width: 44px; height: 44px; }
+  .rappel { grid-template-columns: 1fr; padding: 18px; }
+  .rappel .ic { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .app, .profil { transition: none; } .app:hover { transform: none; } }
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="tete">
+    <a class="marque" href="./"><i aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></i>TabSanté</a>
+    <span class="pastille">Démonstration statique</span>
+    <a class="doc" href="../">Documentation</a>
+  </header>
+
+  <main>
+    <section class="intro">
+      <p class="surtitre">Cabinet infirmier fictif</p>
+      <h1>Essayez TabSanté dans votre navigateur.</h1>
+      <p class="chapo">Le poste fixe du cabinet et le terminal de tournée, rejoués à partir d’un cabinet entièrement fictif. Aucun compte, aucun serveur : vos gestes restent dans l’onglet et rien n’est enregistré.</p>
+    </section>
+
+    <section aria-labelledby="t-profil">
+      <h2 id="t-profil"><span class="num">1</span>Choisissez qui vous êtes</h2>
+      <fieldset class="profils">
+        <legend>Profil fictif</legend>
+        <label class="profil"><input type="radio" name="profil" value="Martin" checked><span class="avatar a1" aria-hidden="true">CM</span><span><b>Claire Martin</b><small>Infirmière, gère le cabinet : tout, facturation comprise</small></span><span class="coche" aria-hidden="true"></span></label>
+        <label class="profil"><input type="radio" name="profil" value="Durand"><span class="avatar a2" aria-hidden="true">PD</span><span><b>Paul Durand</b><small>Infirmier : sa tournée, ses patients, ses soins</small></span><span class="coche" aria-hidden="true"></span></label>
+        <label class="profil"><input type="radio" name="profil" value="Vidal"><span class="avatar a3" aria-hidden="true">LV</span><span><b>Lucie Vidal</b><small>Infirmière remplaçante : le temps de son remplacement</small></span><span class="coche" aria-hidden="true"></span></label>
+        <label class="profil"><input type="radio" name="profil" value="Petit"><span class="avatar a4" aria-hidden="true">IP</span><span><b>Inès Petit</b><small>Aide-soignante : nursing et signalements, jamais de cotation</small></span><span class="coche" aria-hidden="true"></span></label>
+      </fieldset>
+    </section>
+
+    <section aria-labelledby="t-ouvrir">
+      <h2 id="t-ouvrir"><span class="num">2</span>Ouvrez une application</h2>
+      <div class="apps">
+        <a class="app" data-app="poste" href="poste/#/connexion?persona=Martin">
+          <span class="ic" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4" width="19" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span>
+          <h3>Poste fixe</h3>
+          <p>Au cabinet, sur ordinateur : la journée, les dossiers patients, les transmissions, toute la facturation.</p>
+          <span class="aller">Ouvrir en tant que <span class="qui">Claire Martin</span> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </a>
+        <a class="app" data-app="terminal" href="terminal/?persona=Martin">
+          <span class="ic" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg></span>
+          <h3>Terminal</h3>
+          <p>Au domicile, sur téléphone : la tournée, le passage, la signature, les envois. Choisissez un code à 6 chiffres à l’ouverture : il reste dans ce navigateur.</p>
+          <span class="aller">Ouvrir en tant que <span class="qui">Claire Martin</span> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </a>
+      </div>
+    </section>
+
+    <section aria-labelledby="t-parcours">
+      <h2 id="t-parcours">Parcours à essayer</h2>
+      <ul class="parcours">
+        <li>
+          <h3>Signez un passage au terminal</h3>
+          <div class="puces"><span class="puce">Terminal</span><span class="puce">Paul Durand</span></div>
+          <ol><li>Créez votre code, ouvrez un patient de la tournée et un soin du jour.</li><li>Complétez ce que « Il manque » demande, puis maintenez « Signer ».</li><li>Le reçu affiche l’empreinte ; l’envoi est accepté sur le téléphone, rien ne part.</li></ol>
+          <a class="commencer" href="terminal/?persona=Durand">Commencer</a>
+        </li>
+        <li>
+          <h3>Arbitrez une cotation</h3>
+          <div class="puces"><span class="puce">Poste fixe</span><span class="puce">Claire Martin</span></div>
+          <ol><li>Facturation, file de contrôle.</li><li>« Arbitrer » : confirmez avec un motif.</li><li>La cotation passe « À facturer », au tarif de démonstration.</li></ol>
+          <a class="commencer" href="poste/#/connexion?persona=Martin&amp;suite=/facturation">Commencer</a>
+        </li>
+        <li>
+          <h3>Créez et sécurisez une FSE</h3>
+          <div class="puces"><span class="puce">Poste fixe</span><span class="puce">Claire Martin</span></div>
+          <ol><li>Facturation, à facturer.</li><li>« Créer la FSE » pour un patient.</li><li>« Sécuriser » : cartes CPS et Vitale simulées.</li></ol>
+          <a class="commencer" href="poste/#/connexion?persona=Martin&amp;suite=/facturation/a-facturer">Commencer</a>
+        </li>
+        <li>
+          <h3>Vérifiez puis télétransmettez un lot</h3>
+          <div class="puces"><span class="puce">Poste fixe</span><span class="puce">Claire Martin</span></div>
+          <ol><li>Facturation, lots : les FSE sécurisées.</li><li>« Vérifier » : contrôle de cohérence.</li><li>Télétransmettez : simulé, rien ne part vers l’Assurance maladie.</li></ol>
+          <a class="commencer" href="poste/#/connexion?persona=Martin&amp;suite=/facturation/lots">Commencer</a>
+        </li>
+        <li>
+          <h3>Remettez un accès de contrôle CPAM</h3>
+          <div class="puces"><span class="puce">Poste fixe</span><span class="puce">Claire Martin</span></div>
+          <ol><li>Facturation, contrôle CPAM.</li><li>Choisissez un patient et une période.</li><li>Ouvrez le lien remis : le dossier tel que le contrôleur le lit.</li></ol>
+          <a class="commencer" href="poste/#/connexion?persona=Martin&amp;suite=/facturation/controle-cpam">Commencer</a>
+        </li>
+        <li>
+          <h3>Voyez ce que voit l’aide-soignante</h3>
+          <div class="puces"><span class="puce">Poste fixe</span><span class="puce">Inès Petit</span></div>
+          <ol><li>Sa journée et ses patients.</li><li>Nursing, transmissions, signalements.</li><li>Aucune cotation ni facturation : l’API ne les lui donne pas.</li></ol>
+          <a class="commencer" href="poste/#/connexion?persona=Petit">Commencer</a>
+        </li>
+      </ul>
+    </section>
+
+    <aside class="rappel" aria-labelledby="t-rappel">
+      <span class="ic" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 16H3z"/><path d="M12 10v4M12 17.5v.01"/></svg></span>
+      <h2 id="t-rappel">Tout est fictif et simulé</h2>
+      <ul>
+        <li>Le cabinet, les patients, les intervenants et leurs documents sont inventés.</li>
+        <li>La cotation est celle du moteur de démonstration : elle ne doit jamais servir à facturer.</li>
+        <li>Cartes CPS et Vitale, FSE, télétransmission et retours de l’Assurance maladie sont simulés.</li>
+        <li>Rien n’est enregistré : rechargez l’onglet pour repartir de zéro (le terminal garde sa tournée dans ce navigateur, comme un téléphone).</li>
+      </ul>
+    </aside>
+
+    <p class="pied">Les écrans ont été enregistrés le 22 octobre 2026 sur l’application de démonstration, puis sont rejoués à la date du jour. Certaines actions ne sont pas simulées : l’application le dit.</p>
+  </main>
+</div>
+<script>
+// Le profil choisi suit les deux applications ; sans script, Claire Martin
+const noms = { Martin: 'Claire Martin', Durand: 'Paul Durand', Vidal: 'Lucie Vidal', Petit: 'Inès Petit' }
+const liens = { poste: (p) => `poste/#/connexion?persona=${p}`, terminal: (p) => `terminal/?persona=${p}` }
+function choisir(p) {
+  for (const a of document.querySelectorAll('[data-app]')) {
+    a.href = liens[a.dataset.app](p)
+    a.querySelector('.qui').textContent = noms[p]
+  }
+  try { localStorage.setItem('tabsante.demo.profil', p) } catch {}
+}
+for (const r of document.querySelectorAll('input[name=profil]')) r.addEventListener('change', () => choisir(r.value))
+let garde = null
+try { garde = localStorage.getItem('tabsante.demo.profil') } catch {}
+if (garde && noms[garde]) { document.querySelector(`input[value=${garde}]`).checked = true; choisir(garde) }
+</script>
+</body>
+</html>
