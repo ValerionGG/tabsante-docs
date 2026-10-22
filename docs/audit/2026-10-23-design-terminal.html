@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Terminal : menus et panneaux (2026-10-23)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{--bg:#F4F6FA;--surface:#FFFFFF;--surface-2:#EEF2FB;--fg:#141A2E;--fg-2:#4A5372;--ligne:#DDE3EF;
+--accent:#2F5BEA;--accent-fg:#FFFFFF;--accent-doux:#E6ECFD;--attention:#8A5A00;--attention-fond:#FFF4DC;
+--code-fond:#F1F3F8;--police:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+--police-code:"JetBrains Mono",ui-monospace,"Cascadia Code",Consolas,monospace;--rayon:10px;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0E1220;--surface:#151A2B;--surface-2:#1C2338;
+--fg:#E8ECF7;--fg-2:#A3ACC6;--ligne:#2A3250;--accent:#7C9BFF;--accent-fg:#0E1220;--accent-doux:#1E2950;
+--attention:#F2C25B;--attention-fond:#33290F;--code-fond:#10152A;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0E1220;--surface:#151A2B;--surface-2:#1C2338;--fg:#E8ECF7;--fg-2:#A3ACC6;--ligne:#2A3250;
+--accent:#7C9BFF;--accent-fg:#0E1220;--accent-doux:#1E2950;--attention:#F2C25B;--attention-fond:#33290F;--code-fond:#10152A;color-scheme:dark}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--police);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}
+.entete{background:var(--surface);border-bottom:1px solid var(--ligne)}
+.entete div{max-width:calc(80ch + 32px);margin:0 auto;padding:12px 16px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.entete b{font-weight:600}
+.entete a{color:var(--accent);text-decoration:none;font-weight:500}
+.entete a:hover{text-decoration:underline}
+main{max-width:calc(80ch + 32px);margin:0 auto;padding:24px 16px 64px;overflow-wrap:break-word}
+.chemin{font-family:var(--police-code);font-size:12px;color:var(--fg-2);margin:0 0 8px}
+h1{font-size:28px;line-height:1.25;margin:0 0 16px}
+h2{font-size:21px;line-height:1.3;margin:36px 0 12px;padding-top:12px;border-top:1px solid var(--ligne)}
+h3{font-size:17px;margin:28px 0 8px}h4,h5,h6{font-size:15px;margin:20px 0 6px}
+a{color:var(--accent)}
+p,li{max-width:80ch}
+code{font-family:var(--police-code);font-size:.88em;background:var(--code-fond);border:1px solid var(--ligne);border-radius:5px;padding:0 4px;overflow-wrap:anywhere}
+pre{background:var(--code-fond);border:1px solid var(--ligne);border-radius:var(--rayon);padding:14px 16px;overflow-x:auto;font-size:13px;line-height:1.55}
+pre code{background:none;border:0;padding:0;font-size:inherit;overflow-wrap:normal}
+.tableau{overflow-x:auto;margin:16px 0;border:1px solid var(--ligne);border-radius:var(--rayon);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:13.5px;line-height:1.5}
+th,td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--ligne);min-width:8ch}
+th{background:var(--surface-2);font-weight:600}
+tr:last-child td{border-bottom:0}
+blockquote{margin:16px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-doux);border-radius:0 var(--rayon) var(--rayon) 0}
+hr{border:0;border-top:1px solid var(--ligne);margin:28px 0}
+img{max-width:100%}
+.non-publie{font-size:13px;color:var(--attention);background:var(--attention-fond);padding:1px 6px;border-radius:5px}
+details.sommaire{background:var(--surface);border:1px solid var(--ligne);border-radius:var(--rayon);padding:10px 16px;margin:0 0 24px}
+details.sommaire summary{cursor:pointer;font-weight:600}
+details.sommaire ul{padding-left:20px;margin:8px 0 0}
+.admonition{border:1px solid var(--ligne);border-radius:var(--rayon);padding:8px 16px;background:var(--surface)}
+.admonition-title{font-weight:600}
+</style>
+</head>
+<body>
+<header class="entete"><div><b>TabSanté — documents</b><a href="../../">← Retour au portail</a></div></header>
+<main>
+<p class="chemin">docs/audit/2026-10-23-design-terminal.html</p>
+<h1 id="terminal--menus-et-panneaux-2026-10-23">Terminal : menus et panneaux (2026-10-23)</h1>
+<details class="sommaire"><summary>Sommaire</summary><ul><li><a href="#captures">Captures</a></li><li><a href="#critique-avant">Critique (avant)</a></li><li><a href="#ce-qui-change">Ce qui change</a></li><li><a href="#accessibilité">Accessibilité</a></li><li><a href="#vérifications">Vérifications</a></li><li><a href="#choix-tranchés">Choix tranchés</a></li><li><a href="#ce-qui-reste">Ce qui reste</a></li></ul></details>
+<p>Branche <code>evol-design-terminal</code> (depuis <code>main</code> 8d741632). Suite de <code>2026-10-22-ux-terminal.md</code> (aide, zéro pointé) et
+de <code>2026-10-22-terminal-beaute.md</code> (surfaces, mouvement, états vides). Cette passe porte sur <strong>les menus et les
+panneaux</strong> et sur ce qui restait moins abouti. Méthode Impeccable, registre « product », mode « Operate », direction
+« Terrain jour/nuit » gardée et enrichie (DESIGN.md : nouvelle section « Menus et panneaux »). Aucune règle métier,
+aucun contenu clinique, aucun appel serveur n'a changé ; l'aide-soignante ne voit toujours aucune cotation.</p>
+<p>Banc : API de démonstration sur le port 8798 (base <code>tabsante_dterm</code>, <code>TABSANTE_DEV_AUTH=true</code>,
+<code>TABSANTE_LECTEUR_ORDONNANCE=factice</code>, <code>POST /dev/demo</code>, <code>scripts/agregats.py --reconstruire</code>,
+<code>TABSANTE_CORS_ORIGINES</code> ouvert au seul <code>127.0.0.1:5299</code>), terminal construit pour le navigateur
+(<code>--dart-define=CAPTURES=true --dart-define=API_URL=http://127.0.0.1:8798</code>) et servi sur le port 5299. Chromium de
+Playwright, profil neuf à chaque série (jamais un navigateur déjà ouvert).</p>
+<h2 id="captures">Captures</h2>
+<p><code>docs/audit/captures-ux/2026-10-23-design-terminal/</code> : <code>avant-&lt;écran&gt;.png</code>, <code>apres-&lt;écran&gt;.png</code> (jour),
+<code>avant-nuit-…</code>, <code>apres-nuit-…</code> (nuit), 390 × 844 à 2×, chaque écran sur un stockage vidé. L'outil
+(<code>mobile/tool/captures_terminal.mjs</code>) sait maintenant <strong>toucher et défiler avant la capture</strong> (<code>écran&gt;libellé</code>,
+<code>&gt;@defile:600</code>) : les menus, feuilles et sélecteurs se capturent ouverts. Nouveaux écrans : 52 (Moi, bas), 53 à 55
+(sous-écrans de « Moi »), 56 (menu d'une plaie), 57 (menu du passage), 58 (feuille d'aide), 59 (feuille d'un arrêt),
+71 (déclarer une absence : puces de filtre et dates), 72 (sélecteur de date). Chaque écran attend 90 s au plus (la
+page du planning en ligne restait parfois sans réponse et bloquait la série).</p>
+<h2 id="critique-avant">Critique (avant)</h2>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Constat</th>
+<th>Gravité</th>
+<th>Suite</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Sélecteurs de date et d'heure <strong>en anglais</strong> (« Select date », « Sat, Oct 24 », « S M T W », « Cancel ») : l'application déclarait le français sans charger les libellés Material (<code>avant-72</code>).</td>
+<td>P1</td>
+<td>Libellés Material en français (<code>flutter_localizations</code> du SDK), sélecteurs aux couleurs de la charte.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Menu « ⋮ » du passage : 11 actions en vrac dans un menu surgissant au <strong>coin haut droit</strong>, le plus loin du pouce ; la facturation entre le score SEGA et « Acte à distance », « Abandonner la saisie » au même rang que le reste (<code>avant-57</code>).</td>
+<td>P1</td>
+<td>Feuille du bas groupée, abandon à part dans l'encre critique.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>« Moi » : « Changer d'intervenant » (qui ferme la session) au milieu des réglages ; lignes qui ouvrent une page sans chevron (Navigation, Notifications, Aide, Ce terminal) à côté de lignes qui en ont (Organisation) ; icônes nues à côté d'une tuile teintée (échange) (<code>avant-50</code>, <code>avant-52</code>).</td>
+<td>P2</td>
+<td>Groupes Tournée, Réglages, Affichage, Assistance, Session ; une seule ligne de réglage.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Feuilles du bas disparates : titre 17 ici, 24 là, aucun ailleurs ; « Fermer » sous le pouce dans l'aide seulement ; « Y aller » au milieu de la feuille d'un arrêt, à défiler.</td>
+<td>P2</td>
+<td>Une feuille (<code>ouvrirFeuille</code>) : poignée, titre 20, actions fixées en bas, « Fermer ».</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Listes de choix en trois formes : menu surgissant (« Ajouter un tube », « Ajouter une zone »), boîte de dialogue (motifs), puces Material par défaut (absence).</td>
+<td>P2</td>
+<td>Liste de choix en feuille cochée ; puces du thème à la forme de <code>Puce</code>.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Panneaux qui se touchent : les prérequis du passage et l'allergie collés, sans écart (<code>avant-34</code>) ; conseils du trajet en pile de bandeaux blancs identiques (<code>avant-12</code>).</td>
+<td>P2</td>
+<td>12 dp entre deux panneaux ; notes groupées dans une carte.</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Rayons dérivés : 10, 11, 13, 16, 18 à côté de 12, 14, 20 ; filets des listes d'un bord à l'autre, à travers l'avatar.</td>
+<td>P3</td>
+<td>Jetons <code>Rayon</code> et <code>Espace</code> ; filets qui partent du texte.</td>
+</tr>
+<tr>
+<td>8</td>
+<td>« Nouveau patient » : un bouton contouré pleine largeur au-dessus de la liste, pour une action rare (<code>avant-20</code>).</td>
+<td>P3</td>
+<td>Action d'en-tête « Nouveau ».</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Interrupteurs : actif et inactif ne se distinguent que par la couleur.</td>
+<td>P3</td>
+<td>Coche dans le pouce actif.</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Boîtes « Abandonner » : le geste qui efface en bleu d'action.</td>
+<td>P3</td>
+<td>Encre critique ; « Garder » reste l'action pleine.</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Chargement des conséquences d'une clôture : indicateur tournant au milieu du contenu.</td>
+<td>P3</td>
+<td>Squelette.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Points forts gardés : barre d'onglets à pilule et compteurs, contraste jour et nuit, statuts en forme + mot, barre
+« Il manque », signature maintenue, ruban d'envoi, états vides illustrés, aide contextuelle.</p>
+<h2 id="ce-qui-change">Ce qui change</h2>
+<h3 id="menus">Menus</h3>
+<ul>
+<li><strong>Barre d'onglets</strong> : cran haptique au changement d'onglet, compteur plafonné à « 99+ », filet de 1,5 dp de nuit.</li>
+<li><strong>Menus « ⋮ »</strong> (passage, fiche de soin, fiche du patient, séance, plaie, dispositif) : une feuille du bas « Autres
+  actions », le patient en sous-titre, actions rangées en groupes titrés — Pendant le soin (mode visite, acte à
+  distance, soin non réalisé), Signaler, Écrire, Dossier du patient, Facturation (infirmier seulement, comme avant),
+  Fin de suivi (clôturer, puis « Abandonner la saisie » en encre critique avec « Efface ce qui n'est pas signé »).
+  Lignes de 60 dp à tuile d'icône Phosphor, cran haptique, la feuille se ferme puis l'action part ; « Fermer » en bas.
+  Les intitulés et les droits ne changent pas.</li>
+<li><strong>« Moi »</strong> : carte d'identité avec l'état du réseau ; Profils, Organisation, puis <strong>Tournée</strong> (recharger),
+  <strong>Réglages</strong> (navigation et position, notifications), <strong>Affichage</strong> (jour, nuit, automatique), <strong>Assistance</strong> (aide,
+  ce terminal), <strong>Session</strong> (« Changer d'intervenant », seul, en dernier). Toutes les lignes ont la même forme
+  (<code>LigneMenu</code>) : tuile, titre, sous-titre, chevron quand elles ouvrent une page. Sous-écrans inchangés sur le fond.</li>
+<li><strong>Feuilles du bas</strong> (<code>ouvrirFeuille</code>) : poignée 40 × 5, titre 20/700 et sous-titre, contenu qui défile, actions
+  fixées sous le pouce, « Fermer » contouré ; feuille d'un arrêt (« Y aller » et « Prévenir le patient » en bas), avant
+  d'arriver, prévenir du retard, quelle plaie, bilan dû, historique des commentaires, détails techniques, outils de
+  démonstration. L'aide gardait déjà cette forme.</li>
+<li><strong>Sélecteurs</strong> : date et heure en français, accent seul pour le jour choisi, aujourd'hui cerné, heure en Mono,
+  boutons de 48 dp ; listes de choix en feuille cochée (<code>choisirDans</code> : motifs, tubes, zones) ; « Du » et « Au » d'une
+  absence en lignes à tuile avec la date à droite.</li>
+<li><strong>Filtres</strong> : puces de filtre et de choix du thème à la forme de <code>Puce</code> (contour fort, choisie en teinte d'accent
+  cochée) ; segments des Liaisons à 48 dp, l'actif soulevé, cran haptique.</li>
+</ul>
+<h3 id="panneaux">Panneaux</h3>
+<ul>
+<li><strong>Un système</strong> : rayons 8 / 12 / 14 / 20 (<code>Rayon</code>), écarts 4 / 8 / 12 / 16 / 20 / 24 (<code>Espace</code>), trois ombres de
+  jour et aucune de nuit, titre de feuille 20/700 entre le titre d'écran (24) et le nom (18).</li>
+<li><strong>Alertes</strong> (allergie, prérequis, prescription modifiée, refus) : rayon 14 ; 12 dp entre deux panneaux, les
+  prérequis du passage ne touchent plus l'allergie.</li>
+<li><strong>Listes</strong> (patients, ensuite, soins du passage, réglages, menus, organisation) : le filet part du texte.</li>
+<li><strong>Notes</strong> : les conseils du trajet (itinéraire, « Avant d'arriver ») dans une seule carte de notes.</li>
+<li><strong>Blocs repliables</strong> : <code>BlocRepliable</code> (en-tête 56 dp, résumé replié, chevron qui pivote, lu déplié ou replié) ; le
+  « Revoir » du mode visite prend ce geste.</li>
+<li><strong>États</strong> : squelette pendant le chargement des conséquences d'une clôture ; boîtes « Abandonner » en encre
+  critique.</li>
+</ul>
+<h3 id="écrans">Écrans</h3>
+<ul>
+<li><strong>Patients</strong> : « Nouveau » dans l'en-tête (infirmier), la liste remonte d'une rangée.</li>
+<li><strong>Fiche du patient</strong> : « Reçu au cabinet » avec sa tuile d'icône ; menu de la plaie en feuille.</li>
+<li><strong>Itinéraire</strong> : feuille d'un arrêt réordonnée, notes groupées, filets des arrêts au texte.</li>
+<li><strong>Plan de soins</strong> (fiche du patient) : 12 dp sous la carte du dossier, qu'il touchait ; tuile d'icône.</li>
+<li><strong>Cartes</strong> : la surbrillance d'une ligne touchée reste dans les coins arrondis (elle débordait en carré).</li>
+<li>Les autres écrans gardent leur composition ; ils héritent des feuilles, menus, sélecteurs, filets et écarts.</li>
+</ul>
+<h2 id="accessibilité">Accessibilité</h2>
+<ul>
+<li>Cibles : 48 dp au moins partout, 60 pour une ligne de menu ; segments passés de 44 à 48.</li>
+<li>Texte système à 130 % : Moi, fiche du patient, accueil et menu d'actions (14 entrées) s'affichent sans débordement,
+  « Fermer » reste visible (testé).</li>
+<li>Mouvement réduit : feuilles sans animation (<code>styleFeuille</code>), bloc repliable et chevrons instantanés.</li>
+<li><code>Semantics</code> : en-tête de feuille et de groupe, option « choisie », bloc « déplié/replié », lignes de menu sans état
+  parasite.</li>
+</ul>
+<h2 id="vérifications">Vérifications</h2>
+<ul>
+<li><code>flutter analyze</code> : aucune remarque. <code>flutter test</code> : <strong>968 tests verts</strong> (51 ignorés, comme avant ; 957 au départ
+  de la passe). Build web de la démonstration statique (<code>DEMO_STATIQUE</code>, <code>DEMONSTRATION</code>) construit sans erreur.</li>
+<li>Tests ajoutés : <code>mobile/test/menus_test.dart</code> (11) — groupes et ordre (critique en dernier), menu « ⋮ » en feuille
+  sous le pouce (titres, encre critique, 60 dp, l'appui ferme puis agit), « Fermer », liste de choix (cochée, lue
+  choisie, valeur rendue, « Annuler »), bloc repliable (résumé, état lu, mouvement réduit), ligne de réglage, « Moi »
+  en groupes, texte à 130 % sur trois écrans et sur le menu. Un test adapté : <code>fiches_widgets_test.dart</code> lit
+  <code>libelle</code> au lieu de <code>$1</code> (le menu est fait d'<code>ActionMenu</code>).</li>
+<li>Aucun changement serveur, ni du poste fixe (<code>web/</code> non touché).</li>
+</ul>
+<h2 id="choix-tranchés">Choix tranchés</h2>
+<ol>
+<li><strong>Menu « ⋮ » en feuille du bas</strong> plutôt qu'en menu surgissant : le pouce d'abord (le coin haut droit est le plus
+   loin d'une main), et onze actions demandaient des groupes. Le bouton reste où il était, avec la même infobulle.</li>
+<li><strong>Groupes nommés par le geste</strong> (Signaler, Écrire, Dossier du patient…) ; « Pendant le soin » en tête dans le
+   passage et la fiche, la fin de suivi et l'abandon en dernier.</li>
+<li><strong>Gouttière</strong> : 20 sur les onglets et les feuilles, 16 gardé dans les écrans de saisie pour la largeur des grilles
+   de six boutons à 360 dp.</li>
+<li><strong>Pas de nouvelle dépendance tierce</strong> : les libellés français viennent de <code>flutter_localizations</code>, paquet du SDK.</li>
+<li><strong>Affichage</strong> reste une grille de trois choix dans « Moi » (un geste) plutôt qu'une page de plus.</li>
+</ol>
+<h2 id="ce-qui-reste">Ce qui reste</h2>
+<ol>
+<li><strong>Menus surgissants restants</strong> : les menus déroulants de deux formulaires rares (heures calmes des notifications,
+   région d'une ouverture) gardent le <code>DropdownButton</code> de Material, seulement habillé par le thème ; à passer en
+   <code>choisirDans</code> si on les retouche.</li>
+<li><strong>Feuilles propres à un geste</strong> : la photo guidée (fond d'encre), les feuilles de nutrition, de produits, de
+   nébulisation et du scan gardent leur mise en page (elles portent une saisie, pas un menu) ; elles héritent de la
+   poignée, du voile et des rayons du thème.</li>
+<li><strong>Blocs repliables des fiches</strong> : le composant existe (<code>BlocRepliable</code>) et le mode visite prend son geste ; les
+   blocs « Repris du passage… · Modifier » et les blocs facultatifs des fiches respiratoires gardent leur forme (repli
+   par saisie, pas par affichage). À unifier fiche par fiche avec l'IDE référente.</li>
+<li><strong>Haptique</strong> : écrite (onglets, segments, lignes de menu, choix) mais non ressentie : aucun Android sur ce poste.</li>
+<li><strong>« Passage fait » sur la carte du prochain passage</strong> de la démonstration : l'itinéraire du jour marque l'arrêt
+   terminé alors qu'aucun soin n'est signé (état de la démonstration semée, pas de l'affichage) ; non touché.</li>
+<li><strong>Texte à 130 %</strong> testé sur quatre surfaces ; les fiches de soin longues n'ont pas été passées une à une.</li>
+<li>Le détecteur automatique d'Impeccable ne lit que du HTML et du CSS : sans objet pour un canevas Flutter, la revue
+   s'est faite sur les captures, jour et nuit.</li>
+</ol>
+</main>
+</body>
+</html>

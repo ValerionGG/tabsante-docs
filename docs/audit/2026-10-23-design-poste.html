@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Passe design du poste fixe — 23 octobre 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{--bg:#F4F6FA;--surface:#FFFFFF;--surface-2:#EEF2FB;--fg:#141A2E;--fg-2:#4A5372;--ligne:#DDE3EF;
+--accent:#2F5BEA;--accent-fg:#FFFFFF;--accent-doux:#E6ECFD;--attention:#8A5A00;--attention-fond:#FFF4DC;
+--code-fond:#F1F3F8;--police:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+--police-code:"JetBrains Mono",ui-monospace,"Cascadia Code",Consolas,monospace;--rayon:10px;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0E1220;--surface:#151A2B;--surface-2:#1C2338;
+--fg:#E8ECF7;--fg-2:#A3ACC6;--ligne:#2A3250;--accent:#7C9BFF;--accent-fg:#0E1220;--accent-doux:#1E2950;
+--attention:#F2C25B;--attention-fond:#33290F;--code-fond:#10152A;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0E1220;--surface:#151A2B;--surface-2:#1C2338;--fg:#E8ECF7;--fg-2:#A3ACC6;--ligne:#2A3250;
+--accent:#7C9BFF;--accent-fg:#0E1220;--accent-doux:#1E2950;--attention:#F2C25B;--attention-fond:#33290F;--code-fond:#10152A;color-scheme:dark}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--police);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}
+.entete{background:var(--surface);border-bottom:1px solid var(--ligne)}
+.entete div{max-width:calc(80ch + 32px);margin:0 auto;padding:12px 16px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.entete b{font-weight:600}
+.entete a{color:var(--accent);text-decoration:none;font-weight:500}
+.entete a:hover{text-decoration:underline}
+main{max-width:calc(80ch + 32px);margin:0 auto;padding:24px 16px 64px;overflow-wrap:break-word}
+.chemin{font-family:var(--police-code);font-size:12px;color:var(--fg-2);margin:0 0 8px}
+h1{font-size:28px;line-height:1.25;margin:0 0 16px}
+h2{font-size:21px;line-height:1.3;margin:36px 0 12px;padding-top:12px;border-top:1px solid var(--ligne)}
+h3{font-size:17px;margin:28px 0 8px}h4,h5,h6{font-size:15px;margin:20px 0 6px}
+a{color:var(--accent)}
+p,li{max-width:80ch}
+code{font-family:var(--police-code);font-size:.88em;background:var(--code-fond);border:1px solid var(--ligne);border-radius:5px;padding:0 4px;overflow-wrap:anywhere}
+pre{background:var(--code-fond);border:1px solid var(--ligne);border-radius:var(--rayon);padding:14px 16px;overflow-x:auto;font-size:13px;line-height:1.55}
+pre code{background:none;border:0;padding:0;font-size:inherit;overflow-wrap:normal}
+.tableau{overflow-x:auto;margin:16px 0;border:1px solid var(--ligne);border-radius:var(--rayon);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:13.5px;line-height:1.5}
+th,td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--ligne);min-width:8ch}
+th{background:var(--surface-2);font-weight:600}
+tr:last-child td{border-bottom:0}
+blockquote{margin:16px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-doux);border-radius:0 var(--rayon) var(--rayon) 0}
+hr{border:0;border-top:1px solid var(--ligne);margin:28px 0}
+img{max-width:100%}
+.non-publie{font-size:13px;color:var(--attention);background:var(--attention-fond);padding:1px 6px;border-radius:5px}
+details.sommaire{background:var(--surface);border:1px solid var(--ligne);border-radius:var(--rayon);padding:10px 16px;margin:0 0 24px}
+details.sommaire summary{cursor:pointer;font-weight:600}
+details.sommaire ul{padding-left:20px;margin:8px 0 0}
+.admonition{border:1px solid var(--ligne);border-radius:var(--rayon);padding:8px 16px;background:var(--surface)}
+.admonition-title{font-weight:600}
+</style>
+</head>
+<body>
+<header class="entete"><div><b>TabSanté — documents</b><a href="../../">← Retour au portail</a></div></header>
+<main>
+<p class="chemin">docs/audit/2026-10-23-design-poste.html</p>
+<h1 id="passe-design-du-poste-fixe--23-octobre-2026">Passe design du poste fixe — 23 octobre 2026</h1>
+<details class="sommaire"><summary>Sommaire</summary><ul><li><a href="#constats-critique-de-létat-de-départ">Constats (critique de l'état de départ)</a></li><li><a href="#décisions">Décisions</a></li><li><a href="#avant--après-écran-par-écran">Avant / après, écran par écran</a></li><li><a href="#système">Système</a></li><li><a href="#vérification">Vérification</a></li><li><a href="#ce-qui-reste">Ce qui reste</a></li></ul></details>
+<p><strong>Branche</strong> <code>evol-design-poste</code> (partie de <code>main</code> 8d741632). <strong>Périmètre</strong> : le poste fixe React (<code>web/src</code>) ; le terminal Flutter n'est pas touché (un autre chantier le refait en parallèle). <strong>Style</strong> : « Clinique premium », direction A « Clinique calme », gardé tel quel : mêmes couleurs, même Inter, même mouvement. On élève l'exécution (coque, menus, panneaux, états), on ne change ni les règles métier ni le sens clinique.</p>
+<p><strong>Méthode.</strong>
+- Démonstration : base <code>tabsante_dposte</code>, API sur 8797 (<code>TABSANTE_DEV_AUTH=true TABSANTE_LECTEUR_ORDONNANCE=factice</code>, <code>POST /dev/demo</code>, <code>scripts/agregats.py --reconstruire</code>), Vite sur 5298. L'origine 5298 a été ajoutée par <code>TABSANTE_CORS_ORIGINES</code> au lancement de l'API (elle n'est pas dans les origines de développement par défaut).
+- Captures : Chromium de playwright 1.63 lancé neuf à chaque écran (profil jetable), 1440 × 900 et 390 × 844, astuces masquées. Une capture avant et une après par écran, à la même hauteur coupée (hauteur de la page, 2 400 px au plus ; hauteurs gardées dans <code>hauteurs.json</code>). Contrôles mesurés dans la page : défilement horizontal, erreurs de script.
+- Grille de lecture : skill <code>impeccable</code> (critique, puis layout, polish, typeset, animate, adapt, delight ; craft floor ; détecteur). Le détecteur, passé sur les fichiers changés, ne relève rien.
+- Personas : Paul Durand (IDE) ; Inès Petit (aide-soignante) pour vérifier qu'aucune cotation n'apparaît.</p>
+<p>Captures : <code>docs/audit/captures-ux/2026-10-23-design-poste/</code>.
+- <code>avant-&lt;écran&gt;-&lt;largeur&gt;.png</code> et <code>apres-&lt;écran&gt;-&lt;largeur&gt;.png</code> : 19 écrans × 2 largeurs.
+- États interactifs, après seulement : <code>apres-menu-ligne-1440</code>, <code>apres-menu-profil-1440</code>, <code>apres-barre-reduite-1440</code>, <code>apres-palette-recherche-1440</code>, <code>apres-tiroir-390</code>, <code>apres-tableau-collant-1440</code>, <code>apres-confirmation-1440</code>, <code>apres-notifications-1440</code>, <code>apres-apercu-patient-1440</code>.</p>
+<h2 id="constats-critique-de-létat-de-départ">Constats (critique de l'état de départ)</h2>
+<p>Les écrans eux-mêmes sont déjà soignés (passes A, C, UX du 22 octobre, facturation). Ce qui tirait l'ensemble vers le bas tenait à la coque et au système commun :</p>
+<ol>
+<li><strong>Pas d'en-tête d'application.</strong> Recherche, aide, notifications et profil s'entassaient en bas et en haut de la barre latérale ; aucune page ne disait où l'on se trouvait, sauf les sous-pages qui avaient leur propre fil.</li>
+<li><strong>Barre latérale figée.</strong> Ni repli, ni menu du profil : le pied empilait un nom tronqué (« Paul Dur… ») et deux boutons d'icône sans libellé visible.</li>
+<li><strong>Mobile (390 px) pénible.</strong> La barre latérale devenait trois rangées en tête de page (recherche, aide, notifications, profil, puis une rangée de navigation qui défile) : environ 190 px avant le contenu, puis le bandeau de démonstration.</li>
+<li><strong>Aucun menu déroulant ni menu « ⋯ ».</strong> Les actions secondaires d'une ligne passaient par la page entière.</li>
+<li><strong>Élévation et rayons mêlés.</strong> Palette 16, boîtes de dialogue et tiroirs 20, panneaux 14, ombres écrites en dur à plusieurs endroits.</li>
+<li><strong>Tableaux.</strong> En-têtes qui partent au défilement, filets de la première colonne décalés, aucune action de ligne.</li>
+<li><strong>Débordements à 390 px</strong> : tableau de bord (101 px, lignes de contrôle), paramètres (366 px, tableau des durées), planning (35 px, navigation de semaine), dossier et plaie (8 px).</li>
+<li><strong>Raccourcis peu visibles</strong> : Ctrl K seul ; ni raccourci de navigation, ni touches affichées dans les menus.</li>
+</ol>
+<h2 id="décisions">Décisions</h2>
+<ul>
+<li><strong>Jetons gardés</strong> : ceux de <code>:root</code> dans <code>web/src/styles.css</code> (direction A : <code>--primaire</code> #355EDD, <code>--fond</code> #F6F5F2), et non les valeurs d'origine de « Clinique premium » (#2F5BEA sur #F4F6FA) que rappelle la demande : la direction A les a affinées le 15 octobre, c'est elle qui fait foi.</li>
+<li><strong>Une barre du haut</strong> de 56 px, collée : fil d'Ariane à gauche, recherche, aide et notifications à droite. La recherche quitte la barre latérale. Le fil des sous-pages (<code>FilAriane</code>) monte dans cette barre par un portail : une seule place pour tous les écrans, et rien ne change pour une page rendue seule (tests).</li>
+<li><strong>Le bandeau de démonstration ne colle plus</strong> ; une puce « Démonstration » ambre, toujours visible dans la barre du haut, le remplace en vue (au-dessus de 640 px) et mène aux simulations. Le bandeau reste en tête de chaque page avec sa phrase complète.</li>
+<li><strong>Barre latérale réductible</strong> aux icônes (64 px, touche « [ »), choix gardé dans le navigateur ; <strong>profil en menu</strong> (paramètres, sessions, aide, réduire, se déconnecter).</li>
+<li><strong>Sous 900 px, un tiroir</strong> au lieu des rangées : bouton de menu dans la barre du haut, voile, focus géré.</li>
+<li><strong>Raccourcis G + lettre</strong> (comme Linear ou GitHub), seulement vers les pages permises ; la Facturation n'est pas citée dans l'aide commune, que lit aussi l'aide-soignante.</li>
+<li><strong>Un composant <code>Menu</code></strong> (menu déroulant et « ⋯ ») et <strong>une info-bulle unique</strong> (<code>InfoBulle</code>, attribut <code>data-info</code>), au lieu de <code>title</code> natifs.</li>
+<li><strong>Pas de système de toasts</strong> : le poste fixe dit le résultat d'une action dans la page (avis <code>role="status"</code>, à sa place) ; on lui donne une entrée animée, sans ajouter une seconde voie de retour.</li>
+<li><strong>États vides sans illustration</strong> (PRODUCT.md l'exclut) : une forme calme en pointillés ou la tuile d'état existante.</li>
+<li><strong>Mode sombre</strong> : le poste fixe n'en a pas ; il n'en a pas été ajouté.</li>
+</ul>
+<h2 id="avant--après-écran-par-écran">Avant / après, écran par écran</h2>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Écran</th>
+<th>Avant</th>
+<th>Après</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Coque</strong> (tous)</td>
+<td>recherche, aide, cloche et profil dans la barre latérale ; aucun repère de position</td>
+<td>barre du haut (fil d'Ariane « Soins › Patients › Bernard Louis », recherche Ctrl K, aide, cloche à pastille) ; barre latérale réductible ; menu du profil</td>
+</tr>
+<tr>
+<td><strong>Aujourd'hui</strong></td>
+<td>contenu sous un bandeau collant</td>
+<td>même composition, fil « Aujourd'hui », bandeau en place ; à 390 px le titre de la page arrive environ 170 px plus haut</td>
+</tr>
+<tr>
+<td><strong>Tableau de bord</strong></td>
+<td>lignes de contrôle débordant de 101 px à 390 px</td>
+<td>lignes en une colonne, action sous le texte ; plus de débordement</td>
+</tr>
+<tr>
+<td><strong>Patients</strong></td>
+<td>dernière colonne : chevron décoratif ; en-têtes qui partent au défilement</td>
+<td>menu « ⋯ » par ligne (dossier, soins et plaies, transmissions, identité, dossier de preuve pour qui le lit), discret au repos, net au survol ; en-têtes collés sous la barre du haut ; nombres alignés à droite</td>
+</tr>
+<tr>
+<td><strong>Dossier patient</strong></td>
+<td>fil dans la page ; actions empilées à 390 px ; 8 px de débordement</td>
+<td>fil dans la barre du haut ; en-tête d'identité collé sous elle ; actions sur une rangée à 390 px ; plus de débordement</td>
+</tr>
+<tr>
+<td><strong>Tournées, planning</strong></td>
+<td>navigation de semaine débordant de 35 px</td>
+<td>navigation de semaine qui se replie sous le titre ; fil « Soins › Tournées »</td>
+</tr>
+<tr>
+<td><strong>Transmissions, signalements</strong></td>
+<td>—</td>
+<td>coque, onglets (survol, actif plus lisible), avis de retour animés</td>
+</tr>
+<tr>
+<td><strong>Plaies, plaie, mesure sur photo</strong></td>
+<td>fil dans la page ; 8 px de débordement à 390 px</td>
+<td>fil complet dans la barre du haut (« Soins › Plaies › Ulcère… › Mesure sur photo ») ; plus de débordement</td>
+</tr>
+<tr>
+<td><strong>Bilans, preuves</strong></td>
+<td>—</td>
+<td>coque, tableaux au nouveau système (en-têtes, survol), état vide calme</td>
+</tr>
+<tr>
+<td><strong>Facturation</strong></td>
+<td>déjà refondue</td>
+<td>harmonisée seulement : coque, fil « Gestion › Facturation », bandeau du simulateur collé sous la barre du haut</td>
+</tr>
+<tr>
+<td><strong>Paramètres, équipe</strong></td>
+<td>onglets serrés ; tableau des durées débordant de 366 px</td>
+<td>onglets à survol, défilant de côté ; tableaux dans une région de défilement ; boutons qui se replient ; fil « Ressources › Paramètres › Équipe et habilitations » ; états vides calmes</td>
+</tr>
+<tr>
+<td><strong>Connexion</strong></td>
+<td>rayon 20, titre 22/800</td>
+<td>rayon flottant 16, titre 24/650 (graisse des pages), profils en lignes de 60 px dont le chevron répond au survol ; démonstration hébergée et statique inchangées</td>
+</tr>
+<tr>
+<td><strong>Palette Ctrl K</strong></td>
+<td>—</td>
+<td>rayon 16, ombre de palette, entrée animée, raccourci de chaque page à droite, retour chariot sur l'option choisie, pied « G puis une lettre »</td>
+</tr>
+<tr>
+<td><strong>Notifications, confirmations</strong></td>
+<td>tiroir et boîtes au rayon 20</td>
+<td>rayon 16, pied de boîte sur <code>--surface-2</code> séparé d'un filet, titre 18/650</td>
+</tr>
+<tr>
+<td><strong>Aperçu patient, aide</strong></td>
+<td>panneaux sur toute la hauteur, par-dessus la recherche</td>
+<td>posés sous la barre du haut (recherche et cloche restent à portée), coin arrondi</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="système">Système</h2>
+<p>Jetons ajoutés dans <code>:root</code> (<code>web/src/styles.css</code>) : <code>--h-barre-haute</code> 56 px ; <code>--l-laterale</code> 248 / <code>--l-laterale-reduite</code> 64 ; <code>--rayon-menu</code> 12, <code>--rayon-flottant</code> 16 ; <code>--ombre-menu</code>, <code>--ombre-palette</code>, <code>--ombre-survol</code> ; <code>--d-menu</code> 140 ms ; couches <code>--z-collant</code> 10, <code>--z-barre</code> 15, <code>--z-tiroir</code> 30, <code>--z-menu</code> 80, <code>--z-info</code> 90. Aucune couleur nouvelle.</p>
+<p>Règles : <code>web/src/design-poste.css</code>, dernière feuille importée, en onze blocs (coque latérale, barre du haut, menus et info-bulles, palette, onglets, panneaux, tableaux, états, écrans, écran étroit, mouvement réduit et impression). Les règles qui doivent primer sur une feuille chargée avec une page (<code>dossier.css</code>) portent un sélecteur plus précis.</p>
+<p>Composants : <code>Menu</code>, <code>Touches</code>, <code>InfoBulle</code>, <code>FilCible</code> (<code>composants.tsx</code>) ; <code>BarreHaute</code>, <code>destinationDe</code>, <code>RACCOURCIS</code> (<code>Cadre.tsx</code>). <code>Defile</code> dit maintenant si son tableau tient dans la largeur (classe <code>ajuste</code>, en-têtes collants) en mesurant la largeur propre du tableau.</p>
+<p>Accessibilité : cibles d'au moins 32 px (boutons d'icône 36, zone d'appui 44 ; éléments de menu 36 ; onglets 40) ; focus visible partout (menus cernés à l'intérieur) ; menus au clavier (flèches, Début, Fin, Échap rend le focus) ; tiroir mobile qui prend et rend le focus ; info-bulles au focus clavier ; contrastes AA (pastille blanc sur <code>--primaire</code> 5,5:1, rubrique du fil <code>--discret</code> sur le fond 5,5:1) ; <code>prefers-reduced-motion</code> coupe menus, palette, boîtes, tiroir, info-bulles et avis animés.</p>
+<p>Aide : les entrées « Aide », « Navigation principale », « Rechercher », « Notifications », « Se déconnecter » et l'astuce de la cloche décrivent la nouvelle place des commandes.</p>
+<h2 id="vérification">Vérification</h2>
+<ul>
+<li><code>npx tsc --noEmit</code> : vert.</li>
+<li><code>npx vitest run</code> : 72 fichiers, 665 tests, verts. Ajout de <code>src/test/DesignPoste.test.tsx</code> (page la plus précise du fil, raccourcis uniques et connus, fil resté dans la page hors du cadre, menu « ⋯ » au clavier). Aucun test existant n'a eu à changer.</li>
+<li>Construction de la démonstration statique (<code>VITE_DEMO_STATIQUE=true vite build</code>) : elle passe.</li>
+<li>Débordement horizontal mesuré à 390 px sur les 19 écrans : 0 partout (avant : 5 écrans).</li>
+<li>Relu aussi à 1280 et 1920 px (Aujourd'hui, dossier, facturation) : sans débordement.</li>
+</ul>
+<h2 id="ce-qui-reste">Ce qui reste</h2>
+<ul>
+<li><strong>Preuves et cotations à 1440 px</strong> : le tableau des actes signés est plus large que sa colonne ; « État » et « Preuve » se lisent en faisant défiler le tableau de côté (comme avant). Une version en lignes-cartes, ou le panneau d'intégrité passé sous le tableau, le réglerait.</li>
+<li><strong>Carte des tournées</strong> : sans fond de carte joignable sur ce poste (<code>VITE_CARTE_STYLE</code>), elle reste sur « Chargement du fond de carte… » dans les captures ; non lié à cette passe.</li>
+<li><strong>Menus « ⋯ »</strong> posés sur la liste des patients et le profil ; à étendre aux autres listes (plaies, bilans, transmissions) avec le même composant.</li>
+<li><strong>Raccourcis</strong> : pas encore de page qui les liste tous (le pied de la palette et l'aide « Navigation principale » les citent).</li>
+<li><strong>Toasts</strong> : volontairement non ajoutés (voir Décisions) ; à reprendre si une action doit dire son résultat hors de la page.</li>
+</ul>
+</main>
+</body>
+</html>
