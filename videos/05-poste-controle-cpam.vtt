@@ -1,0 +1,22 @@
+WEBVTT
+
+00:00:04.716 --> 00:00:15.946
+Lors d’un contrôle, le cabinet remet un accès limité : un patient, une période, une durée.
+
+00:00:15.948 --> 00:00:21.690
+Lecture seule : les actes, leurs cotations, leurs preuves et l’intégrité. Rien d’autre du dossier.
+
+00:00:21.691 --> 00:00:26.238
+Le lien et son QR ne s’affichent qu’une fois (masqués ici) : le serveur n’en garde que l’empreinte.
+
+00:00:26.240 --> 00:00:28.393
+« Voir ce que lit le contrôleur » ouvre sa vue, telle qu’il la verra.
+
+00:00:28.396 --> 00:00:32.898
+La vue du contrôleur : le cabinet, la période, la date de lecture et la fin de validité de l’accès.
+
+00:00:32.900 --> 00:00:38.444
+Intégrité vérifiée, actes horodatés et signés chez le patient ; sa lecture est elle-même tracée.
+
+00:00:38.446 --> 00:00:48.170
+Puis chaque acte de la période, avec sa cotation et sa preuve.

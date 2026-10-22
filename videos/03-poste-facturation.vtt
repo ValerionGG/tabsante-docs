@@ -1,0 +1,37 @@
+WEBVTT
+
+00:00:04.729 --> 00:00:08.943
+Cinq étapes, du soin signé au retour de l’Assurance maladie. D’abord, la file de contrôle.
+
+00:00:08.945 --> 00:00:16.123
+Cette cotation diverge entre la signature et le moteur : « Pourquoi ? » l’explique, règle de la NGAP à l’appui.
+
+00:00:16.124 --> 00:00:27.069
+Claire arbitre : elle confirme la cotation du moteur, avec un motif tracé au journal.
+
+00:00:27.071 --> 00:00:33.159
+Étape 2, « Facturer » : les actes confirmés, regroupés par patient. Une feuille de soins par groupe.
+
+00:00:33.161 --> 00:00:35.229
+Claire crée la feuille de soins électronique de Mme Lefèvre.
+
+00:00:35.232 --> 00:00:39.438
+Chaque ligne cite l’acte signé, son empreinte et sa règle. Reste à la sécuriser.
+
+00:00:39.440 --> 00:00:47.257
+Sécuriser : carte Vitale du patient et carte CPS de l’infirmière, toutes deux simulées ici.
+
+00:00:47.258 --> 00:00:50.268
+Sécurisée, signature vérifiée. Elle part ensuite avec le lot.
+
+00:00:50.270 --> 00:00:56.369
+« Vérifier puis télétransmettre » : un contrôle de cohérence complet avant tout envoi.
+
+00:00:56.371 --> 00:01:04.647
+Empreintes, prescriptions, fréquences, saisies différées, journal : rien ne bloque. Le lot part.
+
+00:01:04.650 --> 00:01:08.162
+Lot télétransmis, accusé de réception reçu (simulé : rien ne quitte la démonstration).
+
+00:01:08.164 --> 00:01:16.959
+Étape 5, les retours : chaque rejet dit sa cause et ce qu’il faut faire pour refacturer.
