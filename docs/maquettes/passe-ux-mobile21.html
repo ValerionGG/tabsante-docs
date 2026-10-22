@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Passe UX du terminal (mobile 21)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{--bg:#F4F6FA;--surface:#FFFFFF;--surface-2:#EEF2FB;--fg:#141A2E;--fg-2:#4A5372;--ligne:#DDE3EF;
+--accent:#2F5BEA;--accent-fg:#FFFFFF;--accent-doux:#E6ECFD;--attention:#8A5A00;--attention-fond:#FFF4DC;
+--code-fond:#F1F3F8;--police:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+--police-code:"JetBrains Mono",ui-monospace,"Cascadia Code",Consolas,monospace;--rayon:10px;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0E1220;--surface:#151A2B;--surface-2:#1C2338;
+--fg:#E8ECF7;--fg-2:#A3ACC6;--ligne:#2A3250;--accent:#7C9BFF;--accent-fg:#0E1220;--accent-doux:#1E2950;
+--attention:#F2C25B;--attention-fond:#33290F;--code-fond:#10152A;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0E1220;--surface:#151A2B;--surface-2:#1C2338;--fg:#E8ECF7;--fg-2:#A3ACC6;--ligne:#2A3250;
+--accent:#7C9BFF;--accent-fg:#0E1220;--accent-doux:#1E2950;--attention:#F2C25B;--attention-fond:#33290F;--code-fond:#10152A;color-scheme:dark}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--police);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}
+.entete{background:var(--surface);border-bottom:1px solid var(--ligne)}
+.entete div{max-width:calc(80ch + 32px);margin:0 auto;padding:12px 16px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.entete b{font-weight:600}
+.entete a{color:var(--accent);text-decoration:none;font-weight:500}
+.entete a:hover{text-decoration:underline}
+main{max-width:calc(80ch + 32px);margin:0 auto;padding:24px 16px 64px;overflow-wrap:break-word}
+.chemin{font-family:var(--police-code);font-size:12px;color:var(--fg-2);margin:0 0 8px}
+h1{font-size:28px;line-height:1.25;margin:0 0 16px}
+h2{font-size:21px;line-height:1.3;margin:36px 0 12px;padding-top:12px;border-top:1px solid var(--ligne)}
+h3{font-size:17px;margin:28px 0 8px}h4,h5,h6{font-size:15px;margin:20px 0 6px}
+a{color:var(--accent)}
+p,li{max-width:80ch}
+code{font-family:var(--police-code);font-size:.88em;background:var(--code-fond);border:1px solid var(--ligne);border-radius:5px;padding:0 4px;overflow-wrap:anywhere}
+pre{background:var(--code-fond);border:1px solid var(--ligne);border-radius:var(--rayon);padding:14px 16px;overflow-x:auto;font-size:13px;line-height:1.55}
+pre code{background:none;border:0;padding:0;font-size:inherit;overflow-wrap:normal}
+.tableau{overflow-x:auto;margin:16px 0;border:1px solid var(--ligne);border-radius:var(--rayon);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:13.5px;line-height:1.5}
+th,td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--ligne);min-width:8ch}
+th{background:var(--surface-2);font-weight:600}
+tr:last-child td{border-bottom:0}
+blockquote{margin:16px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-doux);border-radius:0 var(--rayon) var(--rayon) 0}
+hr{border:0;border-top:1px solid var(--ligne);margin:28px 0}
+img{max-width:100%}
+.non-publie{font-size:13px;color:var(--attention);background:var(--attention-fond);padding:1px 6px;border-radius:5px}
+details.sommaire{background:var(--surface);border:1px solid var(--ligne);border-radius:var(--rayon);padding:10px 16px;margin:0 0 24px}
+details.sommaire summary{cursor:pointer;font-weight:600}
+details.sommaire ul{padding-left:20px;margin:8px 0 0}
+.admonition{border:1px solid var(--ligne);border-radius:var(--rayon);padding:8px 16px;background:var(--surface)}
+.admonition-title{font-weight:600}
+</style>
+</head>
+<body>
+<header class="entete"><div><b>TabSanté — documents</b><a href="../../">← Retour au portail</a></div></header>
+<main>
+<p class="chemin">docs/maquettes/passe-ux-mobile21.html</p>
+<h1 id="passe-ux-du-terminal-mobile-21">Passe UX du terminal (mobile 21)</h1>
+<p>Critique puis polish des écrans ajoutés depuis la passe mobile 13 (lots 16 à 20 : fiche 24, avenant 11, PCA/PSE/ALR,
+plaies au même passage, nursing complet, injections, hémocultures, enfant, traitement tenu au dossier, « Code oublié »,
+aide-soignante). UI et UX seulement : aucune règle, aucune charge, aucune donnée changée ; widgets existants, aucune
+dépendance ajoutée.</p>
+<p>Mesures sur une API dédiée (port 8213, base <code>tabsante_m21</code>, <code>TABSANTE_DEV_AUTH=true</code>, <code>POST /dev/demo</code>), build web
+<code>--dart-define=CAPTURES=true --dart-define=API_URL=http://127.0.0.1:8213</code>, émulation mobile de Chrome (CDP) à
+<strong>390 × 844 @2×</strong> et <strong>360 × 740 @2×</strong>, plus une série à texte agrandi <strong>1,3×</strong> (taille de police de la page, que Flutter
+web lit comme facteur d'échelle du texte). Fichiers : <code>captures/passe-mobile21-{avant|apres}-&lt;écran&gt;[-360].png</code>.
+Le mode captures gagne <code>#ecran=reconnexion&amp;cause=code_oublie</code> et <code>#ecran=enrolement&amp;raison=oubli</code>.</p>
+<h2 id="critique-par-impact">Critique, par impact</h2>
+<p>Classement : <strong>1</strong> casse la lecture ou la sécurité (identité, mot coupé, état faux) · <strong>2</strong> ralentit ou trompe
+(hiérarchie, pouce, libellé) · <strong>3</strong> finition.</p>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Écran</th>
+<th>Problème (avant)</th>
+<th>Impact</th>
+<th>Correction (après)</th>
+<th>Fichiers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Injections (tuberculine, allergènes, sérum)</td>
+<td><strong>« Site d'i / njectio / n »</strong> : l'aide du <code>Titre</code> (le site suggéré, « Avant-bras, face antérieure, côté gauche ») gardait sa largeur et écrasait le libellé, coupé au milieu des mots à 390 comme à 360 dp.</td>
+<td>1</td>
+<td>Le <code>Titre</code> partagé passe une aide longue (&gt; 20 caractères) <strong>sous</strong> le libellé ; une aide courte (« À renseigner », « (facultatif) ») reste à droite. Les questions de carte (<code>_question</code>) et les blocs du nursing (<code>_bloc</code>), qui recopiaient la même rangée, passent par ce <code>Titre</code> : le site choisi s'écrit sous « Site d'injection ». Corrige aussi « Prescription d'origine · lue sur l'ordonnance ».</td>
+<td><code>charte.dart</code>, <code>ecrans/fiche.dart</code>, <code>ecrans/fiche_lot2.dart</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td>Brouillon partagé en conflit (consultation, séance)</td>
+<td>À 360 dp, l'état de l'en-tête (« Brouillon en conflit / (à choisir) », 150 dp) <strong>tronquait le nom du patient</strong> (« Bernard … ») et le sous-titre.</td>
+<td>1</td>
+<td>État de saisie sur 112 dp, sans parenthèses (« Brouillon en conflit », « Saisie reprise, non signée ») : le nom s'écrit en entier à 360 dp (à 1,3× il reste coupé, voir les limites).</td>
+<td><code>ecrans/passage.dart</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td>PCA (protocole modifié), PSE, hémocultures</td>
+<td>Les steppers prennent 204 dp : dans une carte imbriquée à 360 dp le libellé n'avait que 72 dp — <strong>« Dose maximal / e »</strong>, « Volume / restant lu ».</td>
+<td>1</td>
+<td><code>ChampMesure</code> mesure le mot le plus long de son libellé (échelle du texte comprise) : s'il ne tient plus à côté des steppers, le libellé passe au-dessus et les steppers dessous, à droite (le pouce) ; sinon rien ne bouge (« Débit / continu » sur deux lignes reste à gauche).</td>
+<td><code>charte.dart</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td>PSE (voie remplacée, arrêt, tubulure)</td>
+<td>Lignes de calcul alignées à droite sur quatre lignes (« Remplacée par … Épicrânienne 25 G ») ; « 2,5 mg/ / h » coupé à la barre oblique.</td>
+<td>1</td>
+<td><code>_calcul</code> : une valeur longue (&gt; 28 caractères) passe sous son libellé, alignée à gauche.</td>
+<td><code>ecrans/fiche_lot16.dart</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td>Envois refusés (traitement retiré)</td>
+<td>La bande « Soins de ce passage » montrait <strong>la coche verte du signé</strong> sur la distribution que le serveur venait de refuser.</td>
+<td>1</td>
+<td>Une occurrence refusée (<code>erreur</code> superposée) porte l'icône ambre « à corriger », dite au lecteur d'écran.</td>
+<td><code>ecrans/fiche.dart</code></td>
+</tr>
+<tr>
+<td>6</td>
+<td>Reçu (pansement, injection)</td>
+<td>À 360 × 740, <strong>« Enregistré sur ce téléphone. L'envoi partira… »</strong> passait sous les boutons : l'état d'envoi ne se lisait qu'en défilant.</td>
+<td>1</td>
+<td>L'état d'envoi suit le cadre de la signature (réalisé, signé par, empreinte), avant la courbe et les suites.</td>
+<td><code>ecrans/recu.dart</code></td>
+</tr>
+<tr>
+<td>7</td>
+<td>Tournée de l'aide-soignante</td>
+<td>Le bandeau « Aide-soignante » énumérait <strong>dix-huit soins</strong> en minuscules (« perfusion iv », « pca et sédation, pse ») : treize lignes à 360 dp, le prochain passage sous la ligne de flottaison.</td>
+<td>2</td>
+<td>Trois types nommés au plus, puis « et n autres types » ; les sigles gardent leurs capitales. Le prochain passage remonte à l'écran.</td>
+<td><code>ecrans/tournee.dart</code></td>
+</tr>
+<tr>
+<td>8</td>
+<td>Séance art. 5 ter</td>
+<td>« Il manque : signes cliniques (œdèmes, cyanose, sueurs, dyspnée, état général) … » : <strong>un seul manque plus long que deux lignes</strong>, coupé par l'ellipse, l'automesure jamais lue.</td>
+<td>2</td>
+<td>Nommés jusqu'à deux, comptés au-delà : « Il manque : 5 signes cliniques, automesure tensionnelle ». Chaque champ dit toujours « À renseigner ».</td>
+<td><code>fiches_lot24.dart</code></td>
+</tr>
+<tr>
+<td>8 bis</td>
+<td>Toutes les fiches</td>
+<td>La règle de mobile 13 (« les premiers manques tant qu'ils tiennent ») comptait 64 caractères <strong>sans</strong> « Il manque : » ni « et n autres » : « Il manque : évaluation clinique, 5 signes cliniques, automesure tensionnelle et 2 a… » à 360 dp.</td>
+<td>2</td>
+<td><code>ilManqueCourt</code> mesure la mention entière (72 caractères, deux lignes à 14 dp sur 360 dp) : « Il manque : aide au repas : oui ou non et 2 autres », « … paire 1 : site et 2 autres ».</td>
+<td><code>charte.dart</code></td>
+</tr>
+<tr>
+<td>9</td>
+<td>Séance art. 5 ter</td>
+<td>Quatre Oui/Non à donner un par un pour une séance sans signe.</td>
+<td>2</td>
+<td>« Aucun de ces quatre signes » : un geste, les quatre « Non » visibles et modifiables ; rien n'est présélectionné sans l'appui (patron « Site sans réaction »). 4 appuis → 1.</td>
+<td><code>ecrans/fiche_lot24.dart</code></td>
+</tr>
+<tr>
+<td>10</td>
+<td>Séances (art. 5 ter, RAAC, parcours)</td>
+<td>Quatrième colonne de compteurs en chiffres de 24 : <strong>« jeu. 1 / avr. »</strong> coupée, « séance du / jour » sur deux lignes.</td>
+<td>2</td>
+<td>Trois compteurs aux libellés courts (« séance du jour », « déjà close », « au plus »), alignés en haut ; la date sur sa ligne, en clair : « Jusqu'au jeu. 1 avr. · 174 jours restants » ou « Dernier jour : … ».</td>
+<td><code>ecrans/seance.dart</code></td>
+</tr>
+<tr>
+<td>11</td>
+<td>Brouillon en conflit</td>
+<td>« Garder le mien » / « Reprendre le leur » en <strong>liens discrets</strong> pour une décision qui bloque la signature ; « Il manque : choix du brouillon : le vôtre ou… » (deux deux-points).</td>
+<td>2</td>
+<td>Deux boutons contour de 56 dp, de même poids ; « Il manque : choix du brouillon (le vôtre ou le leur) ». Même traitement pour « Compétence proche » (« Prendre celle-ci » / « Garder en compétence libre »).</td>
+<td><code>ecrans/fiche_lot24.dart</code></td>
+</tr>
+<tr>
+<td>12</td>
+<td>Ouverture d'une plaie en accès direct</td>
+<td>Trois réponses exclusives, <strong>deux visuels</strong> : prescriptions en cartes à bouton radio, « Sans ordonnance · accès direct » en puce cochée.</td>
+<td>2</td>
+<td>L'accès direct est une carte de prescription de plus (« Plaie non chirurgicale, rôle propre »), même rond, même sélection.</td>
+<td><code>ecrans/ouverture.dart</code></td>
+</tr>
+<tr>
+<td>13</td>
+<td>« Code oublié »</td>
+<td>« Me reconnecter · Claire » ouvrait… l'enrôlement : le bouton ne disait pas l'étape suivante.</td>
+<td>2</td>
+<td>Sans enrôlement : « Saisir le code du poste fixe » (bouclier) ; enrôlé : « Me reconnecter · Claire ».</td>
+<td><code>ecrans/session.dart</code></td>
+</tr>
+<tr>
+<td>14</td>
+<td>Accord préalable</td>
+<td>« Il manque : réponse : accordé ou refusé » ; date titrée « Le » ; commentaire collé au bouton de date.</td>
+<td>2</td>
+<td>« réponse (accordé ou refusé) », « Date de la réponse », 12 dp d'air.</td>
+<td><code>ecrans/dossier.dart</code></td>
+</tr>
+<tr>
+<td>15</td>
+<td>Consultation CIA</td>
+<td>Titre « Consultation CIA · 3/4 », sous-titre « Consultation CIA — diabète de type 2… » : le motif répétait le titre.</td>
+<td>3</td>
+<td>« Diabète de type 2 nouvellement insulino-traité » sous le titre.</td>
+<td><code>ecrans/fiche_lot24.dart</code></td>
+</tr>
+<tr>
+<td>16</td>
+<td>CIB</td>
+<td>« 1 sur 3 » des priorités en <strong>ambre</strong>, la couleur du manque, alors que rien ne manque.</td>
+<td>3</td>
+<td>Ambre pour « À renseigner » seulement ; le compte en discret.</td>
+<td><code>ecrans/fiche_lot24.dart</code></td>
+</tr>
+<tr>
+<td>17</td>
+<td>Hémocultures</td>
+<td>« Flacons aérobies / anaérobies » en 13 gris à côté de « Température » en 15 noir : deux rangs pour des champs pareils.</td>
+<td>3</td>
+<td>Même style que les autres mesures.</td>
+<td><code>ecrans/fiche.dart</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>Audit transverse, sans autre écart sur ces écrans : cibles ≥ 48 dp (puces, grilles, steppers 56, signature 60, liens
+d'en-tête 44 × 48) ; action principale dans la barre du bas (pouce) partout, une seule action pleine ; « Il manque » suit
+l'ordre de l'écran et amène au premier champ ; l'état réseau (« Hors ligne », « n en attente ») reste dans la tournée et
+l'en-tête ; contrastes du texte ≥ 4,5:1 (discret #64748B sur blanc 4,8:1, <code>discretSurFond</code> sur le fond gris, ambre #B54708
+sur blanc et sur #FFFAEB) ; libellés sans code de spécification (CIA, CIB, PSE, PCA, SAS, PDSA, SEGA restent : ce sont les
+noms du métier). Sémantique : niveau de compétence (« Niveau du jour : acquis. Appuyer pour changer »), puces de soin (« à
+corriger » ajouté), valeur des steppers et date limite lues comme du texte.</p>
+<h2 id="captures">Captures</h2>
+<p>Avant et après, mêmes écrans, mêmes adresses (<code>#ecran=…</code> du mode captures) : 42 écrans × 2 tailles × 2 = 168 fichiers,
+le jeu « 360 » au suffixe <code>-360</code>. Texte agrandi 1,3× à 360 dp (suffixe <code>-360-texte130</code>, avant et après) :
+consultation-competences, brouillon-conflit, seance-art5ter, injection-tuberculine, pse-arret, pca-protocole,
+hemocultures, as-tournee. Les heures et le décompte des jours suivent l'horloge de la démonstration (prises la nuit du
+8 au 9 octobre, à une heure d'écart) : seules les données bougent entre avant et après.</p>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Écran</th>
+<th>Adresse</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>consultation-cia, -competences, -besoin, -actions</td>
+<td><code>#ecran=consultation&amp;rep=1[&amp;m20=competence&amp;ancre=sf-competences]</code></td>
+</tr>
+<tr>
+<td>brouillon-conflit</td>
+<td><code>#ecran=consultation&amp;partage=conflit</code></td>
+</tr>
+<tr>
+<td>seance-art5ter, -volet, seance-raac</td>
+<td><code>#ecran=seance-art5ter[&amp;tronc=1&amp;defile=1900]</code>, <code>#ecran=seance-raac&amp;anomalie=1</code></td>
+</tr>
+<tr>
+<td>rdi-trame, cib-themes, cib-relie, vitaux-besoin</td>
+<td><code>#ecran=rdi&amp;ancre=sf-volet</code>, <code>#ecran=cib&amp;ancre=sf-volet</code>, <code>#ecran=cib&amp;defile=3600</code>, <code>#ecran=fiche&amp;fiche=PARAMETRES_VITAUX&amp;patient=Bernard&amp;rdi=1</code></td>
+</tr>
+<tr>
+<td>acte-d</td>
+<td><code>#ecran=fiche&amp;fiche=MEDICAMENTS&amp;patient=Dupuis&amp;rep=1&amp;m20=acte-d&amp;ancre=accompagnement-competences</code></td>
+</tr>
+<tr>
+<td>injection-tuberculine, -allergenes, -particuliers, recu-tuberculine, diabete-enfant</td>
+<td><code>#ecran=fiche&amp;fiche=INJECTION&amp;injection=…&amp;rep=1</code>, <code>#ecran=recu&amp;fiche=INJECTION&amp;injection=TUBERCULINE_LECTURE</code></td>
+</tr>
+<tr>
+<td>sega, acces-direct, patient-ald, depistage</td>
+<td>avenant 11</td>
+</tr>
+<tr>
+<td>pse-voie, pse-arret, pse-tubulure, pca-protocole, alr-prise-en-charge, accord-prealable</td>
+<td><code>#ecran=dispositif&amp;fiche=PSE&amp;rep=1&amp;m18a=voie</code> (ou <code>arret</code>, <code>tubulure</code>), <code>#ecran=dispositif&amp;fiche=PCA_SEDATION&amp;rep=1&amp;m18a=protocole</code>, <code>#ecran=prise-en-charge-alr</code>, <code>#ecran=accord&amp;patient=Dupuis&amp;demande=1</code></td>
+</tr>
+<tr>
+<td>recu-autre-plaie, recidive, ablation</td>
+<td><code>#ecran=recu&amp;autre=1</code>, <code>#ecran=recidive</code>, <code>#ecran=ablation</code></td>
+</tr>
+<tr>
+<td>nursing-douche, nursing-escarre, ugd-retrait, hemocultures, vitaux-enfant</td>
+<td>mobile 18b</td>
+</tr>
+<tr>
+<td>medicaments-traitement, refus-traitement</td>
+<td>mobile 19</td>
+</tr>
+<tr>
+<td>code-oublie, enrolement-oubli</td>
+<td><code>#ecran=reconnexion&amp;cause=code_oublie</code>, <code>#ecran=enrolement&amp;raison=oubli</code></td>
+</tr>
+<tr>
+<td>as-tournee, as-patient</td>
+<td><code>&amp;persona=Inès</code></td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="limites-et-questions-non-modifiées">Limites et questions (non modifiées)</h2>
+<ul>
+<li><strong>Forfait BSI montré à l'aide-soignante</strong> : « Forfait BSB en cours » s'affiche sur sa fiche patient et dans son
+  nursing (bandeau « Forfait BSB · reporté du BSI »). Le lot 2 l'a voulu et un test le garde ; si « l'AS ne voit jamais la
+  cotation » vaut aussi pour le forfait, il suffit de taire les contextes <code>bsi_*</code> pour le rôle AS. À trancher.</li>
+<li><strong>Deux deux-points dans « Il manque »</strong> (« paire 2 : site », « tension : systolique et diastolique », « lavement :
+  condition remplie… ») : le patron vient des lots 3 à 10, hors du périmètre ; il se lit, mais une passe dédiée
+  l'harmoniserait (parenthèses ou ordre « site de la paire 2 »).</li>
+<li><strong>Texte à 1,3× + brouillon en conflit</strong> : le nom du patient reste tronqué dans l'en-tête (l'état et le menu prennent la
+  place). L'état est aussi dans le bandeau et dans « Il manque » ; le passer sous le titre agrandirait l'en-tête de tous
+  les écrans.</li>
+<li>À 1,3×, « 2,5 mg/h » se coupe encore après la barre oblique (le moteur de texte y voit une coupure permise) ; le
+  libellé « Volume restant lu à la dépose » s'écrit sur quatre lignes à côté des steppers, sans mot coupé.</li>
+<li>Rappels de dispositifs infirmiers (« Prochain pansement · Nutrition entérale ») visibles dans la fiche patient de l'AS :
+  donnée de la précharge, à décider au serveur.</li>
+</ul>
+</main>
+</body>
+</html>

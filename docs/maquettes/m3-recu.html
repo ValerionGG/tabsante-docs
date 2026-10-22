@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><title>Terminal — Passage signé</title>
+<link rel="stylesheet" href="carnet.css">
+<style>
+  body { background: #d9d2c4; }
+  .recu { flex: 1; padding: 28px 20px 0; display: flex; flex-direction: column; }
+  .patient { font-size: 16px; color: var(--encre-douce); }
+  .titre-recu { font-family: var(--f-titre); font-size: 34px; line-height: 38px; font-weight: 600; margin-top: 6px; }
+  .tampon { margin: 26px auto 0; width: 300px; transform: rotate(-2.5deg); border: 3px solid var(--registre); border-radius: 14px; padding: 5px; color: var(--registre); }
+  .tampon > div { border: 1.5px solid var(--registre); border-radius: 10px; padding: 14px 16px 12px; text-align: center; }
+  .tampon .mot { font-family: var(--f-titre); font-size: 30px; font-weight: 700; letter-spacing: 0.02em; }
+  .tampon .l { font-family: var(--f-mono); font-size: 14px; line-height: 21px; }
+  .tampon hr { border: 0; border-top: 1.5px dashed var(--registre); margin: 8px 0; opacity: .7; }
+  .bloc { margin-top: 28px; background: var(--carte); border: 1px solid var(--filet); border-radius: 12px; padding: 14px 16px; display: flex; gap: 14px; align-items: center; }
+  .bloc .grand { font-family: var(--f-titre); font-size: 28px; font-weight: 600; line-height: 1.05; }
+  .envoi { margin-top: 12px; display: flex; gap: 10px; align-items: flex-start; font-size: 16px; line-height: 22px; padding: 0 2px; }
+  .envoi .ph { font-size: 22px; color: var(--encre-douce); margin-top: 1px; }
+  .actions { margin-top: auto; display: grid; gap: 10px; padding: 16px 0 26px; }
+</style></head>
+<body>
+<div class="telephone">
+  <div class="barre-etat"><span>9:52</span><span><i class="ph ph-cell-signal-slash"></i><i class="ph ph-battery-high"></i> 81 %</span></div>
+  <div class="recu">
+    <div class="patient">Dupuis Roger · escarre sacrée</div>
+    <div class="titre-recu">C'est tracé.</div>
+    <div class="tampon" role="img" aria-label="Passage signé le 2 octobre 2026 à 9 h 42 par Claire Martin, empreinte 7F3A 9C21">
+      <div>
+        <div class="mot">Passage signé</div>
+        <hr>
+        <div class="l">02/10/2026 · 09:42</div>
+        <div class="l">Claire Martin · IDE</div>
+        <div class="l">empreinte 7F3A 9C21 E04B</div>
+      </div>
+    </div>
+    <div class="bloc">
+      <svg width="88" height="44" viewBox="0 0 88 44" aria-hidden="true"><line x1="2" y1="6" x2="86" y2="6" stroke="#A89A84" stroke-dasharray="3 3"/><path d="M2 6 L16 9 L30 13 L44 18 L58 23 L72 27 L86 33" stroke="#4F6B56" stroke-width="2.4" fill="none"/><circle cx="86" cy="33" r="4" fill="#4F6B56"/></svg>
+      <div><div class="grand">−42 %</div><div class="meta">volume depuis <span class="n" style="font-weight:500">J0</span>, avec la mesure de ce matin</div></div>
+    </div>
+    <div class="envoi"><i class="ph ph-device-mobile"></i><span>Enregistré sur ce téléphone. Il partira seul au retour du réseau — rien à faire.</span></div>
+    <div class="actions">
+      <button class="bouton-plein">Patient suivant : Bernard Louis<i class="ph ph-arrow-right"></i></button>
+      <button class="bouton-ligne">Retour à la tournée</button>
+    </div>
+  </div>
+</div>
+</body></html>

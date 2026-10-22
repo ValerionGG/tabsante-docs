@@ -1,0 +1,68 @@
+/* Maquettes TabSanté — univers « Carnet de visite » (terminal) et « Dossier » (poste fixe, papier). */
+@import url('https://cdn.jsdelivr.net/npm/@fontsource-variable/newsreader@5.3.0/index.css');
+@import url('https://cdn.jsdelivr.net/npm/@fontsource-variable/newsreader@5.3.0/opsz.css');
+@import url('https://cdn.jsdelivr.net/npm/@fontsource-variable/atkinson-hyperlegible-next@5.3.0/index.css');
+@import url('https://cdn.jsdelivr.net/npm/@fontsource-variable/atkinson-hyperlegible-mono@5.3.0/index.css');
+@import url('https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css');
+@import url('https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/fill/style.css');
+
+:root {
+  /* Carnet (terminal) */
+  --papier: #F6F1E8;        /* page */
+  --papier-fonce: #EDE5D6;  /* en-tête, zones de rang */
+  --carte: #FFFDF8;         /* ce qui reçoit la saisie, le prochain passage */
+  --encre: #2A2420;         /* 13,6:1 */
+  --encre-douce: #6B6158;   /* 5,4:1 */
+  --filet: #D8CCB8;         /* filets sépia */
+  --filet-fort: #A89A84;    /* bordures de champ ≥ 3:1 */
+  --moka: #6E4B32;          /* action */
+  --moka-fonce: #573A26;
+  --sauge: #4F6B56;         /* acquis, trait de signature */
+  --sauge-clair: #DCE5DC;
+  --ocre: #C99A3B;          /* signal, aplat seulement */
+  --ocre-clair: #F6E6C4;
+  --grenat: #9E2B3A;        /* critique */
+  /* Dossier (poste fixe, papier) */
+  --verge: #F7F5EF;
+  --verge-fonce: #EEEBE2;
+  --noir: #1A1A1A;
+  --graphite: #4A4A48;
+  --grille: #D9D4C7;
+  --registre: #1F4E8C;      /* action poste fixe, tampon */
+  --registre-clair: #E3EAF3;
+  --archive: #2F5E46;
+  --visa: #A3202E;
+  --surligne: #F3E3A1;
+  --gris18: #8C8C88;        /* visionneuse neutre */
+
+  --f-titre: 'Newsreader Variable', Georgia, serif;
+  --f-ui: 'Atkinson Hyperlegible Next Variable', system-ui, sans-serif;
+  --f-mono: 'Atkinson Hyperlegible Mono Variable', ui-monospace, monospace;
+}
+* { box-sizing: border-box; margin: 0; }
+body { font-family: var(--f-ui); color: var(--encre); -webkit-font-smoothing: antialiased; font-variant-numeric: tabular-nums; }
+.titre { font-family: var(--f-titre); font-optical-sizing: auto; }
+.mono { font-family: var(--f-mono); }
+/* Chiffres à lire (heures, dates, évolutions) en Newsreader ; chiffres à saisir ou contrôler en Atkinson (zéro barré voulu). */
+.n { font-family: var(--f-titre); font-variant-numeric: lining-nums tabular-nums; font-weight: 600; }
+.ph, .ph-fill { line-height: 1; }
+
+/* ——— Terminal ——— */
+.telephone { width: 390px; height: 844px; background: var(--papier); position: relative; overflow: hidden; display: flex; flex-direction: column; }
+.barre-etat { display: flex; justify-content: space-between; align-items: center; padding: 10px 20px 6px; font-size: 13px; font-weight: 600; color: var(--encre); }
+.barre-etat span { display: inline-flex; gap: 6px; align-items: center; }
+.reseau { margin: 0 16px; display: flex; gap: 10px; align-items: center; padding: 10px 12px; background: var(--ocre-clair); border: 1px solid #E2C98F; border-radius: 10px; font-size: 15px; min-height: 48px; }
+.reseau .ph { font-size: 20px; color: #7A5A12; }
+.reseau b { font-weight: 700; }
+.reseau a { margin-left: auto; color: var(--moka); font-weight: 700; text-decoration: none; }
+.contenu { flex: 1; overflow: hidden; padding: 0 16px; }
+.bas { background: var(--carte); border-top: 1px solid var(--filet); padding: 12px 16px 26px; }
+.bouton-plein { height: 56px; width: 100%; border: 0; border-radius: 12px; background: var(--moka); color: #fff; font: 700 18px/1 var(--f-ui); display: flex; align-items: center; justify-content: center; gap: 10px; }
+.bouton-plein .ph { font-size: 22px; }
+.bouton-ligne { height: 52px; width: 100%; border: 1.5px solid var(--filet-fort); border-radius: 12px; background: transparent; color: var(--encre); font: 600 17px/1 var(--f-ui); display: flex; align-items: center; justify-content: center; gap: 10px; }
+.meta { font-size: 15px; color: var(--encre-douce); }
+.puce { display: inline-flex; align-items: center; gap: 6px; font-size: 15px; font-weight: 600; padding: 4px 10px 4px 8px; border-radius: 999px; white-space: nowrap; }
+.puce .ph, .puce .ph-fill { font-size: 17px; }
+.puce.sauge { background: var(--sauge-clair); color: #2E4434; }
+.puce.ocre { background: var(--ocre-clair); color: #6B4E12; }
+.puce.neutre { background: transparent; color: var(--encre-douce); border: 1px solid var(--filet-fort); }

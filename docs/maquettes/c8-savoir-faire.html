@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><title>Savoir-faire</title>
+<link rel="stylesheet" href="clinique.css">
+<style>
+  body { background: #E9EBEF; display: flex; gap: 36px; padding: 32px 36px; width: 1560px; align-items: flex-start; }
+  .ico { width: 26px; height: 26px; background: currentColor; -webkit-mask: var(--i) center / contain no-repeat; mask: var(--i) center / contain no-repeat; display: inline-block; flex: none; }
+  .t-bleu { background: var(--primaire-50); color: var(--primaire); } .t-rose { background: #FDF2FA; color: #C11574; } .t-vert { background: var(--succes-50); color: var(--succes); } .t-ambre { background: var(--alerte-50); color: var(--alerte); } .t-violet { background: #F4F3FF; color: #5925DC; }
+  /* téléphone : fiche geste */
+  .tel { height: 844px; }
+  .hd { background: var(--surface); padding: 4px 16px 14px; border-bottom: 1px solid var(--bord); }
+  .hd .r { display: flex; align-items: center; gap: 10px; }
+  .hd .x { width: 40px; height: 40px; border-radius: 12px; background: #F1F4F9; display: grid; place-items: center; font-size: 18px; margin-left: auto; }
+  .hd small { font-size: 13px; color: var(--discret); font-weight: 600; }
+  .hd h1 { font-size: 22px; font-weight: 800; letter-spacing: -0.02em; margin-top: 2px; }
+  .valide { margin-top: 8px; display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 600; color: var(--succes); background: var(--succes-50); padding: 5px 10px; border-radius: 999px; }
+  .corps { padding: 14px 16px; display: grid; gap: 12px; overflow: hidden; }
+  .video { border-radius: 18px; overflow: hidden; position: relative; height: 178px; background: #0F172A center / cover no-repeat; }
+  .video .play { position: absolute; inset: 0; display: grid; place-items: center; }
+  .video .play span { width: 60px; height: 60px; border-radius: 50%; background: rgba(255,255,255,.95); display: grid; place-items: center; color: var(--primaire); font-size: 26px; box-shadow: 0 8px 20px rgba(0,0,0,.25); }
+  .video .leg { position: absolute; left: 0; right: 0; bottom: 0; padding: 10px 12px; background: linear-gradient(transparent, rgba(15,23,42,.85)); color: #fff; font-size: 12.5px; font-weight: 600; display: flex; justify-content: space-between; }
+  .etapes { background: var(--surface); border-radius: 18px; box-shadow: var(--ombre-1); padding: 6px 14px; }
+  .et { display: grid; grid-template-columns: 28px 1fr; gap: 10px; padding: 10px 0; border-bottom: 1px solid #EEF1F6; font-size: 14.5px; line-height: 1.4; }
+  .et:last-child { border-bottom: 0; }
+  .et b { width: 26px; height: 26px; border-radius: 8px; background: var(--primaire-50); color: var(--primaire); display: grid; place-items: center; font-size: 13px; }
+  .vigil { display: flex; gap: 10px; padding: 12px 14px; border-radius: 14px; background: var(--alerte-50); border: 1px solid var(--alerte-200); font-size: 14px; color: #7A2E0E; line-height: 1.4; }
+  .vigil i { color: var(--alerte); font-size: 18px; margin-top: 1px; }
+  .bas { position: absolute; left: 0; right: 0; bottom: 0; background: var(--surface); border-top: 1px solid var(--bord); padding: 12px 16px 26px; display: flex; gap: 10px; }
+  .bas .btn { height: 52px; }
+  /* bureau : base de connaissances */
+  .desk { width: 1050px; background: var(--fond); border-radius: 18px; overflow: hidden; box-shadow: 0 30px 60px -20px rgba(20,25,40,.25); }
+  .desk header { background: var(--surface); border-bottom: 1px solid var(--bord); padding: 18px 24px; display: flex; align-items: center; gap: 14px; }
+  .desk header h2 { font-size: 22px; font-weight: 800; letter-spacing: -0.02em; }
+  .desk header p { font-size: 13px; color: var(--discret); margin-top: 2px; }
+  .cherche { margin-left: auto; width: 300px; height: 42px; border-radius: 12px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--bord-champ); display: flex; align-items: center; gap: 8px; padding: 0 12px; color: var(--discret); font-size: 14px; }
+  .bp { height: 42px; padding: 0 16px; border-radius: 12px; border: 0; background: var(--primaire); color: #fff; font: 650 14px var(--f); display: inline-flex; align-items: center; gap: 8px; }
+  .zone { display: grid; grid-template-columns: 1fr 330px; gap: 18px; padding: 20px 24px; }
+  .cats { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+  .cat { display: inline-flex; align-items: center; gap: 8px; height: 38px; padding: 0 12px 0 6px; border-radius: 12px; background: var(--surface); box-shadow: var(--ombre-1); font-size: 13.5px; font-weight: 600; }
+  .cat .tu { width: 28px; height: 28px; border-radius: 8px; display: grid; place-items: center; }
+  .cat .tu .ico { width: 18px; height: 18px; }
+  .cat.on { box-shadow: inset 0 0 0 2px var(--primaire); }
+  .panneau { background: var(--surface); border-radius: 16px; box-shadow: var(--ombre-1); }
+  .panneau h3 { font-size: 15px; font-weight: 700; padding: 14px 18px; border-bottom: 1px solid var(--bord); display: flex; gap: 8px; align-items: center; }
+  .panneau h3 .c { font-size: 12px; background: #F1F4F9; padding: 2px 8px; border-radius: 999px; }
+  .q { padding: 14px 18px; border-bottom: 1px solid #EEF1F6; display: grid; grid-template-columns: 1fr auto; gap: 6px 14px; }
+  .q:last-child { border-bottom: 0; }
+  .q h4 { font-size: 14.5px; font-weight: 650; } .q p { font-size: 13px; color: var(--discret); grid-column: 1; }
+  .q .u { grid-row: 1 / span 2; grid-column: 2; text-align: right; font-size: 12.5px; color: var(--discret); }
+  .q .u b { display: block; font-size: 16px; color: var(--encre); }
+  .vid { display: grid; grid-template-columns: 120px 1fr; gap: 12px; padding: 12px 16px; border-bottom: 1px solid #EEF1F6; align-items: center; }
+  .vid:last-child { border-bottom: 0; }
+  .vid .th { height: 68px; border-radius: 10px; background: #0F172A center / cover; position: relative; }
+  .vid .th span { position: absolute; right: 6px; bottom: 6px; background: rgba(15,23,42,.8); color: #fff; font-size: 11px; font-weight: 700; padding: 2px 5px; border-radius: 5px; }
+  .vid h5 { font-size: 13.5px; font-weight: 650; line-height: 1.3; } .vid p { font-size: 12px; color: var(--discret); margin-top: 3px; }
+  .rel { padding: 12px 16px; display: flex; gap: 10px; align-items: center; border-bottom: 1px solid #EEF1F6; font-size: 13px; }
+  .rel:last-child { border-bottom: 0; }
+  .rel .av { width: 32px; height: 32px; font-size: 12px; }
+  .rel b { font-weight: 650; } .rel small { display: block; color: var(--discret); font-size: 12px; }
+  .rel .bl { margin-left: auto; height: 32px; padding: 0 10px; border-radius: 9px; box-shadow: inset 0 0 0 1px #8A95A8; font: 650 12.5px var(--f); display: inline-flex; align-items: center; background: #fff; border: 0; }
+</style></head>
+<body>
+<div class="tel">
+  <div class="sb" style="background:var(--surface)"><span>9:44</span><span><i class="ph-bold ph-wifi-slash"></i><i class="ph-bold ph-battery-high"></i></span></div>
+  <div class="hd">
+    <div class="r"><small>Comment faire ? · Anticoagulant injectable</small><span class="x"><i class="ph-bold ph-x"></i></span></div>
+    <h1>Injection sous-cutanée d'HBPM</h1>
+    <span class="valide"><i class="ph-fill ph-seal-check"></i>Relu par Dr Marchand et Claire Martin, IDE · sept. 2026</span>
+  </div>
+  <div class="corps">
+    <div class="video" style="background-image:url(https://img.youtube.com/vi/IXiGWkMu27E/hqdefault.jpg)"><div class="play"><span><i class="ph-fill ph-play"></i></span></div><div class="leg"><span>Avant tout : la friction hydro-alcoolique</span><span>HUG · 1:30</span></div></div>
+    <div class="etapes">
+      <div class="et"><b>1</b><span>Vérifier l'identité, la prescription et l'heure prévue.</span></div>
+      <div class="et"><b>2</b><span>Choisir un site différent du précédent : <strong>flanc gauche</strong> (dernier : flanc droit, hier 20 h).</span></div>
+      <div class="et"><b>3</b><span>Pli cutané maintenu pendant toute l'injection, aiguille perpendiculaire.</span></div>
+      <div class="et"><b>4</b><span>Ne pas purger la bulle d'air, ne pas masser après l'injection.</span></div>
+    </div>
+    <div class="vigil"><i class="ph-bold ph-warning-circle"></i><span><b>À surveiller :</b> hématome, saignement des gencives, plaquettes selon la prescription. Disponible hors connexion.</span></div>
+  </div>
+  <div class="bas"><button class="btn btn-second"><i class="ph-bold ph-chat-circle-text"></i>Poser une question</button><button class="btn btn-primaire">Revenir au soin</button></div>
+</div>
+
+<div class="desk">
+  <header><div><h2>Savoir-faire</h2><p>Gestes, vidéos et réponses du réseau · relus par des infirmières et des médecins</p></div><div class="cherche"><i class="ph-bold ph-magnifying-glass"></i>Rechercher un geste ou une question</div><button class="bp"><i class="ph-bold ph-plus"></i>Proposer une réponse</button></header>
+  <div class="zone">
+    <div>
+      <div class="cats">
+        <span class="cat on"><span class="tu t-bleu"><span class="ico" style="--i:url(../illustrations/actes/outline/injection.svg)"></span></span>Injections</span>
+        <span class="cat"><span class="tu t-ambre"><span class="ico" style="--i:url(../illustrations/actes/outline/pansement.svg)"></span></span>Plaies</span>
+        <span class="cat"><span class="tu t-rose"><span class="ico" style="--i:url(../illustrations/actes/outline/glycemie.svg)"></span></span>Diabète</span>
+        <span class="cat"><span class="tu t-violet"><span class="ico" style="--i:url(../illustrations/actes/outline/prelevement.svg)"></span></span>Prélèvements</span>
+        <span class="cat"><span class="tu t-bleu"><span class="ico" style="--i:url(../illustrations/actes/outline/perfusion-iv.svg)"></span></span>Perfusions</span>
+        <span class="cat"><span class="tu t-vert"><span class="ico" style="--i:url(../illustrations/actes/outline/nursing.svg)"></span></span>Nursing</span>
+      </div>
+      <div class="panneau">
+        <h3>Questions fréquentes · Injections <span class="c">12</span></h3>
+        <div class="q"><h4>Faut-il purger la bulle d'air d'une seringue pré-remplie d'HBPM ?</h4><p>Réponse de Dr Marchand · source : OMEDIT Normandie, guide anticoagulants 2024</p><div class="u"><b>48</b>utile</div></div>
+        <div class="q"><h4>Le patient a un hématome au site d'hier : on change de côté ou on attend ?</h4><p>Réponse de Paul Durand, IDE · relue par Dr Bernard</p><div class="u"><b>31</b>utile</div></div>
+        <div class="q"><h4>Quand appeler le médecin si les plaquettes baissent ?</h4><p>Réponse de Dr Marchand · lien vers la prescription du patient</p><div class="u"><b>27</b>utile</div></div>
+        <div class="q"><h4>Injection à 20 h prescrite, réalisée à 20 h 40 : quelle majoration ?</h4><p>Réponse en attente de relecture · facturation</p><div class="u" style="color:var(--alerte)"><b style="color:var(--alerte)">—</b>à relire</div></div>
+      </div>
+    </div>
+    <div style="display:grid;gap:18px;align-content:start">
+      <div class="panneau">
+        <h3>Vidéos · gestes</h3>
+        <div class="vid"><div class="th" style="background-image:url(https://img.youtube.com/vi/mTLwZxwnsGU/mqdefault.jpg)"><span>8:16</span></div><div><h5>PICC à domicile : la réfection du pansement</h5><p>CPias Occitanie · relue</p></div></div>
+        <div class="vid"><div class="th" style="background-image:url(https://img.youtube.com/vi/mYoN3fpiCYU/mqdefault.jpg)"><span>10:03</span></div><div><h5>Chambre implantable au domicile</h5><p>CPias Nouvelle-Aquitaine · relue</p></div></div>
+        <div class="vid"><div class="th" style="background-image:url(https://img.youtube.com/vi/lYgdwy7nGTs/mqdefault.jpg)"><span>1:51</span></div><div><h5>Rehaussement au lit avec un soignant</h5><p>CHU de Poitiers · relue</p></div></div>
+      </div>
+      <div class="panneau">
+        <h3>À relire <span class="c">3</span></h3>
+        <div class="rel"><div class="av" style="background:#FFF1E6;color:#C4320A">PD</div><div><b>Majoration de nuit à 20 h 40</b><small>Paul Durand · facturation</small></div><button class="bl">Relire</button></div>
+        <div class="rel"><div class="av" style="background:var(--succes-50);color:var(--succes)">IP</div><div><b>Rougeur au talon qui ne blanchit pas</b><small>Inès Petit, AS · nursing</small></div><button class="bl">Relire</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+</body></html>

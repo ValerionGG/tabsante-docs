@@ -1,0 +1,47 @@
+/* TabSanté — style « Clinique premium » (choisi le 2026-10-03). Maquettes de référence. */
+@import url('https://cdn.jsdelivr.net/npm/@fontsource-variable/inter@5.3.0/index.css');
+@import url('https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css');
+@import url('https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/fill/style.css');
+@import url('https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/bold/style.css');
+
+:root {
+  --fond: #F4F6FA;
+  --surface: #FFFFFF;
+  --surface-2: #F8FAFC;
+  --bord: #E6EAF0;
+  --bord-champ: #CBD3DF;     /* bordure de contrôle ≥ 3:1 sur blanc : #8A95A8 pour les champs */
+  --champ: #8A95A8;
+  --encre: #0F172A;
+  --encre-2: #334155;
+  --discret: #64748B;        /* 4,8:1 sur blanc */
+  --primaire: #2F5BEA;
+  --primaire-fonce: #2449C4;
+  --primaire-50: #EEF2FE;
+  --primaire-100: #DCE5FD;
+  --succes: #067647; --succes-50: #ECFDF3; --succes-500: #12B76A;
+  --alerte: #B54708; --alerte-50: #FFFAEB; --alerte-200: #FEDF89;
+  --danger: #B42318; --danger-50: #FEF3F2;
+  --ombre-1: 0 1px 2px rgba(16,24,40,.05), 0 1px 3px rgba(16,24,40,.06);
+  --ombre-2: 0 12px 24px -12px rgba(16,24,40,.18), 0 2px 4px rgba(16,24,40,.04);
+  --f: 'Inter Variable', system-ui, sans-serif;
+}
+* { box-sizing: border-box; margin: 0; }
+body { font-family: var(--f); color: var(--encre); -webkit-font-smoothing: antialiased; font-feature-settings: "tnum", "cv11"; }
+.ph, .ph-fill, .ph-bold { line-height: 1; }
+.av { border-radius: 50%; display: grid; place-items: center; font-weight: 700; flex: none; }
+.puce { display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 10px; border-radius: 999px; font-size: 13px; font-weight: 600; white-space: nowrap; }
+.puce .ph, .puce .ph-fill, .puce .ph-bold { font-size: 15px; }
+.p-succes { background: var(--succes-50); color: var(--succes); }
+.p-alerte { background: var(--alerte-50); color: var(--alerte); }
+.p-danger { background: var(--danger-50); color: var(--danger); }
+.p-primaire { background: var(--primaire-50); color: var(--primaire); }
+.p-neutre { background: #F1F4F9; color: var(--encre-2); }
+
+/* Terminal */
+.tel { width: 390px; height: 844px; background: var(--fond); position: relative; overflow: hidden; display: flex; flex-direction: column; }
+.sb { display: flex; justify-content: space-between; padding: 16px 26px 8px; font-weight: 600; font-size: 15px; }
+.sb span { display: inline-flex; gap: 6px; align-items: center; }
+.carte { background: var(--surface); border-radius: 20px; box-shadow: var(--ombre-1); }
+.btn { height: 56px; border-radius: 14px; border: 0; font: 700 16px var(--f); display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; }
+.btn-primaire { background: var(--primaire); color: #fff; box-shadow: 0 8px 16px -8px rgba(47,91,234,.6); }
+.btn-second { background: var(--surface); color: var(--encre); box-shadow: inset 0 0 0 1px var(--bord-champ); }

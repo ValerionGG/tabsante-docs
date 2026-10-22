@@ -1,0 +1,1834 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Audit des formulaires — 16 octobre 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{--bg:#F4F6FA;--surface:#FFFFFF;--surface-2:#EEF2FB;--fg:#141A2E;--fg-2:#4A5372;--ligne:#DDE3EF;
+--accent:#2F5BEA;--accent-fg:#FFFFFF;--accent-doux:#E6ECFD;--attention:#8A5A00;--attention-fond:#FFF4DC;
+--code-fond:#F1F3F8;--police:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+--police-code:"JetBrains Mono",ui-monospace,"Cascadia Code",Consolas,monospace;--rayon:10px;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0E1220;--surface:#151A2B;--surface-2:#1C2338;
+--fg:#E8ECF7;--fg-2:#A3ACC6;--ligne:#2A3250;--accent:#7C9BFF;--accent-fg:#0E1220;--accent-doux:#1E2950;
+--attention:#F2C25B;--attention-fond:#33290F;--code-fond:#10152A;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0E1220;--surface:#151A2B;--surface-2:#1C2338;--fg:#E8ECF7;--fg-2:#A3ACC6;--ligne:#2A3250;
+--accent:#7C9BFF;--accent-fg:#0E1220;--accent-doux:#1E2950;--attention:#F2C25B;--attention-fond:#33290F;--code-fond:#10152A;color-scheme:dark}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--police);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}
+.entete{background:var(--surface);border-bottom:1px solid var(--ligne)}
+.entete div{max-width:calc(80ch + 32px);margin:0 auto;padding:12px 16px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.entete b{font-weight:600}
+.entete a{color:var(--accent);text-decoration:none;font-weight:500}
+.entete a:hover{text-decoration:underline}
+main{max-width:calc(80ch + 32px);margin:0 auto;padding:24px 16px 64px;overflow-wrap:break-word}
+.chemin{font-family:var(--police-code);font-size:12px;color:var(--fg-2);margin:0 0 8px}
+h1{font-size:28px;line-height:1.25;margin:0 0 16px}
+h2{font-size:21px;line-height:1.3;margin:36px 0 12px;padding-top:12px;border-top:1px solid var(--ligne)}
+h3{font-size:17px;margin:28px 0 8px}h4,h5,h6{font-size:15px;margin:20px 0 6px}
+a{color:var(--accent)}
+p,li{max-width:80ch}
+code{font-family:var(--police-code);font-size:.88em;background:var(--code-fond);border:1px solid var(--ligne);border-radius:5px;padding:0 4px;overflow-wrap:anywhere}
+pre{background:var(--code-fond);border:1px solid var(--ligne);border-radius:var(--rayon);padding:14px 16px;overflow-x:auto;font-size:13px;line-height:1.55}
+pre code{background:none;border:0;padding:0;font-size:inherit;overflow-wrap:normal}
+.tableau{overflow-x:auto;margin:16px 0;border:1px solid var(--ligne);border-radius:var(--rayon);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:13.5px;line-height:1.5}
+th,td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--ligne);min-width:8ch}
+th{background:var(--surface-2);font-weight:600}
+tr:last-child td{border-bottom:0}
+blockquote{margin:16px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-doux);border-radius:0 var(--rayon) var(--rayon) 0}
+hr{border:0;border-top:1px solid var(--ligne);margin:28px 0}
+img{max-width:100%}
+.non-publie{font-size:13px;color:var(--attention);background:var(--attention-fond);padding:1px 6px;border-radius:5px}
+details.sommaire{background:var(--surface);border:1px solid var(--ligne);border-radius:var(--rayon);padding:10px 16px;margin:0 0 24px}
+details.sommaire summary{cursor:pointer;font-weight:600}
+details.sommaire ul{padding-left:20px;margin:8px 0 0}
+.admonition{border:1px solid var(--ligne);border-radius:var(--rayon);padding:8px 16px;background:var(--surface)}
+.admonition-title{font-weight:600}
+</style>
+</head>
+<body>
+<header class="entete"><div><b>TabSanté — documents</b><a href="../../">← Retour au portail</a></div></header>
+<main>
+<p class="chemin">docs/audit/2026-10-16-formulaires.html</p>
+<h1 id="audit-des-formulaires--16-octobre-2026">Audit des formulaires — 16 octobre 2026</h1>
+<details class="sommaire"><summary>Sommaire</summary><ul><li><a href="#en-bref">En bref</a></li><li><a href="#méthode">Méthode</a></li><li><a href="#défauts-transverses">Défauts transverses</a></li><li><a href="#règles-du-cahier-retenues-par-zone">Règles du cahier retenues par zone</a></li><li><a href="#inventaire-du-poste-fixe">Inventaire du poste fixe</a></li><li><a href="#inventaire-du-terminal">Inventaire du terminal</a></li><li><a href="#parcours-de-bout-en-bout-api-de-la-branche-chrome-sans-tête">Parcours de bout en bout (API de la branche, Chrome sans tête)</a></li><li><a href="#clavier-accessibilité-390-px">Clavier, accessibilité, 390 px</a></li><li><a href="#captures">Captures</a></li><li><a href="#reprise-du-21-octobre-après-fusion-de-main-10c1e0c">Reprise du 21 octobre, après fusion de main (10c1e0c)</a></li><li><a href="#ce-qui-reste">Ce qui reste</a></li></ul></details>
+<p>Branche <code>evol-formulaires</code> (depuis <code>main</code> c62573e, <code>main</code> 10c1e0c fusionné le 21/10 : voir « Reprise du 21 octobre »). Poste fixe React (<code>web/</code>), terminal Flutter (<code>mobile/</code>), API
+FastAPI (<code>backend/</code>). Contrat d'API inchangé (<code>docs/api/openapi.json</code> régénéré à l'identique), aucune migration.</p>
+<h2 id="en-bref">En bref</h2>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th></th>
+<th>Poste fixe</th>
+<th>Terminal</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Écritures inventoriées</td>
+<td>150 envois dans 126 composants, dont <strong>116 formulaires à champs</strong></td>
+<td>30 écrans à champs, 34 types d'opérations en file</td>
+</tr>
+<tr>
+<td>Formulaires corrigés un à un</td>
+<td>35 (tableau ci-dessous, colonne « Avant → après »)</td>
+<td>4 (création du patient, signalement, événement, prélèvement)</td>
+</tr>
+<tr>
+<td>Défauts transverses corrigés pour tous</td>
+<td>6 (voir « Défauts transverses »), + 2 à la reprise du 21/10 (R1, R2)</td>
+<td>1 (refus nommés par le libellé)</td>
+</tr>
+<tr>
+<td>Champs du serveur ou du cahier qui ne pouvaient pas être saisis</td>
+<td>17 champs dans 10 formulaires, tous ajoutés (et 2 types de contexte impossibles à déclarer)</td>
+<td>1 (<code>lieu_residence</code> envoyé « domicile » en dur), ajouté</td>
+</tr>
+<tr>
+<td>Parcours remplis de bout en bout contre l'API</td>
+<td>11 / 11 réussis, + 2 le 21/10 après fusion</td>
+<td>widget : 3 tests</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="méthode">Méthode</h2>
+<ol>
+<li><strong>Inventaire automatique</strong> : chaque appel <code>api(…, { method: 'POST' | 'PUT' | 'PATCH' })</code> du poste fixe, rapproché de
+   sa route et de son schéma Pydantic dans <code>openapi.json</code> ; puis, pour chaque schéma, les champs qui n'apparaissent
+   nulle part dans le composant qui écrit (champ « non saisissable »), et les lectures <code>FormData</code> sans champ nommé.
+   Au terminal : écrans, opérations mises en file (<code>depot.enfiler</code>) et écritures directes.</li>
+<li><strong>Lecture</strong> de chaque formulaire des zones demandées, face au schéma et au cahier (<code>cdc_v2_texte.txt</code>, fiches 01 et
+   24, composants communs) : champs, libellés, « (facultatif) », unités, contraintes, états, clavier.</li>
+<li><strong>Correction</strong> : d'abord un mécanisme commun (un seul fichier, <code>web/src/saisie.ts</code>), puis formulaire par formulaire.</li>
+<li><strong>Vérification</strong> : API de la branche (port 8391, base <code>tabsante_formulaires</code>, <code>POST /dev/demo</code>), poste fixe servi
+   par Vite (5391), Chrome sans tête piloté par CDP : 11 parcours remplis de bout en bout (refus d'abord, puis envoi
+   valide, puis lecture de ce que l'API a enregistré) ; audit des champs à 390 et 1280 px ; captures.</li>
+</ol>
+<h2 id="défauts-transverses">Défauts transverses</h2>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Défaut (avant)</th>
+<th>Correction (après)</th>
+<th>Où</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Un 422 de validation arrivait <strong>en anglais</strong> (« Input should be a valid date ») et était affiché <strong>avec le nom technique du champ</strong> (« date_naissance : … ») ; même chose dans « Envois » au terminal</td>
+<td>Le serveur rédige ses messages de validation en français, sans la valeur saisie (<code>app.commun.message_fr</code>, gestionnaire <code>RequestValidationError</code>, et <code>/sync</code>, dossier, traçabilité) ; les clients les nomment par le <strong>libellé</strong> du champ (« Date de naissance : Date non valide »)</td>
+<td><code>backend/app/commun.py</code>, <code>web/src/api/client.ts</code>, <code>mobile/lib/domaine.dart</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td>Aucun champ refusé n'était marqué : ni <code>aria-invalid</code> relié à un message, ni message sous le champ ; le refus du serveur restait au pied du formulaire</td>
+<td><code>saisie.ts</code> : tout champ refusé (contraintes HTML reprises du serveur, ou 422 du serveur placé par <code>&lt;Erreurs&gt;</code>) reçoit <code>aria-invalid</code>, un message en français <strong>sous lui</strong> relié par <code>aria-describedby</code>, et le premier refusé prend le focus ; corriger le champ retire la marque</td>
+<td><code>web/src/saisie.ts</code>, <code>composants.tsx</code>, <code>styles.css</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td>Les boîtes de dialogue (<code>noValidate</code>) ne vérifiaient <strong>aucune</strong> contrainte de leurs champs (requis, bornes, formats) ; les formulaires en ligne n'avaient que la bulle du navigateur, sur le seul premier champ</td>
+<td><code>Dialogue</code> vérifie ses champs à l'envoi (même mécanisme) ; <code>onEssai</code> garde le résumé « Il manque » pour ce qu'un champ seul ne dit pas (« au moins l'un des trois ») ; les formulaires en ligne voient leurs bulles remplacées par des messages au champ</td>
+<td><code>coordination.tsx</code>, <code>main.tsx</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td>Une saisie longue était <strong>perdue</strong> en fermant la boîte ou en changeant de page</td>
+<td><code>useBrouillon</code> : brouillon dans le stockage de l'onglet (jamais au-delà, effacé à la déconnexion), effacé dès qu'une écriture lancée après la soumission réussit ; « Saisie reprise de votre brouillon… · Effacer le brouillon » ; branché sur 7 formulaires longs</td>
+<td><code>saisie.ts</code>, <code>Dialogue</code> (prop <code>brouillon</code>)</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Champs de 40 px de haut, boutons discrets (<code>.bq</code>) de 32 px sans zone d'appui : sous les 44 px demandés</td>
+<td>Champs de 44 px ; zone d'appui de 44 px par pseudo-élément pour <code>.bq</code> (le dessin ne change pas) ; DESIGN.md mis à jour</td>
+<td><code>styles.css</code>, <code>dossier.css</code>, <code>DESIGN.md</code></td>
+</tr>
+<tr>
+<td>6</td>
+<td>Boutons d'envoi <strong>grisés</strong> tant qu'un champ requis était vide, sans dire pourquoi</td>
+<td>Bouton actif, le champ requis le dit sous lui ; quand le grisé reste (valeur inchangée), une phrase dit pourquoi</td>
+<td>6 formulaires</td>
+</tr>
+<tr>
+<td>T</td>
+<td>Terminal : refus d'une opération rejouée affiché sans le champ (« Champ obligatoire ; Format non valide »)</td>
+<td><code>detailLisible</code> nomme le champ (« Téléphone : Format non valide »)</td>
+<td><code>mobile/lib/domaine.dart</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>Les messages du client suivent les contraintes du serveur, avec la borne et l'unité utiles : « Ce champ est
+obligatoire. », « Au plus 3660 jours. », « Format attendu : 11 chiffres, sans espace. », « La date ne peut pas être
+dans le futur. », « Au moins 3 caractères (actuellement 2). ».</p>
+<h2 id="règles-du-cahier-retenues-par-zone">Règles du cahier retenues par zone</h2>
+<ul>
+<li><strong>Patient, identité, INS</strong> — EX-ID-01 à 07 : identité provisoire jusqu'à la qualification INS, création au domicile
+  hors connexion (EX-ID-02), création manuelle complète sans carte Vitale (EX-ID-06), sources tracées et divergences
+  (EX-ID-04 quater) ; type de lieu de résidence, donnée de facturation (EX-MED-19, § « Patient ») ; coordonnées,
+  adresse, médecin traitant. Formats du serveur : NIR <code>[0-9AB]{13}(\d{2})?</code>, code postal <code>\d[0-9AB]\d{3}</code>,
+  téléphone <code>\+?[0-9][0-9 .]{5,19}</code>, RPPS <code>\d{11}</code>, courriel.</li>
+<li><strong>Contacts, antécédents, allergies</strong> — EX-DS-07 (versions), EX-DS-08 (« aucune allergie connue » est une réponse),
+  EX-DS-09 (texte libre, code proposé).</li>
+<li><strong>Ordonnance, fréquence, prescription</strong> — § « Prescription » : prescripteur, date, actes prescrits, <strong>durée</strong>,
+  <strong>document source</strong> ; MOD-17 (durée, renouvellement, dimanches et fériés, document) ; PAN-F12 (service si
+  hospitalière) ; EX-PF-07 (lecture d'ordonnance : le système propose, l'infirmier valide).</li>
+<li><strong>Protocole, parcours, contextes</strong> — EX-ID-06 bis à quater (contextes datés) ; UGD-O2 (fenêtre « au décours
+  immédiat » paramétrée au contexte) ; NUR-RG-07 (BSI : ordonnance, tournée, passages) ; EX-SC-03 (épisode sans
+  ordonnance).</li>
+<li><strong>Plaie et dispositifs</strong> — fiche 01, PAN-F01 à F17 : localisation (120), type, stade si escarre, <strong>aspect initial</strong>
+  (facultatif), dimensions 0 à 60 cm à une décimale, <strong>volume initial</strong> 0 à 500 cm³, <strong>grandeur de référence</strong>
+  proposée d'après la profondeur et forçable, fistule, suture ; PAN-E11 (volume obligatoire si grandeur = volume) ;
+  C11 (rectification motivée) ; C2 (tolérance du geste de pose).</li>
+<li><strong>Transmissions, signalements</strong> — EX-TR-01 à 06 : trois registres, interpellation (émise, lue, traitée),
+  requalification tracée avec motif, destinataires intra-cabinet ; MOD-37 (cible, données, actions, résultat).</li>
+<li><strong>Bilans et consultations</strong> — fiche 24, EX-CI-01 à 41 : motif au référentiel, date d'effet, volet versionné, tronc
+  commun, pas de ressaisie.</li>
+<li><strong>Équipe, habilitations, terminaux</strong> — HAB-33 et CV-09 (habilitation bornée, révocation motivée), MOD-27 et
+  EX-PI-03 (RPPS, carte CPS, coordonnées du cabinet en en-tête), EX-SE-03 (terminal perdu révoqué).</li>
+<li><strong>Accès externes, savoir-faire, droits</strong> — EX-CO-01 et 05 (QR, consentement tracé), EX-TR-06.</li>
+<li><strong>Facturation (hors simulateur)</strong> — EX-FA-05 à 09 : file de contrôle, arbitrage motivé, annulation et forçage
+  motivés (3 caractères au moins côté serveur).</li>
+<li><strong>Transverses</strong> — DESIGN.md : « (facultatif) » écrit, aucun code de spécification à l'écran, l'ambre (jamais le
+  rouge) pour un refus, cibles de 44 px (web) et 48 dp (terminal) ; OFF-* : rien ne se perd hors connexion.</li>
+</ul>
+<h2 id="inventaire-du-poste-fixe">Inventaire du poste fixe</h2>
+<p>Colonne « Champs » : nombre de contrôles du composant (— : action sans champ). Sans mention particulière, un
+formulaire bénéficie du mécanisme commun (contraintes au champ, refus du serveur au champ et en français) et n'avait
+pas d'autre défaut relevé.</p>
+<h3 id="patient-identité-ins">Patient, identité, INS</h3>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Formulaire</th>
+<th>Fichier</th>
+<th>Envoi</th>
+<th>Schéma serveur</th>
+<th>Champs</th>
+<th>Avant → après</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CreationPatient</code></td>
+<td><code>pages/Identite.tsx:60</code></td>
+<td><code>POST /patients/{patient_id}/donnees</code></td>
+<td><code>DonneeIn</code></td>
+<td>6</td>
+<td><strong>Avant</strong> : refus 422 en anglais avec le code du champ (« date_naissance : Input should be… »), bulle native sur le seul premier champ ; ni courriel ni NIR à la création ; brouillon perdu en quittant. <strong>Après</strong> : messages français sous chaque champ, libellé dans le résumé ; courriel et « NIR et régime » (facultatifs) ; aides (nom de naissance, premier prénom) ; brouillon de l'onglet ; Échap ferme.</td>
+</tr>
+<tr>
+<td><code>CreationPatient</code></td>
+<td><code>pages/Identite.tsx:71</code></td>
+<td><code>POST /patients</code></td>
+<td><code>PatientIn</code></td>
+<td>6</td>
+<td><strong>Avant</strong> : refus 422 en anglais avec le code du champ (« date_naissance : Input should be… »), bulle native sur le seul premier champ ; ni courriel ni NIR à la création ; brouillon perdu en quittant. <strong>Après</strong> : messages français sous chaque champ, libellé dans le résumé ; courriel et « NIR et régime » (facultatifs) ; aides (nom de naissance, premier prénom) ; brouillon de l'onglet ; Échap ferme.</td>
+</tr>
+<tr>
+<td><code>DecisionRapprochement</code></td>
+<td><code>pages/Identite.tsx:242</code></td>
+<td><code>POST /rapprochements/{rapprochement_id}/decision</code></td>
+<td><code>DecisionIn</code></td>
+<td>2</td>
+<td>contraintes au champ, refus du serveur au champ et en français (mécanisme commun)</td>
+</tr>
+<tr>
+<td><code>Teleservices</code></td>
+<td><code>pages/Identite.tsx:337</code></td>
+<td><code>POST /patients/{patient_id}/identite/{source}</code></td>
+<td><code>—</code></td>
+<td>—</td>
+<td>action sans champ (bouton) : refus du serveur en français</td>
+</tr>
+<tr>
+<td><code>CarteDivergence</code></td>
+<td><code>pages/Identite.tsx:409</code></td>
+<td><code>POST /divergences/{divergence_id}/resolution</code></td>
+<td><code>ResolutionIn</code></td>
+<td>—</td>
+<td>action sans champ (bouton) : refus du serveur en français</td>
+</tr>
+<tr>
+<td><code>CreationVitale</code></td>
+<td><code>simulation.tsx:334</code></td>
+<td><code>POST /simulation/lecteur/vitale</code></td>
+<td><code>LectureIn</code></td>
+<td>3</td>
+<td><strong>Avant</strong> : lieu de résidence (donnée de facturation EX-MED-19) non saisissable : « domicile » d'office. <strong>Après</strong> : choix du lieu avec l'aide de la nomenclature.</td>
+</tr>
+<tr>
+<td><code>CreationVitale</code></td>
+<td><code>simulation.tsx:338</code></td>
+<td><code>POST /patients/vitale</code></td>
+<td><code>CreationVitaleIn</code></td>
+<td>3</td>
+<td><strong>Avant</strong> : lieu de résidence (donnée de facturation EX-MED-19) non saisissable : « domicile » d'office. <strong>Après</strong> : choix du lieu avec l'aide de la nomenclature.</td>
+</tr>
+<tr>
+<td><code>EnchainerTeleservices</code></td>
+<td><code>simulation.tsx:413</code></td>
+<td><code>POST /patients/{patient_id}/teleservices</code></td>
+<td><code>—</code></td>
+<td>—</td>
+<td>action sans champ (bouton) : refus du serveur en français</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="contacts-antécédents-allergies">Contacts, antécédents, allergies</h3>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Formulaire</th>
+<th>Fichier</th>
+<th>Envoi</th>
+<th>Schéma serveur</th>
+<th>Champs</th>
+<th>Avant → après</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>useVerser</code></td>
+<td><code>dossier.tsx:308</code></td>
+<td><code>POST /patients/{patient_id}/donnees</code></td>
+<td><code>DonneeIn</code></td>
+<td>—</td>
+<td><strong>Avant</strong> : EditeurDonnee : formats (téléphone, code postal, NIR, RPPS) en simple info-bulle, longueur 200 partout, « complementaire » de la couverture non saisissable, date de pathologie future acceptée, pas d'Échap. <strong>Après</strong> : aides visibles reliées au champ, longueurs du serveur (20, 5, 15, 11), type tel, organisme complémentaire, « depuis » ≤ aujourd'hui, Échap ferme l'éditeur, champs nommés (refus placés).</td>
+</tr>
+<tr>
+<td><code>LeverZone</code></td>
+<td><code>SchemaSites.tsx:55</code></td>
+<td><code>POST /patients/{patient_id}/donnees</code></td>
+<td><code>DonneeIn</code></td>
+<td>—</td>
+<td>action sans champ (bouton) : refus du serveur en français</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="ordonnance-fréquence-prescription">Ordonnance, fréquence, prescription</h3>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Formulaire</th>
+<th>Fichier</th>
+<th>Envoi</th>
+<th>Schéma serveur</th>
+<th>Champs</th>
+<th>Avant → après</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>FormulairePrescription</code></td>
+<td><code>pages/DossierPatient.tsx:460</code></td>
+<td><code>POST /patients/{patient_id}/prescriptions</code></td>
+<td><code>PrescriptionIn</code></td>
+<td>13</td>
+<td><strong>Avant</strong> : durée, renouvellement, dimanches et fériés et document source (MOD-17, CDC « Prescription ») non saisissables. <strong>Après</strong> : les quatre champs, bornes du serveur (1–3660 jours, 0–12 fois), brouillon, Échap.</td>
+</tr>
+<tr>
+<td><code>PanneauOrdonnancesElectroniques</code></td>
+<td><code>pages/EchangesSimules.tsx:356</code></td>
+<td><code>POST /patients/{patient_id}/ordonnances-electroniques/{reference}/import</code></td>
+<td><code>—</code></td>
+<td>—</td>
+<td>action sans champ (bouton) : refus du serveur en français</td>
+</tr>
+<tr>
+<td><code>MatriceFrequence</code></td>
+<td><code>pages/Frequence.tsx:179</code></td>
+<td><code>POST /prescriptions/{prescription_id}/frequences/matrice</code></td>
+<td><code>MatriceIn</code></td>
+<td>11</td>
+<td>contraintes au champ, refus du serveur au champ et en français (mécanisme commun)</td>
+</tr>
+<tr>
+<td><code>FormulaireFrequence</code></td>
+<td><code>pages/Frequence.tsx:284</code></td>
+<td><code>POST /prescriptions/{prescription_id}/frequences</code></td>
+<td><code>FrequenceIn</code></td>
+<td>17</td>
+<td>contraintes au champ, refus du serveur au champ et en français (mécanisme commun)</td>
+</tr>
+<tr>
+<td><code>LigneDocument</code></td>
+<td><code>pages/Ordonnance.tsx:60</code></td>
+<td><code>POST /ordonnances/{document_id}/lectures</code></td>
+<td><code>LectureOrdonnanceIn | —</code></td>
+<td>—</td>
+<td>action sans champ (bouton) : refus du serveur en français</td>
+</tr>
+<tr>
+<td><code>FormulaireProposition</code></td>
+<td><code>pages/Ordonnance.tsx:332</code></td>
+<td><code>POST /lectures/{lecture_id}/validation</code></td>
+<td><code>ValidationPropositionIn</code></td>
+<td>14</td>
+<td>contraintes au champ, refus du serveur au champ et en français (mécanisme commun)</td>
+</tr>
+<tr>
+<td><code>FormulaireProposition</code></td>
+<td><code>pages/Ordonnance.tsx:336</code></td>
+<td><code>POST /lectures/{lecture_id}/rejet</code></td>
+<td><code>RejetPropositionIn</code></td>
+<td>14</td>
+<td>contraintes au champ, refus du serveur au champ et en français (mécanisme commun)</td>
+</tr>
+<tr>
+<td><code>EditeurPrescription</code></td>
+<td><code>pages/PrescriptionInfirmiere.tsx:288</code></td>
+<td><code>POST /patients/{patient_id}/prescriptions-infirmieres</code></td>
+<td><code>PrescriptionInfirmiereIn</code></td>
+<td>7</td>
+<td>contraintes au champ, refus du serveur au champ et en français (mécanisme commun)</td>
+</tr>
+<tr>
+<td><code>LigneRenouvellement</code></td>
+<td><code>pages/Renouvellements.tsx:61</code></td>
+<td><code>POST /renouvellements/X/X</code></td>
+<td><code>—</code></td>
+<td>1</td>
+<td>contraintes au champ, refus du serveur au champ et en français (mécanisme commun)</td>
+</tr>
+<tr>
+<td><code>LigneRenouvellement</code></td>
+<td><code>pages/Renouvellements.tsx:65</code></td>
+<td><code>POST /renouvellements/{demande_id}/annulation</code></td>
+<td><code>AnnulationRenouvellementIn</code></td>
+<td>1</td>
+<td>contraintes au champ, refus du serveur au champ et en français (mécanisme commun)</td>
+</tr>
+<tr>
+<td><code>BoutonDemander</code></td>
+<td><code>pages/Renouvellements.tsx:110</code></td>
+<td><code>POST /prescriptions/{prescription_id}/renouvellement</code></td>
+<td><code>DemandeRenouvellementIn</code></td>
+<td>—</td>
+<td>action sans champ (bouton) : refus du serveur en français</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="protocole-parcours-prise-en-charge">Protocole, parcours, prise en charge</h3>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Formulaire</th>
+<th>Fichier</th>
+<th>Envoi</th>
+<th>Schéma serveur</th>
+<th>Champs</th>
+<th>Avant → après</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>FormulaireProtocole</code></td>
+<td><code>pages/Diabete.tsx:318</code></td>
+<td><code>POST /patients/{patient_id}/protocole-diabete</code></td>
+<td><code>ProtocoleIn</code></td>
+<td>16</td>
+<td>contraintes au champ, refus du serveur au champ et en français (mécanisme commun)</td>
+</tr>
+<tr>
+<td><code>Episodes</code></td>
+<td><code>pages/Parcours.tsx:53</code></td>
+<td><code>POST /patients/{patient_id}/episodes</code></td>
+<td><code>EpisodeIn</code></td>
+<td>5</td>
+<td>contraintes au champ, refus du serveur au champ et en français (mécanisme commun)</td>
+</tr>
+<tr>
+<td><code>Contextes</code></td>
+<td><code>pages/Parcours.tsx:155</code></td>
+<td><code>POST /patients/{patient_id}/contextes</code></td>
+<td><code>ContexteIn</code></td>
+<td>8</td>
+<td><strong>Avant</strong> : radiothérapie et curiethérapie impossibles à déclarer (le serveur exige la fenêtre UGD-O2, le formulaire ne la proposait pas) ; ordonnance du BSI non saisissable. <strong>Après</strong> : deux types ajoutés avec la fenêtre « au décours immédiat » requise (0–365 j), ordonnance du Nursing, Échap.</td>
+</tr>
+<tr>
+<td><code>PrendreRdv</code></td>
+<td><code>pages/Parcours.tsx:288</code></td>
+<td><code>POST /patients/{patient_id}/rendez-vous</code></td>
+<td><code>RendezVousIn</code></td>
+<td>5</td>
+<td>contraintes au champ, refus du serveur au champ et en français (mécanisme commun)</td>
+</tr>
+<tr>
+<td><code>AnnulerRdv</code></td>
+<td><code>pages/Parcours.tsx:321</code></td>
+<td><code>POST /rendez-vous/{rdv_id}/annulation</code></td>
+<td><code>EcartIn</code></td>
+<td>1</td>
+<td><strong>Avant</strong> : bouton grisé tant que le motif est vide. <strong>Après</strong> : bouton actif, motif requis au champ.</td>
+</tr>
+<tr>
+<td><code>LigneLivrable</code></td>
+<td><code>pages/ParcoursEncadres.tsx:184</code></td>
+<td><code>POST /parcours/{parcours_id}/livrables</code></td>
+<td><code>LivrableIn</code></td>
+<td>—</td>
+<td>action sans champ (bouton) : refus du serveur en français</td>
+</tr>
+<tr>
+<td><code>DialogueInterruption</code></td>
+<td><code>pages/ParcoursEncadres.tsx:258</code></td>
+<td><code>POST /parcours/{parcours_id}/interruption</code></td>
+<td><code>InterruptionIn</code></td>
+<td>2</td>
+<td>contraintes au champ, refus du serveur au champ et en français (mécanisme commun)</td>
+</tr>
+<tr>
+<td><code>FormulaireParcours</code></td>
+<td><code>pages/ParcoursEncadres.tsx:349</code></td>
+<td><code>POST /patients/{patient_id}/protocoles</code></td>
+<td><code>ProtocoleSoinIn</code></td>
+<td>20</td>
+<td>contraintes au champ, refus du serveur au champ et en français (mécanisme commun)</td>
+</tr>
+<tr>
+<td><code>FormulaireParcours</code></td>
+<td><code>pages/ParcoursEncadres.tsx:352</code></td>
+<td><code>POST /patients/{patient_id}/parcours</code></td>
+<td><code>ParcoursIn</code></td>
+<td>20</td>
+<td>contraintes au champ, refus du serveur au champ et en français (mécanisme commun)</td>
+</tr>
+<tr>
+<td><code>DeclarerSejour</code></td>
+<td><code>pages/PriseEnCharge.tsx:73</code></td>
+<td><code>POST /patients/{patient_id}/sejours-had</code></td>
+<td><code>SejourIn</code></td>
+<td>9</td>
+<td><strong>Avant</strong> : « pièce » lue à l'envoi mais aucun champ. <strong>Après</strong> : champ « Référence de la pièce » (facultatif).</td>
+</tr>
+<tr>
+<td><code>SortieSejour</code></td>
+<td><code>pages/PriseEnCharge.tsx:148</code></td>
+<td><code>POST /sejours-had/{sejour_id}/sortie</code></td>
+<td><code>SortieIn</code></td>
+<td>1</td>
+<td>contraintes au champ, refus du serveur au champ et en français (mécanisme commun)</td>
+</tr>
+<tr>
+<td><code>LettreMission</code></td>
+<td><code>pages/PriseEnCharge.tsx:169</code></td>
+<td><code>POST /sejours-had/{sejour_id}/lettre-mission</code></td>
+<td><code>LettreMissionIn</code></td>
+<td>4</td>
+<td>contraintes au champ, refus du serveur au champ et en français (mécanisme commun)</td>
+</tr>
+<tr>
+<td><code>LigneCadre</code></td>
+<td><code>pages/PriseEnCharge.tsx:215</code></td>
+<td><code>POST /prescriptions/{prescription_id}/cadre</code></td>
+<td><code>CadreIn</code></td>
+<td>3</td>
+<td>contraintes au champ, refus du serveur au champ et en français (mécanisme commun)</td>
+</tr>
+<tr>
+<td><code>CreerAccord</code></td>
+<td><code>pages/PriseEnCharge.tsx:328</code></td>
+<td><code>POST /patients/{patient_id}/accords-prealables</code></td>
+<td><code>AccordIn</code></td>
+<td>3</td>
+<td><strong>Avant</strong> : prescription concernée (AccordIn.prescription_id) non saisissable. <strong>Après</strong> : liste des prescriptions du patient (facultatif), Échap.</td>
+</tr>
+<tr>
+<td><code>LigneAccord</code></td>
+<td><code>pages/PriseEnCharge.tsx:357</code></td>
+<td><code>POST /accords-prealables/{accord_id}/demande</code></td>
+<td><code>DemandeIn</code></td>
+<td>1</td>
+<td>contraintes au champ, refus du serveur au champ et en français (mécanisme commun)</td>
+</tr>
+<tr>
+<td><code>LigneAccord</code></td>
+<td><code>pages/PriseEnCharge.tsx:359</code></td>
+<td><code>POST /accords-prealables/{accord_id}/decision</code></td>
+<td><code>DecisionIn</code></td>
+<td>1</td>
+<td>contraintes au champ, refus du serveur au champ et en français (mécanisme commun)</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="plaie-dispositifs-rectifications">Plaie, dispositifs, rectifications</h3>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Formulaire</th>
+<th>Fichier</th>
+<th>Envoi</th>
+<th>Schéma serveur</th>
+<th>Champs</th>
+<th>Avant → après</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>FicheDeSuivi</code></td>
+<td><code>pages/Analgesie.tsx:262</code></td>
+<td><code>POST /alr/{objet_id}/fiche-de-suivi</code></td>
+<td><code>SuiviIn</code></td>
+<td>—</td>
+<td>action sans champ (bouton) : refus du serveur en français</td>
+</tr>
+<tr>
+<td><code>DialoguePompe</code></td>
+<td><code>pages/Analgesie.tsx:284</code></td>
+<td><code>POST /alr/{objet_id}/pompe</code></td>
+<td><code>PompeIn</code></td>
+<td>4</td>
+<td>contraintes au champ, refus du serveur au champ et en français (mécanisme commun)</td>
+</tr>
+<tr>
+<td><code>DialoguePlaie</code></td>
+<td><code>pages/Delegation.tsx:98</code></td>
+<td><code>POST /patients/{patient_id}/plaies</code></td>
+<td><code>PlaieIn</code></td>
+<td>15</td>
+<td><strong>Avant</strong> : aspect initial, grandeur de référence et volume initial (PAN-F05, F07, F08) non saisissables ; dimensions sans contrainte au champ. <strong>Après</strong> : les trois champs (volume exigé si grandeur volume, proposée dès 0,5 cm de profondeur), dimensions requises et bornées, brouillon.</td>
+</tr>
+<tr>
+<td><code>DialogueModalite</code></td>
+<td><code>pages/Dialyse.tsx:266</code></td>
+<td><code>POST /dialyse/{objet_id}/modalite</code></td>
+<td><code>ModaliteIn</code></td>
+<td>6</td>
+<td>contraintes au champ, refus du serveur au champ et en français (mécanisme commun)</td>
+</tr>
+<tr>
+<td><code>BilanDialyse</code></td>
+<td><code>pages/Dialyse.tsx:352</code></td>
+<td><code>POST /dialyse/{objet_id}/bilans</code></td>
+<td><code>BilanDialyseIn</code></td>
+<td>2</td>
+<td>contraintes au champ, refus du serveur au champ et en français (mécanisme commun)</td>
+</tr>
+<tr>
+<td><code>DialogueCloture</code></td>
+<td><code>pages/Dispositif.tsx:377</code></td>
+<td><code>POST /dispositifs/{objet_id}/cloture</code></td>
+<td><code>ClotureDispositifIn</code></td>
+<td>8</td>
+<td>contraintes au champ, refus du serveur au champ et en français (mécanisme commun)</td>
+</tr>
+<tr>
+<td><code>DialogueMoment</code></td>
+<td><code>pages/Pompes.tsx:523</code></td>
+<td><code>POST /patients/{patient_id}/moment-seance</code></td>
+<td><code>MomentSeanceIn</code></td>
+<td>5</td>
+<td>contraintes au champ, refus du serveur au champ et en français (mécanisme commun)</td>
+</tr>
+<tr>
+<td><code>PoseDispositif</code></td>
+<td><code>pages/PoseDispositif.tsx:408</code></td>
+<td><code>POST /patients/{patient_id}/protocoles</code></td>
+<td><code>ProtocoleSoinIn</code></td>
+<td>157</td>
+<td><strong>Avant</strong> : tolérance du geste (C2) de la sonde gastrique non saisissable. <strong>Après</strong> : champ facultatif.</td>
+</tr>
+<tr>
+<td><code>PoseDispositif</code></td>
+<td><code>pages/PoseDispositif.tsx:411</code></td>
+<td><code>POST /patients/{patient_id}/dispositifs</code></td>
+<td><code>CatheterIVIn | CatheterSCIn | StomieDigestiveIn | StomieUrin</code></td>
+<td>157</td>
+<td><strong>Avant</strong> : tolérance du geste (C2) de la sonde gastrique non saisissable. <strong>Après</strong> : champ facultatif.</td>
+</tr>
+<tr>
+<td><code>DialoguePression</code></td>
+<td><code>pages/Respiratoire.tsx:442</code></td>
+<td><code>POST /cpap/{objet_id}/pression</code></td>
+<td><code>PressionIn</code></td>
+<td>6</td>
+<td>contraintes au champ, refus du serveur au champ et en français (mécanisme commun)</td>
+</tr>
+<tr>
+<td><code>DialogueReouverture</code></td>
+<td><code>pages/UroGenital.tsx:257</code></td>
+<td><code>POST /patients/{patient_id}/autosondage/reouvertures</code></td>
+<td><code>ReouvertureIn</code></td>
+<td>2</td>
+<td>contraintes au champ, refus du serveur au champ et en français (mécanisme commun)</td>
+</tr>
+<tr>
+<td><code>DialogueFenetre</code></td>
+<td><code>pages/UroGenital.tsx:446</code></td>
+<td><code>POST /patients/{patient_id}/contextes/{contexte_id}/fenetre</code></td>
+<td><code>FenetreIn</code></td>
+<td>1</td>
+<td>contraintes au champ, refus du serveur au champ et en français (mécanisme commun)</td>
+</tr>
+<tr>
+<td><code>DeclarerSignal</code></td>
+<td><code>tracabilite.tsx:88</code></td>
+<td><code>POST /patients/{patient_id}/signaux</code></td>
+<td><code>SignalIn</code></td>
+<td>4</td>
+<td><strong>Avant</strong> : bouton « Émettre » grisé sans dire pourquoi. <strong>Après</strong> : bouton actif, champs requis dits sous eux, aide du libellé automatique.</td>
+</tr>
+<tr>
+<td><code>CommentairesOuverture</code></td>
+<td><code>tracabilite.tsx:179</code></td>
+<td><code>POST /objets-suivis/{objet_id}/commentaires-ouverture</code></td>
+<td><code>CommentaireOuvertureIn</code></td>
+<td>1</td>
+<td><strong>Avant</strong> : bouton grisé tant que le texte est vide. <strong>Après</strong> : bouton actif, requis au champ.</td>
+</tr>
+<tr>
+<td><code>DialogueRectification</code></td>
+<td><code>tracabilite.tsx:255</code></td>
+<td><code>POST /objets-suivis/{objet_id}/rectifications</code></td>
+<td><code>RectificationIn</code></td>
+<td>2</td>
+<td><strong>Avant</strong> : bouton grisé sans explication quand la valeur est inchangée. <strong>Après</strong> : explication sous la valeur signée.</td>
+</tr>
+<tr>
+<td><code>DialogueCorrection</code></td>
+<td><code>tracabilite.tsx:334</code></td>
+<td><code>POST /actes/{acte_id}/corrections</code></td>
+<td><code>CorrectionIn</code></td>
+<td>2</td>
+<td><strong>Avant</strong> : idem. <strong>Après</strong> : idem.</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="fiches-de-soin">Fiches de soin</h3>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Formulaire</th>
+<th>Fichier</th>
+<th>Envoi</th>
+<th>Schéma serveur</th>
+<th>Champs</th>
+<th>Avant → après</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>useRedigerSignal</code></td>
+<td><code>pages/BilansConsultation.tsx:373</code></td>
+<td><code>POST /patients/{patient_id}/bilans</code></td>
+<td><code>BilanIn</code></td>
+<td>—</td>
+<td>action sans champ (bouton) : refus du serveur en français</td>
+</tr>
+<tr>
+<td><code>DialogueOuvrirSuivi</code></td>
+<td><code>pages/BilansConsultation.tsx:551</code></td>
+<td><code>POST /patients/{patient_id}/bilans-consultation/suivis</code></td>
+<td><code>SuiviIn</code></td>
+<td>12</td>
+<td>contraintes au champ, refus du serveur au champ et en français (mécanisme commun)</td>
+</tr>
+<tr>
+<td><code>DialogueDemandeMotif</code></td>
+<td><code>pages/BilansConsultation.tsx:676</code></td>
+<td><code>POST /referentiels/motifs-consultation/demandes</code></td>
+<td><code>DemandeMotifIn</code></td>
+<td>2</td>
+<td>contraintes au champ, refus du serveur au champ et en français (mécanisme commun)</td>
+</tr>
+<tr>
+<td><code>DialogueCloture</code></td>
+<td><code>pages/BilansConsultation.tsx:713</code></td>
+<td><code>POST /bilans-consultation/suivis/{suivi_id}/cloture</code></td>
+<td><code>ClotureIn</code></td>
+<td>2</td>
+<td>contraintes au champ, refus du serveur au champ et en français (mécanisme commun)</td>
+</tr>
+<tr>
+<td><code>SaisieResultat</code></td>
+<td><code>pages/Biologie.tsx:355</code></td>
+<td><code>POST /patients/{patient_id}/resultats</code></td>
+<td><code>ResultatIn</code></td>
+<td>7</td>
+<td>contraintes au champ, refus du serveur au champ et en français (mécanisme commun)</td>
+</tr>
+<tr>
+<td><code>FormulaireConsultation</code></td>
+<td><code>pages/Consultation.tsx:191</code></td>
+<td><code>POST /actes</code></td>
+<td><code>ActePansementIn | ActeInjectionIn | ActeVitauxIn | ActePrele</code></td>
+<td>7</td>
+<td>contraintes au champ, refus du serveur au champ et en français (mécanisme commun)</td>
+</tr>
+<tr>
+<td><code>ArretSoin</code></td>
+<td><code>pages/Soins.tsx:265</code></td>
+<td><code>POST /frequences/{frequence_id}/arret</code></td>
+<td><code>ArretIn</code></td>
+<td>2</td>
+<td><strong>Avant</strong> : bouton grisé sans motif. <strong>Après</strong> : bouton actif, motif requis au champ.</td>
+</tr>
+<tr>
+<td><code>Editeur</code></td>
+<td><code>pages/SousFiche.tsx:342</code></td>
+<td><code>PUT /occurrences/{occurrence_id}/brouillon</code></td>
+<td><code>BrouillonIn</code></td>
+<td>5</td>
+<td>contraintes au champ, refus du serveur au champ et en français (mécanisme commun)</td>
+</tr>
+<tr>
+<td><code>DialogueSigner</code></td>
+<td><code>pages/SousFiche.tsx:1038</code></td>
+<td><code>POST /actes</code></td>
+<td><code>ActePansementIn | ActeInjectionIn | ActeVitauxIn | ActePrele</code></td>
+<td>9</td>
+<td>contraintes au champ, refus du serveur au champ et en français (mécanisme commun)</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="transmissions-signalements-coordination">Transmissions, signalements, coordination</h3>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Formulaire</th>
+<th>Fichier</th>
+<th>Envoi</th>
+<th>Schéma serveur</th>
+<th>Champs</th>
+<th>Avant → après</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>RealiserRappel</code></td>
+<td><code>coordination.tsx:158</code></td>
+<td><code>POST /rappels/{rappel_id}/realisation</code></td>
+<td><code>RealisationIn</code></td>
+<td>1</td>
+<td>contraintes au champ, refus du serveur au champ et en français (mécanisme commun)</td>
+</tr>
+<tr>
+<td><code>AnnulerRappel</code></td>
+<td><code>coordination.tsx:189</code></td>
+<td><code>POST /rappels/{rappel_id}/annulation</code></td>
+<td><code>EcartIn</code></td>
+<td>1</td>
+<td>contraintes au champ, refus du serveur au champ et en français (mécanisme commun)</td>
+</tr>
+<tr>
+<td><code>LigneNotification</code></td>
+<td><code>Notifications.tsx:124</code></td>
+<td><code>POST /notifications/{notification_id}/envoi</code></td>
+<td><code>EnvoiIn</code></td>
+<td>2</td>
+<td>contraintes au champ, refus du serveur au champ et en français (mécanisme commun)</td>
+</tr>
+<tr>
+<td><code>LigneNotification</code></td>
+<td><code>Notifications.tsx:127</code></td>
+<td><code>POST /notifications/{notification_id}/ecart</code></td>
+<td><code>EcartIn</code></td>
+<td>2</td>
+<td>contraintes au champ, refus du serveur au champ et en français (mécanisme commun)</td>
+</tr>
+<tr>
+<td><code>LigneNotification</code></td>
+<td><code>Notifications.tsx:129</code></td>
+<td><code>POST /notifications/{notification_id}/vue</code></td>
+<td><code>—</code></td>
+<td>2</td>
+<td>contraintes au champ, refus du serveur au champ et en français (mécanisme commun)</td>
+</tr>
+<tr>
+<td><code>DialogueNonRealise</code></td>
+<td><code>organisation.tsx:60</code></td>
+<td><code>POST /occurrences/{occurrence_id}/non-realisation</code></td>
+<td><code>NonRealisationIn</code></td>
+<td>2</td>
+<td>contraintes au champ, refus du serveur au champ et en français (mécanisme commun)</td>
+</tr>
+<tr>
+<td><code>DialogueReattribution</code></td>
+<td><code>organisation.tsx:99</code></td>
+<td><code>POST /occurrences/{occurrence_id}/reattribution</code></td>
+<td><code>ReattributionIn</code></td>
+<td>2</td>
+<td>contraintes au champ, refus du serveur au champ et en français (mécanisme commun)</td>
+</tr>
+<tr>
+<td><code>DialogueProposition</code></td>
+<td><code>pages/Propositions.tsx:78</code></td>
+<td><code>POST /propositions-transmission/{proposition_id}/confirmation</code></td>
+<td><code>ConfirmationIn</code></td>
+<td>4</td>
+<td><strong>Avant</strong> : interpellation (ConfirmationIn) non saisissable à la confirmation. <strong>Après</strong> : case « Demander un avis à l'équipe ».</td>
+</tr>
+<tr>
+<td><code>DialogueProposition</code></td>
+<td><code>pages/Propositions.tsx:85</code></td>
+<td><code>POST /propositions-transmission/{proposition_id}/ecart</code></td>
+<td><code>EcartIn</code></td>
+<td>4</td>
+<td><strong>Avant</strong> : interpellation (ConfirmationIn) non saisissable à la confirmation. <strong>Après</strong> : case « Demander un avis à l'équipe ».</td>
+</tr>
+<tr>
+<td><code>Decider</code></td>
+<td><code>pages/Signalements.tsx:89</code></td>
+<td><code>POST /signalements/{acte_id}/decision</code></td>
+<td><code>DecisionIn</code></td>
+<td>3</td>
+<td><strong>Avant</strong> : pas un formulaire (Entrée sans effet), radios sans nom de groupe. <strong>Après</strong> : formulaire : Entrée enregistre, état d'envoi.</td>
+</tr>
+<tr>
+<td><code>CarteTransmission</code></td>
+<td><code>pages/Transmissions.tsx:159</code></td>
+<td><code>POST /transmissions/{transmission_id}/lecture</code></td>
+<td><code>—</code></td>
+<td>—</td>
+<td>action sans champ (bouton) : refus du serveur en français</td>
+</tr>
+<tr>
+<td><code>DialogueCiblee</code></td>
+<td><code>pages/Transmissions.tsx:236</code></td>
+<td><code>POST /transmissions</code></td>
+<td><code>CibleeIn | IntraIn</code></td>
+<td>7</td>
+<td><strong>Avant</strong> : aucun champ marqué requis (résumé seul), brouillon perdu à la fermeture. <strong>Après</strong> : patient, cible, acte d'entretien requis au champ + résumé « Il manque » ; brouillon par patient.</td>
+</tr>
+<tr>
+<td><code>DialogueIntra</code></td>
+<td><code>pages/Transmissions.tsx:340</code></td>
+<td><code>POST /transmissions</code></td>
+<td><code>CibleeIn | IntraIn</code></td>
+<td>1</td>
+<td><strong>Avant</strong> : message requis dit en résumé seul. <strong>Après</strong> : requis au champ, brouillon « message au cabinet ».</td>
+</tr>
+<tr>
+<td><code>DialogueRequalification</code></td>
+<td><code>pages/Transmissions.tsx:381</code></td>
+<td><code>POST /transmissions/{transmission_id}/requalification</code></td>
+<td><code>RequalificationIn</code></td>
+<td>5</td>
+<td><strong>Avant</strong> : motif, patient, cible requis en résumé seul. <strong>Après</strong> : requis au champ + résumé.</td>
+</tr>
+<tr>
+<td><code>LigneInterpellation</code></td>
+<td><code>pages/Transmissions.tsx:472</code></td>
+<td><code>POST /interpellations/{interpellation_id}/lecture</code></td>
+<td><code>—</code></td>
+<td>1</td>
+<td>contraintes au champ, refus du serveur au champ et en français (mécanisme commun)</td>
+</tr>
+<tr>
+<td><code>LigneInterpellation</code></td>
+<td><code>pages/Transmissions.tsx:474</code></td>
+<td><code>POST /interpellations/{interpellation_id}/traitement</code></td>
+<td><code>TraitementIn</code></td>
+<td>1</td>
+<td>contraintes au champ, refus du serveur au champ et en français (mécanisme commun)</td>
+</tr>
+<tr>
+<td><code>ReglageRequalification</code></td>
+<td><code>pages/Transmissions.tsx:520</code></td>
+<td><code>PUT /reglages/transmissions</code></td>
+<td><code>ReglageIn</code></td>
+<td>1</td>
+<td><strong>Avant</strong> : aucune confirmation après l'enregistrement. <strong>Après</strong> : « Réglage enregistré. ».</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="bilans-et-consultations">Bilans et consultations</h3>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Formulaire</th>
+<th>Fichier</th>
+<th>Envoi</th>
+<th>Schéma serveur</th>
+<th>Champs</th>
+<th>Avant → après</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>NouveauBilan</code></td>
+<td><code>pages/Bilans.tsx:163</code></td>
+<td><code>POST /occurrences/{occurrence_id}/bilans</code></td>
+<td><code>—</code></td>
+<td>—</td>
+<td>action sans champ (bouton) : refus du serveur en français</td>
+</tr>
+<tr>
+<td><code>NouveauBilan</code></td>
+<td><code>pages/Bilans.tsx:164</code></td>
+<td><code>POST /patients/{patient_id}/bilans</code></td>
+<td><code>BilanIn</code></td>
+<td>—</td>
+<td>action sans champ (bouton) : refus du serveur en français</td>
+</tr>
+<tr>
+<td><code>EditeurBilan</code></td>
+<td><code>pages/Bilans.tsx:192</code></td>
+<td><code>PUT /bilans/{bilan_id}</code></td>
+<td><code>RelectureIn</code></td>
+<td>—</td>
+<td>action sans champ (bouton) : refus du serveur en français</td>
+</tr>
+<tr>
+<td><code>EditeurBilan</code></td>
+<td><code>pages/Bilans.tsx:200</code></td>
+<td><code>POST /bilans/{bilan_id}/correction</code></td>
+<td><code>—</code></td>
+<td>—</td>
+<td>action sans champ (bouton) : refus du serveur en français</td>
+</tr>
+<tr>
+<td><code>DialogueSignature</code></td>
+<td><code>pages/Bilans.tsx:463</code></td>
+<td><code>POST /bilans/{bilan_id}/signature</code></td>
+<td><code>SignatureIn</code></td>
+<td>—</td>
+<td>action sans champ (bouton) : refus du serveur en français</td>
+</tr>
+<tr>
+<td><code>DialogueEnvoi</code></td>
+<td><code>pages/Bilans.tsx:572</code></td>
+<td><code>POST /documents/{document_id}/envois</code></td>
+<td><code>EnvoiDocumentIn</code></td>
+<td>3</td>
+<td>contraintes au champ, refus du serveur au champ et en français (mécanisme commun)</td>
+</tr>
+<tr>
+<td><code>PanneauBilansPatient</code></td>
+<td><code>pages/Bilans.tsx:628</code></td>
+<td><code>POST /patients/{patient_id}/bilans</code></td>
+<td><code>BilanIn</code></td>
+<td>7</td>
+<td>contraintes au champ, refus du serveur au champ et en français (mécanisme commun)</td>
+</tr>
+<tr>
+<td><code>PanneauBilansPatient</code></td>
+<td><code>pages/Bilans.tsx:633</code></td>
+<td><code>POST /patients/{patient_id}/courriers</code></td>
+<td><code>CourrierIn</code></td>
+<td>7</td>
+<td>contraintes au champ, refus du serveur au champ et en français (mécanisme commun)</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="équipe-habilitations-terminaux">Équipe, habilitations, terminaux</h3>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Formulaire</th>
+<th>Fichier</th>
+<th>Envoi</th>
+<th>Schéma serveur</th>
+<th>Champs</th>
+<th>Avant → après</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Identifiants</code></td>
+<td><code>pages/Equipe.tsx:89</code></td>
+<td><code>PATCH /intervenants/{intervenant_id}</code></td>
+<td><code>IdentifiantsIn</code></td>
+<td>3</td>
+<td><strong>Avant</strong> : RPPS marqué « (onze chiffres) » avec la classe facultatif, CPS et téléphone sans contrainte (le serveur exige des motifs). <strong>Après</strong> : « (facultatif) », motifs du serveur (RPPS 11 chiffres, CPS alphanumérique ≤ 20, téléphone), aides, état d'envoi.</td>
+</tr>
+<tr>
+<td><code>CoordonneesCabinet</code></td>
+<td><code>pages/Equipe.tsx:125</code></td>
+<td><code>PATCH /cabinet</code></td>
+<td><code>CabinetIn</code></td>
+<td>2</td>
+<td><strong>Avant</strong> : téléphone sans motif ni type tel, facultatifs non marqués. <strong>Après</strong> : motif du serveur, type tel, « (facultatif) », aide d'adresse.</td>
+</tr>
+<tr>
+<td><code>FormulaireHabilitation</code></td>
+<td><code>pages/Equipe.tsx:251</code></td>
+<td><code>POST /intervenants/{intervenant_id}/habilitations</code></td>
+<td><code>HabilitationIn</code></td>
+<td>2</td>
+<td><strong>Avant</strong> : pas d'Échap. <strong>Après</strong> : Échap ferme, état d'envoi.</td>
+</tr>
+<tr>
+<td><code>DialogueRevocation</code></td>
+<td><code>pages/Equipe.tsx:292</code></td>
+<td><code>POST /habilitations/{habilitation_id}/revocation</code></td>
+<td><code>RevocationIn</code></td>
+<td>1</td>
+<td><strong>Avant</strong> : motif obligatoire dit loin du champ. <strong>Après</strong> : requis au champ, aide « gardé au journal ».</td>
+</tr>
+<tr>
+<td><code>Formations</code></td>
+<td><code>pages/Equipe.tsx:318</code></td>
+<td><code>POST /intervenants/{intervenant_id}/formations</code></td>
+<td><code>FormationIn</code></td>
+<td>3</td>
+<td><strong>Avant</strong> : « Obtenue le » sans required ; pas de confirmation. <strong>Après</strong> : required, aide « vide : sans échéance », succès annoncé.</td>
+</tr>
+<tr>
+<td><code>DialogueIntervenant</code></td>
+<td><code>pages/Equipe.tsx:364</code></td>
+<td><code>POST /intervenants</code></td>
+<td><code>IntervenantIn</code></td>
+<td>5</td>
+<td><strong>Avant</strong> : « Nom et prénom obligatoires » en une ligne, le prénom jamais marqué. <strong>Après</strong> : chaque champ requis marqué sous lui ; refus 422 du serveur placé au champ.</td>
+</tr>
+<tr>
+<td><code>FormulaireIndisponibilite</code></td>
+<td><code>pages/Planning.tsx:208</code></td>
+<td><code>POST /intervenants/{intervenant_id}/indisponibilites</code></td>
+<td><code>IndisponibiliteIn</code></td>
+<td>7</td>
+<td>zone <code>evol-planification</code> : non modifié</td>
+</tr>
+<tr>
+<td><code>PanneauEchanges</code></td>
+<td><code>pages/Planning.tsx:266</code></td>
+<td><code>POST /echanges/{echange_id}/reponse</code></td>
+<td><code>ReponseIn</code></td>
+<td>—</td>
+<td>zone <code>evol-planification</code> : non modifié</td>
+</tr>
+<tr>
+<td><code>PanneauEchanges</code></td>
+<td><code>pages/Planning.tsx:270</code></td>
+<td><code>POST /echanges/{echange_id}/annulation</code></td>
+<td><code>—</code></td>
+<td>—</td>
+<td>zone <code>evol-planification</code> : non modifié</td>
+</tr>
+<tr>
+<td><code>DialogueEchange</code></td>
+<td><code>pages/Planning.tsx:355</code></td>
+<td><code>POST /echanges</code></td>
+<td><code>EchangeIn</code></td>
+<td>10</td>
+<td>zone <code>evol-planification</code> : non modifié</td>
+</tr>
+<tr>
+<td><code>DialogueRevocation</code></td>
+<td><code>pages/Sessions.tsx:95</code></td>
+<td><code>POST /auth/sessions/{session_id}/revocation</code></td>
+<td><code>—</code></td>
+<td>—</td>
+<td>action sans champ (bouton) : refus du serveur en français</td>
+</tr>
+<tr>
+<td><code>DialogueTerminalPerdu</code></td>
+<td><code>pages/Sessions.tsx:115</code></td>
+<td><code>POST /auth/terminaux/{terminal}/revocation</code></td>
+<td><code>—</code></td>
+<td>1</td>
+<td><strong>Avant</strong> : terminal requis en résumé seul. <strong>Après</strong> : requis au champ.</td>
+</tr>
+<tr>
+<td><code>Terminaux</code></td>
+<td><code>pages/Terminaux.tsx:56</code></td>
+<td><code>POST /auth/terminaux/{terminal_id}/annulation</code></td>
+<td><code>—</code></td>
+<td>—</td>
+<td>action sans champ (bouton) : refus du serveur en français</td>
+</tr>
+<tr>
+<td><code>EmettreCode</code></td>
+<td><code>pages/Terminaux.tsx:146</code></td>
+<td><code>POST /auth/terminaux</code></td>
+<td><code>CodeEnrolementIn</code></td>
+<td>1</td>
+<td><strong>Avant</strong> : nom requis dit en résumé seul. <strong>Après</strong> : requis au champ + résumé.</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="cabinet-prérequis-reprise-tournées">Cabinet, prérequis, reprise, tournées</h3>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Formulaire</th>
+<th>Fichier</th>
+<th>Envoi</th>
+<th>Schéma serveur</th>
+<th>Champs</th>
+<th>Avant → après</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>VueItineraire</code></td>
+<td><code>pages/Itineraire.tsx:78</code></td>
+<td><code>PUT /tournees/{tournee_id}/ordre</code></td>
+<td><code>OrdreIn</code></td>
+<td>2</td>
+<td>zone <code>evol-planification</code> : non modifié</td>
+</tr>
+<tr>
+<td><code>VueItineraire</code></td>
+<td><code>pages/Itineraire.tsx:93</code></td>
+<td><code>PUT /tournees/{tournee_id}/heures-fixes</code></td>
+<td><code>HeureFixeIn</code></td>
+<td>2</td>
+<td>zone <code>evol-planification</code> : non modifié</td>
+</tr>
+<tr>
+<td><code>VueItineraire</code></td>
+<td><code>pages/Itineraire.tsx:114</code></td>
+<td><code>PUT /patients/{patient_id}/position</code></td>
+<td><code>RepereIn</code></td>
+<td>2</td>
+<td>zone <code>evol-planification</code> : non modifié</td>
+</tr>
+<tr>
+<td><code>LigneArret</code></td>
+<td><code>pages/Itineraire.tsx:296</code></td>
+<td><code>POST /occurrences/X/X</code></td>
+<td><code>—</code></td>
+<td>—</td>
+<td>zone <code>evol-planification</code> : non modifié</td>
+</tr>
+<tr>
+<td><code>FormulaireAcces</code></td>
+<td><code>pages/Itineraire.tsx:490</code></td>
+<td><code>PUT /patients/{patient_id}/acces-domicile</code></td>
+<td><code>AccesDomicileIn</code></td>
+<td>2</td>
+<td>zone <code>evol-planification</code> : non modifié</td>
+</tr>
+<tr>
+<td><code>PartagePosition</code></td>
+<td><code>pages/Itineraire.tsx:520</code></td>
+<td><code>PUT /moi/geolocalisation</code></td>
+<td><code>PartageIn</code></td>
+<td>1</td>
+<td>zone <code>evol-planification</code> : non modifié</td>
+</tr>
+<tr>
+<td><code>PanneauTourneesCabinet</code></td>
+<td><code>pages/Parametres.tsx:107</code></td>
+<td><code>PUT /cabinet/zone</code></td>
+<td><code>ZoneIn</code></td>
+<td>2</td>
+<td>contraintes au champ, refus du serveur au champ et en français (mécanisme commun)</td>
+</tr>
+<tr>
+<td><code>PanneauTourneesCabinet</code></td>
+<td><code>pages/Parametres.tsx:111</code></td>
+<td><code>PUT /cabinet/durees-soins</code></td>
+<td><code>DureesIn</code></td>
+<td>2</td>
+<td>contraintes au champ, refus du serveur au champ et en français (mécanisme commun)</td>
+</tr>
+<tr>
+<td><code>PanneauPrerequisCabinet</code></td>
+<td><code>pages/Parametres.tsx:183</code></td>
+<td><code>PUT /cabinet/prerequis-soins</code></td>
+<td><code>PrerequisSoinsIn</code></td>
+<td>3</td>
+<td>contraintes au champ, refus du serveur au champ et en français (mécanisme commun)</td>
+</tr>
+<tr>
+<td><code>PanneauPreparation</code></td>
+<td><code>pages/PreparationTournee.tsx:32</code></td>
+<td><code>POST /tournees/{tournee_id}/preparation/validation</code></td>
+<td><code>ValidationTourneeIn</code></td>
+<td>—</td>
+<td>zone <code>evol-planification</code> : non modifié</td>
+</tr>
+<tr>
+<td><code>AncrageAudit</code></td>
+<td><code>pages/Preuves.tsx:110</code></td>
+<td><code>POST /audit/ancre</code></td>
+<td><code>—</code></td>
+<td>—</td>
+<td>action sans champ (bouton) : refus du serveur en français</td>
+</tr>
+<tr>
+<td><code>ActionsTerminal</code></td>
+<td><code>pages/Regulation.tsx:199</code></td>
+<td><code>POST /synchronisations/{session_id}/vue</code></td>
+<td><code>—</code></td>
+<td>—</td>
+<td>action sans champ (bouton) : refus du serveur en français</td>
+</tr>
+<tr>
+<td><code>DialogueRepetition</code></td>
+<td><code>pages/Tournees.tsx:134</code></td>
+<td><code>POST /attributions/{attribution_id}/repetition</code></td>
+<td><code>RepetitionIn</code></td>
+<td>2</td>
+<td>zone <code>evol-planification</code> : non modifié</td>
+</tr>
+<tr>
+<td><code>FormulaireTournee</code></td>
+<td><code>pages/Tournees.tsx:163</code></td>
+<td><code>POST /tournees</code></td>
+<td><code>TourneeIn</code></td>
+<td>1</td>
+<td>zone <code>evol-planification</code> : non modifié</td>
+</tr>
+<tr>
+<td><code>FormulaireAttribution</code></td>
+<td><code>pages/Tournees.tsx:195</code></td>
+<td><code>POST /tournees/{tournee_id}/attributions</code></td>
+<td><code>AttributionIn</code></td>
+<td>4</td>
+<td>zone <code>evol-planification</code> : non modifié</td>
+</tr>
+<tr>
+<td><code>ListePrerequis</code></td>
+<td><code>prerequis.tsx:21</code></td>
+<td><code>PUT /occurrences/{occurrence_id}/prerequis/{code}</code></td>
+<td><code>PrerequisIn</code></td>
+<td>2</td>
+<td>contraintes au champ, refus du serveur au champ et en français (mécanisme commun)</td>
+</tr>
+<tr>
+<td><code>PageSimulation</code></td>
+<td><code>simulation.tsx:103</code></td>
+<td><code>PUT /simulation/{cle}</code></td>
+<td><code>ModeIn</code></td>
+<td>1</td>
+<td>contraintes au champ, refus du serveur au champ et en français (mécanisme commun)</td>
+</tr>
+<tr>
+<td><code>PageSimulation</code></td>
+<td><code>simulation.tsx:107</code></td>
+<td><code>POST /simulation/reinitialiser</code></td>
+<td><code>—</code></td>
+<td>1</td>
+<td>contraintes au champ, refus du serveur au champ et en français (mécanisme commun)</td>
+</tr>
+<tr>
+<td><code>ConnexionCPS</code></td>
+<td><code>simulation.tsx:268</code></td>
+<td><code>POST /simulation/cps/connexion</code></td>
+<td><code>ConnexionCPSIn</code></td>
+<td>2</td>
+<td>contraintes au champ, refus du serveur au champ et en français (mécanisme commun)</td>
+</tr>
+<tr>
+<td><code>SignaturesCarte</code></td>
+<td><code>simulation.tsx:440</code></td>
+<td><code>POST /signatures</code></td>
+<td><code>SignatureIn</code></td>
+<td>1</td>
+<td>contraintes au champ, refus du serveur au champ et en français (mécanisme commun)</td>
+</tr>
+<tr>
+<td><code>SecuriserParCartes</code></td>
+<td><code>simulation.tsx:486</code></td>
+<td><code>POST /simulation/lecteur/vitale</code></td>
+<td><code>LectureIn</code></td>
+<td>1</td>
+<td>contraintes au champ, refus du serveur au champ et en français (mécanisme commun)</td>
+</tr>
+<tr>
+<td><code>SecuriserParCartes</code></td>
+<td><code>simulation.tsx:489</code></td>
+<td><code>POST /facturation/fse/{fse_id}/securiser</code></td>
+<td><code>SecurisationIn | —</code></td>
+<td>1</td>
+<td>contraintes au champ, refus du serveur au champ et en français (mécanisme commun)</td>
+</tr>
+<tr>
+<td><code>PageReprise</code></td>
+<td><code>simulation.tsx:662</code></td>
+<td><code>POST /reprise/apercu</code></td>
+<td><code>FichierIn</code></td>
+<td>4</td>
+<td><strong>Avant</strong> : logiciel d'origine (facultatif, recommandé) non marqué. <strong>Après</strong> : « (facultatif, recommandé) ».</td>
+</tr>
+<tr>
+<td><code>PageReprise</code></td>
+<td><code>simulation.tsx:664</code></td>
+<td><code>POST /reprise</code></td>
+<td><code>RepriseIn</code></td>
+<td>4</td>
+<td><strong>Avant</strong> : logiciel d'origine (facultatif, recommandé) non marqué. <strong>Après</strong> : « (facultatif, recommandé) ».</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="accès-externes-savoir-faire-droits">Accès externes, savoir-faire, droits</h3>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Formulaire</th>
+<th>Fichier</th>
+<th>Envoi</th>
+<th>Schéma serveur</th>
+<th>Champs</th>
+<th>Avant → après</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>FormulaireDemande</code></td>
+<td><code>pages/Conformite.tsx:246</code></td>
+<td><code>POST /patients/{patient_id}/droits/demandes</code></td>
+<td><code>DemandeDroitIn</code></td>
+<td>5</td>
+<td><strong>Avant</strong> : radios de statut sans nom de groupe. <strong>Après</strong> : groupe nommé.</td>
+</tr>
+<tr>
+<td><code>PanneauMessagerie</code></td>
+<td><code>pages/EchangesSimules.tsx:98</code></td>
+<td><code>POST /messagerie/relever</code></td>
+<td><code>—</code></td>
+<td>—</td>
+<td>action sans champ (bouton) : refus du serveur en français</td>
+</tr>
+<tr>
+<td><code>PanneauLaboratoire</code></td>
+<td><code>pages/EchangesSimules.tsx:164</code></td>
+<td><code>POST /prelevements/{acte_id}/envoi-laboratoire</code></td>
+<td><code>—</code></td>
+<td>—</td>
+<td>action sans champ (bouton) : refus du serveur en français</td>
+</tr>
+<tr>
+<td><code>Regularisation</code></td>
+<td><code>pages/EchangesSimules.tsx:236</code></td>
+<td><code>POST /frequences/{frequence_id}/regularisation</code></td>
+<td><code>RegularisationIn</code></td>
+<td>1</td>
+<td>contraintes au champ, refus du serveur au champ et en français (mécanisme commun)</td>
+</tr>
+<tr>
+<td><code>PanneauCourriers</code></td>
+<td><code>pages/EchangesSimules.tsx:325</code></td>
+<td><code>POST /patients/{patient_id}/messagerie/reception-simulee</code></td>
+<td><code>ReceptionSimuleeIn</code></td>
+<td>—</td>
+<td>action sans champ (bouton) : refus du serveur en français</td>
+</tr>
+<tr>
+<td><code>FormulaireConsentement</code></td>
+<td><code>pages/Partage.tsx:187</code></td>
+<td><code>POST /patients/{patient_id}/consentements</code></td>
+<td><code>ConsentementIn</code></td>
+<td>6</td>
+<td><strong>Avant</strong> : fin sans required. <strong>Après</strong> : required.</td>
+</tr>
+<tr>
+<td><code>EmettreQR</code></td>
+<td><code>pages/Partage.tsx:242</code></td>
+<td><code>POST /patients/{patient_id}/acces-qr</code></td>
+<td><code>AccesIn</code></td>
+<td>1</td>
+<td>contraintes au champ, refus du serveur au champ et en français (mécanisme commun)</td>
+</tr>
+<tr>
+<td><code>FormulaireActeDistance</code></td>
+<td><code>pages/Partage.tsx:370</code></td>
+<td><code>POST /patients/{patient_id}/actes-distance</code></td>
+<td><code>ActeDistanceIn</code></td>
+<td>9</td>
+<td>contraintes au champ, refus du serveur au champ et en français (mécanisme commun)</td>
+</tr>
+<tr>
+<td><code>CompteRendu</code></td>
+<td><code>pages/Partage.tsx:438</code></td>
+<td><code>POST /actes-distance/{acte_id}/compte-rendu</code></td>
+<td><code>CompteRenduIn</code></td>
+<td>1</td>
+<td>contraintes au champ, refus du serveur au champ et en français (mécanisme commun)</td>
+</tr>
+<tr>
+<td><code>FormulaireProfessionnel</code></td>
+<td><code>pages/Partage.tsx:642</code></td>
+<td><code>POST /professionnels-externes</code></td>
+<td><code>ProfessionnelIn</code></td>
+<td>5</td>
+<td><strong>Avant</strong> : une seule erreur à la fois, hors du champ ; noValidate. <strong>Après</strong> : contraintes du serveur au champ (RPPS 11 chiffres), Échap.</td>
+</tr>
+<tr>
+<td><code>Decision</code></td>
+<td><code>pages/Relecture.tsx:95</code></td>
+<td><code>POST /savoir-faire/{contenu_id}/transition</code></td>
+<td><code>TransitionIn</code></td>
+<td>3</td>
+<td>contraintes au champ, refus du serveur au champ et en français (mécanisme commun)</td>
+</tr>
+<tr>
+<td><code>Repondre</code></td>
+<td><code>pages/SavoirFaire.tsx:552</code></td>
+<td><code>POST /savoir-faire/{contenu_id}/reponses</code></td>
+<td><code>ReponseIn</code></td>
+<td>2</td>
+<td>contraintes au champ, refus du serveur au champ et en français (mécanisme commun)</td>
+</tr>
+<tr>
+<td><code>ValiderReponse</code></td>
+<td><code>pages/SavoirFaire.tsx:573</code></td>
+<td><code>POST /savoir-faire/{contenu_id}/reponses/{reponse_id}/valider</code></td>
+<td><code>—</code></td>
+<td>—</td>
+<td>action sans champ (bouton) : refus du serveur en français</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="facturation">Facturation</h3>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Formulaire</th>
+<th>Fichier</th>
+<th>Envoi</th>
+<th>Schéma serveur</th>
+<th>Champs</th>
+<th>Avant → après</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>FileDeControle</code></td>
+<td><code>pages/Facturation.tsx:139</code></td>
+<td><code>POST /facturation/cotations/confirmer</code></td>
+<td><code>ConfirmationIn</code></td>
+<td>—</td>
+<td>action sans champ (bouton) : refus du serveur en français</td>
+</tr>
+<tr>
+<td><code>Arbitrage</code></td>
+<td><code>pages/Facturation.tsx:240</code></td>
+<td><code>POST /facturation/cotations/{acte_id}/arbitrage</code></td>
+<td><code>ArbitrageIn</code></td>
+<td>3</td>
+<td><strong>Avant</strong> : motif ≥ 3 caractères (serveur) dit seulement « il manque ». <strong>Après</strong> : minLength 3 au champ (« Au moins 3 caractères »).</td>
+</tr>
+<tr>
+<td><code>GroupeAFacturer</code></td>
+<td><code>pages/Facturation.tsx:303</code></td>
+<td><code>POST /facturation/fse</code></td>
+<td><code>FSEIn</code></td>
+<td>1</td>
+<td>contraintes au champ, refus du serveur au champ et en français (mécanisme commun)</td>
+</tr>
+<tr>
+<td><code>DetailFSE</code></td>
+<td><code>pages/Facturation.tsx:387</code></td>
+<td><code>POST /facturation/fse/{fse_id}/securiser</code></td>
+<td><code>SecurisationIn | —</code></td>
+<td>—</td>
+<td>action sans champ (bouton) : refus du serveur en français</td>
+</tr>
+<tr>
+<td><code>AnnulerFSE</code></td>
+<td><code>pages/Facturation.tsx:452</code></td>
+<td><code>POST /facturation/fse/{fse_id}/annulation</code></td>
+<td><code>AnnulationIn</code></td>
+<td>1</td>
+<td><strong>Avant</strong> : idem. <strong>Après</strong> : idem.</td>
+</tr>
+<tr>
+<td><code>ConstituerLot</code></td>
+<td><code>pages/Facturation.tsx:506</code></td>
+<td><code>POST /facturation/lots</code></td>
+<td><code>LotIn</code></td>
+<td>2</td>
+<td><strong>Avant</strong> : motif de forçage ≥ 3. <strong>Après</strong> : minLength au champ.</td>
+</tr>
+<tr>
+<td><code>LigneLot</code></td>
+<td><code>pages/Facturation.tsx:610</code></td>
+<td><code>POST /facturation/lots/{lot_id}/teletransmettre</code></td>
+<td><code>—</code></td>
+<td>—</td>
+<td>action sans champ (bouton) : refus du serveur en français</td>
+</tr>
+<tr>
+<td><code>LigneLot</code></td>
+<td><code>pages/Facturation.tsx:611</code></td>
+<td><code>POST /facturation/lots/{lot_id}/retours</code></td>
+<td><code>—</code></td>
+<td>—</td>
+<td>action sans champ (bouton) : refus du serveur en français</td>
+</tr>
+<tr>
+<td><code>LigneRejet</code></td>
+<td><code>pages/Facturation.tsx:682</code></td>
+<td><code>POST /facturation/fse/{fse_id}/rejet</code></td>
+<td><code>RejetIn</code></td>
+<td>1</td>
+<td><strong>Avant</strong> : idem. <strong>Après</strong> : idem.</td>
+</tr>
+<tr>
+<td><code>FormulaireReglages</code></td>
+<td><code>pages/Facturation.tsx:821</code></td>
+<td><code>PUT /facturation/reglages</code></td>
+<td><code>ReglagesIn</code></td>
+<td>5</td>
+<td>contraintes au champ, refus du serveur au champ et en français (mécanisme commun)</td>
+</tr>
+<tr>
+<td><code>Simulateur</code></td>
+<td><code>pages/Simulateur.tsx:167</code></td>
+<td><code>POST /facturation/simuler</code></td>
+<td><code>SimulationIn</code></td>
+<td>14</td>
+<td>zone <code>evol-recu-cotation</code> : non modifié</td>
+</tr>
+<tr>
+<td><code>ControleEnvoi</code></td>
+<td><code>pages/TableauDeBord.tsx:324</code></td>
+<td><code>POST /tableau-de-bord/point-envoi</code></td>
+<td><code>—</code></td>
+<td>—</td>
+<td>zone <code>evol-tdb-narratif</code> : non modifié</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="inventaire-du-terminal">Inventaire du terminal</h2>
+<p>Toutes les saisies du terminal partent en <strong>opérations de file</strong> (<code>Terminal.enregistrer</code> → <code>depot.enfiler</code>, base
+locale chiffrée), rejouées au retour du réseau ; un refus du serveur reste « À corriger » dans « Envois » avec son
+motif. Seules écritures directes : la consultation d'un téléservice (<code>ecrans/cartes.dart</code>, connexion exigée par
+nature) et l'onglet Planning (zone <code>evol-planification</code>, non modifié). Les fiches de soin gardent leur brouillon sur
+le téléphone (<code>t.brouillons</code>, chiffré). Le widget commun de saisie est la charte (<code>charte.dart</code> : <code>ChampMesure</code>,
+<code>GrilleChoix</code>, <code>EchelleCrans</code>, <code>BarreAction</code> avec « Il manque … » et défilement vers le premier manque).</p>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Écran</th>
+<th>Fichier</th>
+<th>Opérations</th>
+<th>Schéma serveur</th>
+<th>Avant → après</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Nouveau patient</td>
+<td><code>ecrans/dossier.dart</code></td>
+<td><code>creer_patient</code>, <code>creer_patient_vitale</code>, <code>saisir_donnee</code>, <code>lecture_vitale</code></td>
+<td><code>PatientIn</code>, <code>CreationVitaleIn</code>, <code>DonneeIn</code></td>
+<td><strong>Avant</strong> : <code>lieu_residence</code> envoyé « domicile » en dur (donnée de facturation) ; longueurs du serveur absentes (100 caractères refusés seulement à l'envoi) ; médecin traitant et personne de confiance non marqués « (facultatif) » ; saisie perdue en quittant l'écran. <strong>Après</strong> : choix du lieu (5 lieux, aide de la nomenclature), <code>maxLength</code> du serveur, « (facultatif) », aide du format de téléphone, saisie gardée en mémoire et reprise (« Saisie reprise là où vous l'aviez laissée »).</td>
+</tr>
+<tr>
+<td>Signalement (décision)</td>
+<td><code>ecrans/signalement.dart</code></td>
+<td><code>decider_signalement</code></td>
+<td><code>DecisionIn</code> (socle)</td>
+<td><strong>Avant</strong> : commentaire avec un simple indice (disparaît à la frappe, mal annoncé). <strong>Après</strong> : libellé réel « Consigne pour l'équipe (facultatif) ».</td>
+</tr>
+<tr>
+<td>Événement critique</td>
+<td><code>ecrans/evenement.dart</code></td>
+<td><code>declarer_evenement_critique</code></td>
+<td><code>EvenementCritiqueIn</code></td>
+<td>idem : libellé « Ce qu'il faut savoir (facultatif) ».</td>
+</tr>
+<tr>
+<td>Prélèvement (examens)</td>
+<td><code>ecrans/fiche.dart</code></td>
+<td><code>signer_acte</code></td>
+<td><code>Examen.libelle ≤ 120</code></td>
+<td><strong>Avant</strong> : examen ajouté sans longueur ni libellé. <strong>Après</strong> : <code>maxLength: 120</code>, libellé.</td>
+</tr>
+<tr>
+<td>Fiches de soin (24 fiches)</td>
+<td><code>ecrans/fiche*.dart</code>, <code>fiches*.dart</code></td>
+<td><code>signer_acte</code></td>
+<td><code>Acte*In</code></td>
+<td>Conformes : <code>ChampMesure</code> bornés, « (facultatif) » et « (obligatoire) » dans les libellés, longueurs du serveur, brouillon chiffré ; refus nommés par le libellé (défaut T).</td>
+</tr>
+<tr>
+<td>Ouverture de plaie, dispositifs, épisode, clôture, rectification</td>
+<td><code>ouverture.dart</code>, <code>dispositif.dart</code>, <code>episode.dart</code>, <code>cloture.dart</code>, <code>rectification.dart</code></td>
+<td><code>ouvrir_plaie</code>, <code>ouvrir_dispositif</code>, <code>cloturer*</code>, <code>rectifier_objet</code>, <code>corriger_acte</code></td>
+<td><code>PlaieIn</code>, <code>*In</code></td>
+<td>Conformes (en file, bornes, manques dans la barre d'action).</td>
+</tr>
+<tr>
+<td>Transmissions, propositions, organisation, acte à distance, résultat, prescription infirmière, accords, SEGA, dépistage</td>
+<td><code>transmissions.dart</code>, <code>proposition.dart</code>, <code>organisation.dart</code>, <code>distance.dart</code>, <code>resultat.dart</code>, <code>prescription.dart</code>, <code>dossier.dart</code></td>
+<td><code>emettre_transmission</code>, <code>confirmer_proposition</code>, <code>declarer_non_realisation</code>, <code>proposer_echange</code>, <code>repondre_echange</code>, <code>acte_distance</code>…</td>
+<td><code>CibleeIn</code>, <code>IntraIn</code>, <code>ConfirmationIn</code>, <code>NonRealisationIn</code>…</td>
+<td>Conformes : en file, longueurs du serveur, « (facultatif) ».</td>
+</tr>
+<tr>
+<td>Passage, reçu, cotation, cartes, planning</td>
+<td><code>passage.dart</code>, <code>recu.dart</code>, <code>cotation.dart</code>, <code>cartes.dart</code>, <code>planning.dart</code></td>
+<td>—</td>
+<td>—</td>
+<td>Zones d'autres agents (<code>evol-mode-visite</code>, <code>evol-recu-cotation</code>, <code>evol-carte-meteo</code>, <code>evol-planification</code>) : non modifiées.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Cibles : les choix et boutons de la charte font 48 dp ou plus (56 dp en fin de passage) ; rien à corriger.</p>
+<h2 id="parcours-de-bout-en-bout-api-de-la-branche-chrome-sans-tête">Parcours de bout en bout (API de la branche, Chrome sans tête)</h2>
+<p>Chaque parcours tente d'abord un envoi refusé, lit ce que l'écran dit au champ, corrige, envoie, puis relit ce que
+l'API a enregistré. Résultat : <strong>11 / 11</strong>.</p>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Parcours</th>
+<th>Refus lu au champ</th>
+<th>Enregistré</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Création d'un patient (NIR, courriel, lieu)</td>
+<td>« NIR (numéro de sécurité sociale) → Format attendu : 13 caractères, ou 15 avec la clé… »</td>
+<td>patient, courriel, couverture, lieu « résidence autonomie » ; identité ressemblante présentée puis reportée</td>
+</tr>
+<tr>
+<td>Médecin traitant (contacts)</td>
+<td>« RPPS → Format attendu : 11 chiffres. »</td>
+<td>nom, RPPS, téléphone</td>
+</tr>
+<tr>
+<td>Prescription</td>
+<td>— (durée hors bornes testée en vitest)</td>
+<td>durée 30 j, renouvelable 2 fois, dimanches et fériés (vérifiés en base : la lecture de l'API ne les rend pas)</td>
+</tr>
+<tr>
+<td>Contexte radiothérapie</td>
+<td>« Fenêtre « au décours immédiat », en jours → Ce champ est obligatoire. »</td>
+<td>contexte et sa fenêtre de 15 jours (impossible avant)</td>
+</tr>
+<tr>
+<td>Plaie en accès direct, creusante</td>
+<td>6 champs marqués + « Il manque … » ; puis « Volume initial → Ce champ est obligatoire. »</td>
+<td>grandeur « volume », volume 1,2 cm³, aspect initial</td>
+</tr>
+<tr>
+<td>Transmission ciblée</td>
+<td>« Patient → Choisissez une valeur. », « Cible → Ce champ est obligatoire. » + résumé</td>
+<td>émise</td>
+</tr>
+<tr>
+<td>Intervenant</td>
+<td>« Prénom / Nom → Ce champ est obligatoire. »</td>
+<td>créé</td>
+</tr>
+<tr>
+<td>Professionnel externe</td>
+<td>« RPPS → Format attendu : 11 chiffres, sans espace. »</td>
+<td>préenregistré</td>
+</tr>
+<tr>
+<td>Accord préalable</td>
+<td>—</td>
+<td>rattaché à la prescription choisie</td>
+</tr>
+<tr>
+<td>Enrôlement d'un terminal</td>
+<td>« Nom du terminal → Ce champ est obligatoire. »</td>
+<td>code émis</td>
+</tr>
+<tr>
+<td>Refus du serveur (contrainte du client retirée)</td>
+<td>« Téléphone → Format non valide » au champ, « Téléphone : Format non valide » au résumé</td>
+<td>—</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="clavier-accessibilité-390-px">Clavier, accessibilité, 390 px</h2>
+<ul>
+<li>Entrée envoie (formulaires natifs ; la décision d'un signalement est devenue un formulaire) ; Échap ferme les boîtes
+  (<code>&lt;dialog&gt;</code> natif) et, désormais, les formulaires en ligne refermables (création du patient, éditeur de donnée,
+  prescription, contexte, accord, habilitation, professionnel externe).</li>
+<li>Audit de 11 formulaires ouverts à 390 px et 1280 px : tous les champs ont un libellé ; aucun formulaire ne déborde.
+  Les champs passent à 44 px ; les petits boutons gardent leur zone d'appui de 44 px.</li>
+<li>Reste hors formulaire : à 390 px, les pages <code>/parametres/*</code> défilent horizontalement à cause de la rangée de
+  navigation (groupe « Ressources » ouvert) et du tableau des terminaux — cadre général, non modifié ici.</li>
+</ul>
+<h2 id="captures">Captures</h2>
+<p><code>docs/maquettes/captures/</code> : <code>formulaires-avant-*.png</code> et <code>formulaires-apres-*.png</code> pour la création du patient,
+l'intervenant, les identifiants, les coordonnées du cabinet, la transmission ciblée ; <code>formulaires-apres-*</code> seulement
+pour la prescription (durée hors bornes), le contexte de radiothérapie, la plaie creusante et la création du patient
+à 390 px. (Les captures « avant » ont été prises sur l'état de <code>main</code>, le serveur gardant déjà ses messages français :
+c'est le poste fixe qui y est comparé.)</p>
+<h2 id="reprise-du-21-octobre-après-fusion-de-main-10c1e0c">Reprise du 21 octobre, après fusion de <code>main</code> (10c1e0c)</h2>
+<p>Le lot, interrompu le 16/10, a reçu <code>main</code> (planification en colonnes, reçu de cotation, faits NGAP branchés, mode
+visite au terminal, application proactive, PDF, audits). Un seul conflit : la prescription, où <code>main</code> ajoutait
+« Soins à domicile » (art. 13 NGAP) là où ce lot ajoutait durée, renouvellement, dimanches et fériés, document
+source ; les cinq champs sont gardés, « Soins à domicile » reçoit « (facultatif) » comme ses voisins. Contrat d'API
+inchangé par ce lot, aucune migration.</p>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Défaut trouvé à la reprise</th>
+<th>Correction</th>
+<th>Où</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>R1</td>
+<td>Un champ requis rempli de <strong>seuls espaces</strong> passait la contrainte <code>required</code> du navigateur, puis partait vide une fois rogné : la boîte « Rectifier » ne faisait rien (garde silencieuse), d'autres formulaires renvoyaient un 422</td>
+<td>Un tel champ est refusé au champ comme vide (« Ce champ est obligatoire. »), pour tous les formulaires, dès la saisie</td>
+<td><code>web/src/saisie.ts</code></td>
+</tr>
+<tr>
+<td>R2</td>
+<td>« Au moins 1 jours. » : pluriel faux dans le message de borne</td>
+<td>Unité au singulier sous 2 (<code>data-unite-un</code>) : « Au moins 1 jour. »</td>
+<td><code>saisie.ts</code>, prescription, contexte</td>
+</tr>
+<tr>
+<td>R3</td>
+<td>Deux tests attendaient encore un bouton grisé (arrêt d'un soin, rectification) alors que le lot avait rendu ces boutons actifs, le refus étant dit au champ</td>
+<td>Tests réécrits : clic sans motif → message sous le champ, rien ne part ; espaces seuls → idem</td>
+<td><code>Soins.test.tsx</code>, <code>Dossier.test.tsx</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>Formulaires arrivés avec <code>main</code>, relus : « Écarter » une suggestion (motif facultatif, 300 caractères comme le
+serveur, refus par <code>&lt;Erreurs&gt;</code>) conforme ; la note de relève du mode visite part en file au terminal (testé par
+<code>visite_widgets_test.dart</code>). Laissés à leurs lots et seulement notés : prescription « soins à domicile » et lieu du
+soin (consultation, « Reçu au cabinet » du terminal), écran du passage et mode visite du terminal, planification en
+colonnes (<code>Planification.tsx</code>), et les écrans de fiches repris par les lots L2 (facturation, moteur), L3 (perfusions),
+L4 (pansements, stomies, pose des dispositifs), L7 (fiches 6, 7, 11, 12) et L9 (PCA, PSE) de l'audit du CDC.</p>
+<p>Rempli de nouveau contre l'API de la branche (port 8392, base <code>tabsante_form2</code>, démo semée) :</p>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Parcours</th>
+<th>Refus lu au champ</th>
+<th>Enregistré (relu en base)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Prescription après fusion</td>
+<td>vide : prescripteur et date « Ce champ est obligatoire. » ; durée 4000 : « Au plus 3660 jours. » ; durée 0 : « Au moins 1 jour. » (390 px)</td>
+<td>Dr Marchand, 20/10, 30 jours, renouvelable 2 fois, dimanches et fériés, soins à domicile prescrits</td>
+</tr>
+<tr>
+<td>Intervenant, prénom fait d'espaces</td>
+<td>« Prénom → Ce champ est obligatoire. », focus sur le champ, boîte ouverte</td>
+<td>« Lina Test », IDE</td>
+</tr>
+</tbody>
+</table></div>
+<p>Capture : <code>formulaires-apres-prescription-390.png</code>. À 390 px, la page du patient dépasse de 4 px à cause de la rangée
+de navigation du cadre (déjà relevé plus bas, hors formulaire).</p>
+<h2 id="ce-qui-reste">Ce qui reste</h2>
+<ul>
+<li><strong>Zones laissées aux autres agents</strong> (relevé, non corrigé) : onglet Planning de Tournées, itinéraire, préparation de
+  la tournée et indisponibilités (<code>Planning.tsx</code>, <code>Tournees.tsx</code>, <code>Itineraire.tsx</code>, <code>PreparationTournee.tsx</code>, terminal
+  <code>planning.dart</code>) ; tableau de bord ; simulateur et reçu de
+  cotation ; écran du passage au terminal ; cartes ; moteur de cotation et « déplacement prescrit ». Ces formulaires
+  profitent toutefois des défauts transverses 1 à 3 (messages français, refus au champ), qui ne touchent pas leurs
+  fichiers.</li>
+<li><strong>Révision d'un protocole de soin</strong> (<code>ProtocoleSoinIn.remplace_id</code>) et rattachement à un acte prescrit
+  (<code>acte_prescrit_id</code>) : le serveur les accepte, aucun écran ne les propose (fonction à concevoir, pas un champ
+  manquant d'un formulaire existant).</li>
+<li><strong>Clé du NIR</strong> : le serveur ne contrôle que le format (13 ou 15 caractères) ; le client fait de même pour rester
+  identique. Contrôler la clé (97 − NIR mod 97) demanderait d'abord de corriger des NIR de test sans clé valide
+  (<code>152069999900045</code>).</li>
+<li><strong>Période de la fiche de suivi ALR</strong> (<code>SuiviIn.debut/fin</code>) : la pré-rédaction couvre de la pose à aujourd'hui, comme
+  le dit l'écran ; une période choisie reste possible côté serveur.</li>
+<li><strong>Brouillons du terminal hors fiches de soin</strong> : la création du patient garde sa saisie en mémoire (pas au-delà d'un
+  redémarrage de l'application) ; les autres écrans courts n'en ont pas.</li>
+</ul>
+</main>
+</body>
+</html>

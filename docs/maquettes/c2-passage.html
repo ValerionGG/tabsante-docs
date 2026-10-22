@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><title>Passage de routine — un seul écran</title>
+<link rel="stylesheet" href="clinique.css">
+<style>
+  body { background: #E9EBEF; }
+  .tel { height: auto; min-height: 844px; }
+  .hd { display: flex; align-items: center; gap: 10px; padding: 4px 16px 12px; background: var(--surface); border-bottom: 1px solid var(--bord); position: sticky; top: 0; }
+  .retour { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; font-size: 22px; margin-left: -6px; }
+  .hd h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.01em; }
+  .hd .m { font-size: 13px; color: var(--discret); margin-top: 1px; }
+  .auto { margin-left: auto; font-size: 12px; color: var(--succes); display: inline-flex; gap: 4px; align-items: center; font-weight: 600; }
+  .zone { padding: 14px 16px 0; display: grid; gap: 12px; }
+  .plaie { padding: 14px; display: flex; gap: 14px; }
+  .vignette { width: 76px; height: 76px; border-radius: 14px; background: radial-gradient(circle at 50% 50%, #C98A85 0 18%, #E2B9AE 19% 34%, #EBD5CB 35% 100%); flex: none; position: relative; overflow: hidden; }
+  .vignette::after { content: "1 oct."; position: absolute; left: 6px; bottom: 5px; font-size: 10px; font-weight: 700; color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,.4); }
+  .plaie h2 { font-size: 16px; font-weight: 700; }
+  .plaie .m { font-size: 13px; color: var(--discret); margin-top: 2px; }
+  .plaie .ev { display: flex; align-items: center; gap: 10px; margin-top: 8px; }
+  .plaie .ev b { font-size: 20px; letter-spacing: -0.02em; color: var(--succes); }
+  .bandeau { display: flex; gap: 10px; align-items: flex-start; padding: 12px 14px; border-radius: 14px; background: var(--alerte-50); border: 1px solid var(--alerte-200); font-size: 14px; color: #7A2E0E; line-height: 1.4; }
+  .bandeau .ph-bold { font-size: 18px; color: var(--alerte); margin-top: 1px; }
+  .bandeau b { color: #4E1D09; }
+  h3 { font-size: 13px; font-weight: 700; color: var(--discret); margin: 8px 4px -4px; display: flex; justify-content: space-between; letter-spacing: 0; }
+  h3 a { color: var(--primaire); text-decoration: none; }
+  .liste { padding: 4px 14px; }
+  .ligne { display: flex; align-items: center; gap: 12px; min-height: 52px; border-bottom: 1px solid #EEF1F6; }
+  .ligne:last-child { border-bottom: 0; }
+  .ligne .ic { width: 32px; height: 32px; border-radius: 10px; background: var(--succes-50); color: var(--succes); display: grid; place-items: center; font-size: 17px; flex: none; }
+  .ligne .t { font-size: 15px; font-weight: 600; } .ligne .s { font-size: 13px; color: var(--discret); }
+  .ligne .r { margin-left: auto; }
+  .bascule { width: 52px; height: 32px; border-radius: 999px; background: var(--primaire); position: relative; flex: none; }
+  .bascule::after { content: ""; position: absolute; right: 3px; top: 3px; width: 26px; height: 26px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.2); }
+  .mes { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; padding: 12px 14px 14px; }
+  .mes div { background: var(--surface-2); border: 1px solid var(--bord); border-radius: 12px; padding: 10px 8px; text-align: center; }
+  .mes b { display: block; font-size: 20px; letter-spacing: -0.02em; } .mes small { font-size: 12px; color: var(--discret); }
+  .q { padding: 14px; }
+  .q + .q { border-top: 1px solid #EEF1F6; }
+  .q .lab { font-size: 15px; font-weight: 700; display: flex; justify-content: space-between; align-items: baseline; }
+  .q .lab span { font-size: 12px; font-weight: 600; color: var(--alerte); }
+  .seg { display: grid; gap: 6px; margin-top: 10px; }
+  .seg button { height: 48px; border-radius: 12px; border: 1px solid var(--champ); background: var(--surface); font: 700 15px var(--f); color: var(--encre); }
+  .seg button.on { background: var(--primaire); color: #fff; border-color: var(--primaire); box-shadow: 0 6px 12px -6px rgba(47,91,234,.6); }
+  .photo { height: 56px; border: 1.5px dashed var(--champ); border-radius: 14px; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 700; color: var(--encre-2); background: var(--surface); }
+  .bas { position: sticky; bottom: 0; background: rgba(255,255,255,.96); border-top: 1px solid var(--bord); padding: 12px 16px 28px; margin-top: 16px; }
+  .bas .etat { font-size: 13px; color: var(--succes); font-weight: 600; display: flex; gap: 6px; align-items: center; margin-bottom: 10px; }
+  .tenir { position: relative; overflow: hidden; height: 60px; border-radius: 16px; background: var(--primaire); color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 10px 20px -10px rgba(47,91,234,.7); }
+  .tenir::before { content: ""; position: absolute; inset: 0 62% 0 0; background: rgba(255,255,255,.22); }
+  .tenir b { font-size: 17px; position: relative; display: inline-flex; gap: 8px; align-items: center; } .tenir small { font-size: 12px; opacity: .85; position: relative; margin-top: 2px; }
+</style></head>
+<body>
+<div class="tel">
+  <div class="sb" style="background:var(--surface)"><span>9:41</span><span><i class="ph-bold ph-wifi-slash"></i><i class="ph-bold ph-battery-high"></i></span></div>
+  <div class="hd">
+    <span class="retour"><i class="ph-bold ph-caret-left"></i></span>
+    <div><h1>Dupuis Roger</h1><div class="m">88 ans · passage de 8 h 40</div></div>
+    <span class="auto"><i class="ph-fill ph-check-circle"></i>Brouillon enregistré</span>
+  </div>
+  <div class="zone">
+    <div class="carte plaie">
+      <div class="vignette" role="img" aria-label="Dernière photo, 1er octobre"></div>
+      <div style="flex:1"><h2>Escarre sacrée · stade 3</h2><div class="m">Plaie P-01 · J+24 · suivi du volume</div>
+        <div class="ev"><svg width="84" height="26" viewBox="0 0 84 26"><path d="M2 4 L14 6 L26 9 L38 12 L50 15 L62 18 L74 20 L82 21" stroke="#12B76A" stroke-width="2.4" fill="none" stroke-linecap="round"/><circle cx="82" cy="21" r="3" fill="#12B76A"/></svg><b>−39 %</b><span class="m" style="margin:0">depuis J0</span></div></div>
+    </div>
+    <div class="bandeau"><i class="ph-bold ph-warning-circle"></i><span><b>Prescription modifiée le 1<sup>er</sup> oct.</b> — pansement un jour sur deux au lieu de tous les jours (Dr Marchand).</span></div>
+
+    <h3><span>Repris du passage du 1<sup>er</sup> oct.</span><a href="#">Modifier</a></h3>
+    <div class="carte liste">
+      <div class="ligne"><span class="ic"><i class="ph-bold ph-drop"></i></span><div><div class="t">Nettoyage</div><div class="s">Sérum physiologique</div></div><i class="ph-fill ph-check-circle r" style="color:var(--succes-500);font-size:22px"></i></div>
+      <div class="ligne"><span class="ic"><i class="ph-bold ph-scissors"></i></span><div><div class="t">Détersion</div><div class="s">Mécanique, à la curette</div></div><i class="ph-fill ph-check-circle r" style="color:var(--succes-500);font-size:22px"></i></div>
+      <div class="ligne"><span class="ic"><i class="ph-bold ph-bandaids"></i></span><div><div class="t">Recouvrement</div><div class="s">Hydrocellulaire adhésif</div></div><i class="ph-fill ph-check-circle r" style="color:var(--succes-500);font-size:22px"></i></div>
+    </div>
+
+    <h3>Mesures</h3>
+    <div class="carte">
+      <div class="ligne" style="padding:0 14px"><div><div class="t">Inchangées depuis le 1<sup>er</sup> oct.</div><div class="s">Désactivez pour saisir les mesures du jour</div></div><span class="bascule r" role="switch" aria-checked="true"></span></div>
+      <div class="mes"><div><b>3,0</b><small>long. cm</small></div><div><b>2,0</b><small>larg. cm</small></div><div><b>0,4</b><small>prof. cm</small></div><div><b>5,5</b><small>vol. cm³</small></div></div>
+    </div>
+
+    <h3>À confirmer à chaque passage</h3>
+    <div class="carte">
+      <div class="q"><div class="lab">Saignement</div><div class="seg" style="grid-template-columns:1.5fr repeat(4,1fr)"><button class="on">Absent</button><button>+</button><button>++</button><button>+++</button><button>++++</button></div></div>
+      <div class="q"><div class="lab">Douleur au soin <span>sur 10</span></div><div class="seg" style="grid-template-columns:repeat(6,1fr)"><button>0</button><button>1</button><button class="on">2</button><button>3</button><button>4</button><button>5</button><button>6</button><button>7</button><button>8</button><button>9</button><button>10</button></div></div>
+      <div class="q"><div class="lab">Signes infectieux locaux</div><div class="seg" style="grid-template-columns:1fr 1fr"><button class="on">Non</button><button>Oui</button></div></div>
+    </div>
+    <div class="photo"><i class="ph-bold ph-camera"></i>Ajouter une photo <span style="font-weight:500;color:var(--discret)">(facultatif)</span></div>
+  </div>
+  <div class="bas">
+    <div class="etat"><i class="ph-fill ph-check-circle"></i>Tout est renseigné · réalisé à 9 h 42</div>
+    <div class="tenir" role="button" aria-label="Signer le passage — maintenir une seconde"><b><i class="ph-bold ph-fingerprint"></i>Signer le passage</b><small>Maintenez une seconde</small></div>
+  </div>
+</div>
+</body></html>

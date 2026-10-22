@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Feuille de route produit — TabSanté V2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{--bg:#F4F6FA;--surface:#FFFFFF;--surface-2:#EEF2FB;--fg:#141A2E;--fg-2:#4A5372;--ligne:#DDE3EF;
+--accent:#2F5BEA;--accent-fg:#FFFFFF;--accent-doux:#E6ECFD;--attention:#8A5A00;--attention-fond:#FFF4DC;
+--code-fond:#F1F3F8;--police:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+--police-code:"JetBrains Mono",ui-monospace,"Cascadia Code",Consolas,monospace;--rayon:10px;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0E1220;--surface:#151A2B;--surface-2:#1C2338;
+--fg:#E8ECF7;--fg-2:#A3ACC6;--ligne:#2A3250;--accent:#7C9BFF;--accent-fg:#0E1220;--accent-doux:#1E2950;
+--attention:#F2C25B;--attention-fond:#33290F;--code-fond:#10152A;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0E1220;--surface:#151A2B;--surface-2:#1C2338;--fg:#E8ECF7;--fg-2:#A3ACC6;--ligne:#2A3250;
+--accent:#7C9BFF;--accent-fg:#0E1220;--accent-doux:#1E2950;--attention:#F2C25B;--attention-fond:#33290F;--code-fond:#10152A;color-scheme:dark}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--police);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}
+.entete{background:var(--surface);border-bottom:1px solid var(--ligne)}
+.entete div{max-width:calc(80ch + 32px);margin:0 auto;padding:12px 16px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.entete b{font-weight:600}
+.entete a{color:var(--accent);text-decoration:none;font-weight:500}
+.entete a:hover{text-decoration:underline}
+main{max-width:calc(80ch + 32px);margin:0 auto;padding:24px 16px 64px;overflow-wrap:break-word}
+.chemin{font-family:var(--police-code);font-size:12px;color:var(--fg-2);margin:0 0 8px}
+h1{font-size:28px;line-height:1.25;margin:0 0 16px}
+h2{font-size:21px;line-height:1.3;margin:36px 0 12px;padding-top:12px;border-top:1px solid var(--ligne)}
+h3{font-size:17px;margin:28px 0 8px}h4,h5,h6{font-size:15px;margin:20px 0 6px}
+a{color:var(--accent)}
+p,li{max-width:80ch}
+code{font-family:var(--police-code);font-size:.88em;background:var(--code-fond);border:1px solid var(--ligne);border-radius:5px;padding:0 4px;overflow-wrap:anywhere}
+pre{background:var(--code-fond);border:1px solid var(--ligne);border-radius:var(--rayon);padding:14px 16px;overflow-x:auto;font-size:13px;line-height:1.55}
+pre code{background:none;border:0;padding:0;font-size:inherit;overflow-wrap:normal}
+.tableau{overflow-x:auto;margin:16px 0;border:1px solid var(--ligne);border-radius:var(--rayon);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:13.5px;line-height:1.5}
+th,td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--ligne);min-width:8ch}
+th{background:var(--surface-2);font-weight:600}
+tr:last-child td{border-bottom:0}
+blockquote{margin:16px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-doux);border-radius:0 var(--rayon) var(--rayon) 0}
+hr{border:0;border-top:1px solid var(--ligne);margin:28px 0}
+img{max-width:100%}
+.non-publie{font-size:13px;color:var(--attention);background:var(--attention-fond);padding:1px 6px;border-radius:5px}
+details.sommaire{background:var(--surface);border:1px solid var(--ligne);border-radius:var(--rayon);padding:10px 16px;margin:0 0 24px}
+details.sommaire summary{cursor:pointer;font-weight:600}
+details.sommaire ul{padding-left:20px;margin:8px 0 0}
+.admonition{border:1px solid var(--ligne);border-radius:var(--rayon);padding:8px 16px;background:var(--surface)}
+.admonition-title{font-weight:600}
+</style>
+</head>
+<body>
+<header class="entete"><div><b>TabSanté — documents</b><a href="../">← Retour au portail</a></div></header>
+<main>
+<p class="chemin">docs/feuille_de_route.html</p>
+<h1 id="feuille-de-route-produit--tabsanté-v2">Feuille de route produit — TabSanté V2</h1>
+<p>Établie le 3 octobre 2026 à partir du CDC V2, du benchmark concurrentiel (<code>docs/reference/benchmark_tabsante.md</code>), du benchmark design, de la veille Dribbble/Behance et de l'étude UX (<code>docs/reference/etude_ux.md</code>).
+Fil conducteur : <strong>facturer sur preuve</strong>, montrer le <strong>progrès du patient</strong>, et faire gagner du temps à l'infirmière dès le premier jour.</p>
+<h2 id="en-cours-octobre-2026">En cours (octobre 2026)</h2>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Chantier</th>
+<th>Ce que ça change</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Refonte « Clinique premium » web + terminal</td>
+<td>Un seul système visuel, au niveau des meilleurs logiciels santé</td>
+</tr>
+<tr>
+<td>Passage de routine en un écran</td>
+<td>≈ 14 appuis → 3 appuis + signature quand rien n'a changé</td>
+</tr>
+<tr>
+<td>Brouillons enregistrés en continu</td>
+<td>Plus rien ne se perd sur un appel ou une coupure</td>
+</tr>
+<tr>
+<td>Moteur multi-fiches + Injections, Suivi diabétique, Paramètres vitaux, Prélèvements</td>
+<td>5 fiches sur 20 couvertes, les plus fréquentes à domicile</td>
+</tr>
+<tr>
+<td>Actes illustrés (pictogrammes CC0)</td>
+<td>Reconnaissance immédiate des soins dans la tournée</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="prochaines-étapes-par-valeur">Prochaines étapes, par valeur</h2>
+<ol>
+<li><strong>Les fiches restantes du lancement</strong> — Médicaments/pilulier, Nursing (BSI, aide-soignante), Perfusions IV/SC, Anticoagulant injectable, Stomies : couvre ≈ 90 % des passages d'un cabinet.</li>
+<li><strong>Lecture d'ordonnance → fréquences</strong> (EX-PF-07) — photo de l'ordonnance, proposition de soins/rythme/durée côte à côte, l'infirmière valide. Parité avec OrdoScan d'Agathe, mais branchée sur la preuve.</li>
+<li><strong>Dossier de preuve par patient et par période</strong> — « Préparer un contrôle » : tous les actes d'un patient sur 3 mois, triés, avec photos et intégrité, en un PDF. La promesse « preuve en 30 secondes ».</li>
+<li><strong>Bilan de plaie et bilans périodiques pré-rédigés</strong> (EX-PF-06 septies) — rédigés depuis les mesures, courbes et photos, relus et signés, envoyés au médecin par MSSanté.</li>
+<li><strong>Mesure de plaie calibrée par photo</strong> — gabarit de cadrage, réglette, détourage : surface mesurée sans règle, comparable d'un intervenant à l'autre (aucun concurrent IDEL ne le fait).</li>
+<li><strong>Planning de la semaine et tournée sur carte</strong> — vue semaine par rôle, glisser-déposer des attributions, ordre de passage et itinéraire.</li>
+<li><strong>Moteur NGAP réel + FSE SESAM-Vitale</strong> — à démarrer tout de suite côté réglementaire (agrément 6–12 mois) ; « vérifier puis télétransmettre » en une page, rejets en file de travail.</li>
+<li><strong>Identité et confiance</strong> — Keycloak + CPS / Pro Santé Connect, INSi, chiffrement de la base du terminal, hébergement HDS.</li>
+<li><strong>Coordination</strong> — accès QR du médecin traitant, dépôt de documents, transmissions externes, DMP.</li>
+<li><strong>Ségur vague 2</strong> — dossier à déposer avant le <strong>17 février 2027</strong>.</li>
+</ol>
+<h2 id="idées-différenciantes-à-instruire">Idées différenciantes à instruire</h2>
+<ul>
+<li><strong>Transmissions dictées</strong> : la transmission ciblée se dicte au volant ou après le soin, structurée automatiquement (cible, données, actions, résultat), relue avant signature.</li>
+<li><strong>Mode contrôle CPAM</strong> : un accès lecture seule, horodaté et tracé, à remettre au contrôleur.</li>
+<li><strong>Signal de changement de prescription</strong> (principe 8 ter) visible dans la fiche jusqu'au premier soin sous la nouvelle valeur.</li>
+<li><strong>Fin de journée</strong> : « Tournée terminée · 31 passages signés · 0 en attente » avec le récapitulatif des cotations provisoires du jour.</li>
+</ul>
+</main>
+</body>
+</html>

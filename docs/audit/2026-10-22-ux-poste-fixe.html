@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Passe UX du poste fixe et aide contextuelle — 22 octobre 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{--bg:#F4F6FA;--surface:#FFFFFF;--surface-2:#EEF2FB;--fg:#141A2E;--fg-2:#4A5372;--ligne:#DDE3EF;
+--accent:#2F5BEA;--accent-fg:#FFFFFF;--accent-doux:#E6ECFD;--attention:#8A5A00;--attention-fond:#FFF4DC;
+--code-fond:#F1F3F8;--police:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+--police-code:"JetBrains Mono",ui-monospace,"Cascadia Code",Consolas,monospace;--rayon:10px;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0E1220;--surface:#151A2B;--surface-2:#1C2338;
+--fg:#E8ECF7;--fg-2:#A3ACC6;--ligne:#2A3250;--accent:#7C9BFF;--accent-fg:#0E1220;--accent-doux:#1E2950;
+--attention:#F2C25B;--attention-fond:#33290F;--code-fond:#10152A;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0E1220;--surface:#151A2B;--surface-2:#1C2338;--fg:#E8ECF7;--fg-2:#A3ACC6;--ligne:#2A3250;
+--accent:#7C9BFF;--accent-fg:#0E1220;--accent-doux:#1E2950;--attention:#F2C25B;--attention-fond:#33290F;--code-fond:#10152A;color-scheme:dark}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--police);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}
+.entete{background:var(--surface);border-bottom:1px solid var(--ligne)}
+.entete div{max-width:calc(80ch + 32px);margin:0 auto;padding:12px 16px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.entete b{font-weight:600}
+.entete a{color:var(--accent);text-decoration:none;font-weight:500}
+.entete a:hover{text-decoration:underline}
+main{max-width:calc(80ch + 32px);margin:0 auto;padding:24px 16px 64px;overflow-wrap:break-word}
+.chemin{font-family:var(--police-code);font-size:12px;color:var(--fg-2);margin:0 0 8px}
+h1{font-size:28px;line-height:1.25;margin:0 0 16px}
+h2{font-size:21px;line-height:1.3;margin:36px 0 12px;padding-top:12px;border-top:1px solid var(--ligne)}
+h3{font-size:17px;margin:28px 0 8px}h4,h5,h6{font-size:15px;margin:20px 0 6px}
+a{color:var(--accent)}
+p,li{max-width:80ch}
+code{font-family:var(--police-code);font-size:.88em;background:var(--code-fond);border:1px solid var(--ligne);border-radius:5px;padding:0 4px;overflow-wrap:anywhere}
+pre{background:var(--code-fond);border:1px solid var(--ligne);border-radius:var(--rayon);padding:14px 16px;overflow-x:auto;font-size:13px;line-height:1.55}
+pre code{background:none;border:0;padding:0;font-size:inherit;overflow-wrap:normal}
+.tableau{overflow-x:auto;margin:16px 0;border:1px solid var(--ligne);border-radius:var(--rayon);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:13.5px;line-height:1.5}
+th,td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--ligne);min-width:8ch}
+th{background:var(--surface-2);font-weight:600}
+tr:last-child td{border-bottom:0}
+blockquote{margin:16px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-doux);border-radius:0 var(--rayon) var(--rayon) 0}
+hr{border:0;border-top:1px solid var(--ligne);margin:28px 0}
+img{max-width:100%}
+.non-publie{font-size:13px;color:var(--attention);background:var(--attention-fond);padding:1px 6px;border-radius:5px}
+details.sommaire{background:var(--surface);border:1px solid var(--ligne);border-radius:var(--rayon);padding:10px 16px;margin:0 0 24px}
+details.sommaire summary{cursor:pointer;font-weight:600}
+details.sommaire ul{padding-left:20px;margin:8px 0 0}
+.admonition{border:1px solid var(--ligne);border-radius:var(--rayon);padding:8px 16px;background:var(--surface)}
+.admonition-title{font-weight:600}
+</style>
+</head>
+<body>
+<header class="entete"><div><b>TabSanté — documents</b><a href="../../">← Retour au portail</a></div></header>
+<main>
+<p class="chemin">docs/audit/2026-10-22-ux-poste-fixe.html</p>
+<h1 id="passe-ux-du-poste-fixe-et-aide-contextuelle--22-octobre-2026">Passe UX du poste fixe et aide contextuelle — 22 octobre 2026</h1>
+<details class="sommaire"><summary>Sommaire</summary><ul><li><a href="#ce-qui-a-été-vu">Ce qui a été vu</a></li><li><a href="#ce-qui-a-changé-par-écran">Ce qui a changé, par écran</a></li><li><a href="#le-système-daide">Le système d'aide</a></li><li><a href="#seconde-passe--droits-libellés-vocabulaire-même-jour">Seconde passe : droits, libellés, vocabulaire (même jour)</a></li><li><a href="#vérifications">Vérifications</a></li><li><a href="#ce-qui-reste">Ce qui reste</a></li></ul></details>
+<p><strong>Branche</strong> <code>evol-ux-web</code> (partie de <code>main</code> a76cd53). <strong>Périmètre</strong> : le poste fixe React (<code>web/src</code>), hors écran de connexion et terminal Flutter. Le style retenu, « Clinique premium » en direction A « Clinique calme », est gardé : aucun jeton de couleur, de durée ni de rayon ajouté.</p>
+<p><strong>Méthode.</strong>
+- <strong>Base de démonstration</strong> : <code>tabsante_uxw</code> (<code>POST /dev/demo</code>, <code>scripts/agregats.py --reconstruire</code>), API sur le port 8771, Vite sur le port 8772.
+- <strong>Personas</strong> : Paul Durand (IDE titulaire) et Inès Petit (aide-soignante).
+- <strong>Navigateur</strong> : Chrome sans interface, piloté par playwright.
+- <strong>Couverture</strong> : les 28 pages principales à 1440, 1024 et 800 px, plus le dossier patient, l'identité et une plaie.
+- <strong>Contrôles mesurés dans la page</strong> : débordement horizontal, contraste du texte, contrôles sans nom, réponses 4xx/5xx.
+- <strong>Grille de lecture</strong> : skill <code>impeccable</code> (critique, puis craft floor, puis détecteur). Le détecteur, passé sur les fichiers changés, ne relève rien.
+- <strong>Critique en mode dégradé (contexte unique)</strong> : l'évaluation de conception et les preuves navigateur ont tourné dans le même contexte. Les sous-agents ont servi à relever, écran par écran, le comportement réel que décrit l'aide.</p>
+<p>Captures : <code>docs/audit/captures-ux/2026-10-22/</code>.
+- <code>avant-*</code> : état de départ.
+- <code>apres-*</code> : après la passe. Les astuces y sont visibles, puisque chaque capture ouvre une session neuve.
+- <code>apres-aide-*</code> : la bulle, le panneau et la recherche.
+- <code>apres-aujourdhui-ines-*</code> et <code>apres-aide-panneau-ines-cotation-*</code> : la vue de l'aide-soignante.</p>
+<h2 id="ce-qui-a-été-vu">Ce qui a été vu</h2>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Constat</th>
+<th>Écran</th>
+<th>Gravité</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>La page défile horizontalement : 4 px à 800 px (la rangée de navigation dépasse), 8 px à 1024 px (bandeau de démonstration), 500 px sur la planification à 1024 px, et 1 300 px sur les pages Ressources sous 900 px</td>
+<td>Toutes</td>
+<td>P1</td>
+</tr>
+<tr>
+<td>2</td>
+<td>À 1024 px, le bandeau de démonstration s'écrit sur trois lignes : icône, texte, lien</td>
+<td>Toutes</td>
+<td>P2</td>
+</tr>
+<tr>
+<td>3</td>
+<td>« Nouveau bilan », ouvert sans patient (par exemple depuis la palette Ctrl K), affiche d'emblée « La saisie n'a pas été enregistrée » après un <code>POST /patients/null/bilans</code> (422)</td>
+<td>Bilans</td>
+<td>P1</td>
+</tr>
+<tr>
+<td>4</td>
+<td>L'aide-soignante voit des traces de cotation : le filtre « Facturation » d'« À traiter », la colonne « Cotation » (« non cotée » partout) dans Preuves et dans les passages du dossier et de la plaie, et « modifie les règles de cotation » dans les alertes du dossier</td>
+<td>Aujourd'hui, Preuves, Dossier, Plaie</td>
+<td>P1 (règle métier)</td>
+</tr>
+<tr>
+<td>5</td>
+<td>« Nouveau patient » est proposé à l'aide-soignante et à l'administration, que le serveur refuse (<code>creer_dossier_patient</code>)</td>
+<td>Aujourd'hui, Patients</td>
+<td>P2</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Les réglages de la démonstration s'écrivent dans une colonne de 40 px, un mot par ligne : la ligne sans tuile range son texte dans la colonne de la tuile</td>
+<td>Échanges de santé</td>
+<td>P2</td>
+</tr>
+<tr>
+<td>7</td>
+<td>« Ce qui vous attend » aligne treize pastilles de même poids, coupées par un « Gestion » glissé au milieu de la ligne</td>
+<td>Tableau de bord</td>
+<td>P2</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Six boutons pleins bleus dans les suggestions, en plus de « Nouveau patient » : la One Blue Rule n'est pas tenue</td>
+<td>Aujourd'hui</td>
+<td>P2</td>
+</tr>
+<tr>
+<td>9</td>
+<td>La liste de la barre latérale, coupée par la cloche, ne dit pas qu'elle défile</td>
+<td>Toutes, à 900 px de haut</td>
+<td>P3</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Dans les tableaux à 1024 px, noms et dates de naissance se coupent sur trois ou quatre lignes</td>
+<td>Patients, Plaies</td>
+<td>P3</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Aucune aide en ligne : rien n'explique un écran ni un formulaire au moment de s'en servir</td>
+<td>Toutes</td>
+<td>P1 (demande)</td>
+</tr>
+</tbody>
+</table></div>
+<p>Sont déjà solides et n'ont pas été touchés :
+- les squelettes de chargement ;
+- les erreurs dites sous le champ (<code>saisie.ts</code>) ;
+- le focus clavier visible ;
+- <code>prefers-reduced-motion</code> ;
+- les contrastes : le contrôle n'en relève aucun sous 4,5:1, en dehors d'un faux positif sur la légende de la carte de chaleur.</p>
+<p>Le poste fixe n'a pas de mode sombre (<code>DESIGN.md</code>). Les retours d'action s'affichent en ligne, en <code>Avis</code> (ambre ou vert, icône et mot), de façon homogène. Il n'existe pas de système de toasts, et aucun n'a été ajouté.</p>
+<h2 id="ce-qui-a-changé-par-écran">Ce qui a changé, par écran</h2>
+<p><strong>Toutes les pages (cadre).</strong>
+- <strong>Aide</strong> :
+  - un bouton « ? » discret à côté du titre (<code>EnTete</code>, en-tête du dossier patient, savoir-faire, bilan, dossier de preuve) ;
+  - une entrée « Aide » (F1) dans la barre latérale, au-dessus de la cloche ;
+  - une commande « Aide de la page » dans la palette Ctrl K ;
+  - une astuce de première utilisation en bas à droite.
+- <strong>Défilement horizontal</strong> : il n'y en a plus à aucune largeur. Le vérificateur passe les 28 pages à 1440, 1024 et 800 px avec un débordement de 0. Deux causes ont été traitées :
+  - les marges du contenu deviennent des variables (<code>--contenu-x</code>, <code>--contenu-haut</code>), que le bandeau suit ;
+  - le texte réservé au lecteur d'écran (<code>.lecteur</code>) est ancré en haut à gauche. En absolu sans position, il restait à sa place statique, loin à droite, hors des rangées qui défilent.
+- <strong>Bandeau de démonstration</strong> : une seule ligne de texte, qui se plie dans sa colonne.
+- <strong>Barre latérale</strong> :
+  - la liste se fond en bas quand elle défile ;
+  - sous 900 px, la rangée tient dans la page et le nom de l'utilisateur passe au seul lecteur d'écran, ce qui garde la rangée du haut sur une ligne.
+- <strong>Navigateur</strong> : la barre de défilement prend la couleur de la charte, et le focus des onglets se dessine à l'intérieur (il n'est plus rogné).</p>
+<p><strong>Aujourd'hui.</strong>
+- Un « ? » sur « À traiter », « Contexte du jour », « Suggestions », « À préparer », « Tournées du jour » et « Plaies en cours ».
+- « Faire » d'une suggestion devient un bouton blanc au mot bleu : le seul bouton plein de la page reste « Nouveau patient ».
+- L'aide-soignante n'a plus le filtre « Facturation » ni le bouton « Nouveau patient ».</p>
+<p><strong>Tableau de bord.</strong>
+- « Ce qui vous attend » se lit en deux rangées alignées, « Soins » puis « Gestion ». Une rangée qui porte un critique, comme un journal d'audit rompu, passe en tête.
+- Un « ? » sur « Ce qui vous attend », la carte des passages, les objectifs, la cicatrisation, le suivi, « Avant le prochain envoi », la file des cotations et les passages non réalisés.</p>
+<p><strong>Tournées.</strong> Un « ? » sur « Planification du jour » ; la planification ne fait plus déborder la page à 1024 px.</p>
+<p><strong>Patients.</strong> Le nom et la naissance tiennent sur une ligne, et le tableau défile dans son panneau. « Nouveau patient » n'apparaît qu'avec le droit de créer un dossier.</p>
+<p><strong>Dossier patient, plaie.</strong> Pour l'aide-soignante, plus de colonne « Cotation » dans les passages ni de « modifie les règles de cotation » dans les alertes et l'infobulle du contexte.</p>
+<p><strong>Preuves.</strong> Pour l'aide-soignante, plus de colonne « Cotation ».</p>
+<p><strong>Bilans, nouveau bilan.</strong> Sans bilan dû ni patient, la page ne tente plus d'envoi. Elle dit d'où partir : « À rédiger et signer », ou le dossier du patient, onglet « Documents ».</p>
+<p><strong>Échanges de santé.</strong> Les réglages de la démonstration se lisent en entier. La règle commune <code>.tache</code> sans tuile vaut pour toutes les lignes de ce type.</p>
+<h2 id="le-système-daide">Le système d'aide</h2>
+<ul>
+<li><strong>Contenu</strong> : un fichier, <code>web/src/aide/contenu.ts</code>.</li>
+<li><strong>197 entrées</strong> <code>{ id, ecran, titre, texte, etapes?, lien?, roles?, droit? }</code>, avec des <code>id</code> préfixés <code>poste-</code>. Elles couvrent les 47 écrans du poste fixe et 9 entrées communes (<code>ecran: '*'</code> : navigation, recherche, notifications, bandeau, aide). Chaque page en a une, et chaque formulaire important a la sienne, étapes comprises.</li>
+<li><strong>61 astuces</strong>, une à trois par écran principal, plus trois communes.</li>
+<li><strong>Vérification du contenu</strong> : chaque texte a été relevé dans le code des écrans (libellés exacts, conditions d'affichage, droits), sans rien inventer. Un test vérifie que tout texte qui parle de cotation, de facturation, de FSE ou de montant porte <code>droit: 'voir_cotation'</code>.</li>
+<li><strong>Filtre</strong> : par rôle (<code>IDE</code>, <code>AS</code>, <code>ADM</code>) et par droit (<code>useDroits().peut</code>). L'aide-soignante n'a ni bulle, ni entrée, ni astuce, ni résultat de recherche qui parle de cotation.</li>
+<li><strong>Portail</strong> : <code>web/src/aide/config.ts</code> porte <code>PORTAIL_URL</code>. « En savoir plus » mène à <code>PORTAIL_URL#&lt;id&gt;</code> ; si la constante est vide, le lien est masqué.</li>
+<li><strong>Composants</strong> : <code>web/src/aide/Aide.tsx</code> et <code>aide.css</code>. Ils sont décrits dans <code>DESIGN.md</code>, section « Poste fixe : aide contextuelle et passe UX du 22 octobre 2026 » :</li>
+<li><code>AideFournisseur</code> (cadre, touches ? et F1) ;</li>
+<li><code>BoutonAide</code> (bulle non modale : focus, Échap, clic au-dehors) ;</li>
+<li><code>PanneauAide</code> (recherche, « Sur cette page », « Partout », « Revoir les astuces ») ;</li>
+<li><code>Astuces</code> (une à la fois, gardées par utilisateur dans <code>localStorage</code>, try/catch).</li>
+<li><strong>Tests</strong> : <code>web/src/test/Aide.test.tsx</code>, 17 cas.</li>
+<li>Ouverture et Échap de la bulle, focus rendu au bouton, clic au-dehors.</li>
+<li>F1, ? hors d'un champ et pas dans un champ, recherche, Échap du panneau.</li>
+<li>Astuces mémorisées par utilisateur, « Masquer », stockage bloqué, « Revoir les astuces ».</li>
+<li>Filtre par rôle et par droit.</li>
+<li>Intégrité du contenu : id, écrans existants, cotation réservée, aucun caractère de contrôle.</li>
+</ul>
+<h2 id="seconde-passe--droits-libellés-vocabulaire-même-jour">Seconde passe : droits, libellés, vocabulaire (même jour)</h2>
+<p>Tout ce que la première passe avait relevé sans le traiter est corrigé. Méthode : un inventaire des boutons et des liens vers le dossier de preuve visibles par Inès Petit (aide-soignante) sur 28 vues, rapproché des règles du serveur (<code>exiger_ide</code>, <code>exiger(...)</code>, <code>_tient</code>, <code>exiger_organise_ou_tient</code>), puis une relecture du texte rendu de toutes les pages, pour Paul Durand et pour Inès Petit, à la recherche de codes. Captures : <code>apres-droits-*</code>.</p>
+<p><strong>Aucun bouton ni lien que le serveur refuse.</strong> Tout se lit sur la matrice des droits (<code>GET /habilitations/matrice</code>, déjà lue par le poste fixe) avec <code>useDroits().peut(...)</code>. Rien n'est montré tant que la matrice n'est pas lue.</p>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Élément</th>
+<th>S'affiche pour</th>
+<th>Règle du serveur</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Liens vers le dossier de preuve, partout (<code>SiPreuve</code>, <code>usePreuve</code> dans <code>organisation.tsx</code>) : en-têtes, passages, photos, signalements, transmissions, Redon, biologie, vue du jour, palette Ctrl K, « Dossier de preuve par période »</td>
+<td><code>saisir_fiche_soin</code></td>
+<td><code>exiger_ide</code></td>
+</tr>
+<tr>
+<td>« Nouvelle prescription » (en-tête et panneau), « Nouvelle fréquence », « Soins × moments », « Modifier », « Arrêter ce soin », « Clore le traitement »</td>
+<td><code>creer_prescription_frequence</code></td>
+<td>HAB-09</td>
+</tr>
+<tr>
+<td>« Clôturer le dispositif », « Poser un dispositif », « Déclarer un changement de prescription », « Consulter le DMP », « Simuler un courrier reçu », dépôt de BSI</td>
+<td><code>saisir_fiche_soin</code></td>
+<td>rôle infirmier, <code>exiger_ide</code></td>
+</tr>
+<tr>
+<td>Tournées, itinéraire : glisser ou flèches, « Heure fixe », « Proposer un ordre », « Garder cet ordre par défaut », « Partir à… »</td>
+<td><code>attribuer_tournee</code>, ou l'intervenant qui tient la tournée</td>
+<td><code>exiger_organise_ou_tient</code></td>
+</tr>
+<tr>
+<td>Tournées, vue du jour : « Non réalisé », « Réattribuer » (<code>useAgitSurOccurrence</code>)</td>
+<td><code>echanger_tournee</code>, et l'intervenant attribué au rôle du soin (l'aide-soignante : le nursing seul), ou l'IDE responsable</td>
+<td><code>_tient</code></td>
+</tr>
+<tr>
+<td>Téléservices : « Interroger », « Tout interroger dans l'ordre »</td>
+<td><code>qualifier_ins</code></td>
+<td><code>exiger("qualifier_ins")</code></td>
+</tr>
+<tr>
+<td>Antécédents : ajouter, « Modifier », « Retirer », « Aucune allergie connue »</td>
+<td><code>saisir_antecedents</code></td>
+<td><code>verifier(u, "saisir_antecedents")</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>Le moteur de cotation n'est plus nommé à l'aide-soignante : plaie d'un patient insulino-traité, BSI déposé.</p>
+<p><strong>Plus aucun libellé technique à l'écran.</strong>
+- <strong>Simulations</strong> : une phrase utile remplace la commande shell du banc de conformité, et le nom de chaque adaptateur a disparu.
+- <strong>Réglages de la file de contrôle</strong> : « en attendant que la règle définitive soit arrêtée » remplace « décision D-05 ».
+- <strong>Banc de cotation</strong> :
+  - la catégorie n'apparaît plus en lettre (« · B ») ;
+  - l'identifiant du cas passe en info-bulle ;
+  - l'apostrophe est typographique.
+- <strong>Matrice des droits</strong> : une note en français utile remplace celle du cahier des charges, et l'info-bulle ne porte plus de code HAB.
+- <strong>Journal des accès</strong> :
+  - ce qui a été consulté s'écrit en clair, par une table des rubriques ;
+  - la route brute ne paraît plus qu'en info-bulle ;
+  - le code HTTP n'apparaît plus : « Refusé (403) » devient « Refusé », le code restant en info-bulle.
+- <strong>Terminaux</strong> : « d'office pour la démonstration » remplace « (développement) ».
+- <strong>Info-bulles</strong> : elles ne portent plus de code de règle (perfusion, séance dédiée).
+- <strong>Référentiel prescriptible</strong> : le code interne passe en info-bulle ; les codes officiels (LPP…) restent à l'écran.
+- <strong><code>sansCode</code></strong> retire désormais aussi :
+  - les codes groupés, comme « (HAB-07, §3.2) » ;
+  - « : D-04 » et « la décision D-05 » ;
+  - « (règle PAN-RG-05) » et « §3.2 ».
+- <strong>Garde, <code>test/LibellesSansCode.test.ts</code></strong> : il relit les sources des écrans, commentaires retirés, et refuse tout code de spécification (HAB, EX, PAN, D, Q, OFF…), tout « § » et tout « cahier des charges ». Seules restent permises les clés de table et les expressions qui reconnaissent un refus du serveur.</p>
+<p><strong>Un seul usage : le féminin, « aide-soignante » et « aides-soignantes ».</strong> C'est l'usage de la documentation et de l'aide, et le plus lisible.
+- Il s'applique partout, aide comprise : profils, rôles, planning (« Aides-soignantes attribuées »), itinéraire, planification (« elle ne reçoit que les soins de son rôle »), transmissions, simulations, cartes CPS (« elle signe avec sa session »).
+- Le même test refuse le masculin dans les sources des écrans.
+- L'aide du champ « Document source » nomme désormais le bloc « Ordonnances sources ».</p>
+<p><strong>Fond de page</strong> : #F6F5F2 reste en place (direction A validée).</p>
+<h2 id="vérifications">Vérifications</h2>
+<ul>
+<li><code>npx tsc --noEmit -p .</code> passe sans erreur.</li>
+<li><code>npx vitest run</code> : 65 fichiers, 611 tests, tous verts.</li>
+<li><strong>Tests nouveaux</strong> : <code>Aide.test.tsx</code>, <code>DroitsPreuve.test.tsx</code> et <code>LibellesSansCode.test.ts</code>, plus des cas ajoutés dans <code>Lot8</code>, <code>Soins</code>, <code>Itineraire</code> et <code>Lot14</code> : un cas par bouton à droit, chacun dans les deux sens.</li>
+<li><strong>Tests adaptés, sans masquer de régression</strong> :</li>
+<li>Les matrices simulées de neuf fichiers de tests reçoivent les droits qu'un IDE titulaire a dans la vraie matrice : <code>Composants</code>, <code>Lot14</code>, <code>Lot14Biologie</code>, <code>PartielC2</code>, <code>Soins</code>, <code>ContratMoteur</code>, <code>UxP0</code>, <code>EchangesSimules</code> et <code>Dossier</code>.</li>
+<li>Quatre attentes attendent désormais la lecture de la matrice avant de chercher le bouton (<code>findBy</code>).</li>
+<li>Trois textes suivent un libellé changé : « Refusé » sans code HTTP, « aide-soignante », « elle signe ».</li>
+<li><strong>Captures relues</strong> : 28 vues à 1440, 1024 et 800 px, sans défilement horizontal ni code dans le texte rendu (pour Paul Durand, puis Inès Petit). Écrans touchés : <code>apres-droits-*</code>.</li>
+</ul>
+<h2 id="ce-qui-reste">Ce qui reste</h2>
+<ul>
+<li><strong>À 1024 px</strong>, la colonne « Plaie » du tableau des plaies se plie encore sur trois lignes ; elle reste lisible.</li>
+<li><strong>Messages du serveur</strong> : <code>sansCode</code> les nettoie à l'affichage, mais un refus qui écrirait « aide-soignant » au masculin le garderait. Il faudrait l'harmoniser côté serveur, ce qui sort du périmètre web.</li>
+<li><strong><code>PRODUCT.md</code></strong> garde une section <code>## Register</code>, que la version courante de l'outil impeccable ne lit plus : à retirer ou à refaire par <code>impeccable init</code>.</li>
+</ul>
+</main>
+</body>
+</html>

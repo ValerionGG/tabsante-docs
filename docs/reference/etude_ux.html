@@ -1,0 +1,686 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Étude UX — TabSanté V2 : ce qu&#x27;il faut faire</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{--bg:#F4F6FA;--surface:#FFFFFF;--surface-2:#EEF2FB;--fg:#141A2E;--fg-2:#4A5372;--ligne:#DDE3EF;
+--accent:#2F5BEA;--accent-fg:#FFFFFF;--accent-doux:#E6ECFD;--attention:#8A5A00;--attention-fond:#FFF4DC;
+--code-fond:#F1F3F8;--police:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+--police-code:"JetBrains Mono",ui-monospace,"Cascadia Code",Consolas,monospace;--rayon:10px;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0E1220;--surface:#151A2B;--surface-2:#1C2338;
+--fg:#E8ECF7;--fg-2:#A3ACC6;--ligne:#2A3250;--accent:#7C9BFF;--accent-fg:#0E1220;--accent-doux:#1E2950;
+--attention:#F2C25B;--attention-fond:#33290F;--code-fond:#10152A;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0E1220;--surface:#151A2B;--surface-2:#1C2338;--fg:#E8ECF7;--fg-2:#A3ACC6;--ligne:#2A3250;
+--accent:#7C9BFF;--accent-fg:#0E1220;--accent-doux:#1E2950;--attention:#F2C25B;--attention-fond:#33290F;--code-fond:#10152A;color-scheme:dark}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--police);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}
+.entete{background:var(--surface);border-bottom:1px solid var(--ligne)}
+.entete div{max-width:calc(80ch + 32px);margin:0 auto;padding:12px 16px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.entete b{font-weight:600}
+.entete a{color:var(--accent);text-decoration:none;font-weight:500}
+.entete a:hover{text-decoration:underline}
+main{max-width:calc(80ch + 32px);margin:0 auto;padding:24px 16px 64px;overflow-wrap:break-word}
+.chemin{font-family:var(--police-code);font-size:12px;color:var(--fg-2);margin:0 0 8px}
+h1{font-size:28px;line-height:1.25;margin:0 0 16px}
+h2{font-size:21px;line-height:1.3;margin:36px 0 12px;padding-top:12px;border-top:1px solid var(--ligne)}
+h3{font-size:17px;margin:28px 0 8px}h4,h5,h6{font-size:15px;margin:20px 0 6px}
+a{color:var(--accent)}
+p,li{max-width:80ch}
+code{font-family:var(--police-code);font-size:.88em;background:var(--code-fond);border:1px solid var(--ligne);border-radius:5px;padding:0 4px;overflow-wrap:anywhere}
+pre{background:var(--code-fond);border:1px solid var(--ligne);border-radius:var(--rayon);padding:14px 16px;overflow-x:auto;font-size:13px;line-height:1.55}
+pre code{background:none;border:0;padding:0;font-size:inherit;overflow-wrap:normal}
+.tableau{overflow-x:auto;margin:16px 0;border:1px solid var(--ligne);border-radius:var(--rayon);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:13.5px;line-height:1.5}
+th,td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--ligne);min-width:8ch}
+th{background:var(--surface-2);font-weight:600}
+tr:last-child td{border-bottom:0}
+blockquote{margin:16px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-doux);border-radius:0 var(--rayon) var(--rayon) 0}
+hr{border:0;border-top:1px solid var(--ligne);margin:28px 0}
+img{max-width:100%}
+.non-publie{font-size:13px;color:var(--attention);background:var(--attention-fond);padding:1px 6px;border-radius:5px}
+details.sommaire{background:var(--surface);border:1px solid var(--ligne);border-radius:var(--rayon);padding:10px 16px;margin:0 0 24px}
+details.sommaire summary{cursor:pointer;font-weight:600}
+details.sommaire ul{padding-left:20px;margin:8px 0 0}
+.admonition{border:1px solid var(--ligne);border-radius:var(--rayon);padding:8px 16px;background:var(--surface)}
+.admonition-title{font-weight:600}
+</style>
+</head>
+<body>
+<header class="entete"><div><b>TabSanté — documents</b><a href="../../">← Retour au portail</a></div></header>
+<main>
+<p class="chemin">docs/reference/etude_ux.html</p>
+<h1 id="étude-ux--tabsanté-v2--ce-quil-faut-faire">Étude UX — TabSanté V2 : ce qu'il faut faire</h1>
+<details class="sommaire"><summary>Sommaire</summary><ul><li><a href="#0-verdict-en-8-points">0. Verdict en 8 points</a></li><li><a href="#1-diagnostic">1. Diagnostic</a></li><li><a href="#2-jobs-to-be-done-et-parcours-clés">2. Jobs-to-be-done et parcours clés</a></li><li><a href="#3-architecture-de-linformation">3. Architecture de l'information</a></li><li><a href="#4-recommandations-écran-par-écran">4. Recommandations écran par écran</a></li><li><a href="#5-le-niveau-visuel--ce-qui-fait--pro-élégant-beau--en-2026">5. Le niveau visuel : ce qui fait « pro, élégant, beau » en 2026</a></li><li><a href="#6-feuille-de-route-priorisée">6. Feuille de route priorisée</a></li><li><a href="#sources">Sources</a></li></ul></details>
+<p><strong>Terminal mobile (Flutter) et poste fixe (React). Diagnostic, parcours, architecture, écrans, niveau visuel, feuille de route.</strong>
+Étude du 3 octobre 2026. Elle s'appuie sur <code>PRODUCT.md</code>, <code>DESIGN.md</code>, les trois benchmarks de <code>docs/reference/</code>, la fiche 01 (maquettes M1–M12) et le CDC §6–8. Elle s'appuie aussi sur la lecture du code (<code>mobile/lib</code>, <code>web/src</code>), des captures <code>docs/maquettes/captures/</code> et sur une recherche web faite le même jour (sources en fin de document). Elle ne refait pas le benchmark fonctionnel ni le benchmark design : elle en tire <strong>des décisions</strong>.</p>
+<hr />
+<h2 id="0-verdict-en-8-points">0. Verdict en 8 points</h2>
+<ol>
+<li><strong>Le problème n'est pas d'abord esthétique, il est de cohérence.</strong> Il existe aujourd'hui <strong>deux systèmes visuels concurrents</strong> : le code (charte C17 pastel bleu-vert, Atkinson) et les maquettes « Carnet + Dossier » (papier crème, bouton moka, Newsreader, tampons inclinés, noms rayés à la main). Aucun des deux n'est tenu partout. Un produit paraît professionnel quand <strong>chaque écran obéit aux mêmes 30 règles</strong>, pas quand un écran est réussi.</li>
+<li><strong>Les maquettes « Carnet » échouent par excès de métaphore.</strong> Le tampon de travers, le trait de rature manuscrit, les hachures, le papier vergé et la police mono dans les badges sont du <strong>décor</strong>. Les produits considérés comme élégants (Linear, Stripe, Apple Santé, Doctolib) n'imitent aucun objet : ils tiennent par la typographie, l'alignement et la retenue.</li>
+<li><strong>Le passage de routine coûte aujourd'hui environ 14 appuis et 5 écrans</strong> (§2). La cible est <strong>6 appuis sur 1 écran + reçu</strong>. C'est le premier levier de satisfaction, devant la couleur.</li>
+<li><strong>Le mobile doit fonctionner comme une navigation GPS</strong> : un seul « prochain passage » mis en avant, un mode « en passage » sans distraction, un retour immédiat (reçu). Les modèles à suivre sont Uber Driver, Google Maps et les Live Activities d'Apple, pas les apps santé grand public.</li>
+<li><strong>Le poste fixe doit fonctionner comme Linear ou Stripe</strong> : barre latérale atténuée, listes triées « à traiter », tableau = vérité, Ctrl K partout, détail en panneau. Il faut abandonner la pile verticale de sections.</li>
+<li><strong>La preuve est le moment signature du produit.</strong> Elle doit se trouver en moins de 30 s : <em>patient → période → dossier</em>. Aujourd'hui elle n'existe que par acte, et on ne l'atteint qu'en passant par une photo ou par la vue du jour.</li>
+<li><strong>Le niveau visuel visé</strong> : un fond neutre presque blanc, une encre presque noire, <strong>un seul accent</strong>, des statuts sémantiques étroits, une famille typographique avec chiffres tabulaires, la grille de 4, des filets plutôt que des ombres, des rayons constants et un mouvement de 150 à 250 ms. Le serif est réservé au document de preuve imprimé.</li>
+<li><strong>Ordre de travail</strong> : (1) un seul système de jetons et de composants ; (2) le parcours de routine à 6 appuis ; (3) la tournée « prochain passage » ; (4) le poste fixe en liste-détail avec « À traiter » ; (5) le dossier de preuve par patient et par période. Le reste vient après.</li>
+</ol>
+<hr />
+<h2 id="1-diagnostic">1. Diagnostic</h2>
+<h3 id="11-écrans-actuels--problèmes-classés-impact--fréquence">1.1 Écrans actuels : problèmes classés (impact × fréquence)</h3>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Problème constaté</th>
+<th>Où</th>
+<th>Pourquoi c'est grave</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>Deux langages visuels</strong> : le code suit C17 (chrome #DCEBEA, action #1F6FB2) ; les maquettes suivent « Carnet » (moka #6E4B32, Newsreader, tampons).</td>
+<td><code>charte.dart</code>, <code>styles.css</code> vs <code>docs/maquettes/*.html</code>, <code>.impeccable/surfaces/mobile-lib.md</code></td>
+<td>Le fondateur juge un produit incohérent : « ni pro ni beau » vient d'abord de là.</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>Routine trop longue</strong> : patient → plaie → Évaluation → Gestes → « Valider la plaie » <strong>renvoie à la liste des plaies</strong> → « Relire et signer » → signature maintenue → reçu. Il faut 3 « Inchangé » séparés pour les mesures, puis saignement, douleur et signes infectieux plus bas dans un long défilement.</td>
+<td><code>ecrans/patient.dart</code>, <code>passage.dart</code>, <code>domaine.dart</code> (<code>manquantsEvaluation</code>)</td>
+<td>Cela fait 30 passages par tournée. 8 appuis de trop par passage font 240 appuis par jour.</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>Ligne de tournée sans ce dont on a besoin dehors</strong> : ni heure prévue, ni adresse, ni « Appeler » / « Itinéraire », ni ordre de passage, ni « prochain patient ». Les soins s'empilent en lignes de 17 dp.</td>
+<td><code>ecrans/tournee.dart</code> (<code>_LignePassage</code>)</td>
+<td>C'est l'écran le plus vu. Il répond à « qu'ai-je fait ? » mais pas à « où vais-je maintenant ? ».</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>L'écran Tournée mélange réglages et métier</strong> : une carte « Ce téléphone » (envois, recharger, changer d'intervenant) se trouve en bas de la liste des patients.</td>
+<td><code>tournee.dart</code></td>
+<td>La hiérarchie se brouille. Ces fonctions relèvent d'un menu ou d'un onglet « Envois ».</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>Chrome empilé</strong> : bandeau d'état (48 dp) + en-tête chrome (≈ 80 dp, plus les étiquettes de contexte) + barre d'action (≈ 100 dp avec la zone sûre). Cela fait près d'un tiers de l'écran avant le contenu.</td>
+<td><code>charte.dart</code> (<code>Ecran</code>, <code>BandeauEtat</code>, <code>BarreAction</code>)</td>
+<td>Sur un 6 pouces tenu d'une main, la saisie se fait par défilement à l'aveugle.</td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>Brouillon perdu</strong> si l'on quitte le passage (dialogue « Quitter sans signer ? ») ou si l'app est tuée (appel entrant, photo).</td>
+<td><code>patient.dart</code> (<code>_abandonner</code>)</td>
+<td>Une interruption fait partie du métier. Perdre une saisie détruit la confiance (critique P1 déjà relevée).</td>
+</tr>
+<tr>
+<td>7</td>
+<td><strong>Photo brute</strong> : caméra système, vignette de 96 px. Ni gabarit de cadrage, ni fantôme de la photo précédente, ni repère de calibration.</td>
+<td><code>passage.dart</code> (<code>_photo</code>)</td>
+<td>Sans cadrage constant, la comparaison photo (promesse n°3 de PRODUCT.md) ne vaut rien.</td>
+</tr>
+<tr>
+<td>8</td>
+<td><strong>Le poste fixe est une pile de sections</strong> : navigation haute à 3 entrées. Le tableau de bord enchaîne Aujourd'hui / Plaies / Non réalisés / Activité, sans file « à traiter » triée.</td>
+<td><code>Cadre.tsx</code>, <code>TableauDeBord.tsx</code></td>
+<td>NN/g distingue tableau de bord <strong>opérationnel</strong> (agir maintenant) et analytique. Le cabinet a besoin du premier.</td>
+</tr>
+<tr>
+<td>9</td>
+<td><strong>Chargements en cascade</strong> : une requête par patient pour les plaies, une par tournée pour le jour. L'écran affiche « Chargement… » en texte, sans squelette.</td>
+<td><code>TableauDeBord.tsx</code> (<code>useQueries</code>)</td>
+<td>Les blocs apparaissent les uns après les autres et la page saute : c'est la sensation de lenteur « logiciel métier ».</td>
+</tr>
+<tr>
+<td>10</td>
+<td><strong>La preuve n'existe que par acte.</strong> On y accède par une photo ou par la vue du jour. Il n'y a ni dossier patient × période, ni fil de preuve depuis une cotation.</td>
+<td><code>DossierPreuve.tsx</code>, <code>VuePlaie.tsx</code>, <code>Tournees.tsx</code></td>
+<td>L'objectif « preuve en moins de 30 s » n'est pas atteignable en contrôle.</td>
+</tr>
+<tr>
+<td>11</td>
+<td><strong>Dossier patient sans dimension temporelle</strong> : pas de prochain passage, pas de fréquences visibles, pas de fil des derniers actes. L'identité est en bas, les contextes en bandeaux empilés.</td>
+<td><code>DossierPatient.tsx</code></td>
+<td>La question n°1 au cabinet (« où en est M. Dupuis ? ») n'a pas de réponse en un regard.</td>
+</tr>
+<tr>
+<td>12</td>
+<td><strong>Planning = tableau d'attributions + formulaires.</strong> Pas de vue semaine, pas de conflits visibles, pas de glisser-déposer.</td>
+<td><code>Tournees.tsx</code></td>
+<td>Swily et CareCare font mieux sur cet écran. Il sera comparé en démo.</td>
+</tr>
+<tr>
+<td>13</td>
+<td><strong>Détails non professionnels</strong> : interrupteur « Simuler l'absence de réseau » dans l'écran de production ; bouton plein « Envoyer maintenant » alors que l'envoi est automatique ; zéro barré d'Atkinson dans les dates (« 2026 ») ; codes de règles (« C11 », « PAN-RG-01 ») en infobulles visibles.</td>
+<td><code>file.dart</code>, captures, <code>VuePlaie.tsx</code></td>
+<td>Chacun est mineur. Ensemble, ils signalent un prototype.</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Ce qui est déjà juste, à conserver</strong> :
+- la barre d'action unique qui dit ce qui manque (C19) ;
+- la signature maintenue de 800 ms avec haptique ;
+- le reçu plein écran avec l'état d'envoi exact ;
+- la correction d'un envoi refusé depuis le téléphone ;
+- les états icône + mot ;
+- la palette Ctrl K ;
+- la vue d'épisode : courbe, comparaison avant/après, empreintes.</p>
+<p>Les fondations UX sont meilleures que la surface.</p>
+<h3 id="12-concurrents--ce-quils-font-bien-et-mal-synthèse-des-benchmarks">1.2 Concurrents : ce qu'ils font bien et mal (synthèse des benchmarks)</h3>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Produit</th>
+<th>Bien fait (à reprendre)</th>
+<th>Mal fait (à éviter)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Agathe YOU</strong></td>
+<td>Tournée groupée par heure ; assistant d'ordonnance « une question par écran » ; badge « Premier soin » ; bouton + central pour les actes isolés</td>
+<td>NOMS EN CAPITALES ; captures store de 2021 ; incohérence entre le site et l'app (Poppins + police fantaisie) ; service jugé complexe</td>
+</tr>
+<tr>
+<td><strong>Albus</strong></td>
+<td>Filtre « Restante / Tous » ; codes d'actes en puces compactes ; hors ligne réel</td>
+<td>Thème marine intégral, peu lisible en plein soleil ; avatars cartoon et confettis ; correction d'ordonnance impossible sur mobile</td>
+</tr>
+<tr>
+<td><strong>Swily</strong></td>
+<td>Le plus « natif iOS » et rigoureux ; planning d'équipe ; scan + champs extraits à relire</td>
+<td>Écriture impossible hors ligne ; couleurs de tournée saturées ; iPhone uniquement</td>
+</tr>
+<tr>
+<td><strong>CareCare</strong></td>
+<td>Écran « Validation avant télétransmission » (AMO / AMC / patient) ; carte de tournée réordonnable au pouce ; « vigilance » posée par l'IDE</td>
+<td>Deux boutons pleins sur la facturation ; tutoiement</td>
+</tr>
+<tr>
+<td><strong>Ozzen</strong></td>
+<td>Compteurs d'exceptions en tête (hospitalisés, annulés) ; pointage après chaque visite ; rappels d'échéance d'ordonnance</td>
+<td>Violet + rose + dégradés ; lecteur lent ; écran noir au démarrage</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Lecture</strong> : aucun concurrent IDEL n'a de <strong>parcours de routine optimisé</strong>, de <strong>preuve visible</strong> ni de <strong>langage hors ligne</strong>. La barre est basse sur le métier et moyenne sur le visuel. Les apps plaies (Swift, Healico, Pixacare) et le home care nord-américain (AlayaCare) fixent la barre clinique.</p>
+<hr />
+<h2 id="2-jobs-to-be-done-et-parcours-clés">2. Jobs-to-be-done et parcours clés</h2>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Persona</th>
+<th>Job (« quand… je veux… pour… »)</th>
+<th>Budget</th>
+<th>Points de rupture</th>
+<th>Cible</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>IDEL au domicile</strong></td>
+<td>Quand je finis un soin, je veux le tracer et le signer sans y penser, pour passer au patient suivant l'esprit tranquille.</td>
+<td>≤ 30 s (routine) ; ≤ 90 s (changement, photo)</td>
+<td>Interruption (appel, patient) ; gants humides ; soleil ; zone blanche ; doute « est-ce parti ? »</td>
+<td><strong>≤ 6 appuis</strong> si rien n'a changé ; <strong>0 perte</strong> de saisie</td>
+</tr>
+<tr>
+<td><strong>IDEL au domicile</strong></td>
+<td>Quand j'arrive dans la rue, je veux savoir qui est le suivant, où il habite et ce qui a changé, pour ne rien rater.</td>
+<td>≤ 5 s</td>
+<td>Prescription modifiée non vue ; adresse ; code d'entrée</td>
+<td>1 regard + 1 appui (itinéraire)</td>
+</tr>
+<tr>
+<td><strong>IDEL au cabinet</strong></td>
+<td>Le soir, je veux voir ce qui demande mon attention (plaies sans progrès, non réalisés, refus, échéances), pour décider en 10 minutes.</td>
+<td>10 min</td>
+<td>Pile d'informations non triée ; lenteur</td>
+<td>1 écran « À traiter » trié ; clavier</td>
+</tr>
+<tr>
+<td><strong>IDEL au cabinet</strong></td>
+<td>Quand je prépare un bilan, je veux comparer courbe et photos d'une plaie, pour écrire au médecin.</td>
+<td>3 min</td>
+<td>Photos mal cadrées ; données éparses</td>
+<td>Épisode = 1 page ; bilan pré-rédigé</td>
+</tr>
+<tr>
+<td><strong>AS</strong> (aide-soignant·e)</td>
+<td>Je veux tracer mon nursing avec la même simplicité, sans voir ce qui ne me concerne pas.</td>
+<td>≤ 20 s</td>
+<td>Écrans IDE non filtrés</td>
+<td>Mêmes composants ; droits restreints visibles</td>
+</tr>
+<tr>
+<td><strong>Contrôleur / IDE en contrôle</strong></td>
+<td>Quand on me demande la preuve d'un acte, je veux la montrer et l'imprimer, pour qu'elle tienne d'elle-même.</td>
+<td><strong>≤ 30 s</strong></td>
+<td>Recherche par acte seulement ; document « app »</td>
+<td>Ctrl K → patient → période → PDF</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Le parcours de routine, aujourd'hui puis cible.</strong></p>
+<p>Aujourd'hui (≈ 14 appuis, 5 écrans, 3–4 défilements) :
+1. ligne patient ;
+2. plaie ;
+3. saignement ;
+4–6. « Inchangé » × 3 ;
+7. douleur ;
+8. signes infectieux ;
+9. « Passer aux gestes » ;
+10. « Reprendre les gestes » ;
+11. « Valider la plaie » ;
+12. « Relire et signer » ;
+13. maintenir « Signer » ;
+14. « Patient suivant ».</p>
+<p>Cible (6 appuis, 1 écran + reçu) :
+1. « Ouvrir Dupuis Roger » (barre de la tournée, ou « Patient suivant » sur le reçu) ;
+2. carte « <strong>Comme le 01/10</strong> : mesures, aspects, gestes » → « Reprendre » ;
+3. saignement ;
+4. douleur ;
+5. signes infectieux ;
+6. maintenir « Signer le passage ».</p>
+<p>Les trois questions de sécurité restent des réponses <strong>délibérées</strong>, sans valeur par défaut, comme l'exige PAN-RG-06. Le reste est <strong>repris visiblement et modifiable</strong>, jamais signé en silence. S'il n'y a qu'une plaie prévue, l'étape « liste des plaies » est sautée. Le récapitulatif est le haut du même écran, pas un écran de plus.</p>
+<p>C'est le modèle des courses répétées d'Uber Driver et du « suivant » de Google Maps : la machine propose, l'humain confirme ce qui engage.</p>
+<hr />
+<h2 id="3-architecture-de-linformation">3. Architecture de l'information</h2>
+<h3 id="31-terminal-mobile---tournée-dabord-passage-en-mode-focus-">3.1 Terminal mobile : « tournée d'abord, passage en mode focus »</h3>
+<ul>
+<li><strong>3 destinations en barre d'onglets</strong>, visibles seulement hors passage : <strong>Tournée</strong> (accueil), <strong>Patients</strong> (recherche, patient hors tournée, passage imprévu) et <strong>Envois</strong> (avec pastille de compteur : file, refus, rechargement, changement d'intervenant).</li>
+<li>Oura est passé de 5 à 3 onglets (Today / Vitals / My Health) pour mettre en avant « une seule chose importante » (<a href="https://ouraring.com/blog/new-oura-app-experience/">Oura</a>).</li>
+<li>Material 3 réserve la barre de navigation aux destinations de premier niveau (<a href="https://m3.material.io/foundations/adaptive-design/canonical-layouts">M3</a>).</li>
+<li><strong>Mode passage = plein écran sans onglets</strong> : en-tête patient compact, contenu, barre d'action. On en sort par le reçu ou par « Retour ». C'est le mode navigation de Google Maps : une tâche, pas de menu.</li>
+<li><strong>Hiérarchie</strong> :</li>
+<li>Tournée → Passage (une plaie : écran unique ; plusieurs : liste courte puis écran par plaie) → Signature → Reçu ;</li>
+<li>les actions rares (clôture, événement critique, acte à distance, saisie différée) vont dans le menu « ⋯ » du passage (M9 / C7) ;</li>
+<li>le statut réseau quitte le bandeau permanent : il devient une <strong>pastille dans l'en-tête</strong> (« Hors ligne · 2 »), qui ne s'élargit en bandeau qu'en cas de refus ou de données anciennes.</li>
+<li><strong>Plus tard, une « Live Activity » / notification persistante</strong> « Tournée du matin · 4/11 · prochain : Dupuis Roger, 8 h 40 ». Elle est glanceable sur l'écran verrouillé (<a href="https://developers.apple.com/design/human-interface-guidelines/components/system-experiences/live-activities">Apple HIG Live Activities</a>).</li>
+</ul>
+<h3 id="32-poste-fixe---barre-latérale--liste--détail-">3.2 Poste fixe : « barre latérale + liste + détail »</h3>
+<ul>
+<li><strong>Barre latérale atténuée</strong> (Linear la « baisse » pour que le contenu domine, <a href="https://linear.app/now/how-we-redesigned-the-linear-ui">Linear</a>). Elle contient :</li>
+<li><strong>Aujourd'hui</strong> (à traiter) ;</li>
+<li><strong>Patients</strong> ;</li>
+<li><strong>Plaies et objets suivis</strong> ;</li>
+<li><strong>Tournées et planning</strong> ;</li>
+<li><strong>Preuves et cotations</strong> (lots, refus, contrôle) ;</li>
+<li>en pied : recherche Ctrl K, cabinet, utilisateur.</li>
+<li><strong>Liste-détail</strong> (canonique M3) : la liste a une largeur fixe et le détail est souple. Ouvrir un patient depuis « Aujourd'hui » ne fait pas perdre la liste.</li>
+<li><strong>Ctrl K = commande, pas seulement recherche</strong> : « Dupuis » → dossier ; « Dupuis septembre preuve » → dossier de preuve de la période ; « nouvelle tournée ». Chaque commande affiche son raccourci (<a href="https://blog.superhuman.com/how-to-build-a-remarkable-command-palette/">Superhuman</a>).</li>
+<li><strong>URL = état</strong> : filtres, période et onglet sont dans l'URL. Un lien envoyé à une collègue ouvre exactement la même vue.</li>
+</ul>
+<hr />
+<h2 id="4-recommandations-écran-par-écran">4. Recommandations écran par écran</h2>
+<p>Format : <strong>mise en page · action principale · données en premier · états · micro-interactions · référence</strong>.</p>
+<h3 id="41-terminal">4.1 Terminal</h3>
+<p><strong>Tournée</strong>
+- <strong>Mise en page</strong> : en-tête « Jeudi 2 octobre · Tournée du matin », ligne de progression <strong>segmentée</strong> (1 segment = 1 passage ; plein = signé, contour = à faire, barré = non réalisé) et « 4 / 11 · fin prévue 12 h 10 ». Puis la <strong>carte « Prochain »</strong> (heure, Nom Prénom 20/600, âge, soins en clair, alertes en puces signal), suivie de la liste par moment.
+- <strong>Action</strong> : barre du bas « Ouvrir Dupuis Roger ». Sur la carte « Prochain » : « Itinéraire » et « Appeler » en boutons de 48 dp, secondaires.
+- <strong>Données en premier</strong> : heure prévue · nom · ce qui a changé (prescription, rappel daté). L'adresse est sur la carte « Prochain » seulement.
+- <strong>États</strong> :
+  - vide : « Aucune tournée attribuée aujourd'hui » + qui contacter ;
+  - hors ligne : pastille ;
+  - données d'hier : bandeau signal persistant ;
+  - terminé : carte acquis « Tournée terminée · 11 passages signés · 2 en attente d'envoi ».
+- <strong>Micro-interactions</strong> : la ligne signée se grise et glisse sous les « faits » en 200 ms, sans rature manuscrite.
+- <strong>Référence</strong> : Uber Driver, prochaine course et lisibilité « go big » (<a href="https://medium.com/uber-design/designing-the-latest-generation-of-uber-navigation-maps-built-for-ridesharing-de3ede031ce1">Uber Design</a>) ; AlayaCare « 1/5 Done ».</p>
+<p><strong>Patient / passage (évaluation + gestes fusionnés)</strong>
+- <strong>Mise en page</strong> : en-tête collant compact (Nom · âge · plaie · J+n, contextes en icônes + mot). Ensuite, dans l'ordre :
+  1. la carte <strong>« Comme le 01/10 »</strong> (L × l × P, aspects, gestes) avec « Reprendre » ou « Modifier » ;
+  2. les 3 questions obligatoires en contrôles segmentés pleine largeur de 56 dp ;
+  3. les mesures (une seule ligne compacte, et les steppers ne se déploient que si l'on touche) ;
+  4. la photo ;
+  5. le commentaire.
+- <strong>Action</strong> : « Signer le passage », appui maintenu. Le bouton reste inactif tant qu'il manque une réponse et dit laquelle ; un appui sur la mention fait défiler jusqu'au champ.
+- <strong>Données en premier</strong> : ce qui a <strong>changé</strong> depuis le dernier passage (bandeau signal « Prescription modifiée le 03/09 : 1 fois / jour → 1 fois / 2 jours »).
+- <strong>États</strong> :
+  - brouillon <strong>sauvegardé à chaque appui</strong> (local), repris tel quel après interruption : « Saisie reprise · 9 h 41 » ;
+  - refus serveur : bandeau en tête.
+- <strong>Micro-interactions</strong> :
+  - « Reprendre » coche tout en une fois avec un fondu de 150 ms, et les éléments repris portent une marque « repris » jusqu'à la signature ;
+  - stepper avec répétition à l'appui long ; haptique légère à chaque cran.
+- <strong>Référence</strong> : GOV.UK « une chose par page… la chose est une tâche, pas un champ » (<a href="https://design-system.service.gov.uk/patterns/question-pages">GOV.UK</a>) ; NN/g sur la réduction de la charge cognitive (<a href="https://www.nngroup.com/articles/4-principles-reduce-cognitive-load/">NN/g</a>).</p>
+<p><strong>Photo</strong>
+- <strong>Mise en page</strong> : viseur <strong>sombre neutre</strong> (le seul écran sombre), <strong>fantôme à 30 % de la photo précédente</strong> pour caler le cadrage, gabarit de distance, repère de calibration détecté (« Calibrée » / « Non calibrée », icône + mot).
+- <strong>Action</strong> : déclencheur de 72 dp centré-bas, puis « Garder » / « Reprendre ».
+- <strong>États</strong> : stockage local plein ; permission refusée (expliquer comment l'accorder) ; photo jamais placée dans la galerie personnelle.
+- <strong>Référence</strong> : Swift Skin &amp; Wound, marqueur HealX de 1 cm et axes colorés (<a href="https://swiftmedical.com/how-a-small-scientific-calibrant-can-drastically-enhance-wound-care/">Swift</a>) ; Healico Measure, détection automatique (<a href="https://www.actusoins.com/healico-measure-transformez-votre-smartphone-en-outil-de-mesure-des-plaies.html">ActuSoins</a>) ; Epic Rover, photo versée au dossier et jamais dans la galerie (<a href="https://www.mindbowser.com/epic-rover-guide/">Mindbowser</a>).</p>
+<p><strong>Signature</strong>
+- Pas d'écran séparé en routine : la signature est la barre de l'écran de passage. Un écran « Relire » n'apparaît que si plusieurs plaies ou une saisie différée exigent un motif.
+- <strong>Micro-interactions</strong> : le remplissage de 800 ms démarre <strong>au-dessus du pouce</strong> (anneau autour du libellé, pas sous le doigt). Une haptique forte marque la fin. Si l'appui est trop court, le texte change : « Maintenez pour signer ». L'alternative accessible est un appui + confirmation.
+- <strong>Référence</strong> : appui long retenu par une étude de refonte d'app de livreurs, car plus fiable avec des gants et pour les deux mains (<a href="https://amillionadventures.medium.com/redesigning-a-delivery-driver-app-part-2-design-613fd9591a59">étude de cas</a>).</p>
+<p><strong>Reçu</strong>
+- <strong>Mise en page</strong> : fond acquis plein écran, sceau, « Passage signé à 9 h 42 », patient, <strong>une ligne de progrès clinique</strong> (« Volume −39 % depuis J0 »), état d'envoi exact.
+- <strong>Action</strong> : « Patient suivant : Bernard Louis · 9 h 15 ». Pas de fermeture automatique : le reçu reste jusqu’à une action, car c’est la preuve ressentie.
+- <strong>Référence</strong> : Strava, résumé persistant d'activité (<a href="https://stories.strava.com/articles/strava-guide-your-activity-page-101">Strava</a>) ; confirmations de virement des néobanques (Qonto, Revolut) : montant, destinataire, statut, horodatage, rien d'autre.</p>
+<p><strong>Clôture de plaie</strong>
+- La forme actuelle est conservée : menu « ⋯ », écran de conséquences, rouge réservé à l'irréversible.
+- Ajouter en tête une <strong>frise résumée</strong> (J0 → J+n, valeur J0 → dernière). On clôture en voyant le chemin parcouru.
+- Le reçu de cicatrisation devient le seul « moment heureux » autorisé, sobre et sans confetti.</p>
+<p><strong>File de synchronisation (onglet Envois)</strong>
+- <strong>Mise en page</strong> : en tête une phrase d'état (« Tout est transmis · dernière synchro 9 h 44 » ou « 3 en attente · 1 à corriger »), puis les <strong>refus d'abord</strong> (Nom du patient, plaie, motif en clair, « Corriger »), puis les envois en attente groupés par patient.
+- <strong>Action</strong> : aucune action pleine si tout va bien. L'envoi est automatique ; « Réessayer maintenant » reste un bouton secondaire.
+- <strong>À retirer</strong> : l'interrupteur de démonstration (le réserver à un menu développeur).
+- <strong>Référence</strong> : AlayaCare, mode hors ligne et remontée automatique (<a href="https://alayacare.com/blog/offline-mode-alayacares-care-worker-mobile-app-supports-rural-areas-and-limited-connectivity/">AlayaCare</a>) ; statuts « Attaché / Manquant / Non requis » des justificatifs Qonto, pour le même type de dette documentaire (<a href="https://support-de.qonto.com/hc/en-us/articles/23949228967441-How-can-I-have-better-visibility-on-missing-receipts">Qonto</a>).</p>
+<h3 id="42-poste-fixe">4.2 Poste fixe</h3>
+<p><strong>Aujourd'hui (tableau de bord)</strong>
+- <strong>Mise en page</strong> : une phrase-résumé (« 23 passages signés · 6 à faire · 2 non réalisés hier »), puis <strong>une seule liste « À traiter » triée par urgence</strong> et groupée par type : refus d'envoi, intégrité, non réalisés, plaies sans progrès ou sans mesure, échéances d'ordonnance, saisies différées. Chaque ligne porte un verbe (« Voir le passage », « Renouveler »).
+- Pas de grille de tuiles chiffrées : NN/g rappelle qu'un tableau de bord opérationnel sert à <strong>agir</strong> (<a href="https://www.nngroup.com/articles/dashboards-preattentive/">NN/g</a>).
+- <strong>États</strong> :
+  - squelette de toute la liste, avec <strong>un seul appel d'API agrégé</strong> (corrige le n°9) (<a href="https://www.nngroup.com/articles/skeleton-screens/">NN/g, squelettes</a>) ;
+  - vide : « Rien à traiter. Dernière vérification 18 h 05 ».
+- <strong>Référence</strong> : la boîte de réception Linear (triée, actionnable) ; Stripe, « montrer ce qu'il faut pour agir ».</p>
+<p><strong>Patients (liste)</strong>
+- <strong>Mise en page</strong> : tableau dense mais aéré. Colonnes : Nom Prénom · âge · tournée · objets suivis actifs (puces) · prochain passage · dernier acte · statut INS. Filtres enregistrés (« Ma tournée », « Plaies actives », « Hospitalisés »). Clic = panneau de détail, double-clic = page.
+- <strong>Règles</strong> : texte aligné à gauche, chiffres à droite, unités dans l'en-tête, tri visible ; le tableau sert les quatre tâches « trouver, comparer, voir une ligne, agir » (<a href="https://www.nngroup.com/articles/data-tables/">NN/g</a>).</p>
+<p><strong>Dossier patient</strong>
+- <strong>Mise en page</strong> : en-tête identité (nom 28, âge, adresse, médecin traitant, contextes en puces), puis <strong>3 colonnes</strong> :
+  - (a) <strong>objets suivis</strong> avec sparkline et dernière valeur ;
+  - (b) <strong>fil chronologique</strong> des actes (signataire, heure, lien preuve) ;
+  - (c) <strong>prescriptions et fréquences</strong> avec le prochain passage.
+- L'identité administrative passe dans un onglet.
+- <strong>Action</strong> : « Dossier de preuve… » (choix de la période) en bouton secondaire ; aucune action pleine en lecture.
+- <strong>Référence</strong> : la page d'activité de Strava (résumé persistant + fil) ; les Highlights d'Apple Santé (comparaisons en phrases) (<a href="https://9to5mac.com/2026/08/06/apple-health-best-features/">9to5Mac</a>).</p>
+<p><strong>Épisode de plaie</strong>
+- Garder la structure de <code>VuePlaie.tsx</code>, avec les améliorations suivantes.
+- <strong>Courbe</strong> :
+  - trait de 2 px, une seule couleur, marqueurs pleins (calibrée) ou creux (non calibrée) ;
+  - <strong>événements annotés</strong> (changement de protocole, hospitalisation) ;
+  - libellé direct de la dernière valeur ;
+  - le tableau des mesures juste dessous, <strong>sans défilement horizontal</strong> : colonnes regroupées « Aspects » et « Mesures », aspects affichés en évolution (« Fibrine +++ → ++ »).
+- <strong>Planche photo</strong> : bord à bord, même ratio, dates et valeurs sous chaque vignette. Le mode comparaison s'ouvre en superposition plein écran avec un <strong>curseur avant/après</strong> ou deux images synchronisées en zoom.
+- <strong>Action</strong> : « Rédiger le bilan de plaie », pré-rédigé depuis l'historique (EX-DO-01).
+- <strong>Référence</strong> : Swift (axes colorés et deltas en puces) ; Pixacare (classement automatique et pourcentages tissulaires) (<a href="https://www.pixacare.com/en/wound-documentation">Pixacare</a>).</p>
+<p><strong>Dossier de preuve</strong>
+- <strong>Deux niveaux</strong> :
+  - (1) <strong>par patient et période</strong> : page de garde, sommaire, un acte par section, pagination, empreinte du document ;
+  - (2) par acte, comme aujourd'hui.
+- Il doit s'atteindre en 3 gestes : Ctrl K → patient → « Dossier de preuve, septembre ».
+- <strong>Mise en page</strong> : registre « document » (serif pour les titres, filets, § numérotés), <strong>verdict d'intégrité en tête</strong>, horodatages réalisé / saisi / reçu alignés, écarts signalés en signal.
+- <strong>Retirer le tampon incliné</strong> : un encadré sobre « Signé · 02/10/2026 9 h 42 · Claire Martin, IDE · empreinte 7F3A 9C21 » est plus crédible qu'un faux tampon.
+- <strong>Ne jamais imiter l'identité de l'État.</strong>
+- <strong>Référence</strong> : GOV.UK et NHS pour la sobriété des documents de service (<a href="https://service-manual.nhs.uk/design-system/styles">NHS</a>) ; Stripe, « le tableau est la vérité ».</p>
+<p><strong>Planning</strong>
+- <strong>Mise en page</strong> : <strong>grille semaine</strong> (lignes = tournées × moments, colonnes = jours), cellule = intervenant, conflits (EX-TO-03) en signal avec « Réattribuer ». Un panneau latéral liste les remplaçants et leurs habilitations datées. Glisser-déposer une cellule vers un intervenant ; le clavier reste possible.
+- <strong>Vue jour</strong> : liste ordonnée + carte (ordre de passage, durée estimée). C'est le point fort de CareCare, qu'il faut égaler.
+- <strong>Référence</strong> : le planning d'équipe Swily ; les vues de cycle et de tableau Linear.</p>
+<hr />
+<h2 id="5-le-niveau-visuel--ce-qui-fait--pro-élégant-beau--en-2026">5. Le niveau visuel : ce qui fait « pro, élégant, beau » en 2026</h2>
+<h3 id="51-les-règles-concrètes">5.1 Les règles concrètes</h3>
+<ol>
+<li><strong>Une seule famille sans empattement, chiffres tabulaires partout où l'on compare.</strong> Les produits de référence le font tous :
+   - Linear : Inter Display pour les titres, Inter pour le texte (<a href="https://linear.app/now/how-we-redesigned-the-linear-ui">Linear</a>) ;
+   - Stripe : Söhne avec <code>tnum</code> (<a href="https://www.925studios.co/blog/stripe-dashboard-design-breakdown">925studios</a>) ;
+   - Uber : Uber Move dans une échelle modulaire ;
+   - Apple : SF Pro.</li>
+</ol>
+<p><strong>Recommandation</strong> : tester sur téléphone, en plein soleil, <strong>Inter + Inter Display</strong> (OFL ; jeu <code>ss02</code> « désambiguïsation » activé <strong>seulement</strong> pour les doses, mesures et identifiants) contre <strong>Atkinson Hyperlegible Next</strong> (zéro barré désactivé si la variante existe). Garder la plus lisible. La décision par défaut est Inter, parce qu'elle est neutre et éprouvée. Le serif (Source Serif 4) est réservé au document imprimé. La mono ne sert qu'aux empreintes.
+2. <strong>Échelle courte</strong> : 4 tailles au plus par écran ; graisses 400 / 600 seulement (700 pour le chiffre héros). La hiérarchie vient de la taille et de la couleur d'encre, <strong>pas des cadres</strong>.
+3. <strong>Couleur : fond neutre, encre forte, un seul accent.</strong>
+   - Fond <code>#FAFAF9</code> (blanc cassé froid-neutre, plutôt que crème ou beige qui « jaunit » à l'écran), surfaces blanches, encre <code>#16191A</code>, secondaire <code>#5B6366</code>.
+   - Un accent d'action (bleu <code>#1F6FB2</code>, conservé de C17).
+   - Statuts sémantiques étroits : acquis vert sourd, signal ambre, critique grenat.
+   - Linear a réduit son bleu « pour un aspect neutre et intemporel » et génère ses thèmes en LCH à partir de trois variables : base, accent, contraste.
+   - Le chrome bleu-vert pâle de C17 devient <strong>l'identité discrète</strong> (logo, barre latérale sélectionnée), plus un bandeau.
+4. <strong>Grille de 4 et alignement obsessionnel</strong> (Linear dit avoir « aligné libellés, icônes et boutons, verticalement et horizontalement ») : marges de 16 / 24 / 32, gouttières constantes, icônes de 20 sur une grille de 24 alignées sur la ligne de base du texte.
+5. <strong>Élévation : des filets, pas d'ombres.</strong> Filet de 1 px <code>#E4E7E8</code> ; ombre réservée à ce qui flotte (menus, feuilles, barre d'action). Rayons <strong>constants</strong> : 8 pour les contrôles, 12 pour les surfaces, sans mélange 4 / 10 / 12 / 16.
+6. <strong>Iconographie</strong> : un jeu unique (Phosphor Regular 1,5 px), Fill = fait. Ni emoji, ni illustration, ni avatar dessiné ; les patients sont représentés par des <strong>initiales</strong> sur un fond neutre.
+7. <strong>Data-viz</strong> : trait de 2 px, 1 ou 2 couleurs, grilles très claires, libellé direct, valeur écrite à côté de la courbe. Variation en mots (« −39 % depuis J0 »), jamais de flèche rouge ou verte qui juge.
+8. <strong>Mouvement fonctionnel</strong> : 150–200 ms pour les états, 250 ms pour les feuilles, aucun rebond ; une seule animation « signature » (le remplissage de la signature). Réponse à l'appui en moins de 100 ms (Superhuman vise 50–60 ms).
+9. <strong>Image</strong> : la seule photo du produit est celle de la plaie, toujours cadrée de la même façon, sur un fond sombre neutre, avec date et valeur.
+10. <strong>Écriture</strong> : verbe + objet sur chaque bouton, phrases courtes, chiffres au format français, aucun code interne visible. La qualité perçue vient à moitié des mots.</p>
+<h3 id="52-références-nommées-et-pourquoi">5.2 Références nommées, et pourquoi</h3>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Produit</th>
+<th>Ce qu'il apprend à TabSanté</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Linear</strong></td>
+<td>Navigation atténuée, alignement, LCH, densité réglable, Ctrl K</td>
+</tr>
+<tr>
+<td><strong>Stripe Dashboard</strong></td>
+<td>Tableau = vérité, <code>tnum</code>, statuts en puces étroites, un seul accent</td>
+</tr>
+<tr>
+<td><strong>Superhuman</strong></td>
+<td>Vitesse perçue, commandes au clavier apprises par la palette</td>
+</tr>
+<tr>
+<td><strong>Notion</strong></td>
+<td>Neutralité typographique ; le contenu fait la page</td>
+</tr>
+<tr>
+<td><strong>Arc</strong></td>
+<td>Barre latérale comme espace de travail ; panneaux scindés</td>
+</tr>
+<tr>
+<td><strong>Apple Santé (iOS 27)</strong></td>
+<td>Highlights en phrases + graphique ; tendances comparées</td>
+</tr>
+<tr>
+<td><strong>Oura</strong></td>
+<td>« Une seule chose importante » par écran ; 3 onglets</td>
+</tr>
+<tr>
+<td><strong>Withings</strong></td>
+<td>Typographie plus nette, thème unifié pour réduire la fatigue</td>
+</tr>
+<tr>
+<td><strong>Doctolib (Oxygen)</strong></td>
+<td>Jetons sémantiques intention / surface / force (<a href="https://medium.com/doctolib/design-system-mastery-scaling-with-wisdom-f96c299c8374">Doctolib</a>)</td>
+</tr>
+<tr>
+<td><strong>Swift Skin &amp; Wound</strong></td>
+<td>Mesure calibrée, deltas, verrou de l'évaluation</td>
+</tr>
+<tr>
+<td><strong>Uber Driver / Google Maps</strong></td>
+<td>Prochaine étape surdimensionnée, contraste, « glanceable » (<a href="https://9to5google.com/2024/02/27/google-maps-glanceable-directions-2/">9to5Google</a>)</td>
+</tr>
+<tr>
+<td><strong>AlayaCare</strong></td>
+<td>Hors ligne natif, pointage, synchronisation visible</td>
+</tr>
+<tr>
+<td><strong>Strava</strong></td>
+<td>Résumé d'activité persistant = modèle du reçu</td>
+</tr>
+<tr>
+<td><strong>Qonto</strong></td>
+<td>Statut de pièce justificative manquante = modèle du « maillon de preuve manquant »</td>
+</tr>
+<tr>
+<td><strong>GOV.UK / NHS</strong></td>
+<td>Formulaires clairs, encadrés d'alerte rares, accessibilité (<a href="https://www.nngroup.com/articles/errors-forms-design-guidelines/">NN/g erreurs</a>)</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="53-ce-qui-fait--logiciel-de-santé-bon-marché-">5.3 Ce qui fait « logiciel de santé bon marché »</h3>
+<ul>
+<li><strong>Skeuomorphisme décoratif</strong> : tampons inclinés, papier, ratures manuscrites, hachures. C'est le piège des maquettes actuelles.</li>
+<li><strong>Plusieurs familles typographiques</strong> sur un même écran (ici, serif + sans + mono) et des tailles non systématiques.</li>
+<li>Fond crème ou beige partout, ce qui donne une impression de « vieux papier » et de faible contraste.</li>
+<li><strong>Bleu médical + croix + photo de soignant souriant</strong> ; organes 3D ; mascottes ; dégradés lavande ; glassmorphisme.</li>
+<li>Grille de tuiles chiffrées (bento) comme tableau de bord.</li>
+<li>Couleur seule pour le statut ; deux boutons pleins côte à côte.</li>
+<li>NOMS EN CAPITALES, identifiants techniques en titre, codes de règles visibles.</li>
+<li>Toasts pour des états durables ; spinners en cascade ; écran blanc au démarrage.</li>
+<li>Interrupteurs de démonstration et textes de développeur en production.</li>
+<li>Rayons, ombres et marges qui changent d'un composant à l'autre : <strong>l'incohérence se voit avant la laideur</strong>.</li>
+</ul>
+<hr />
+<h2 id="6-feuille-de-route-priorisée">6. Feuille de route priorisée</h2>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Amélioration</th>
+<th>Surface</th>
+<th>Impact</th>
+<th>Effort</th>
+<th>Horizon</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>Trancher le système</strong> : un seul jeu de jetons (§5.1), partagé Flutter / React ; abandon des effets « Carnet » (tampon, rature, hachures) ; test typographique Inter vs Atkinson en extérieur</td>
+<td>Les deux</td>
+<td>Très fort</td>
+<td>Faible</td>
+<td>S1–S2</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>Passage de routine à 6 appuis</strong> : écran unique évaluation + gestes, « Comme le … », saut de la liste à une plaie, signature dans la barre</td>
+<td>Mobile</td>
+<td>Très fort</td>
+<td>Moyen</td>
+<td>S2–S4</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>Brouillon persistant</strong> et reprise après interruption</td>
+<td>Mobile</td>
+<td>Très fort (confiance)</td>
+<td>Faible</td>
+<td>S2</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>Tournée « prochain passage »</strong> : carte Prochain, heure, itinéraire, appel, progression segmentée ; réglages sortis vers « Envois »</td>
+<td>Mobile</td>
+<td>Fort</td>
+<td>Faible</td>
+<td>S3</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>Chrome allégé</strong> : pastille réseau dans l'en-tête, en-tête compact au défilement</td>
+<td>Mobile</td>
+<td>Moyen</td>
+<td>Faible</td>
+<td>S3</td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>Poste fixe en liste-détail</strong> + barre latérale + « Aujourd'hui = À traiter » + API agrégée + squelettes</td>
+<td>Web</td>
+<td>Très fort</td>
+<td>Moyen</td>
+<td>S3–S6</td>
+</tr>
+<tr>
+<td>7</td>
+<td><strong>Dossier de preuve patient × période</strong>, accessible par Ctrl K, imprimable, sans faux tampon</td>
+<td>Web</td>
+<td>Très fort (vente)</td>
+<td>Moyen</td>
+<td>S4–S6</td>
+</tr>
+<tr>
+<td>8</td>
+<td><strong>Photo guidée</strong> : fantôme de la photo précédente, cadrage, visionneuse sombre, comparaison superposée</td>
+<td>Mobile + web</td>
+<td>Fort</td>
+<td>Moyen</td>
+<td>S5–S8</td>
+</tr>
+<tr>
+<td>9</td>
+<td><strong>Dossier patient à 3 colonnes</strong> (objets · fil · fréquences)</td>
+<td>Web</td>
+<td>Fort</td>
+<td>Moyen</td>
+<td>S6–S7</td>
+</tr>
+<tr>
+<td>10</td>
+<td><strong>Planning semaine</strong> avec conflits et glisser-déposer</td>
+<td>Web</td>
+<td>Moyen (démo)</td>
+<td>Élevé</td>
+<td>S8–S10</td>
+</tr>
+<tr>
+<td>11</td>
+<td><strong>Onglet Envois</strong> : refus d'abord, sans interrupteur de démonstration, dernière synchro</td>
+<td>Mobile</td>
+<td>Moyen</td>
+<td>Faible</td>
+<td>S3</td>
+</tr>
+<tr>
+<td>12</td>
+<td><strong>Live Activity / notification de tournée</strong></td>
+<td>Mobile</td>
+<td>Moyen</td>
+<td>Moyen</td>
+<td>Plus tard</td>
+</tr>
+<tr>
+<td>13</td>
+<td><strong>Mesure calibrée</strong> (marqueur)</td>
+<td>Mobile</td>
+<td>Fort (AMI bilan plaie 2027)</td>
+<td>Élevé</td>
+<td>Plus tard</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Comment mesurer</strong> :
+- appuis et secondes par passage de routine (cible ≤ 6 et ≤ 30 s, mesurés sur 5 IDE en situation) ;
+- taux de brouillons perdus (cible 0) ;
+- temps « demande de preuve → PDF » (≤ 30 s) ;
+- taux de signatures annulées dans les 10 s ;
+- identification des statuts sans couleur, en plein soleil ;
+- <strong>test des 5 secondes</strong> auprès du fondateur et de 5 IDE (« pro / élégant / beau » noté de 1 à 5) avant et après le chantier n°1.</p>
+<hr />
+<h2 id="sources">Sources</h2>
+<p><strong>Produits et design systems</strong>
+- Linear, <em>How we redesigned the Linear UI (part II)</em> : https://linear.app/now/how-we-redesigned-the-linear-ui
+- Stripe Dashboard, analyse : https://www.925studios.co/blog/stripe-dashboard-design-breakdown
+- Superhuman, <em>How to build a remarkable command palette</em> : https://blog.superhuman.com/how-to-build-a-remarkable-command-palette/
+- Uber Design, navigation des chauffeurs : https://medium.com/uber-design/designing-the-latest-generation-of-uber-navigation-maps-built-for-ridesharing-de3ede031ce1 ; système Base : https://superdesign.dev/blog/uber-design-system
+- Google Maps, <em>glanceable directions</em> : https://9to5google.com/2024/02/27/google-maps-glanceable-directions-2/
+- Apple HIG, Live Activities : https://developers.apple.com/design/human-interface-guidelines/components/system-experiences/live-activities
+- Material 3, canonical layouts : https://m3.material.io/foundations/adaptive-design/canonical-layouts ; https://developer.android.com/develop/adaptive-apps/guides/canonical-layouts
+- Cibles tactiles (44 pt / 48 dp, 56 dp ganté) : https://www.zachswebdesigns.com/touch-target-size-guidelines-minimum-pixel-sizes-for-mobile-ui-elements/
+- Oura, nouvelle app : https://ouraring.com/blog/new-oura-app-experience/
+- Apple Santé : https://9to5mac.com/2026/08/06/apple-health-best-features/ ; https://www.apple.com/newsroom/2023/06/apple-provides-powerful-insights-into-new-areas-of-health/
+- Withings, notes de version 6.0+ : https://support.withings.com/hc/en-us/articles/27350420746257-Withings-App-Release-Notes-6-0
+- Doctolib Oxygen : https://medium.com/doctolib/design-system-mastery-scaling-with-wisdom-f96c299c8374
+- Strava, page d'activité : https://stories.strava.com/articles/strava-guide-your-activity-page-101
+- Qonto, justificatifs manquants : https://support-de.qonto.com/hc/en-us/articles/23949228967441-How-can-I-have-better-visibility-on-missing-receipts
+- Refonte d'app de livreurs (appui long, gants) : https://amillionadventures.medium.com/redesigning-a-delivery-driver-app-part-2-design-613fd9591a59 ; Delivery Hero : https://tech.deliveryhero.com/blog/from-streets-to-screens-redesigning-the-rider-app/</p>
+<p><strong>Santé et plaies</strong>
+- AlayaCare, mode hors ligne : https://alayacare.com/blog/offline-mode-alayacares-care-worker-mobile-app-supports-rural-areas-and-limited-connectivity/ ; EVV : https://alayacare.com/blog/electronic-visit-verification-evv-stay-compliant-with-alayacares-gps-enabled-mobile-care-app/
+- Swift Medical, HealX : https://swiftmedical.com/how-a-small-scientific-calibrant-can-drastically-enhance-wound-care/ ; étude de reproductibilité : https://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0183139
+- Healico Measure : https://www.actusoins.com/healico-measure-transformez-votre-smartphone-en-outil-de-mesure-des-plaies.html
+- Pixacare : https://www.pixacare.com/en/wound-documentation
+- Epic Rover / Haiku : https://www.mindbowser.com/epic-rover-guide/ ; https://www.mindbowser.com/epic-haiku-mobile-ehr-access/</p>
+<p><strong>Recherche et services publics</strong>
+- NN/g, <em>Data Tables: Four Major User Tasks</em> : https://www.nngroup.com/articles/data-tables/
+- NN/g, <em>Dashboards: Making Charts and Graphs Easier to Understand</em> : https://www.nngroup.com/articles/dashboards-preattentive/
+- NN/g, <em>Skeleton Screens 101</em> : https://www.nngroup.com/articles/skeleton-screens/
+- NN/g, erreurs dans les formulaires : https://www.nngroup.com/articles/errors-forms-design-guidelines/ ; charge cognitive : https://www.nngroup.com/articles/4-principles-reduce-cognitive-load/
+- GOV.UK, question pages : https://design-system.service.gov.uk/patterns/question-pages ; <em>One thing per page</em> : https://designnotes.blog.gov.uk/2015/07/03/one-thing-per-page/
+- NHS Service Manual, styles et composants : https://service-manual.nhs.uk/design-system/styles ; https://service-manual.nhs.uk/design-system/components</p>
+<p><strong>Internes</strong> : <code>PRODUCT.md</code>, <code>DESIGN.md</code>, <code>docs/reference/benchmark_tabsante.md</code>, <code>benchmark_design.md</code>, <code>veille_visuelle_dribbble_behance.md</code>, <code>fiche01_pansements.txt</code>, <code>cdc_v2_texte.txt</code> §6–8, <code>.impeccable/critique/</code>, <code>docs/maquettes/captures/</code>.</p>
+</main>
+</body>
+</html>

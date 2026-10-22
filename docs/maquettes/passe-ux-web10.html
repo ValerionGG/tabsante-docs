@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Passe UX du poste fixe et bilans et documents (lot web 10)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{--bg:#F4F6FA;--surface:#FFFFFF;--surface-2:#EEF2FB;--fg:#141A2E;--fg-2:#4A5372;--ligne:#DDE3EF;
+--accent:#2F5BEA;--accent-fg:#FFFFFF;--accent-doux:#E6ECFD;--attention:#8A5A00;--attention-fond:#FFF4DC;
+--code-fond:#F1F3F8;--police:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+--police-code:"JetBrains Mono",ui-monospace,"Cascadia Code",Consolas,monospace;--rayon:10px;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0E1220;--surface:#151A2B;--surface-2:#1C2338;
+--fg:#E8ECF7;--fg-2:#A3ACC6;--ligne:#2A3250;--accent:#7C9BFF;--accent-fg:#0E1220;--accent-doux:#1E2950;
+--attention:#F2C25B;--attention-fond:#33290F;--code-fond:#10152A;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0E1220;--surface:#151A2B;--surface-2:#1C2338;--fg:#E8ECF7;--fg-2:#A3ACC6;--ligne:#2A3250;
+--accent:#7C9BFF;--accent-fg:#0E1220;--accent-doux:#1E2950;--attention:#F2C25B;--attention-fond:#33290F;--code-fond:#10152A;color-scheme:dark}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--police);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}
+.entete{background:var(--surface);border-bottom:1px solid var(--ligne)}
+.entete div{max-width:calc(80ch + 32px);margin:0 auto;padding:12px 16px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.entete b{font-weight:600}
+.entete a{color:var(--accent);text-decoration:none;font-weight:500}
+.entete a:hover{text-decoration:underline}
+main{max-width:calc(80ch + 32px);margin:0 auto;padding:24px 16px 64px;overflow-wrap:break-word}
+.chemin{font-family:var(--police-code);font-size:12px;color:var(--fg-2);margin:0 0 8px}
+h1{font-size:28px;line-height:1.25;margin:0 0 16px}
+h2{font-size:21px;line-height:1.3;margin:36px 0 12px;padding-top:12px;border-top:1px solid var(--ligne)}
+h3{font-size:17px;margin:28px 0 8px}h4,h5,h6{font-size:15px;margin:20px 0 6px}
+a{color:var(--accent)}
+p,li{max-width:80ch}
+code{font-family:var(--police-code);font-size:.88em;background:var(--code-fond);border:1px solid var(--ligne);border-radius:5px;padding:0 4px;overflow-wrap:anywhere}
+pre{background:var(--code-fond);border:1px solid var(--ligne);border-radius:var(--rayon);padding:14px 16px;overflow-x:auto;font-size:13px;line-height:1.55}
+pre code{background:none;border:0;padding:0;font-size:inherit;overflow-wrap:normal}
+.tableau{overflow-x:auto;margin:16px 0;border:1px solid var(--ligne);border-radius:var(--rayon);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:13.5px;line-height:1.5}
+th,td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--ligne);min-width:8ch}
+th{background:var(--surface-2);font-weight:600}
+tr:last-child td{border-bottom:0}
+blockquote{margin:16px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-doux);border-radius:0 var(--rayon) var(--rayon) 0}
+hr{border:0;border-top:1px solid var(--ligne);margin:28px 0}
+img{max-width:100%}
+.non-publie{font-size:13px;color:var(--attention);background:var(--attention-fond);padding:1px 6px;border-radius:5px}
+details.sommaire{background:var(--surface);border:1px solid var(--ligne);border-radius:var(--rayon);padding:10px 16px;margin:0 0 24px}
+details.sommaire summary{cursor:pointer;font-weight:600}
+details.sommaire ul{padding-left:20px;margin:8px 0 0}
+.admonition{border:1px solid var(--ligne);border-radius:var(--rayon);padding:8px 16px;background:var(--surface)}
+.admonition-title{font-weight:600}
+</style>
+</head>
+<body>
+<header class="entete"><div><b>TabSanté — documents</b><a href="../../">← Retour au portail</a></div></header>
+<main>
+<p class="chemin">docs/maquettes/passe-ux-web10.html</p>
+<h1 id="passe-ux-du-poste-fixe-et-bilans-et-documents-lot-web-10">Passe UX du poste fixe et bilans et documents (lot web 10)</h1>
+<p>Méthode Impeccable (critique, layout, adapt, polish). Mesures faites sur l'API 8071 et la base <code>tabsante_wux</code>. Captures prises à 1024, 1280 et 1440 px. Les fichiers sont dans <code>captures/build-web10-{avant|apres}-&lt;page&gt;-&lt;largeur&gt;.png</code>.</p>
+<blockquote>
+<p>Les captures « avant » datent du 3 octobre au soir et les « après » du 4 octobre. La démonstration compte ses passages par rapport au jour courant : après minuit, la liste « À traiter » passe de 8 à 30 éléments, avec 21 passages non réalisés de plus. Seules les données ont changé, pas la mise en page.</p>
+</blockquote>
+<h2 id="problèmes-trouvés-et-corrections">Problèmes trouvés et corrections</h2>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Problème (avant)</th>
+<th>Correction (après)</th>
+<th>Captures</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>Le dossier patient a onze onglets.</strong> À 1280 px, « Identité » et « Documents » sont rognés. À 1024 px, l'onglet « Prise en charge » est coupé.</td>
+<td>Le dossier passe à <strong>six onglets</strong> : Synthèse · Soins et plaies · Prescriptions · Coordination · Documents · Dossier administratif. Les vues voisines sont regroupées dans une sous-navigation. Les anciennes valeurs de <code>?onglet=</code> restent l'adresse de leur vue. Une adresse de groupe ou une valeur inconnue est réécrite sans ajouter d'entrée d'historique.</td>
+<td><code>avant-dossier-dupuis-*</code> → <code>apres-dossier-dupuis-*</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>La barre latérale aligne treize entrées sans ordre.</strong> Un seul groupe, « Ressources », est nommé.</td>
+<td>Les entrées sont rangées en groupes : (sans titre) Aujourd'hui, Tableau de bord · <strong>Soins</strong> · <strong>Coordination</strong> (avec la nouvelle entrée Bilans, selon HAB-26) · <strong>Gestion</strong> (Facturation et Saisies différées selon la matrice) · <strong>Ressources</strong>. Un groupe dont aucune entrée n'est permise disparaît. Les compteurs sont conservés, et Bilans reçoit le sien.</td>
+<td>toutes les captures <code>apres-*</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>La recherche globale flotte sous le titre</strong> dès que le titre ou le sous-titre est long : lecture d'ordonnance, facturation, Aujourd'hui à 1024 px.</td>
+<td>La recherche (Ctrl K) a désormais <strong>une place fixe en tête de la barre latérale</strong>, comme dans Linear. L'en-tête de page ne garde que le titre, le sous-titre et une action. Le titre et l'action ne se séparent plus.</td>
+<td><code>avant-ordonnance-1280</code> → <code>apres-ordonnance-1280</code>, <code>avant-facturation-1024</code> → <code>apres-facturation-1024</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>Tableau de bord entre 1024 et 1280 px</strong> : la colonne Évolution du « Suivi des patients » est rognée, les noms se coupent en quatre lignes et la colonne droite est écrasée.</td>
+<td>Sous 1440 px, le tableau de bord passe en une colonne. La colonne droite se range dessous, sur deux colonnes. Le tableau a une largeur minimale, défile dans une région atteignable au clavier, et sa première colonne reste collante (règle commune à tous les <code>.defile</code>). La barre latérale passe à 224 px et les colonnes droites s'ajustent entre 320 et 380 px.</td>
+<td><code>avant-tableau-de-bord-1024/1280</code> → <code>apres-tableau-de-bord-1024/1280</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>Rien ne dit ce qui m'attend.</strong> Le contrôle d'envoi vient en premier, puis le suivi dans l'ordre du serveur. Seul le nom est cliquable.</td>
+<td>Une ligne <strong>« Ce qui vous attend »</strong> apparaît en tête : des liens chiffrés vers chaque panneau (points à revoir avant l'envoi, interpellations, signalements, passages manqués sans motif, bilans, cotations), sans grille de tuiles. Le suivi montre d'abord ce qui est <strong>à regarder</strong> (hors cible, plaie sans baisse), avec un compte « n à regarder ». <strong>La ligne entière ouvre la plaie ou le soin.</strong> Une légende donne les couleurs par famille de soin et la bande des bornes prescrites. Un squelette à la forme de la page remplace le bloc gris. Un panneau « Bilans à rédiger » a été ajouté.</td>
+<td><code>apres-tableau-de-bord-*</code></td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>Le contrôle d'envoi se tasse entre 1024 et 1280 px</strong> : quatre lignes de vérification sur 260 px.</td>
+<td>Le titre et le bouton restent sur une ligne, et les vérifications passent dessous sur deux colonnes.</td>
+<td><code>apres-tableau-de-bord-1024</code></td>
+</tr>
+<tr>
+<td>7</td>
+<td><strong>Texte lisible sous 13 px</strong> (55 règles : en-têtes de colonnes à 12, métadonnées à 12,5, légendes à 11,5) et tailles écrites en dur dans 5 pages.</td>
+<td>Le plancher est fixé à 13 px. Restent en dessous, volontairement : la mono des empreintes (12, DESIGN.md), les raccourcis <code>kbd</code> masqués aux lecteurs d'écran, les initiales d'avatar masquées et les graduations SVG.</td>
+<td>toutes</td>
+</tr>
+<tr>
+<td>8</td>
+<td><strong>Courbes sans unité sur l'axe</strong> : il faut lire la légende ou l'étiquette finale pour savoir que l'axe est en g/L.</td>
+<td>L'unité est écrite une fois au-dessus des graduations (<code>Courbe</code>, <code>Graphe</code>). Le tableau de bord a une légende des familles de soin.</td>
+<td><code>avant-soin-diabete-*</code> → <code>apres-soin-diabete-*</code></td>
+</tr>
+<tr>
+<td>9</td>
+<td><strong>États de chargement en texte</strong> (« Chargement… » dans la palette et les notifications).</td>
+<td>Squelettes partout (<code>Chargement</code>), y compris un squelette à la forme du tableau de bord.</td>
+<td>—</td>
+</tr>
+<tr>
+<td>10</td>
+<td><strong>Fil d'Ariane incohérent</strong> : « › » en texte et titre collé au fil sur la lecture d'ordonnance.</td>
+<td>Chevrons communs et marge commune (<code>.fil + .tete</code>).</td>
+<td><code>apres-ordonnance-*</code></td>
+</tr>
+<tr>
+<td>11</td>
+<td><strong>Deux boutons pleins possibles en lecture du dossier</strong> (« Nouvelle prescription » en bleu).</td>
+<td>Aucune action pleine dans la lecture du dossier (étude UX §4.2) : les deux actions de l'en-tête sont secondaires.</td>
+<td><code>apres-dossier-dupuis-*</code></td>
+</tr>
+<tr>
+<td>12</td>
+<td><strong>Contraste</strong> : texte discret sur <code>neutre-50</code> (4,3:1) dans les jours d'échéance et les paliers d'anticoagulant ; initiales bleues sur <code>primaire-100</code> (4,4:1).</td>
+<td>Ces textes passent en encre seconde (9,4:1) et en bleu appuyé. axe-core (WCAG 2 A et AA) ne relève <strong>aucune violation</strong> sur Aujourd'hui, le tableau de bord, Bilans, l'éditeur, le dossier (Documents, Parcours), la facturation et la lecture d'ordonnance.</td>
+<td>—</td>
+</tr>
+</tbody>
+</table></div>
+<p>Le détecteur Impeccable (<code>detect --json web/src</code>) ne relève <strong>aucun</strong> problème, ni avant ni après.</p>
+<h2 id="bilans-et-documents-w-10">Bilans et documents (W-10)</h2>
+<ul>
+<li><strong>Bilans</strong> (<code>/bilans</code>, entrée « Bilans » de la barre latérale, selon HAB-26) : bilans dus de la tournée et retours écrits exigés (lecture tuberculinique), avec « Rédiger » ou « Reprendre » ; bilans du cabinet filtrés (brouillons, signés, tous) avec la dernière personne intervenue. → <code>apres-bilans-*</code></li>
+<li><strong>Éditeur</strong> (<code>/bilans/:id</code>) : chaque phrase pré-rédigée cite ses sources, regroupées par nature. Le nom est écrit une fois, puis chaque date est une puce qui mène à la <strong>preuve du passage</strong>. Une valeur corrigée après signature est marquée. Une photo s'ouvre sur place. Une plaie ou un passage prévu non réalisé est aussi cité. Une phrase réécrite ou ajoutée porte « Écrite par Claire Martin ». Le complément est facultatif. Si quelqu'un d'autre a relu le bilan entre-temps, le serveur répond 409 : un avis s'affiche, l'édition se verrouille et un bouton « Recharger le bilan » est proposé. → <code>apres-bilan-editeur-*</code></li>
+<li><strong>Aperçu PDF</strong> : le PDF est lu avec l'authentification et montré dans la page, avec le filigrane du serveur « BROUILLON — NON SIGNÉ ». Une fois signé, c'est le document tel qu'enregistré. <strong>Signature</strong> : une boîte de confirmation dit les conséquences (immuable, PDF rangé au registre avec son empreinte, rien n'est envoyé). Au poste fixe, la signature maintenue ne s'impose pas.</li>
+<li><strong>Registre du patient</strong> (onglet Documents) : bilans du patient avec « Nouveau bilan » (type, période, plaie), registre filtrable (produits, ordonnances, photos) avec l'empreinte et le téléchargement. Le serveur revérifie l'empreinte : un fichier altéré est refusé et le message le dit. Le dossier de preuve par période est à droite.</li>
+<li><strong>Envois</strong> : l'état est donné par destinataire (le dernier essai fait foi). Avec une <strong>INS provisoire</strong>, le DMP est indisponible et la raison est expliquée : le DMP n'accepte qu'une identité vérifiée, pour ne jamais verser le document dans le dossier d'une autre personne. Un lien mène à la qualification de l'identité. Un refus déjà enregistré s'affiche avec la même phrase, sans code de spécification.</li>
+<li><strong>Aujourd'hui</strong> : le bilan dû (ou en retard) et le compte rendu de lecture à transmettre entrent dans « À traiter ». « Rédiger le bilan » pré-rédige le bilan, sans le créer deux fois, puis ouvre l'éditeur.</li>
+</ul>
+<h2 id="remarques-pour-le-serveur-non-modifié">Remarques pour le serveur (non modifié)</h2>
+<ul>
+<li>L'auteur d'une phrase n'est enregistré que sous la forme « ide ». Le poste fixe attribue la phrase à la dernière personne qui a relu le bilan (<code>modifie_par</code>). Il faudrait stocker l'identifiant de l'auteur avec chaque phrase.</li>
+<li>Le motif de refus du DMP contient un code de spécification : « (EX-ID-02) ». Le poste fixe le retire, mais un motif sans code serait plus simple à afficher.</li>
+<li>Les connexions sont limitées à 10 par minute, ce qui bloque les captures automatisées en développement. Les captures ont été faites sur une instance lancée avec <code>TABSANTE_LIMITE_CONNEXIONS_MINUTE</code> relevé.</li>
+</ul>
+</main>
+</body>
+</html>

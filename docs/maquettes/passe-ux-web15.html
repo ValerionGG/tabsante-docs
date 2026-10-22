@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Seconde passe UX du poste fixe (lot web 15)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{--bg:#F4F6FA;--surface:#FFFFFF;--surface-2:#EEF2FB;--fg:#141A2E;--fg-2:#4A5372;--ligne:#DDE3EF;
+--accent:#2F5BEA;--accent-fg:#FFFFFF;--accent-doux:#E6ECFD;--attention:#8A5A00;--attention-fond:#FFF4DC;
+--code-fond:#F1F3F8;--police:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+--police-code:"JetBrains Mono",ui-monospace,"Cascadia Code",Consolas,monospace;--rayon:10px;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0E1220;--surface:#151A2B;--surface-2:#1C2338;
+--fg:#E8ECF7;--fg-2:#A3ACC6;--ligne:#2A3250;--accent:#7C9BFF;--accent-fg:#0E1220;--accent-doux:#1E2950;
+--attention:#F2C25B;--attention-fond:#33290F;--code-fond:#10152A;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0E1220;--surface:#151A2B;--surface-2:#1C2338;--fg:#E8ECF7;--fg-2:#A3ACC6;--ligne:#2A3250;
+--accent:#7C9BFF;--accent-fg:#0E1220;--accent-doux:#1E2950;--attention:#F2C25B;--attention-fond:#33290F;--code-fond:#10152A;color-scheme:dark}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--police);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}
+.entete{background:var(--surface);border-bottom:1px solid var(--ligne)}
+.entete div{max-width:calc(80ch + 32px);margin:0 auto;padding:12px 16px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.entete b{font-weight:600}
+.entete a{color:var(--accent);text-decoration:none;font-weight:500}
+.entete a:hover{text-decoration:underline}
+main{max-width:calc(80ch + 32px);margin:0 auto;padding:24px 16px 64px;overflow-wrap:break-word}
+.chemin{font-family:var(--police-code);font-size:12px;color:var(--fg-2);margin:0 0 8px}
+h1{font-size:28px;line-height:1.25;margin:0 0 16px}
+h2{font-size:21px;line-height:1.3;margin:36px 0 12px;padding-top:12px;border-top:1px solid var(--ligne)}
+h3{font-size:17px;margin:28px 0 8px}h4,h5,h6{font-size:15px;margin:20px 0 6px}
+a{color:var(--accent)}
+p,li{max-width:80ch}
+code{font-family:var(--police-code);font-size:.88em;background:var(--code-fond);border:1px solid var(--ligne);border-radius:5px;padding:0 4px;overflow-wrap:anywhere}
+pre{background:var(--code-fond);border:1px solid var(--ligne);border-radius:var(--rayon);padding:14px 16px;overflow-x:auto;font-size:13px;line-height:1.55}
+pre code{background:none;border:0;padding:0;font-size:inherit;overflow-wrap:normal}
+.tableau{overflow-x:auto;margin:16px 0;border:1px solid var(--ligne);border-radius:var(--rayon);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:13.5px;line-height:1.5}
+th,td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--ligne);min-width:8ch}
+th{background:var(--surface-2);font-weight:600}
+tr:last-child td{border-bottom:0}
+blockquote{margin:16px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-doux);border-radius:0 var(--rayon) var(--rayon) 0}
+hr{border:0;border-top:1px solid var(--ligne);margin:28px 0}
+img{max-width:100%}
+.non-publie{font-size:13px;color:var(--attention);background:var(--attention-fond);padding:1px 6px;border-radius:5px}
+details.sommaire{background:var(--surface);border:1px solid var(--ligne);border-radius:var(--rayon);padding:10px 16px;margin:0 0 24px}
+details.sommaire summary{cursor:pointer;font-weight:600}
+details.sommaire ul{padding-left:20px;margin:8px 0 0}
+.admonition{border:1px solid var(--ligne);border-radius:var(--rayon);padding:8px 16px;background:var(--surface)}
+.admonition-title{font-weight:600}
+</style>
+</head>
+<body>
+<header class="entete"><div><b>TabSanté — documents</b><a href="../../">← Retour au portail</a></div></header>
+<main>
+<p class="chemin">docs/maquettes/passe-ux-web15.html</p>
+<h1 id="seconde-passe-ux-du-poste-fixe-lot-web-15">Seconde passe UX du poste fixe (lot web 15)</h1>
+<details class="sommaire"><summary>Sommaire</summary><ul><li><a href="#graphiques">Graphiques</a></li><li><a href="#tableau-de-bord">Tableau de bord</a></li><li><a href="#architecture-de-linformation">Architecture de l'information</a></li><li><a href="#cohérence-entre-pages">Cohérence entre pages</a></li><li><a href="#vérifications">Vérifications</a></li><li><a href="#constats-de-linventaire-laissés-en-létat-à-arbitrer">Constats de l'inventaire laissés en l'état (à arbitrer)</a></li><li><a href="#remarques-pour-le-serveur-non-modifié">Remarques pour le serveur (non modifié)</a></li></ul></details>
+<p>Méthode Impeccable (critique, polish, layout, adapt). Mesures faites sur l'API 8171 et la base <code>tabsante_wux2</code>, avec <code>TABSANTE_DEV_AUTH=true</code>, <code>alembic upgrade head</code> et <code>POST /dev/demo</code>. Captures à 1280 × 900 (pleine page, au plus 2 600 px), plus 1024 et 1440 pour le tableau de bord et 1024 pour Aujourd'hui. Les fichiers sont dans <code>captures/build-web15-{avant|apres}-&lt;page&gt;-&lt;largeur&gt;.png</code>. Les captures « avant » viennent du code de <code>main</code> (88066f5), servi sur la même API et la même base, à quelques minutes des « après » : seules les corrections diffèrent, pas les données. Liste des pages : <code>capture-web.mjs</code> (43 vues : Aujourd'hui, tableau de bord, patients, tournées, plaies, dossier et ses sous-vues, sept soins, dix objets suivis, coordination, gestion, ressources, paramètres).</p>
+<p>Depuis la première passe (web 10), une quarantaine de vues ont été ajoutées : facturation, lecture d'ordonnance, bilans, consultation et prescription infirmière, référentiels, parcours, pages d'objets suivis (perfusion, stomie, nutrition, sonde, trachéotomie, CPAP, PCA, PSE, dialyse, ALR), profil neuropsychiatrique, Redon, partage externe, terminaux, sessions, biologie, seuils, rappel de lot, saisies différées, planning et équipe. Un inventaire automatisé (55 fichiers de pages, 12 rubriques) a précédé les corrections ; ses constats non corrigés sont listés à la fin.</p>
+<h2 id="graphiques">Graphiques</h2>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Problème (avant)</th>
+<th>Correction (après)</th>
+<th>Fichiers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>G1</td>
+<td><strong>Le texte des courbes change de taille selon la place.</strong> Le dessin a une largeur fixe (780 ou 290 à 360 unités) que le navigateur étire : une vignette de paramètres vitaux affiche ses graduations à 7–8 px, une vignette PCA à 15 px, une courbe pleine largeur à 9 px.</td>
+<td>Le dessin prend la <strong>largeur mesurée</strong> de son conteneur (<code>useLargeur</code>, ResizeObserver) : une unité vaut un pixel. Graduations, dates et mentions sont à 12 px réels partout, étiquettes à 12–13 px. Même règle pour la courbe de plaie et le profil neuropsychiatrique (11 et 10,5 px avant).</td>
+<td><code>Graphe.tsx</code>, <code>Courbe.tsx</code>, <code>pages/Neuropsy.tsx</code>, <code>styles.css</code>, <code>web12.css</code></td>
+</tr>
+<tr>
+<td>G2</td>
+<td><strong>Les courbes à deux tracés n'ont pas de légende visible.</strong> « Trait plein / points creux » n'est écrit que pour les lecteurs d'écran (tension, blocs moteur et sensitif, bolus reçus et tentés, débits par pompe). Le troisième tracé a le même style que le deuxième.</td>
+<td><strong>Légende commune générée</strong> sous chaque graphe : un échantillon par tracé (trait et forme de point distincts : rond, carré, triangle, losange, jamais la nuance seule), le sens d'un point creux quand la page le donne (« Faite par le patient »), les flèches hors bornes et la valeur corrigée après signature. Les légendes écrites à la main (diabète, observance CPAP) passent par elle.</td>
+<td><code>Graphe.tsx</code>, <code>pages/Diabete.tsx</code>, <code>pages/Respiratoire.tsx</code> et les appels de 13 pages (<code>secondaire</code> supprimé)</td>
+</tr>
+<tr>
+<td>G3</td>
+<td><strong>Infobulles natives inaccessibles en pratique</strong> : un <code>&lt;title&gt;</code> sur un point de 3,5 px, qui s'affiche après une seconde.</td>
+<td><strong>Infobulle commune au survol</strong> (<code>Survol</code>) : le point le plus proche du pointeur, un repère vertical, un anneau et une bulle sombre (date, valeur, méthode, valeur signée), coupée aux virgules pour tenir dans une vignette. Jamais imprimée. Le résumé du graphique reste son nom accessible.</td>
+<td><code>Graphe.tsx</code>, <code>Courbe.tsx</code>, <code>styles.css</code></td>
+</tr>
+<tr>
+<td>G4</td>
+<td><strong>Mentions hors bornes superposées</strong> quand plusieurs valeurs sortent des bornes à quelques jours d'écart.</td>
+<td>La flèche reste sur chaque point ; le mot n'est écrit que pour la plus récente et pour celles qui ne la chevauchent pas. La légende nomme les flèches, l'infobulle donne la valeur.</td>
+<td><code>Graphe.tsx</code></td>
+</tr>
+<tr>
+<td>G5</td>
+<td><strong>Dates de l'axe qui se chevauchent</strong> (« 27 sept.29 sept. ») : l'écart ne tenait pas compte de l'ancrage du texte.</td>
+<td>Une seule fonction <code>datesAxe</code> pour les deux graphiques : largeur estimée et ancrage de chaque date ; la dernière mesure garde sa date.</td>
+<td><code>Graphe.tsx</code>, <code>Courbe.tsx</code></td>
+</tr>
+<tr>
+<td>G6</td>
+<td>Une seule mesure (taille) : le point est collé à l'axe, la vignette paraît vide.</td>
+<td>Le point unique est centré.</td>
+<td><code>Graphe.tsx</code></td>
+</tr>
+<tr>
+<td>G7</td>
+<td><strong>Impression</strong> : aire en dégradé, bandes colorées, texte gris.</td>
+<td>Styles d'impression : tracés et points noirs, points creux blancs cerclés, hachures grises, texte noir, ni aire ni survol.</td>
+<td><code>styles.css</code></td>
+</tr>
+<tr>
+<td>G8</td>
+<td>Petits multiples en 3 colonnes fixes, même dans une colonne de 430 px (vignettes PCA de 140 px).</td>
+<td>La grille suit <strong>la place du panneau</strong> (<code>auto-fit</code>, 190 px au moins) ; les paramètres vitaux gardent 3 colonnes.</td>
+<td><code>styles.css</code>, <code>pages/Vitaux.tsx</code>, <code>pages/Anticoagulant.tsx</code></td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="tableau-de-bord">Tableau de bord</h2>
+<p>Critique de l'avant (1280 px) : le contrôle d'envoi, une affaire de facturation, ouvre la page avant le suivi des patients. Sous 1440 px, les interpellations et le signalement de l'aide-soignante arrivent après la file des 26 cotations et les passages manqués, à 1 700 px du haut à 1024 px. « Ce qui vous attend » aligne huit liens dans l'ordre comptable : points avant l'envoi, puis le soin. Toutes les sections ont le même poids : 16 échéances dépliées, saisie différée ouverte.</p>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Problème</th>
+<th>Correction</th>
+<th>Fichiers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T1</td>
+<td>La gestion passe avant le soin (principe 3 de PRODUCT.md).</td>
+<td><strong>Deux zones.</strong> D'abord le soin : le suivi des patients, et à côté ce qui attend une décision (signalements, interpellations, bilans, ferritinémies, parcours), puis les passages non réalisés. Ensuite une zone <strong>« Gestion et échéances »</strong> : le contrôle avant l'envoi, la file des cotations, les échéances et la saisie différée. Une chaîne d'intégrité rompue fait remonter le contrôle d'envoi en tête.</td>
+<td><code>pages/TableauDeBord.tsx</code>, <code>web15.css</code></td>
+</tr>
+<tr>
+<td>T2</td>
+<td>Sous 1440 px, les décisions de soin passent après les cotations.</td>
+<td>Grille à zones nommées : en une colonne, l'ordre est suivi → décisions (sur deux colonnes) → passages manqués → gestion.</td>
+<td><code>web15.css</code></td>
+</tr>
+<tr>
+<td>T3</td>
+<td>« Ce qui vous attend » dans l'ordre comptable.</td>
+<td>Le soin d'abord (signalements, interpellations, passages manqués, bilans), puis un groupe <strong>Gestion</strong> séparé par un filet (points avant l'envoi, cotations, régularisations, rejets). Le mot « Gestion » ne se sépare jamais de son premier lien.</td>
+<td><code>pages/TableauDeBord.tsx</code></td>
+</tr>
+<tr>
+<td>T4</td>
+<td>Sections de faible priorité dépliées : 16 échéances d'un bloc.</td>
+<td>Échéances limitées à 4 lignes avec « Tout voir », comme les cotations ; les passages manqués passent de 5 à 4. <strong>Saisie différée repliée</strong> : un indicateur de pratique, pas une tâche. Le taux du cabinet reste lisible dans le titre.</td>
+<td><code>pages/TableauDeBord.tsx</code>, <code>web15.css</code></td>
+</tr>
+<tr>
+<td>T5</td>
+<td>« 0 hors bornes / 0 mesure » sur une glycémie sans mesure dans la semaine.</td>
+<td>La date de la dernière mesure.</td>
+<td><code>pages/TableauDeBord.tsx</code></td>
+</tr>
+<tr>
+<td>T6</td>
+<td>Avertissement d'un parcours : l'icône seule sur sa ligne, le texte dessous.</td>
+<td>L'icône reste devant le texte dans toute ligne de tâche.</td>
+<td><code>web15.css</code></td>
+</tr>
+<tr>
+<td>T7</td>
+<td>En-tête écrit à la main.</td>
+<td><code>EnTete</code> commun (titre, sous-titre, bascule de période, export).</td>
+<td><code>pages/TableauDeBord.tsx</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>Captures : <code>avant|apres-tableau-de-bord-1024</code>, <code>-1280</code>, <code>-1440</code>.</p>
+<h2 id="architecture-de-linformation">Architecture de l'information</h2>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Problème</th>
+<th>Correction</th>
+<th>Fichiers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A1</td>
+<td><strong>Page orpheline</strong> : <code>/signalements</code> n'a pas d'entrée dans la barre latérale, on n'y arrive que par un lien du tableau de bord ou d'Aujourd'hui.</td>
+<td>Entrée « Signalements » dans Coordination, avec le compteur du serveur (<code>a_traiter_detail.signalements_aide_soignant</code>). Saisies différées reçoit aussi son compteur.</td>
+<td><code>Cadre.tsx</code></td>
+</tr>
+<tr>
+<td>A2</td>
+<td><strong>Ctrl K ne couvre pas les destinations</strong> : patients, plaies, soins, preuves et 4 actions seulement. Facturation, bilans, paramètres, objets suivis, signalements et rappel de lot sont absents.</td>
+<td>Une seule liste <code>destinations()</code> alimente la barre latérale et la palette. La palette atteint toutes les pages permises, y compris les sous-vues (facturation : à facturer, FSE, lots, rejets, HAD, réglages ; paramètres : équipe, sessions, terminaux ; nouveau bilan). Elle atteint aussi <strong>les objets suivis ouverts</strong> (perfusion, stomie, sonde, PCA, CPAP…) depuis <code>/dispositifs?statut=ouverte</code>, déjà lu pour les compteurs. Les droits (matrice §3.2) s'appliquent des deux côtés.</td>
+<td><code>Cadre.tsx</code></td>
+</tr>
+<tr>
+<td>A3</td>
+<td>Rangement des vues</td>
+<td>Vérifié : chaque vue ajoutée depuis la passe 10 est dans son groupe du dossier (Résultats et Seuils sous Soins et plaies ; Partage externe et Actes à distance sous Coordination ; Prescriptions infirmières sous Prescriptions) ou dans un groupe de la barre latérale. Les anciennes adresses <code>?onglet=</code> restent stables.</td>
+<td>—</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="cohérence-entre-pages">Cohérence entre pages</h2>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Problème</th>
+<th>Correction</th>
+<th>Fichiers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>C1</td>
+<td><strong>Fil d'Ariane recopié 4 fois</strong>, en <code>&lt;p&gt;</code> sans nom quand le patient n'est pas encore lu (plaie, dispositif), et absent de la FSE, du relevé HAD et du nouveau bilan.</td>
+<td>Composant <code>FilAriane</code> (liens, chevrons, page courante <code>aria-current</code>). Ajouté aux trois sous-pages.</td>
+<td><code>composants.tsx</code>, <code>DossierPatient</code>, <code>VuePlaie</code>, <code>Dispositif</code>, <code>Ordonnance</code>, <code>Bilans</code>, <code>SavoirFaire</code>, <code>Facturation</code></td>
+</tr>
+<tr>
+<td>C2</td>
+<td><strong>14 tableaux défilants sans nom ni tabulation</strong> : quand ils débordent, on ne peut pas les faire défiler au clavier.</td>
+<td>Composant <code>Defile</code> : quand le tableau déborde, la région devient atteignable au clavier et prend le nom du titre de son panneau. Sinon, aucun arrêt de tabulation inutile.</td>
+<td><code>composants.tsx</code> et 11 pages</td>
+</tr>
+<tr>
+<td>C3</td>
+<td><strong>Action pleine en lecture du dossier</strong>, contraire à la règle de la passe 10 (n° 11) : « Dossier de preuve » sur les pages de soin, « Preuves de l'épisode » sur la plaie et les dispositifs.</td>
+<td>Bouton secondaire avec icône.</td>
+<td><code>Soins.tsx</code>, <code>VuePlaie.tsx</code>, <code>Dispositif.tsx</code></td>
+</tr>
+<tr>
+<td>C4</td>
+<td><strong>25 états en couleur et mot seuls</strong> (Badge sans icône) ; « Retiré » affiché en « Signé » (perfusion) ou « acquis » (Redon).</td>
+<td><code>Badge</code> reçoit d'office l'icône de sa paire pour un ton acquis, signal ou critique. Les états neutres de fin reçoivent une icône explicite : expirée et échue (sablier), révoquée (interdit), retiré et terminé (moins). Neutre et primaire restent des étiquettes (droits, parties, « Votre session »).</td>
+<td><code>composants.tsx</code>, <code>Equipe</code>, <code>Partage</code>, <code>Perfusions</code>, <code>Pompes</code>, <code>Redon</code>, <code>Parcours</code></td>
+</tr>
+<tr>
+<td>C5</td>
+<td>Révoquer une session ou un terminal, retirer une ligne de traitement : confirmation en bouton bleu, alors que les autres révocations sont en danger.</td>
+<td><code>bp danger</code>, comme Équipe et Partage.</td>
+<td><code>Sessions.tsx</code>, <code>CadreSoins.tsx</code></td>
+</tr>
+<tr>
+<td>C6</td>
+<td>Chargement en texte (« Lecture des passages… », « Lecture du moment… »).</td>
+<td>Squelettes <code>Chargement</code>.</td>
+<td><code>coordination.tsx</code>, <code>Pompes.tsx</code></td>
+</tr>
+<tr>
+<td>C7</td>
+<td><strong>Contraste</strong> : texte discret sur la teinte bleue d'une personne choisie (Équipe, 4,25:1, seule violation axe relevée avant). Le discret tient 4,55:1 sur <code>surface-2</code>, mais seulement 4,32 sur <code>neutre-50</code> et 4,40 sur <code>fond</code>.</td>
+<td>Encre seconde (9:1) sur la teinte bleue. Les jours d'échéance et les paliers étaient déjà corrigés (passe 10).</td>
+<td><code>web15.css</code></td>
+</tr>
+<tr>
+<td>C8</td>
+<td><strong>Focus invisible</strong> dans le champ de la palette (<code>outline: none</code> sans remplacement).</td>
+<td>Filet bleu de 2 px sous le champ au focus.</td>
+<td><code>web15.css</code></td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="vérifications">Vérifications</h2>
+<ul>
+<li><code>npm run build</code> : réussi. <code>npx oxlint src</code> : 0 avertissement. <code>vitest</code> : 24 fichiers, 264 tests verts. Tests modifiés pour des changements voulus : l'infobulle d'un point se lit dans <code>data-info</code> au lieu d'un <code>&lt;title&gt;</code> (4 assertions), et le profil neuropsychiatrique compte ses marques dans le dessin, pas dans la légende (2 assertions).</li>
+<li>Détecteur Impeccable (<code>detect --json web/src</code>) : <strong>0</strong> problème, avant comme après.</li>
+<li>axe-core (WCAG 2.0, 2.1 et 2.2 A et AA) sur les 43 pages capturées, au lieu des 10 demandées : <strong>1 violation avant</strong> (contraste de la personne choisie dans Équipe, corrigée en C7), <strong>0 après</strong>.</li>
+<li>Captures et contrôle axe reproductibles : <code>node docs/maquettes/capture-web.mjs &lt;avant|apres&gt; &lt;largeur&gt; [axe|x] [filtre]</code> (protocole CDP de Chrome, sans dépendance ; <code>WEB</code>, <code>API</code> et <code>AXE</code> en variables d'environnement). Le script refuse de capturer si la connexion de démonstration échoue. Pendant la passe, le moteur Docker s'est arrêté une fois : les captures prises à ce moment montraient l'écran de connexion et ont été refaites.</li>
+</ul>
+<h2 id="constats-de-linventaire-laissés-en-létat-à-arbitrer">Constats de l'inventaire laissés en l'état (à arbitrer)</h2>
+<ul>
+<li><strong>Deux composants <code>Dialogue</code></strong> (<code>coordination.tsx</code> et <code>dossier.tsx</code>, ce dernier en tiroir avec bouton de fermeture), plus 4 <code>&lt;dialog&gt;</code> écrits à la main (clôture de dispositif, arrêt de soin, savoir-faire). Les fusionner touche 25 écrans et leurs tests : à faire dans un lot dédié.</li>
+<li><strong>Retraits sans confirmation</strong> : « Annuler le code » (terminal), « Retirer la proposition » (échange de planning), « Retirer la phrase » (bilan en brouillon). Ces actions sont réversibles (nouveau code, nouvelle proposition, brouillon modifiable). Elles sont laissées sans boîte de dialogue, par choix.</li>
+<li><strong>Accords</strong> : « Clôturé / Clôturée », « Terminé / Terminée », « Retiré / Retirée » suivent le genre de l'objet (dispositif, plaie, perfusion, pompe). Ce n'est pas une incohérence. En revanche, les mots d'attente varient (« En attente de décision », « de réponse », « d'enrôlement », « de pose ») : chacun dit ce qui est attendu, ils sont gardés.</li>
+<li>11 champs nommés seulement par <code>aria-label</code>, dans des grilles de saisie (bornes de biologie, échelles d'insuline, transmissions) où un libellé visible par cellule n'a pas de place. Les en-têtes de colonne tiennent ce rôle.</li>
+<li><strong>Composants à extraire plus tard</strong> : la vignette de série (<code>figure.vignette-serie</code> recopiée 12 fois), les dialogues de révocation (×3) et de refus (×2), et les en-têtes de statistiques des soins et des dispositifs.</li>
+</ul>
+<blockquote>
+<p><strong>Suite (polish, 7 octobre).</strong> Un seul <code>Dialogue</code> (<code>coordination.tsx</code>, variante tiroir pour l'historique) remplace les deux ; les quatre <code>&lt;dialog&gt;</code> écrits à la main restent. La vignette de série est un composant (<code>VignetteSerie</code>, <code>Graphe.tsx</code>). « Annuler le code », « Retirer la proposition » et « Retirer la phrase » demandent confirmation (action en danger, « Garder … » en secondaire). La synthèse du dossier dit « Aucune allergie connue » en neutre, ou « Allergies non renseignées ».</p>
+</blockquote>
+<h2 id="remarques-pour-le-serveur-non-modifié">Remarques pour le serveur (non modifié)</h2>
+<ul>
+<li><code>GET /dispositifs</code> ne renvoie pas le nom du patient : la palette le retrouve dans <code>/patients</code>. Un <code>patient: {nom, prenom}</code> comme dans <code>/plaies</code> éviterait la jointure côté client.</li>
+<li><code>GET /dispositifs</code> n'a pas de schéma de réponse dans <code>openapi.json</code> (<code>{}</code>).</li>
+</ul>
+</main>
+</body>
+</html>

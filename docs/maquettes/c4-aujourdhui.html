@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><title>Poste fixe — Aujourd'hui</title>
+<link rel="stylesheet" href="clinique.css">
+<style>
+  body { width: 1440px; height: 900px; overflow: hidden; background: var(--fond); display: grid; grid-template-columns: 248px 1fr; }
+  aside { background: var(--surface); border-right: 1px solid var(--bord); padding: 20px 14px; display: flex; flex-direction: column; }
+  .logo { display: flex; align-items: center; gap: 10px; padding: 0 8px 22px; font-weight: 800; font-size: 18px; letter-spacing: -0.02em; }
+  .logo > span { width: 32px; height: 32px; border-radius: 10px; background: var(--primaire); display: grid; place-items: center; color: #fff; font-size: 18px; }
+  .cab { font-size: 12px; font-weight: 500; color: var(--discret); letter-spacing: 0; display: block; }
+  aside a { display: flex; align-items: center; gap: 12px; height: 40px; padding: 0 10px; border-radius: 10px; color: var(--encre-2); text-decoration: none; font-size: 14px; font-weight: 500; }
+  aside a i { font-size: 19px; color: var(--discret); }
+  aside a.on { background: var(--primaire-50); color: var(--primaire); font-weight: 650; } aside a.on i { color: var(--primaire); }
+  aside a .n { margin-left: auto; font-size: 12px; font-weight: 700; background: var(--danger-50); color: var(--danger); padding: 2px 7px; border-radius: 999px; }
+  .moi { margin-top: auto; display: flex; align-items: center; gap: 10px; padding: 12px 8px 0; border-top: 1px solid var(--bord); font-size: 14px; }
+  .moi small { display: block; color: var(--discret); font-size: 12px; }
+  main { padding: 24px 32px; overflow: hidden; }
+  .tete { display: flex; align-items: center; gap: 12px; }
+  .tete h1 { font-size: 26px; font-weight: 800; letter-spacing: -0.03em; }
+  .tete p { color: var(--discret); font-size: 14px; margin-top: 2px; }
+  .cherche { margin-left: auto; width: 320px; height: 42px; border-radius: 12px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--bord-champ); display: flex; align-items: center; gap: 8px; padding: 0 12px; color: var(--discret); font-size: 14px; }
+  .cherche kbd { white-space: nowrap; margin-left: auto; font: 600 11px var(--f); border: 1px solid var(--bord); border-radius: 6px; padding: 2px 6px; background: var(--surface-2); }
+  .bp { height: 42px; padding: 0 16px; border-radius: 12px; border: 0; background: var(--primaire); color: #fff; font: 650 14px var(--f); display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 6px 12px -6px rgba(47,91,234,.6); }
+  .grille { display: grid; grid-template-columns: 1fr 380px; gap: 20px; margin-top: 22px; }
+  .panneau { background: var(--surface); border-radius: 16px; box-shadow: var(--ombre-1); }
+  .panneau > header { display: flex; align-items: center; gap: 10px; padding: 16px 20px; border-bottom: 1px solid var(--bord); }
+  .panneau > header h2 { font-size: 16px; font-weight: 700; }
+  .panneau > header .c { font-size: 12px; font-weight: 700; background: #F1F4F9; color: var(--encre-2); padding: 2px 8px; border-radius: 999px; }
+  .panneau > header .f { margin-left: auto; display: flex; gap: 6px; }
+  .f span { font-size: 13px; font-weight: 600; padding: 6px 10px; border-radius: 8px; color: var(--discret); } .f span.on { background: #F1F4F9; color: var(--encre); }
+  .tache { display: grid; grid-template-columns: 40px 1fr auto; gap: 14px; align-items: center; padding: 14px 20px; border-bottom: 1px solid #EEF1F6; }
+  .tache:last-child { border-bottom: 0; }
+  .tache .ic { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; font-size: 20px; }
+  .tache h3 { font-size: 15px; font-weight: 650; } .tache p { font-size: 13px; color: var(--discret); margin-top: 3px; display: flex; gap: 8px; align-items: center; }
+  .bl { height: 36px; padding: 0 14px; border-radius: 10px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--bord-champ); font: 650 13px var(--f); color: var(--encre); display: inline-flex; align-items: center; gap: 6px; border: 0; }
+  .tour { padding: 14px 20px; border-bottom: 1px solid #EEF1F6; }
+  .tour:last-child { border-bottom: 0; }
+  .tour .l1 { display: flex; justify-content: space-between; font-size: 14px; font-weight: 650; }
+  .tour .l1 span { color: var(--discret); font-weight: 500; }
+  .tour .jauge { height: 8px; border-radius: 99px; background: #EEF1F6; margin: 10px 0 8px; overflow: hidden; display: flex; }
+  .tour .jauge i { background: var(--primaire); } .tour .jauge i.a { background: var(--alerte-200); }
+  .tour .l2 { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--discret); }
+  .mini { width: 26px; height: 26px; font-size: 11px; }
+  .plaie { display: grid; grid-template-columns: 1fr 64px 64px; gap: 10px; align-items: center; padding: 12px 20px; border-bottom: 1px solid #EEF1F6; }
+  .plaie:last-child { border-bottom: 0; }
+  .plaie h4 { font-size: 14px; font-weight: 650; } .plaie p { font-size: 12.5px; color: var(--discret); margin-top: 2px; }
+  .plaie b { font-size: 14px; text-align: right; }
+</style></head>
+<body>
+<aside>
+  <div class="logo"><span><i class="ph-bold ph-plus"></i></span><div>TabSanté<span class="cab">Cabinet des Tilleuls</span></div></div>
+  <a class="on" href="#"><i class="ph-fill ph-squares-four"></i>Aujourd'hui<span class="n">5</span></a>
+  <a href="#"><i class="ph ph-users"></i>Patients</a>
+  <a href="#"><i class="ph ph-path"></i>Tournées</a>
+  <a href="#"><i class="ph ph-bandaids"></i>Plaies</a>
+  <a href="#"><i class="ph ph-seal-check"></i>Preuves et cotations</a>
+  <a href="#"><i class="ph ph-gear-six"></i>Paramètres</a>
+  <div class="moi"><div class="av" style="width:36px;height:36px;background:var(--primaire-100);color:var(--primaire);font-size:13px">CM</div><div>Claire Martin<small>IDE · titulaire</small></div></div>
+</aside>
+<main>
+  <div class="tete">
+    <div><h1>Aujourd'hui</h1><p>Jeudi 2 octobre · 3 tournées · 31 passages prévus</p></div>
+    <div class="cherche"><i class="ph ph-magnifying-glass"></i>Rechercher un patient ou une plaie<kbd>Ctrl K</kbd></div>
+    <button class="bp"><i class="ph-bold ph-plus"></i>Nouveau patient</button>
+  </div>
+  <div class="grille">
+    <section class="panneau">
+      <header><h2>À traiter</h2><span class="c">5</span><div class="f"><span class="on">Tout</span><span>Soins</span><span>Facturation</span></div></header>
+      <div class="tache"><span class="ic" style="background:var(--danger-50);color:var(--danger)"><i class="ph-bold ph-calendar-x"></i></span><div><h3>Passage non réalisé · Lefèvre Jeanne</h3><p>Hier, tournée du soir · pansement chirurgical · Paul Durand</p></div><button class="bl">Replanifier</button></div>
+      <div class="tache"><span class="ic" style="background:var(--alerte-50);color:var(--alerte)"><i class="ph-bold ph-trend-up"></i></span><div><h3>Plaie sans progrès depuis 7 jours · Bernard Louis</h3><p><svg width="56" height="16" viewBox="0 0 56 16"><path d="M1 10 L10 9 L19 10 L28 8 L37 9 L46 7 L55 8" stroke="#B54708" stroke-width="1.8" fill="none"/></svg>Ulcère malléole · +3 % depuis J0 · sous chimiothérapie</p></div><button class="bl">Ouvrir la plaie</button></div>
+      <div class="tache"><span class="ic" style="background:var(--alerte-50);color:var(--alerte)"><i class="ph-bold ph-cloud-warning"></i></span><div><h3>Envoi refusé à corriger · Petit André</h3><p>Distribution des médicaments · motif de saisie différée manquant</p></div><button class="bl">Voir</button></div>
+      <div class="tache"><span class="ic" style="background:var(--primaire-50);color:var(--primaire)"><i class="ph-bold ph-file-text"></i></span><div><h3>Prescription à renouveler dans 3 jours · Moreau Simone</h3><p>Anticoagulant injectable · Dr Bernard · fin le 5 octobre</p></div><button class="bl">Préparer la demande</button></div>
+      <div class="tache"><span class="ic" style="background:#F1F4F9;color:var(--encre-2)"><i class="ph-bold ph-clock-counter-clockwise"></i></span><div><h3>Saisie différée à justifier · Dupuis Roger</h3><p>Passage du 30 sept. saisi 3 h après le soin · motif « terminal déchargé »</p></div><button class="bl">Vérifier</button></div>
+    </section>
+    <div style="display:grid;gap:20px;align-content:start">
+      <section class="panneau">
+        <header><h2>Tournées du jour</h2></header>
+        <div class="tour"><div class="l1">Centre · matin<span>4 / 11</span></div><div class="jauge"><i style="width:36%"></i><i class="a" style="width:4%"></i></div><div class="l2"><div class="av mini" style="background:var(--primaire-100);color:var(--primaire)">CM</div>Claire Martin · 2 envois en attente</div></div>
+        <div class="tour"><div class="l1">Nord · matin<span>7 / 9</span></div><div class="jauge"><i style="width:78%"></i></div><div class="l2"><div class="av mini" style="background:#FFF1E6;color:#C4320A">PD</div>Paul Durand · à jour</div></div>
+        <div class="tour"><div class="l1">Nursing · matin<span>9 / 11</span></div><div class="jauge"><i style="width:82%"></i></div><div class="l2"><div class="av mini" style="background:var(--succes-50);color:var(--succes)">IP</div>Inès Petit · aide-soignante</div></div>
+      </section>
+      <section class="panneau">
+        <header><h2>Plaies en cours</h2><span class="c">3</span></header>
+        <div class="plaie"><div><h4>Dupuis Roger</h4><p>Escarre sacrée · J+24</p></div><svg width="64" height="20" viewBox="0 0 64 20"><path d="M1 3 L10 5 L19 7 L28 10 L37 12 L46 14 L55 16 L63 17" stroke="#12B76A" stroke-width="2" fill="none"/></svg><b style="color:var(--succes)">−42 %</b></div>
+        <div class="plaie"><div><h4>Lefèvre Jeanne</h4><p>Chirurgicale · J+9 · 7 agrafes</p></div><svg width="64" height="20" viewBox="0 0 64 20"><path d="M1 6 L16 7 L32 9 L48 12 L63 13" stroke="#12B76A" stroke-width="2" fill="none"/></svg><b style="color:var(--succes)">−18 %</b></div>
+        <div class="plaie"><div><h4>Bernard Louis</h4><p>Ulcère malléole · J+6</p></div><svg width="64" height="20" viewBox="0 0 64 20"><path d="M1 12 L16 11 L32 12 L48 10 L63 11" stroke="#B54708" stroke-width="2" fill="none"/></svg><b style="color:var(--alerte)">+3 %</b></div>
+      </section>
+    </div>
+  </div>
+</main>
+</body></html>

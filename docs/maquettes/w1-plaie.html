@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><title>Poste fixe — Plaie P-01</title>
+<link rel="stylesheet" href="carnet.css">
+<style>
+  body { background: var(--verge); color: var(--noir); width: 1440px; height: 900px; overflow: hidden; display: grid; grid-template-columns: 232px 1fr; }
+  nav { background: var(--verge-fonce); border-right: 1px solid var(--grille); padding: 22px 16px; display: flex; flex-direction: column; gap: 4px; }
+  .marque { font-family: var(--f-titre); font-size: 24px; font-weight: 600; padding: 0 10px 18px; }
+  .marque small { display: block; font-family: var(--f-ui); font-size: 13px; font-weight: 400; color: var(--graphite); }
+  nav a { display: flex; gap: 10px; align-items: center; height: 44px; padding: 0 10px; border-radius: 4px; color: var(--graphite); text-decoration: none; font-size: 15px; }
+  nav a .ph { font-size: 20px; }
+  nav a.actif { background: var(--verge); color: var(--noir); font-weight: 700; box-shadow: inset 0 0 0 1px var(--grille); }
+  nav .recherche { margin-top: auto; height: 44px; border: 1px solid #8F8A7E; border-radius: 4px; display: flex; align-items: center; gap: 8px; padding: 0 10px; color: var(--graphite); font-size: 14px; background: #fff; }
+  nav .recherche kbd { margin-left: auto; font-family: var(--f-mono); font-size: 12px; border: 1px solid var(--grille); border-radius: 3px; padding: 1px 5px; }
+  main { padding: 26px 40px; overflow: hidden; }
+  .fil { font-size: 14px; color: var(--graphite); }
+  .fil a { color: var(--registre); text-decoration: none; }
+  .tete { display: flex; align-items: flex-end; justify-content: space-between; margin-top: 8px; padding-bottom: 14px; border-bottom: 2px solid var(--noir); }
+  .tete h1 { font-family: var(--f-titre); font-size: 40px; line-height: 44px; font-weight: 600; letter-spacing: -0.01em; }
+  .tete .meta { font-size: 15px; color: var(--graphite); margin-top: 4px; }
+  .bouton { height: 44px; padding: 0 18px; border-radius: 4px; font: 700 15px/1 var(--f-ui); display: inline-flex; align-items: center; gap: 8px; }
+  .bouton.plein { background: var(--registre); color: #fff; border: 0; }
+  .bouton.ligne { background: transparent; color: var(--noir); border: 1px solid #8F8A7E; }
+  .grille { display: grid; grid-template-columns: 360px 1fr; gap: 28px; margin-top: 20px; }
+  .etiq { border: 1px solid var(--noir); padding: 4px; background: #fff; }
+  .etiq > div { border: 1px solid var(--grille); padding: 16px 18px; }
+  .etiq .num { display: flex; justify-content: space-between; font-size: 13px; color: var(--graphite); }
+  .etiq h2 { font-family: var(--f-titre); font-size: 26px; line-height: 30px; font-weight: 600; margin: 6px 0 12px; }
+  dl { display: grid; grid-template-columns: 128px 1fr; gap: 7px 12px; font-size: 14px; }
+  dt { color: var(--graphite); }
+  dd { color: var(--noir); }
+  .frise { display: grid; grid-template-columns: repeat(25, 1fr); gap: 2px; margin-top: 16px; }
+  .frise i { height: 18px; }
+  .det { background: repeating-linear-gradient(135deg, #8A6A1F 0 1.5px, #F3E3A1 1.5px 4px); }
+  .bou { background: #9DB59F; }
+  .epi { background: var(--archive); }
+  .vide-j { border: 1px dashed var(--grille); }
+  .leg { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 12.5px; color: var(--graphite); margin-top: 6px; }
+  .leg span { display: inline-flex; gap: 5px; align-items: center; } .leg b { width: 12px; height: 9px; display: inline-block; }
+  .stamp { margin-top: 18px; border: 2px solid var(--registre); color: var(--registre); padding: 3px; transform: rotate(-1.5deg); width: 250px; }
+  .stamp > div { border: 1px solid var(--registre); padding: 8px 10px; font-family: var(--f-mono); font-size: 12.5px; line-height: 18px; }
+  .stamp b { font-family: var(--f-titre); font-size: 17px; font-weight: 700; display: block; margin-bottom: 2px; }
+  h3 { font-family: var(--f-titre); font-size: 22px; font-weight: 600; display: flex; align-items: baseline; justify-content: space-between; }
+  h3 .meta { font-family: var(--f-ui); font-size: 14px; font-weight: 400; color: var(--graphite); }
+  .courbe { background: #fff; border: 1px solid var(--grille); padding: 14px 16px 8px; margin-top: 8px; }
+  .chiffres { display: flex; gap: 36px; margin-top: 12px; }
+  .chiffres div { font-size: 13px; color: var(--graphite); }
+  .chiffres b { display: block; font-family: var(--f-titre); font-size: 26px; font-weight: 600; color: var(--noir); }
+  .planche { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 10px; }
+  .tirage { background: #fff; border: 1px solid var(--grille); padding: 8px 8px 10px; }
+  .tirage .cliche { height: 118px; background: var(--gris18); position: relative; display: grid; place-items: center; }
+  .tirage .cliche svg { width: 100%; height: 100%; }
+  .tirage .cap { font-size: 12.5px; color: var(--graphite); margin-top: 7px; display: flex; justify-content: space-between; }
+  .tirage .cap b { color: var(--noir); }
+</style></head>
+<body>
+<nav>
+  <div class="marque">TabSanté<small>Cabinet des Tilleuls</small></div>
+  <a href="#"><i class="ph ph-house-line"></i>Aujourd'hui</a>
+  <a class="actif" href="#"><i class="ph ph-users-three"></i>Patients</a>
+  <a href="#"><i class="ph ph-path"></i>Tournées</a>
+  <a href="#"><i class="ph ph-seal-check"></i>Preuves et cotations</a>
+  <div class="recherche"><i class="ph ph-magnifying-glass"></i>Rechercher<kbd>Ctrl K</kbd></div>
+</nav>
+<main>
+  <div class="fil"><a href="#">Patients</a> / <a href="#">Dupuis Roger</a> / Plaie P-01</div>
+  <div class="tete">
+    <div><h1>Dupuis Roger</h1><div class="meta"><span class="n" style="font-weight:500">88</span> ans · né le 2 mars 1938 · Tournée Centre · médecin traitant Dr Marchand</div></div>
+    <div style="display:flex;gap:10px"><button class="bouton ligne"><i class="ph ph-file-text"></i>Bilan de plaie</button><button class="bouton plein"><i class="ph ph-paper-plane-tilt"></i>Envoyer au médecin</button></div>
+  </div>
+  <div class="grille">
+    <div>
+      <div class="etiq"><div>
+        <div class="num"><span>Plaie <span class="mono">P-01</span> · 1<sup>er</sup> épisode</span><span>ouverte le 8 sept. 2026</span></div>
+        <h2>Escarre sacrée, stade 3</h2>
+        <dl>
+          <dt>Localisation</dt><dd>Région sacrée, médiane</dd>
+          <dt>Prescription</dt><dd>Dr Marchand, ville, 7 sept.</dd>
+          <dt>Ouverte par</dt><dd>Claire Martin, IDE</dd>
+          <dt>Suivi</dt><dd>Volume, instillation</dd>
+          <dt>Passages</dt><dd><span class="n" style="font-weight:500">24</span> signés · <span class="n" style="font-weight:500">1</span> non programmé</dd>
+        </dl>
+        <div class="frise" aria-label="Phases, J1 à J25">
+          <i class="det"></i><i class="det"></i><i class="det"></i><i class="det"></i><i class="det"></i><i class="det"></i><i class="det"></i><i class="det"></i>
+          <i class="bou"></i><i class="bou"></i><i class="bou"></i><i class="bou"></i><i class="bou"></i><i class="bou"></i><i class="bou"></i><i class="bou"></i><i class="bou"></i><i class="bou"></i>
+          <i class="epi"></i><i class="epi"></i><i class="epi"></i><i class="epi"></i><i class="epi"></i><i class="epi"></i><i class="vide-j"></i>
+        </div>
+        <div class="leg"><span><b class="det"></b>Détersion</span><span><b class="bou"></b>Bourgeonnement</span><span><b class="epi"></b>Épidermisation</span><span class="n" style="font-weight:600;color:var(--noir);margin-left:auto">J+24 aujourd’hui</span></div>
+      </div></div>
+      <div class="stamp"><div><b>Dernier passage signé</b>02/10/2026 · 09:42<br>Claire Martin · IDE<br>empreinte 7F3A 9C21 E04B</div></div>
+    </div>
+    <div>
+      <h3>Volume de la plaie <span class="meta">cm³ · instillation au sérum physiologique</span></h3>
+      <div class="courbe">
+        <svg width="100%" height="214" viewBox="0 0 760 214" role="img" aria-label="Volume de 9 à 5,2 cm³ entre le 8 septembre et le 2 octobre, −42 %">
+          <g font-family="Atkinson Hyperlegible Next Variable" font-size="12" fill="#4A4A48">
+            <line x1="40" y1="20" x2="740" y2="20" stroke="#E5E0D3"/><text x="8" y="24">10</text>
+            <line x1="40" y1="70" x2="740" y2="70" stroke="#E5E0D3"/><text x="14" y="74">8</text>
+            <line x1="40" y1="120" x2="740" y2="120" stroke="#E5E0D3"/><text x="14" y="124">6</text>
+            <line x1="40" y1="170" x2="740" y2="170" stroke="#E5E0D3"/><text x="14" y="174">4</text>
+            <text x="40" y="204">8 sept.</text><text x="210" y="204">15 sept.</text><text x="390" y="204">22 sept.</text><text x="570" y="204">29 sept.</text><text x="690" y="204">2 oct.</text>
+          </g>
+          <line x1="40" y1="45" x2="740" y2="45" stroke="#1A1A1A" stroke-dasharray="4 4"/><text x="46" y="40" font-family="Atkinson Hyperlegible Next Variable" font-size="12" fill="#1A1A1A">J0 · 9 cm³</text>
+          <line x1="430" y1="20" x2="430" y2="182" stroke="#8A6A1F" stroke-dasharray="2 3"/><text x="436" y="34" font-family="Atkinson Hyperlegible Next Variable" font-size="12" fill="#6B4E12">alginate → hydrocellulaire</text>
+          <path d="M40 45 L69 48 L98 52 L127 55 L156 60 L185 66 L214 70 L243 76 L272 80 L301 86 L330 90 L359 96 L388 99 L417 104 L446 108 L475 112 L504 118 L533 121 L562 126 L591 130 L620 134 L649 137 L678 139 L707 141 L736 140" stroke="#1F4E8C" stroke-width="2.2" fill="none"/>
+          <g fill="#1F4E8C"><circle cx="40" cy="45" r="3"/><circle cx="214" cy="70" r="3"/><circle cx="388" cy="99" r="3"/><circle cx="562" cy="126" r="3"/><circle cx="736" cy="140" r="4.5"/></g>
+          <text x="640" y="162" font-family="Newsreader Variable" font-size="20" font-weight="600" fill="#1A1A1A">5,2 cm³</text>
+        </svg>
+      </div>
+      <div class="chiffres">
+        <div><b>−42 %</b>depuis <span class="n" style="font-weight:500">J0</span></div>
+        <div><b>J+24</b>durée de l'épisode</div>
+        <div><b>−0,2 cm³</b>sur les 7 derniers jours</div>
+        <div><b>3 × 2 × 0,4</b>cm, dernière mesure</div>
+      </div>
+      <h3 style="margin-top:20px">Planche photographique <span class="meta">4 clichés sur 9 · même cadrage, réglette en cm</span></h3>
+      <div class="planche">
+        <div class="tirage"><div class="cliche"><svg viewBox="0 0 160 118"><ellipse cx="80" cy="59" rx="58" ry="38" fill="none" stroke="#F2B33D" stroke-width="2" stroke-dasharray="5 4"/><line x1="22" y1="108" x2="138" y2="108" stroke="#fff" stroke-width="1.5"/><text x="66" y="104" fill="#fff" font-size="10" font-family="Atkinson Hyperlegible Next Variable">5,1 cm</text></svg></div><div class="cap"><b><span class="n">J0</span> · 8 sept.</b><span>9 cm³</span></div></div>
+        <div class="tirage"><div class="cliche"><svg viewBox="0 0 160 118"><ellipse cx="80" cy="59" rx="50" ry="33" fill="none" stroke="#F2B33D" stroke-width="2" stroke-dasharray="5 4"/><line x1="30" y1="108" x2="130" y2="108" stroke="#fff" stroke-width="1.5"/><text x="66" y="104" fill="#fff" font-size="10" font-family="Atkinson Hyperlegible Next Variable">4,4 cm</text></svg></div><div class="cap"><b>J+8 · 16 sept.</b><span>7,6 cm³</span></div></div>
+        <div class="tirage"><div class="cliche"><svg viewBox="0 0 160 118"><ellipse cx="80" cy="59" rx="41" ry="28" fill="none" stroke="#F2B33D" stroke-width="2" stroke-dasharray="5 4"/><line x1="39" y1="108" x2="121" y2="108" stroke="#fff" stroke-width="1.5"/><text x="66" y="104" fill="#fff" font-size="10" font-family="Atkinson Hyperlegible Next Variable">3,6 cm</text></svg></div><div class="cap"><b>J+16 · 24 sept.</b><span>6,1 cm³</span></div></div>
+        <div class="tirage"><div class="cliche"><svg viewBox="0 0 160 118"><ellipse cx="80" cy="59" rx="34" ry="23" fill="none" stroke="#F2B33D" stroke-width="2" stroke-dasharray="5 4"/><line x1="46" y1="108" x2="114" y2="108" stroke="#fff" stroke-width="1.5"/><text x="68" y="104" fill="#fff" font-size="10" font-family="Atkinson Hyperlegible Next Variable">3 cm</text></svg></div><div class="cap"><b>J+24 · 2 oct.</b><span>5,2 cm³</span></div></div>
+      </div>
+    </div>
+  </div>
+</main>
+</body></html>

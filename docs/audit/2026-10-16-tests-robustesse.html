@@ -1,0 +1,1014 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Audit de solidité technique : tests, CI, hors connexion, performance (16 octobre 2026)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{--bg:#F4F6FA;--surface:#FFFFFF;--surface-2:#EEF2FB;--fg:#141A2E;--fg-2:#4A5372;--ligne:#DDE3EF;
+--accent:#2F5BEA;--accent-fg:#FFFFFF;--accent-doux:#E6ECFD;--attention:#8A5A00;--attention-fond:#FFF4DC;
+--code-fond:#F1F3F8;--police:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+--police-code:"JetBrains Mono",ui-monospace,"Cascadia Code",Consolas,monospace;--rayon:10px;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0E1220;--surface:#151A2B;--surface-2:#1C2338;
+--fg:#E8ECF7;--fg-2:#A3ACC6;--ligne:#2A3250;--accent:#7C9BFF;--accent-fg:#0E1220;--accent-doux:#1E2950;
+--attention:#F2C25B;--attention-fond:#33290F;--code-fond:#10152A;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0E1220;--surface:#151A2B;--surface-2:#1C2338;--fg:#E8ECF7;--fg-2:#A3ACC6;--ligne:#2A3250;
+--accent:#7C9BFF;--accent-fg:#0E1220;--accent-doux:#1E2950;--attention:#F2C25B;--attention-fond:#33290F;--code-fond:#10152A;color-scheme:dark}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--police);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}
+.entete{background:var(--surface);border-bottom:1px solid var(--ligne)}
+.entete div{max-width:calc(80ch + 32px);margin:0 auto;padding:12px 16px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.entete b{font-weight:600}
+.entete a{color:var(--accent);text-decoration:none;font-weight:500}
+.entete a:hover{text-decoration:underline}
+main{max-width:calc(80ch + 32px);margin:0 auto;padding:24px 16px 64px;overflow-wrap:break-word}
+.chemin{font-family:var(--police-code);font-size:12px;color:var(--fg-2);margin:0 0 8px}
+h1{font-size:28px;line-height:1.25;margin:0 0 16px}
+h2{font-size:21px;line-height:1.3;margin:36px 0 12px;padding-top:12px;border-top:1px solid var(--ligne)}
+h3{font-size:17px;margin:28px 0 8px}h4,h5,h6{font-size:15px;margin:20px 0 6px}
+a{color:var(--accent)}
+p,li{max-width:80ch}
+code{font-family:var(--police-code);font-size:.88em;background:var(--code-fond);border:1px solid var(--ligne);border-radius:5px;padding:0 4px;overflow-wrap:anywhere}
+pre{background:var(--code-fond);border:1px solid var(--ligne);border-radius:var(--rayon);padding:14px 16px;overflow-x:auto;font-size:13px;line-height:1.55}
+pre code{background:none;border:0;padding:0;font-size:inherit;overflow-wrap:normal}
+.tableau{overflow-x:auto;margin:16px 0;border:1px solid var(--ligne);border-radius:var(--rayon);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:13.5px;line-height:1.5}
+th,td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--ligne);min-width:8ch}
+th{background:var(--surface-2);font-weight:600}
+tr:last-child td{border-bottom:0}
+blockquote{margin:16px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-doux);border-radius:0 var(--rayon) var(--rayon) 0}
+hr{border:0;border-top:1px solid var(--ligne);margin:28px 0}
+img{max-width:100%}
+.non-publie{font-size:13px;color:var(--attention);background:var(--attention-fond);padding:1px 6px;border-radius:5px}
+details.sommaire{background:var(--surface);border:1px solid var(--ligne);border-radius:var(--rayon);padding:10px 16px;margin:0 0 24px}
+details.sommaire summary{cursor:pointer;font-weight:600}
+details.sommaire ul{padding-left:20px;margin:8px 0 0}
+.admonition{border:1px solid var(--ligne);border-radius:var(--rayon);padding:8px 16px;background:var(--surface)}
+.admonition-title{font-weight:600}
+</style>
+</head>
+<body>
+<header class="entete"><div><b>TabSanté — documents</b><a href="../../">← Retour au portail</a></div></header>
+<main>
+<p class="chemin">docs/audit/2026-10-16-tests-robustesse.html</p>
+<h1 id="audit-de-solidité-technique--tests-ci-hors-connexion-performance-16-octobre-2026">Audit de solidité technique : tests, CI, hors connexion, performance (16 octobre 2026)</h1>
+<details class="sommaire"><summary>Sommaire</summary><ul><li><a href="#résumé">Résumé</a></li><li><a href="#ce-qui-a-été-lancé">Ce qui a été lancé</a></li><li><a href="#1-dépendance-à-lheure-au-jour-et-à-lordre">1. Dépendance à l'heure, au jour et à l'ordre</a></li><li><a href="#2-angles-morts-des-tests">2. Angles morts des tests</a></li><li><a href="#3-ci-et-vérification-complète">3. CI et vérification complète</a></li><li><a href="#4-robustesse-hors-connexion-et-synchronisation">4. Robustesse hors connexion et synchronisation</a></li><li><a href="#5-performance">5. Performance</a></li><li><a href="#constats">Constats</a></li><li><a href="#lots-de-correction">Lots de correction</a></li><li><a href="#annexe-a--mutations-appelées-mais-jamais-refusées-par-un-test">Annexe A — mutations appelées mais jamais refusées par un test</a></li><li><a href="#annexe-b--reproduire">Annexe B — reproduire</a></li><li><a href="#annexe-c--sonde-de-fuzz-de-sync-à-verser-dans-teststest_syncpy-lot-l1">Annexe C — sonde de fuzz de /sync (à verser dans tests/test_sync.py, lot L1)</a></li></ul></details>
+<p>Audit en lecture seule du code de l'application : aucun fichier de <code>backend/app</code>, <code>web/src</code> ni <code>mobile/lib</code> n'est
+modifié. <code>main</code> a avancé pendant l'audit. P2-6 y est déjà corrigé (9b6585b), P1-4 en partie (4a31e42). L'application
+proactive (contexte France : fériés, changement d'heure), fusionnée depuis, n'est pas couverte par les passes datées. Base auditée : <code>main</code> à <code>c62573e</code>, worktree <code>evol-audit-tests</code>. Trois tests de preuve sont ajoutés
+(<code>backend/tests/test_audit_preuves.py</code>, en <code>xfail</code> strict, voir P1-1, P2-1 et P2-14).</p>
+<p><strong>Conditions de mesure.</strong> Poste Windows 11, 12 processeurs logiques à 100 % pendant tout l'audit (autres chantiers,
+autres suites), conteneur <code>postgres:17</code> partagé (4 processeurs, de 81 à 103 connexions pour 100 places, 204 bases pour
+3 Go). Les durées indiquent un ordre de grandeur. Seuls les <strong>nombres de requêtes SQL</strong> se comparent d'une mesure
+à l'autre.</p>
+<h2 id="résumé">Résumé</h2>
+<ul>
+<li><strong>Aucun P0, 5 P1, 16 P2.</strong> Pas de perte de données en service ni de faille démontrée. Les 1 266 tests du serveur
+  passent en ordre aléatoire, à part un test dont l'échec ne dépend pas de l'ordre (P2-4). La couverture du serveur est de
+  <strong>96,5 %</strong> des lignes et aucun module n'est sous 80 %.</li>
+<li><strong>Heure et jour.</strong> Un échantillon de 286 tests (30 fichiers, les plus liés à l'horloge) a été rejoué à 6 heures et 5
+  dates :</li>
+<li>à 00:30, 03:59, 12:00 et 19:59, tout passe ;</li>
+<li>à 07:00 et à 23:45, un seul échec, sur un plafond de temps sous charge : le nombre de requêtes est conforme ;</li>
+<li>la passe de 23:45 franchit minuit sans autre échec ;</li>
+<li>dimanche, jour férié, changement d'heure : aucun échec propre au jour. La veille de férié reste partielle,
+    faute de connexions disponibles (P1-4).</li>
+</ul>
+<p>En revanche, <strong>deux bombes à retardement</strong> casseront la suite pour tous les lots sans changement de code : le
+  <strong>1er novembre 2026</strong> (<code>test_series_de_sites_du_patient_toutes_fiches</code>) et le <strong>1er janvier 2027</strong>
+  (<code>test_contexte_chimio_actif_a_la_date</code>). Voir P1-5. Trois fragilités s'y ajoutent :
+  - 10 modules de test figent « aujourd'hui » à l'import ;
+  - 3 tests lisent l'heure murale ;
+  - des compteurs calculés à l'heure murale sont comparés entre deux lectures.
+- <strong>Synchronisation hors connexion.</strong> La remontée tient bien sous les entrées malformées : 1 320 opérations
+  malformées (33 types × 5 contextes × 8 variantes), aucune erreur 500, aucune file bloquée. Le rejeu est idempotent et
+  un double passage est refusé proprement (409). <strong>Deux défauts sont prouvés</strong> :
+  - <strong>P1-1</strong> : la file d'un remplaçant mise en attente avant une reconnexion est refusée pour toujours (CV-09) ;
+  - <strong>P2-1</strong> : une opération rejouée avec un autre contenu est déclarée « ok » sans rien changer.
+- <strong>CI.</strong> Les deux définitions (GitHub, GitLab) reprennent <code>verifier_tout</code>. Il leur manque :
+  - l'intégration du terminal contre l'API (47 tests, jamais en CI) ;
+  - une garde du contrat OpenAPI, dont dépendent les deux clients ;
+  - un lint Python ;
+  - le site public ;
+  - des versions épinglées (actions, images, uv).</p>
+<p>Aucun secret n'est requis. Aucun chemin Windows ne casse sous Linux (casse des imports, fins de ligne, bit
+  exécutable vérifiés).
+- <strong>Performance.</strong> Les 211 lectures GET mesurées sur trois jeux de volume réduits ont un nombre de requêtes
+  <strong>constant</strong> quand les patients (10 → 40) ou l'historique (4 → 16 jours) grandissent, sauf deux :
+  - <code>/previsionnel</code> : une lecture par jour (13, puis 62, puis 230 requêtes pour 1, 8 et 32 jours), sans garde-fou ;
+  - <code>/simulation/cartes/vitale</code> : une lecture par patient.</p>
+<p><code>/sync</code> reste à ~6 requêtes par acte. Mais son temps croît plus vite que le lot, et sous charge un lot de 200 actes
+  dépasse le délai de 15 s du terminal. Un défaut d'API est trouvé en passant : <code>GET /plaies/{id}</code> répond 500 avec
+  l'identifiant d'un cathéter (P2-14).
+- <strong>Fiabilité de la vérification.</strong> La suite du serveur dure 1 h 39 sur ce poste. 70 tests (5,5 %) en prennent la
+  moitié : 66 sèment la démonstration complète (<code>POST /dev/demo</code>, ~9 800 requêtes chacun). Deux échecs observés ne
+  viennent que de la charge, sans lien avec le code : un plafond de temps et un minuteur de 20 s dans un test de widget.
+  Surtout, le conteneur PostgreSQL partagé ne supprime plus ses bases : des <code>DROP DATABASE</code> attendent jusqu'à 3 h
+  un point de contrôle (P1-4).</p>
+<h2 id="ce-qui-a-été-lancé">Ce qui a été lancé</h2>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Vérification</th>
+<th>Commande (worktree, base <code>tabsante_audit_tests</code>)</th>
+<th>Résultat</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Serveur, ordre aléatoire + couverture + greffon d'audit</td>
+<td><code>pytest -n 3 -p audit_plugin --cov=app</code> (graine 20261016, ordre des 1 268 éléments mélangé)</td>
+<td>1 265 réussis, 2 ignorés, <strong>1 échec</strong> (P2-4) ; 5 937 s ; lignes 96,5 %</td>
+</tr>
+<tr>
+<td>Serveur, 6 heures</td>
+<td><code>TABSANTE_HORLOGE=HH:MM pytest -n 3 &lt;30 fichiers&gt;</code></td>
+<td>voir § 1</td>
+</tr>
+<tr>
+<td>Serveur, 5 dates</td>
+<td><code>AUDIT_INSTANT=AAAA-MM-JJTHH:MM pytest -n 3 -p audit_plugin &lt;30 fichiers&gt;</code></td>
+<td>voir § 1</td>
+</tr>
+<tr>
+<td>Migrations</td>
+<td><code>alembic upgrade head</code>, <code>downgrade -1</code>, <code>upgrade head</code>, <code>heads</code>, puis <code>downgrade base</code> et <code>upgrade head</code></td>
+<td>tête unique <code>0041t</code> ; descente complète et remontée sans erreur</td>
+</tr>
+<tr>
+<td>Contrat</td>
+<td><code>app.openapi()</code> comparé à <code>docs/api/openapi.json</code> ; <code>openapi-typescript</code> régénéré comparé à <code>web/src/api/schema.d.ts</code></td>
+<td>identiques (337 chemins, 387 opérations, 0 schéma différent)</td>
+</tr>
+<tr>
+<td>Web</td>
+<td><code>tsc --noEmit</code> ; <code>oxlint src</code> ; <code>vitest run --coverage</code> ; <code>vite build</code></td>
+<td>tout passe : 0 diagnostic (96 règles, 145 fichiers) ; 42 fichiers, <strong>436 tests</strong> ; lignes 70,8 %, branches 56,2 % ; build avec un avertissement de bloc &gt; 500 ko</td>
+</tr>
+<tr>
+<td>Terminal</td>
+<td><code>flutter pub get</code> ; <code>flutter analyze</code> ; <code>flutter test --coverage</code> ; <code>flutter build web</code></td>
+<td>analyse sans alerte ; <strong>735 réussis, 47 ignorés (intégration), 1 échec instable</strong> (P2-6) ; lignes 77,3 % ; build sans erreur</td>
+</tr>
+<tr>
+<td>Sondes /sync</td>
+<td><code>backend/tests/test_audit_sondes_sync.py</code> (non versionné : 3 sondes vertes, dont la sonde de fuzz reproduite en annexe C ; les 2 défauts sont versés dans <code>test_audit_preuves.py</code>)</td>
+<td>voir § 4</td>
+</tr>
+<tr>
+<td>Requêtes par route</td>
+<td><code>semer_volume.py</code> à trois volumes, toutes les routes GET appelées et comptées (<code>sonde_sql.py</code>)</td>
+<td>voir § 5</td>
+</tr>
+</tbody>
+</table></div>
+<p><code>scripts/verifier_tout.ps1</code> n'a pas été lancé d'un bloc : il enchaîne deux passes complètes du serveur, soit plus de
+3 h sur ce poste. Ses étapes ont été lancées une à une (tableau ci-dessus), sauf <code>-Integration</code>.</p>
+<p><strong>Outils d'audit hors dépôt</strong> (dossier temporaire) :
+- <code>audit_plugin.py</code> : greffon pytest qui mélange l'ordre des tests avec une graine commune aux processus xdist, compte
+  les routes appelées, leurs statuts et les requêtes SQL de chaque requête HTTP, relève les <code>Refus(regle=…)</code> levés, et
+  pose l'horloge à une date (<code>AUDIT_INSTANT</code>, même <code>DECALAGE</code> que <code>TABSANTE_HORLOGE</code>) ;
+- <code>sonde_sql.py</code> : chaque route GET sur un jeu de volume ;
+- <code>sonde_lot.py</code> : <code>/sync</code> de N actes ;
+- <code>statique.py</code> : écrans sans test.</p>
+<p>Leur contenu tient en quelques dizaines de lignes, à reprendre dans le lot L6 si l'équipe les veut dans le dépôt.</p>
+<h2 id="1-dépendance-à-lheure-au-jour-et-à-lordre">1. Dépendance à l'heure, au jour et à l'ordre</h2>
+<p><strong>Ordre.</strong> <code>pytest-randomly</code> n'est pas installé : <code>-p no:randomly</code> n'a donc pas d'objet. L'ordre aléatoire vient du
+greffon d'audit, qui mélange les 1 268 éléments avec une graine commune aux trois processus xdist (le dispatch reste
+cohérent). Résultat : 1 seul échec, <code>test_formes_lectures.py::test_dispositifs_du_cabinet_en_une_lecture</code>. Rejoué seul
+à 4 heures différentes (réelle, 07:00, 10:45, 00:30), il passe. La cause n'est pas l'ordre mais l'horloge murale :
+voir P2-4.</p>
+<p><strong>Heures</strong> (échantillon de 286 tests : synchronisation et alerte du terminal muet, itinéraires, préparation, traçabilité,
+échanges, socle, exploitation, tableau de bord, habilitations, transmissions, gardes de performance, agrégats,
+lendemain, confort, agent de poste, actes, cotation par passage, calendrier, rythmes, tournées, facturation, patients,
+auth, indisponibilités, avenant 11, horloge) :</p>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th><code>TABSANTE_HORLOGE</code></th>
+<th>Résultat</th>
+<th>Durée</th>
+<th>Échec</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>00:30</td>
+<td>286 réussis</td>
+<td>11 min</td>
+<td>—</td>
+</tr>
+<tr>
+<td>03:59</td>
+<td>286 réussis</td>
+<td>9 min</td>
+<td>—</td>
+</tr>
+<tr>
+<td>07:00</td>
+<td>285 réussis, 1 échec</td>
+<td>9 min</td>
+<td><code>test_perf_confirmer</code> : <strong>7,7 s</strong> pour un plafond de 5 s. Nombre de requêtes conforme (32 lectures). Rejoué seul à 07:00, il échoue de nouveau sur le temps seul (2,4 s puis 7,5 s), sous charge : P2-5</td>
+</tr>
+<tr>
+<td>12:00</td>
+<td>286 réussis</td>
+<td>12 min</td>
+<td>—</td>
+</tr>
+<tr>
+<td>19:59</td>
+<td>286 réussis</td>
+<td>17 min</td>
+<td>—</td>
+</tr>
+<tr>
+<td>23:45</td>
+<td>285 réussis, 1 échec</td>
+<td>19 min</td>
+<td><code>test_perf_confirmer</code> : 7,9 s pour 5 s, nombre de requêtes conforme (P2-5). La passe franchit minuit en heure de l'application (23:45 → 00:04) sans autre échec : les modules à date figée n'ont pas cassé, sans garantie qu'ils aient tous tourné après minuit</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Dates.</strong> <code>TABSANTE_HORLOGE</code> ne règle que l'heure du jour réel : impossible d'y poser un dimanche ou un jour férié
+(P2-7). Le greffon d'audit pose donc <code>app.horloge.DECALAGE</code> à la date voulue, dès l'exécution de <code>app.horloge</code> (crochet
+d'import). Les défauts de colonnes (<code>maintenant_sql</code>) en héritent, comme avec <code>TABSANTE_HORLOGE</code>.</p>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Instant (Paris)</th>
+<th>Pourquoi</th>
+<th>Résultat</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>dim. 18/10/2026 10:00</td>
+<td>dimanche (cotation : majorations du dimanche)</td>
+<td>285 réussis, 1 échec : <code>test_perf_confirmer</code> sur le temps seul (6,9 s pour 5 s, 32 lectures, P2-5). Aucune différence liée au dimanche</td>
+</tr>
+<tr>
+<td>mar. 10/11/2026 20:30</td>
+<td>veille de jour férié (11 novembre), soir</td>
+<td><strong>résultat partiel</strong>. La première passe donne 283 réussis et 3 échecs : <code>test_series_de_sites…</code> (P1-5, réel), <code>test_remplacant_n_antidate…</code> (faux échec du premier greffon, voir plus bas) et <code>test_perf_confirmer</code> (heure murale, P2-7). Deux relances avec le greffon corrigé, l'une sur l'échantillon et l'autre sur 5 fichiers, ont été <strong>invalidées par la saturation du conteneur</strong> : 24 échecs et 171 <code>FATAL: remaining connection slots are reserved…</code>, puis échec à la connexion (P1-4). À rejouer</td>
+</tr>
+<tr>
+<td>mer. 11/11/2026 10:00</td>
+<td>jour férié</td>
+<td>284 réussis, 2 échecs : <strong><code>test_series_de_sites_du_patient_toutes_fiches</code></strong> (fenêtre de 60 jours, P1-5) ; <code>test_perf_confirmer</code> (lit l'heure murale, P2-7)</td>
+</tr>
+<tr>
+<td>dim. 25/10/2026 10:00</td>
+<td>passage à l'heure d'hiver (et dimanche)</td>
+<td>285 réussis, 1 échec : <code>test_perf_confirmer</code> (heure murale, P2-7). Rien ne casse au changement d'heure</td>
+</tr>
+<tr>
+<td>lun. 04/01/2027 10:00</td>
+<td>passage d'année, bombes datées</td>
+<td>283 réussis, 3 échecs : <strong><code>test_patients.py::test_contexte_chimio_actif_a_la_date</code></strong> (<code>'chimiotherapie' in []</code> : contexte écrit jusqu'au 2026-12-31, P1-5) ; <strong><code>test_series_de_sites…</code></strong> (P1-5) ; <code>test_perf_confirmer</code> (P2-7)</td>
+</tr>
+</tbody>
+</table></div>
+<p>Une première passe du 18/10 et du 10/11 posait le décalage après l'import des modèles. Les colonnes datées par
+<code>maintenant_sql()</code> restaient alors à l'heure réelle, ce qui a produit de faux échecs
+(<code>test_remplacant_n_antidate_ni_avant_sa_session_ni_au_dela_du_delai</code>). Le greffon corrigé les fait disparaître :
+ce test est vert seul au 18/10, et la passe du 18/10 a été rejouée (tableau ci-dessus). Celle du 10/11 n'a pas pu
+l'être (P1-4). <strong>Aucun échec propre au dimanche, au jour férié ni au changement d'heure</strong> n'apparaît dans
+l'échantillon. Les échecs datés sont deux bombes à
+retardement (P1-5) et un test qui lit l'heure murale (P2-7).</p>
+<p><strong>Fragilités repérées en lisant les tests :</strong>
+- 10 modules figent la date du jour à l'import : <code>AUJ = horloge.aujourdhui()</code> et équivalents dans <code>test_agregats</code>,
+  <code>test_apercu_controles</code>, <code>test_habilitations</code>, <code>test_indicateurs_lendemain</code>, <code>test_indisponibilites</code>,
+  <code>test_lot_c_apercu</code>, <code>test_lot_c_evenements</code>, <code>test_lot_c_referentiels</code>, <code>test_lot_c_renouvellements</code> et
+  <code>test_preparation_passage</code>. Une passe qui franchit minuit (lancée à 23:45, la suite dure de 10 à 100 min) les juge
+  sur la veille. Voir la passe de 23:45 ;
+- les dates futures écrites en dur dans les tests sont des valeurs attendues calculées depuis des dates fixes, sauf
+  <code>test_patients.py::test_contexte_chimio_actif_a_la_date</code> : contexte du 2026-01-01 au 2026-12-31, attendu « actif
+  aujourd'hui ». C'est une bombe à retardement au 1er janvier 2027, confirmée par la passe du 4 janvier 2027 (P1-5) ;
+- les fenêtres glissantes appliquées aux dates fixes des jeux d'essai (septembre 2026) en sont une autre :
+  <code>test_series_de_sites_du_patient_toutes_fiches</code> cassera le 1er novembre 2026 (P1-5).</p>
+<h2 id="2-angles-morts-des-tests">2. Angles morts des tests</h2>
+<h3 id="routes-de-lapi">Routes de l'API</h3>
+<p>Mesure dynamique (greffon, passe complète) : chaque requête HTTP de la suite est rattachée à sa route FastAPI.</p>
+<ul>
+<li><strong>382 des 387 opérations</strong> sont appelées au moins une fois. Jamais appelées :</li>
+<li><code>GET /formations/catalogue</code></li>
+<li><code>GET /documents/types</code></li>
+<li><code>GET /prelevements/laboratoire</code></li>
+<li><code>GET /moi/geolocalisation</code></li>
+<li><code>POST /patients/{patient_id}/messagerie/reception-simulee</code></li>
+<li><strong>162 opérations ne sont jamais testées en refus</strong> : aucun appel en 4xx. Parmi elles, <strong>37 mutations</strong>, dont celles-ci
+  ont un enjeu de sécurité ou de données :</li>
+<li><code>POST /auth/terminaux/{terminal}/revocation</code></li>
+<li><code>POST /auth/deconnexion</code></li>
+<li><code>PATCH /cabinet</code></li>
+<li><code>PUT /cabinet/depart</code></li>
+<li><code>POST /postes</code></li>
+<li><code>POST /postes/agent/travaux/prendre</code></li>
+<li><code>POST /postes/agent/travaux/{travail_id}/echec</code></li>
+<li><code>POST /facturation/cotations/confirmer</code></li>
+<li><code>POST /prescriptions/{prescription_id}/renouvellement</code></li>
+<li><code>POST /occurrences/{occurrence_id}/arrivee</code></li>
+<li><code>PUT /patients/{patient_id}/position</code></li>
+<li><code>PUT /patients/{patient_id}/acces-domicile</code></li>
+<li><code>DELETE /patients/{patient_id}/acces-domicile/photo</code></li>
+<li><code>PUT /moi/geolocalisation</code></li>
+<li><code>POST /sejours-had/{sejour_id}/sortie</code></li>
+<li><code>POST /lectures/{lecture_id}/rejet</code></li>
+<li><code>POST /simulation/reinitialiser</code></li>
+</ul>
+<p>Liste complète dans l'annexe A.</p>
+<h3 id="règles-sans-test-négatif">Règles sans test négatif</h3>
+<p>Chaque chaîne <code>regle="…"</code> écrite en dur dans <code>app/</code> (277) est comparée aux <code>Refus</code> réellement levés pendant la suite.
+<strong>33 ne sont jamais levées</strong> : aucun test ne passe par ce refus.</p>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Fichier</th>
+<th>Règles jamais levées</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>app/domaines/consultations.py</code></td>
+<td>EX-CI-15/18 (551), EX-PF-06 sexies (553), EX-CI-10 (555), EX-CI-29 (567), EX-CI-12 (662), EX-CI-21 (670)</td>
+</tr>
+<tr>
+<td><code>app/fiches/analgesie.py</code></td>
+<td>ALR-P13 (659), ALR-RG-25 (661), ALR-N12 (758), ALR-RG-28/RG-35 (802)</td>
+</tr>
+<tr>
+<td><code>app/fiches/dialyse.py</code></td>
+<td>DIP-RG-16 (485), DIP-C01 (737), DIP-M03 (856)</td>
+</tr>
+<tr>
+<td><code>app/fiches/pse.py</code></td>
+<td>PSE-E20 (613), PSE-C04/PSE-RG-12 (939)</td>
+</tr>
+<tr>
+<td><code>app/domaines/echanges_simules.py</code></td>
+<td>EX-PRL-06 (106), EX-PRL-06/PRL-E03 (108)</td>
+</tr>
+<tr>
+<td><code>app/domaines/signatures.py</code></td>
+<td><strong>OFF-05</strong> (80)</td>
+</tr>
+<tr>
+<td><code>app/domaines/dossier.py</code></td>
+<td><strong>DIA-RG-15</strong> (721 : seul l'infirmier lève une zone de lipohypertrophie)</td>
+</tr>
+<tr>
+<td>autres, une chacun</td>
+<td>EX-ID-04 ter (<code>cartes.py</code>:303), EX-PF-02 (<code>ordonnances.py</code>:272), MOD-22 (<code>parcours.py</code>:530), UGD-O2 (<code>patients.py</code>:180), PAN-F11 (<code>plaies.py</code>:303), MOD-17 (<code>prescriptions.py</code>:67), INT-06 (<code>simulation.py</code>:102), D-08 (<code>transmissions.py</code>:414), ACI-RG-09, DIA-RG-04, INJ-RG-09, NUT-RG-03, PRL-RG-11, RES-RG-50 (fiches)</td>
+</tr>
+</tbody>
+</table></div>
+<p>Les règles composées par f-string ne sont pas comptées : la mesure est donc une borne basse.</p>
+<h3 id="couverture">Couverture</h3>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Partie</th>
+<th>Lignes</th>
+<th>Sous 80 %</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Serveur (<code>--cov=app</code>)</td>
+<td><strong>96,5 %</strong> (27 603 instructions, 956 manquantes)</td>
+<td><strong>aucun module</strong>. Les plus bas : <code>taches.py</code> 82,8 %, <code>idempotence.py</code> 85,7 %, <code>retention.py</code> 85,9 %, <code>domaines/echanges.py</code> 89,6 %. Couverture des branches non mesurée (<code>--cov-branch</code> absent)</td>
+</tr>
+<tr>
+<td>Web (vitest, v8)</td>
+<td><strong>70,8 %</strong> (branches 56,2 %, fonctions 59,7 %)</td>
+<td><strong>47 fichiers sur 100</strong>. Sous 40 % : <code>pages/Signalements.tsx</code> 0 %, <code>main.tsx</code> 0 %, <code>pages/Patients.tsx</code> 6,2 %, <code>pages/Connexion.tsx</code> 9,1 %, <code>pages/PriseEnCharge.tsx</code> 15,0 %, <code>pages/Sessions.tsx</code> 20,4 %, <code>fiches.tsx</code> 23,1 %, <code>pages/Propositions.tsx</code> 24,3 %, <code>organisation.tsx</code> 34,1 %, <code>pages/UroGenital.tsx</code> 37,4 %, <code>pages/Preuves.tsx</code> 38,1 %, <code>pages/VuePlaie.tsx</code> 38,5 %</td>
+</tr>
+<tr>
+<td>Terminal (<code>flutter test --coverage</code>)</td>
+<td><strong>77,3 %</strong> (29 485 lignes)</td>
+<td><strong>27 fichiers sur 88</strong>. 5 fichiers ne sont chargés par aucun test et n'apparaissent même pas au rapport : <code>base_web.dart</code>, <code>icones.dart</code>, <code>lien_web.dart</code>, <code>notifieur_web.dart</code>, <code>photo_web.dart</code>. Sous 60 % : <code>ecrans/resultat.dart</code> 0 %, <code>photo.dart</code> 0 %, <code>captures.dart</code> 0,1 % (banc de captures), <code>main.dart</code> 43,5 %, <code>ecrans/fiche_lot10.dart</code> 49,3 %, <code>ecrans/dispositif.dart</code> 50,0 %, <code>ecrans/redon.dart</code> 55,3 %, <code>ecrans/fiche_lot17.dart</code> 58,0 %, <code>ecrans/fiche_lot18.dart</code> 59,3 %</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="écrans-sans-test">Écrans sans test</h3>
+<ul>
+<li><strong>Web</strong> : 65 pages sur 69 sont importées directement par un test. <code>Patients.tsx</code>, <code>Propositions.tsx</code>,
+  <code>Sessions.tsx</code> et <code>Signalements.tsx</code> ne le sont pas. <code>Signalements</code> n'est chargée que par <code>main.tsx</code>, jamais rendu
+  en test, et les trois autres seulement au passage par un autre module : leur couverture va de 0 à 24 %.
+  Une page importée n'est pas pour autant exercée : voir les 47 fichiers sous 80 %.</li>
+<li><strong>Terminal</strong> : 13 classes <code>Ecran*</code> ne sont jamais nommées dans un test de widget. La couverture montre celles qui ne
+  sont pas atteintes non plus en naviguant :</li>
+<li>non exercés : <code>EcranResultat</code> (<code>resultat.dart</code>, 0 %), <code>EcranClotureDispositif</code> (<code>dispositif.dart</code>, 50 %),
+    <code>EcranModalite</code> (<code>fiche_lot17.dart</code>, 58 %), <code>EcranRappel</code> (<code>socle.dart</code>, 61 %) ;</li>
+<li>exercés par navigation, couverture du fichier au-dessus de 80 % : <code>EcranPatients</code>, <code>EcranCicatrisee</code>,
+    <code>EcranProposerEchange</code>, <code>EcranAbsence</code>, <code>EcranProposition</code>, <code>EcranRectification</code>, <code>EcranQuestion</code>,
+    <code>EcranDecisionSignalement</code>, <code>EcranVerrou</code>.</li>
+</ul>
+<h2 id="3-ci-et-vérification-complète">3. CI et vérification complète</h2>
+<p>Relus : <code>scripts/verifier_tout.ps1</code>, <code>scripts/verifier_tout.sh</code>, <code>.github/workflows/ci.yml</code>, <code>.gitlab-ci.yml</code>,
+<code>docs/exploitation/integration-continue.md</code>. Les deux scripts et les deux CI font les mêmes étapes, à une exception
+près : la garde de l'horloge ne tourne que la nuit en CI. Le nettoyage des bases jetables est correct (préfixe
+commun, <code>WITH (FORCE)</code>) et les variables <code>TABSANTE_*</code> du shell sont isolées.</p>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Manque</th>
+<th>Où</th>
+<th>Conséquence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Intégration du terminal contre une vraie API (<code>mobile/test/integration</code>, 47 tests)</td>
+<td>absente des deux CI ; locale seulement avec <code>-Integration</code></td>
+<td>le seul contrôle de bout en bout terminal ↔ <code>/sync</code> ne tourne jamais automatiquement (P1-3)</td>
+</tr>
+<tr>
+<td>Garde du contrat <code>docs/api/openapi.json</code></td>
+<td>aucun test ni étape ; « aucun script de régénération n'est versionné » (documentation technique)</td>
+<td>les tests du terminal valident leurs charges contre ce fichier et les types web en sont générés : un serveur modifié sans régénération laisse les deux clients verts (P1-2). À ce jour, le fichier est à jour</td>
+</tr>
+<tr>
+<td>Lint Python</td>
+<td>ni <code>ruff</code> ni <code>flake8</code> dans les dépendances de dev, aucune étape ; le code porte pourtant des <code># noqa: E731/E402/F841</code></td>
+<td>les conventions affichées ne sont vérifiées nulle part (P2-9)</td>
+</tr>
+<tr>
+<td>Site public (<code>site/</code>, Astro : <code>npm run ci</code> = check, vitest, build, vérifieur, Lighthouse)</td>
+<td>ni CI ni <code>verifier_tout</code></td>
+<td>une régression du site n'est vue par personne (P2-9)</td>
+</tr>
+<tr>
+<td>Audit des dépendances (<code>pip-audit</code>, <code>npm audit</code>, <code>flutter pub outdated</code>)</td>
+<td>absent (<code>npm ci --no-audit</code>)</td>
+<td>— (P2-9)</td>
+</tr>
+<tr>
+<td>Dérive modèles ↔ migrations (<code>alembic check</code>)</td>
+<td>absente</td>
+<td>les tests passent sur le schéma migré ; un index ou une contrainte déclarés dans les modèles et oubliés en migration passent inaperçus</td>
+</tr>
+<tr>
+<td>Mesure au volume (<code>mesurer_perf.py</code>)</td>
+<td>manuelle</td>
+<td>seuls les gardes-fous à 12 patients tournent en CI</td>
+</tr>
+<tr>
+<td>Branches (<code>--cov-branch</code>), seuils de couverture</td>
+<td>absents (choix documenté : « elle se suit, elle ne bloque pas »)</td>
+<td>—</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Versions non épinglées</strong> (P2-10) :
+- GitHub : actions par étiquette majeure, non épinglées par SHA (<code>actions/checkout@v4</code>, <code>astral-sh/setup-uv@v6</code>,
+  <code>actions/setup-node@v4</code>, <code>subosito/flutter-action@v2</code>, <code>actions/upload-artifact@v4</code>), version de <code>uv</code> libre,
+  <code>node-version: 24</code>, service <code>postgres:17</code> ;
+- GitLab : images flottantes <code>ghcr.io/astral-sh/uv:python3.11-bookworm-slim</code>, <code>node:24-bookworm-slim</code>,
+  <code>postgres:17</code> ;
+- épinglés : Flutter 3.47.6, <code>uv.lock</code>, <code>package-lock.json</code>, <code>pubspec.lock</code>.</p>
+<p><strong>Secrets</strong> : aucun requis. Le secret JWT de test est fixé par <code>tests/conftest.py</code>.</p>
+<p><strong>Nuit sur GitLab</strong> : le pipeline programmé est à créer à la main (Build › Pipeline schedules). Tant qu'il ne l'est pas,
+la garde de l'horloge ne tourne pas.</p>
+<p><strong>Chemins Windows</strong> : aucun défaut.
+- <code>D:\dev\flutter</code> (ps1) et <code>/d/dev/flutter/bin</code> (sh) ne servent que de repli, après un test d'existence.
+- Le lancement de l'API d'intégration prévoit <code>bin/python</code> et <code>Scripts/python.exe</code>.
+- Casse des 1 400 imports relatifs (web, site, terminal) vérifiée contre le disque : aucune différence.
+- <code>.gitattributes</code> impose <code>eol=lf</code> et <code>verifier_tout.sh</code> est en 100755.</p>
+<p><strong>Mode <code>-Rapide</code></strong> : dès qu'un fichier de <code>backend/</code> change, il rejoue toute la suite du serveur (1 h 39 ici). Le
+crochet <code>pre-push</code> n'est donc pas rapide pour un lot serveur (P2-8).</p>
+<h2 id="4-robustesse-hors-connexion-et-synchronisation">4. Robustesse hors connexion et synchronisation</h2>
+<p>Relu : <code>backend/app/domaines/sync.py</code>, <code>app/lot.py</code>, <code>app/idempotence.py</code>, <code>app/auth.py</code> (sessions, révocation) côté
+serveur ; <code>mobile/lib/depot.dart</code> (file <code>sembast</code> chiffrée), <code>api.dart</code>, <code>terminal.dart</code> (session perdue, reconnexion)
+côté terminal.</p>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Scénario</th>
+<th>Comportement constaté</th>
+<th>Preuve</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Entrées malformées (poison)</td>
+<td>33 types × 5 contextes (patient, objet ou acte absents, inconnus ou d'un autre patient) × 8 variantes de données (vides, identifiants mal typés, dates sans fuseau, types croisés) = 1 320 opérations : <strong>aucun 500</strong>, chaque opération en erreur seule</td>
+<td>sonde <code>test_aucune_operation_mal_formee_ne_bloque_la_file</code> : verte. Avertissement SQLAlchemy relevé : <code>db.get(Patient, None)</code> (P2-3)</td>
+</tr>
+<tr>
+<td>Rejeu partiel</td>
+<td>côté serveur : une opération en erreur sort seule (savepoint), les autres sont validées. Côté terminal : les opérations acceptées sortent une à une ; une coupure entre deux sorties fait rejouer des opérations déjà appliquées, rendues « ok » (idempotentes par identifiant ; <code>_cle</code> et verrou consultatif par opération)</td>
+<td><code>tests/test_sync.py</code>, <code>test_sync_concurrence.py</code>, <code>mobile/test/synchro_test.dart</code></td>
+</tr>
+<tr>
+<td>Conflit de version (même identifiant, autre contenu)</td>
+<td><strong>« ok », l'ancienne version est gardée, rien n'est signalé.</strong> Même chose pour corrections, rectifications, rappels et événements : seul l'objet visé est comparé</td>
+<td><strong>P2-1</strong>, preuve en xfail strict</td>
+</tr>
+<tr>
+<td>Acte signé deux fois sur deux terminaux (même occurrence)</td>
+<td>un seul acte ; second envoi <code>409</code> « Occurrence déjà servie ou retirée », gardé en file avec son motif. Le soin réellement fait ne remonte pas : il faut l'abandonner ou le re-signer en non programmé</td>
+<td>sonde <code>test_meme_passage_signe_sur_deux_terminaux</code> : verte ; P2-2</td>
+</tr>
+<tr>
+<td>Révocation pendant une file non vide</td>
+<td>terminal : la file reste chiffrée (<code>effacerTout(garderFile: true)</code>), effacement seulement sur décision ; « Envoyer d'abord » renvoie la file sous une session neuve. Serveur : 401 avec motif</td>
+<td>lecture de <code>terminal.dart:460</code> ; mais voir P1-1 (remplaçant) et P2-11 (« Envoyer d'abord » passe par <code>/dev/demo</code>)</td>
+</tr>
+<tr>
+<td>Reconnexion d'un <strong>remplaçant</strong> avec une file non vide</td>
+<td><strong>422 CV-09 définitif</strong> : « Opération mise en file avant l'ouverture de votre session sur ce terminal ». La borne est la session <strong>courante</strong> ; <code>cree_le</code> et <code>saisi_le</code> ne changent pas au rejeu</td>
+<td><strong>P1-1</strong>, preuve en xfail strict</td>
+</tr>
+<tr>
+<td>Horloge du terminal <strong>en avance</strong> de plus de 5 min</td>
+<td>acte refusé en 422 (OFF-14), gardé en file, accepté au rejeu une fois l'heure rattrapée. Avec une avance d'un jour, il attend un jour</td>
+<td>sonde <code>test_terminal_en_avance_de_dix_minutes</code> : verte</td>
+</tr>
+<tr>
+<td>Horloge du terminal <strong>en retard</strong></td>
+<td>horodatages faux acceptés sans alerte (aucune comparaison à l'heure du serveur, ni à la synchro ni ailleurs) ; chez un remplaçant, toute opération mise en file dans les (retard − 5) minutes qui suivent la connexion est refusée en CV-09</td>
+<td>lecture de <code>sync.py:_borner_remplacant</code>, <code>depot.dart:184</code> ; P2-12</td>
+</tr>
+<tr>
+<td>Lot volumineux après une longue coupure</td>
+<td>le terminal envoie jusqu'à 500 opérations par requête, avec le délai commun de <strong>15 s</strong> (<code>Api.delai</code>)</td>
+<td>mesuré sur un jeu réduit, poste chargé : 50 actes en <strong>6,4 s</strong> (325 requêtes), 200 actes en <strong>17,1 s</strong> (1 228 requêtes, <strong>au-delà des 15 s</strong>), 500 actes en <strong>166 s</strong> (3 032 requêtes). Les rejeux sont rapides : 0,9 s, 3,4 s et 7,0 s (idempotence). Le terminal abandonne l'attente, mais le serveur valide quand même ; au cycle suivant, le rejeu rend « ok ». Pas de perte, mais une erreur affichée à tort, une requête qui garde ses verrous jusqu'à 166 s, et des photos retardées d'un cycle. Le scénario est défavorable : 50 actes par patient le même jour, et le temps croît plus vite que le nombre de requêtes, signe d'un recalcul du passage du jour à chaque acte. Voir P2-15</td>
+</tr>
+<tr>
+<td>Unicité imprévue (IntegrityError)</td>
+<td>409 « l'opération reste dans la file et sera rejouée ». Si la collision est déterministe, l'opération est rejouée sans fin</td>
+<td>lecture de <code>sync.py</code> ; P2-3</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="5-performance">5. Performance</h2>
+<p><strong>Méthode.</strong> Le jeu de volume de référence (150 patients, 60 jours) demandait 20 à 85 min de semis selon les mesures
+précédentes ; sur ce poste saturé, il était hors d'atteinte. Trois jeux réduits ont donc été semés avec le même script
+(<code>VOLUME_PATIENTS</code>, <code>VOLUME_JOURS</code>) :
+- <strong>A</strong> : 10 patients, 4 jours, 52 actes ;
+- <strong>B</strong> : 40 patients, 106 actes. Semis interrompu par l'audit, mais tous les patients sont créés : le jeu sert à
+  comparer le nombre de patients ;
+- <strong>C</strong> : 10 patients, 16 jours, 208 actes.</p>
+<p>Chaque route GET de l'API (204, hors <code>/dev</code> et le flux SSE <code>/evenements</code>) est appelée une fois pour chauffer, puis une
+fois comptée, avec un patient à plaie et un patient porteur de PICC. Une route dont le nombre de requêtes suit le
+volume est un N+1. En complément :
+- le greffon d'audit donne le maximum de requêtes par requête HTTP sur toute la suite (écritures comprises) ;
+- <code>sonde_lot.py</code> mesure <code>/sync</code>.</p>
+<p><strong>Résultat</strong> : 211 mesures en 2xx, 33 en erreur de paramètre (route qui attend un autre type d'objet, un document,
+etc. : non mesurées). Toutes les mesures en 2xx ont un nombre de requêtes <strong>constant</strong> entre A, B et C, sauf :</p>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Route</th>
+<th>Requêtes</th>
+<th>Garde-fou</th>
+<th>Lecture</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/previsionnel</code></td>
+<td>13 / 62 / 230 pour une fenêtre de 1, 8 et 32 jours (jeu C) ; 13 / 18 entre A et B sur un jour</td>
+<td><strong>non</strong></td>
+<td><code>intervenant_attribue()</code> appelé pour chaque (tournée, moment, jour, rôle) dans la boucle (<code>app/domaines/organisation.py:340</code>). Une lecture groupée des attributions de la fenêtre (comme <code>_tournees_en_cours</code>) le rend constant</td>
+</tr>
+<tr>
+<td><code>/simulation/cartes/vitale</code></td>
+<td>15 / 45 / 15 (A / B / C)</td>
+<td>non</td>
+<td>une lecture par patient. Route de simulation seulement</td>
+</tr>
+</tbody>
+</table></div>
+<p>Les lectures principales, à volume constant :
+- <code>/tableau-de-bord</code> 64, <code>/terminal/precharge</code> 61 : gardées ;
+- <code>/compteurs</code> 23, <code>/actes/{id}/preuve</code> 24, <code>/tournees/{id}/plan</code> 18, <code>/patients/{id}/dossier</code> 18,
+  <code>/audit/verification</code> 14 ;
+- <code>/patients/{id}/actes</code> 11, <code>/tournees/{id}/jour</code> 10, <code>/dispositifs</code> 9, <code>/patients</code> et <code>/plaies</code> 7.</p>
+<p>Toutes sont constantes entre A, B et C. Écritures les plus lourdes vues dans la suite :
+- <code>/facturation/cotations/confirmer</code> 413 : gardée, 2 écritures par acte ;
+- <code>/reprise</code> 165 ;
+- <code>/sync</code> 132 ;
+- <code>POST /actes</code> 93 ;
+- <code>/facturation/fse/{id}/securiser</code> 75 ;
+- <code>/facturation/lots</code> 70.</p>
+<p><strong>Routes sans garde-fou de performance</strong> (gardées aujourd'hui : tableau de bord jour et semaine, <code>/patients</code>,
+<code>/plaies?statut=ouverte</code>, tournée du jour, actes d'un patient, précharge, bilans dus, recherche, <code>/sync</code> 12 actes,
+reconfirmation des cotations et « à facturer ») :
+- <code>/previsionnel</code>, à garder d'abord (N+1 ci-dessus) ;
+- <code>/dispositifs?statut=ouverte</code>, mesuré par <code>mesurer_perf</code> mais pas gardé ;
+- <code>/tournees/{id}/plan</code>, <code>/patients/{id}/dossier</code>, <code>/compteurs</code>, <code>/synchronisations</code> (qui matérialise les passages du
+  jour) ;
+- <code>/facturation/lots</code>, <code>/facturation/fse/{id}/securiser</code>, <code>/reprise</code> ;
+- <code>/sync</code> au-delà de 12 actes : la garde couvre le nombre de requêtes, pas la croissance du temps (P2-15).</p>
+<p><strong>Temps</strong> : sans valeur de référence sur ce poste (de 0,1 à 1 s pour les lectures ci-dessus sur les jeux réduits).
+Les cibles de <code>docs/exploitation/performance.md</code> restent à mesurer sur la machine de recette.</p>
+<h2 id="constats">Constats</h2>
+<p>Gravité :
+- <strong>P0</strong> : perte de données, faille ou panne en service, démontrée ;
+- <strong>P1</strong> : défaut prouvé, ou garde absente, sur un chemin critique ;
+- <strong>P2</strong> : fragilité, dette de test ou d'outillage.</p>
+<h3 id="p0">P0</h3>
+<p>Aucun.</p>
+<h3 id="p1">P1</h3>
+<p><strong>P1-1. Remplaçant : la file mise en attente avant une reconnexion est refusée pour toujours (CV-09).</strong>
+- <em>Constat.</em> <code>_borner_remplacant</code> (<code>backend/app/domaines/sync.py</code>) refuse toute opération dont l'entrée en file
+  (<code>saisi_le</code> d'un acte, sinon <code>cree_le</code>) précède de plus de 5 min l'ouverture de la <strong>session courante</strong>. Or une
+  session se rouvre souvent :
+  - rafraîchissement expiré après 7 jours ;
+  - session plafonnée à 30 jours ;
+  - « Code oublié » ;
+  - révocation puis « Envoyer d'abord ».</p>
+<p>Les actes signés <strong>pendant</strong> le remplacement sous la session précédente sont alors refusés en 422 à chaque rejeu.
+  Côté terminal, les re-signer donne un nouveau <code>saisi_le</code>, mais <code>realise_le</code> reste. Au-delà de 2 h (D-04), le refus
+  « Geste daté de plus de … avant sa mise en file » prend le relais. Le cabinet doit tout ressaisir au poste fixe.
+- <em>Preuve.</em> <code>backend/tests/test_audit_preuves.py::test_remplacant_file_mise_en_attente_avant_une_reconnexion</code>
+  (xfail strict) :
+  - remplaçante en période (J-5 à J+3), première session ouverte il y a 2 jours ;
+  - donnée mise en file il y a 3 h, envoyée sous une session neuve.</p>
+<p>Résultat : <code>{'statut': 'erreur', 'code': 422, 'detail': "Opération mise en file avant l'ouverture de votre session
+  sur ce terminal : refusée", 'regle': 'CV-09'}</code>.
+- <em>Correction proposée.</em> Borner l'entrée en file à la <strong>première session de cet intervenant sur ce terminal</strong> (même
+  <code>SessionAuth.terminal</code>), non révoquée pour un motif de sécurité (vol, réutilisation de jeton), au lieu de la session
+  courante. À défaut, prendre la plus ancienne session ouverte pendant la période de remplacement. L'antidatage reste
+  borné par l'enrôlement du terminal. Garder le test et retirer <code>xfail</code>.</p>
+<p><strong>P1-2. Contrat OpenAPI sans garde automatique.</strong>
+- <em>Constat.</em> <code>docs/api/openapi.json</code> est la référence de deux suites :
+  - les tests du terminal valident leurs charges contre lui (<code>socle_test</code>, <code>lot7_test</code>, <code>lot10_test</code>…) ;
+  - le poste fixe génère ses types depuis lui (<code>npm run types</code>).</p>
+<p>Rien ne vérifie qu'il correspond à l'API. Un changement de route ou de schéma sans régénération laisse les deux
+  clients verts et casse le terminal en service : <code>/sync</code> refuse en 422.
+- <em>Preuve.</em> Aucun test ne lit <code>docs/api/openapi.json</code> côté serveur (recherche dans <code>backend/tests</code>). Comparaison faite
+  à la main ce jour : identique (337 chemins, 387 opérations, 0 schéma différent), <code>schema.d.ts</code> régénéré identique.
+- <em>Correction proposée.</em>
+  - un test serveur <code>test_contrat_openapi.py</code> : <code>app.openapi() == json.load(docs/api/openapi.json)</code>, avec
+    <code>TABSANTE_CONTRAT_REECRIRE=1</code> pour régénérer, comme <code>test_formes_lectures</code> ;
+  - une étape web <code>npm run types &amp;&amp; git diff --exit-code src/api/schema.d.ts</code> dans <code>verifier_tout</code> et les deux CI.</p>
+<p><strong>P1-3. L'intégration du terminal contre une vraie API ne tourne jamais en CI.</strong>
+- <em>Constat.</em> Les 47 tests de <code>mobile/test/integration</code> sont le seul contrôle de bout en bout précharge → file → <code>/sync</code>
+  → lecture. Ils se lancent seulement à la main (<code>verifier_tout -Integration</code>). En CI, <code>flutter test</code> les ignore
+  (<code>TABSANTE_API</code> absent : 47 ignorés).
+- <em>Preuve.</em> <code>.github/workflows/ci.yml</code> et <code>.gitlab-ci.yml</code> n'ont aucune étape d'intégration. La documentation
+  l'acte : « Hors CI pour l'instant ».
+- <em>Correction proposée.</em> Un travail CI nocturne <code>integration-terminal</code> qui reprend l'étape de <code>verifier_tout.sh</code>
+  (<code>terminal_integration</code>) :
+  - service <code>postgres:17</code> ;
+  - <code>uvicorn</code> en arrière-plan sur un port libre ;
+  - <code>TABSANTE_API=… flutter test --concurrency=1 test/integration</code>.</p>
+<p>Puis, si la durée le permet, l'ajouter à chaque demande de fusion qui touche <code>backend/app/domaines/sync.py</code>,
+  <code>mobile/lib/</code> ou <code>docs/api/</code>.</p>
+<p><strong>P1-4. Le conteneur PostgreSQL partagé ne supprime plus ses bases.</strong>
+- <em>Constat.</em> Pendant l'audit, <strong>16 à 22 <code>DROP DATABASE</code></strong> de plusieurs chantiers attendaient un point de contrôle
+  (<code>CheckpointStart</code> / <code>CheckpointDone</code>), le plus ancien depuis <strong>3 h</strong>. Le point de contrôle en cours avait commencé à
+  09:52 UTC et durait encore plus de 2 h. Le précédent avait pris <strong>6 328 s</strong>, dont <strong>6 033 s de synchronisation de
+  201 129 fichiers</strong>. La cause tient au cumul :
+  - plus de 200 bases de test ;
+  - un <code>TRUNCATE</code> des 97 tables après <strong>chaque</strong> test : chaque table reçoit de nouveaux fichiers, à synchroniser au
+    point de contrôle suivant ;
+  - un volume Docker Desktop où chaque synchronisation coûte ~30 ms.</p>
+<p>Conséquences :
+  - le nettoyage de fin de <code>verifier_tout</code> (<code>DROP DATABASE … WITH (FORCE)</code>) peut bloquer des heures, et le crochet
+    <code>pre-push</code> avec lui ;
+  - un <code>DROP</code> annulé laisse la base <strong>invalide</strong> (<code>datconnlimit = -2</code>, « cannot connect to invalid database »), comme
+    <code>tabsante_audit_perf_b</code> ici ;
+  - 81 connexions sur 100 occupées en début d'audit, puis <strong>103</strong> à 15:13 (heure de Paris). Le rôle applicatif des tests
+    est alors refusé : <code>FATAL: remaining connection slots are reserved for roles with the SUPERUSER attribute</code>
+    (journal du conteneur, 15:05 à 15:13). La relance « veille de férié » de l'audit en a été invalidée, avec des
+    dizaines d'échecs et d'erreurs sans lien avec le code.</p>
+<p><code>fsync=off</code> a été posé par <code>ALTER SYSTEM</code> à 10:16 UTC, pendant ce point de contrôle. Depuis, <code>main</code> l'inscrit dans
+  <code>docker-compose.yml</code> (4a31e42 : <code>fsync</code>, <code>synchronous_commit</code> et <code>full_page_writes</code> à <code>off</code>). Mais le point de
+  contrôle déjà lancé ne s'en trouve pas raccourci : les suppressions attendaient encore à 16:00 (heure de Paris),
+  et les connexions restent plafonnées à 100.
+- <em>Preuve.</em>
+  - <code>pg_stat_activity</code> (requêtes <code>DROP DATABASE</code> et leur <code>wait_event</code>) ;
+  - <code>docker logs</code> : <code>checkpoint complete: … write=268.210 s, sync=6033.206 s, total=6327.641 s; sync files=201129</code> ;
+  - <code>pg_stat_checkpointer</code> : 47 426 s de synchronisation cumulée depuis le 14/10 ;
+  - <code>pg_database</code> : 204 bases <code>tabsante_*</code> pour 3 Go.
+- <em>Correction proposée</em> (la durabilité allégée est déjà sur <code>main</code>) :
+  - <strong>conteneur de test séparé</strong> de la base de développement, réglé pour le jetable dans <code>docker-compose.yml</code>
+    (<code>command: -c fsync=off -c full_page_writes=off -c synchronous_commit=off -c max_connections=300</code>, données en
+    <code>tmpfs</code>) ;
+  - dans <code>tests/conftest.py</code>, vider par <code>DELETE</code> les petites tables (aucun nouveau fichier) et réserver le <code>TRUNCATE</code>
+    aux tables volumineuses, ou ne vider que les tables écrites par le test (<code>pg_stat_xact_user_tables</code>) ;
+  - <code>verifier_tout</code> : suppression des bases en arrière-plan avec un délai, puis un script de ménage des bases
+    <code>tabsante_*</code> de plus de 24 h ;
+  - ne jamais annuler un <code>DROP DATABASE</code> en cours : le relancer jusqu'au bout.</p>
+<p><strong>P1-5. Bombes à retardement : la suite du serveur cassera le 1er novembre 2026, puis le 1er janvier 2027.</strong>
+- <em>Constat.</em> <code>tests/test_tracabilite.py::test_series_de_sites_du_patient_toutes_fiches</code> signe un acte « ancien » à la
+  date fixe des jeux d'essai (<code>acte_patient</code> : <code>realise_le</code> le 2026-09-02 à 08:51), puis exige qu'il figure dans les
+  sites des <strong>60 derniers jours</strong> (<code>/patients/{id}/sites?jours=60</code> : 3 sites attendus). Le 1er novembre 2026 à 08:52,
+  il sort de la fenêtre et le test échoue pour tous les lots, en local comme en CI, sans aucun changement de code.
+  Deuxième bombe : <code>tests/test_patients.py::test_contexte_chimio_actif_a_la_date</code> pose un contexte de chimiothérapie
+  du 2026-01-01 au 2026-12-31 et exige qu'il soit actif aujourd'hui. Il échouera dès le 1er janvier 2027.
+- <em>Preuve.</em>
+  - passes datées du 10 et du 11 novembre 2026, puis du 4 janvier 2027 : <code>AssertionError: assert 2 == 3</code> sur
+    <code>len(… jours=60 …)</code>. Calcul : 2026-09-02 + 60 jours = 2026-11-01 ;
+  - passe du 4 janvier 2027 : <code>assert 'chimiotherapie' in []</code>.
+- <em>Correction proposée.</em> Dater l'acte « ancien » en relatif (<code>maintenant - 40 jours</code>, avec une occurrence créée à ce
+  jour-là), comme les deux autres actes du test. Poser le contexte de chimiothérapie autour
+  d'<code>horloge.aujourdhui()</code>. Puis rejouer toute la suite à une date avancée de 3 mois (<code>TABSANTE_HORLOGE</code> daté, P2-7)
+  pour débusquer les autres fenêtres glissantes posées sur les dates fixes de
+  septembre 2026 (<code>tests/aide.py</code> : fréquences du 2026-09-01, passages du 2026-09-02).</p>
+<h3 id="p2">P2</h3>
+<p><strong>P2-1. <code>/sync</code> : rejouée avec un autre contenu, une opération est déclarée « ok » en silence.</strong>
+- <em>Constat.</em> <code>signer_acte</code> rend l'acte existant dès que l'identifiant et l'intervenant concordent, sans comparer
+  l'empreinte. C'est le même schéma pour <code>corriger</code>, <code>rectifier</code>, <code>poser_rappel</code> et <code>declarer_evenement</code>. Le terminal
+  croit sa version enregistrée. Aujourd'hui le cas est rare (<code>remplacer</code> ne sert qu'après un refus, quand le serveur
+  n'a rien gardé), mais il ne doit dépendre de rien.
+- <em>Preuve.</em> <code>test_audit_preuves.py::test_meme_identifiant_autre_contenu_n_est_pas_accepte_en_silence</code> (xfail
+  strict) : second envoi <code>pouls: 140</code> → <code>{'statut': 'ok'}</code>, la base garde 72.
+- <em>Correction proposée.</em> Calculer l'empreinte de la charge canonique reçue. Si elle diffère de l'empreinte gardée,
+  répondre 409 avec un <code>code</code> dédié (<code>contenu_different</code>). Même principe pour les autres types : une empreinte des
+  données. C'est déjà la règle des clés d'idempotence HTTP (<code>tests/test_idempotence.py::test_meme_cle_pour_une_autre_demande_refusee</code>).</p>
+<p><strong>P2-2. Même passage signé sur deux terminaux : le second soin ne remonte pas.</strong>
+- <em>Constat.</em> Le refus en 409 est propre (un seul acte, aucun doublon facturé). Mais le soin réellement réalisé reste
+  bloqué dans la file du second terminal : l'infirmier doit l'abandonner ou le re-signer en non programmé. Le CDC §8.2
+  dit « remontée fidèle, sans fusion », et OFF-19 traite déjà les cas résiduels en les signalant.
+- <em>Preuve.</em> Sonde <code>test_meme_passage_signe_sur_deux_terminaux</code> (verte, comportement documenté).
+- <em>Correction proposée.</em> Décision produit, deux options :
+  - accepter le second acte sans occurrence, avec un fait <code>hors_connexion: occurrence_deja_servie</code> (comme
+    <code>echange_recu_hors_connexion</code>), non facturé et signalé au poste fixe ;
+  - côté terminal, proposer « enregistrer comme passage non programmé » sur ce 409.</p>
+<p><strong>P2-3. Filets de <code>/sync</code> à resserrer.</strong>
+- <em>Constat.</em> Deux points :
+  1. <code>patient_du_cabinet(db, None, u)</code> appelle <code>db.get(Patient, None)</code>. SQLAlchemy avertit : « fully NULL primary key
+     identity cannot load any object. This condition may raise an error in a future release ». Le jour où ce cas
+     lèvera une erreur, une opération sans <code>patient_id</code> (<code>saisir_donnee</code>, <code>ouvrir_plaie</code>, <code>declarer_evenement_critique</code>…)
+     fera tomber tout le lot en 500 et la file sera bloquée.
+  2. Une <code>IntegrityError</code> est rendue en 409 « sera rejouée ». Si la collision est déterministe, l'opération est rejouée
+     indéfiniment.
+- <em>Preuve.</em> Avertissement levé par la sonde de fuzz (<code>app/acces.py:28</code>) ; lecture de <code>sync.py</code>.
+- <em>Correction proposée.</em>
+  1. <code>patient_du_cabinet</code> et <code>objet_du_cabinet</code> : identifiant absent → 422 « patient_id requis » ;
+  2. journaliser la contrainte violée et rendre un <code>code</code> distinct, pour que le terminal cesse de rejouer au-delà de
+     N essais.</p>
+<p><strong>P2-4. Test de formes sensible à l'horloge murale qui avance.</strong>
+- <em>Constat.</em> <code>test_formes_lectures.py::test_dispositifs_du_cabinet_en_une_lecture</code> compare <code>GET /dispositifs</code> à la
+  concaténation des <code>GET /patients/{id}/dispositifs</code>. Or <code>compteurs_dispositif</code> calcule les compteurs d'un objet ouvert
+  jusqu'à <code>horloge.maintenant()</code> (<code>app/domaines/dispositifs.py:159</code>). Sur une machine lente (270 s pour ce test dans la
+  passe complète), les deux lectures n'ont pas le même « maintenant » et un épisode PSE diffère.
+- <em>Preuve.</em> Échec dans la passe en ordre aléatoire (diff à l'index 3, <code>episode_pse</code>). Vert seul à l'heure réelle, à
+  07:00, 10:45 et 00:30.
+- <em>Correction proposée.</em> Figer l'horloge dans ce test : une fixture <code>horloge_figee</code>, qui remplace
+  <code>horloge.maintenant</code> par une valeur fixe et servirait aux autres tests de formes. À défaut, comparer hors des clés
+  de compteurs dépendant du temps.</p>
+<p><strong>P2-5. Plafonds de temps des gardes de performance instables sous charge.</strong>
+- <em>Constat.</em> <code>test_perf_confirmer</code> échoue sur le temps avec un nombre de requêtes conforme : 7,7 s puis 7,5 s à
+  07:00, 7,9 s à 23:45, 6,9 s au 18/10, pour un plafond de 5 s. Une passe sur deux échoue sans rapport avec le code.
+  La documentation le dit, mais le test reste rouge et masque une vraie régression.
+- <em>Preuve.</em> Passes de 07:00 (puis le fichier seul), de 23:45 et du 18/10.
+- <em>Correction proposée.</em> Garder les plafonds de <strong>requêtes</strong> comme seul critère bloquant. Rapporter le temps (rapport
+  ou avertissement), ou ne le rendre bloquant qu'en CI hébergée (<code>CI=true</code>).</p>
+<p><strong>P2-6. Test de widget instable : minuteur de 20 s.</strong>
+- <em>Constat.</em> <code>mobile/test/lot_e_planning_widgets_test.dart</code> (« préparer demain… »), ligne 91, attend
+  <code>requetes.last.$2 == '/tournees/t1/preparation'</code>. Le minuteur de synchronisation (<code>terminal.dart:269</code>,
+  <code>Timer.periodic(20 s)</code>) ajoute <code>/sante</code> quand le test dure.
+- <em>Preuve.</em> Échec dans la suite complète (<code>Actual: '/sante'</code>), vert seul (19 s).
+- <em>Correction proposée.</em> Filtrer <code>requetes</code> sur le chemin attendu, ou couper le minuteur dans <code>monte()</code> des tests.
+  <strong>Corrigé sur <code>main</code> depuis</strong> (9b6585b : la relecture se cherche après l'écriture). Il reste à couper le minuteur
+  dans les autres tests de widget qui comptent les requêtes.</p>
+<p><strong>P2-7. L'horloge de test ne règle que l'heure.</strong>
+- <em>Constat.</em> <code>TABSANTE_HORLOGE=HH:MM</code> ne règle que l'heure du jour réel. Impossible de rejouer un dimanche, un jour
+  férié, le changement d'heure ou un passage d'année. Or la cotation dépend du jour (majorations dimanche et fériés) et
+  10 modules figent la date à l'import.</p>
+<p>Par ailleurs, la garde <code>tests/test_horloge.py</code> ne contrôle que <code>app/</code> et <code>scripts/</code>. Trois tests lisent l'heure
+  murale en direct :
+  - <code>test_perf_confirmer.py:43</code> : <code>jour = dt.datetime.now(PARIS).date()</code>, qui borne la reconfirmation ;
+  - <code>test_exploitation.py:33-34</code> ;
+  - <code>test_journal_acces_chaine.py:18</code>.</p>
+<p>Décalés d'un jour, ils ne parlent plus de la même date que l'application. Exemple : la passe du 11 novembre
+  reconfirme 13 actes au lieu de 125, et <code>test_perf_confirmer</code> échoue.</p>
+<p>Autre limite : pour une date, le décalage doit être posé avant l'import des modèles, car <code>maintenant_sql()</code> est
+  évalué à la définition des colonnes (<code>app/models.py:26</code>). Un premier essai qui le posait après l'import mêlait les
+  deux horloges et a produit de faux échecs, écartés (§ 1).
+- <em>Correction proposée.</em>
+  - accepter aussi <code>TABSANTE_HORLOGE=AAAA-MM-JJTHH:MM</code> dans <code>app/horloge._decalage</code> (<code>dt.datetime.fromisoformat</code>),
+    toujours réservé au mode développement ;
+  - ajouter à la CI nocturne une passe « dimanche » et une passe « veille de férié » ;
+  - remplacer les <code>AUJ = horloge.aujourdhui()</code> d'import par des fixtures ;
+  - étendre la garde de <code>test_horloge.py</code> à <code>tests/</code>, avec une liste d'exceptions motivées.</p>
+<p><strong>P2-8. Vérification lente : la démonstration complète semée 66 fois.</strong>
+- <em>Constat.</em> Passe complète du serveur : 1 h 39 ici, avec 17 098 s cumulés. 70 tests (5,5 %) en prennent 8 638 s,
+  surtout parce que 66 tests appellent <code>POST /dev/demo</code> (~9 800 requêtes, 120 à 270 s chacun sous charge). Le mode
+  <code>-Rapide</code> rejoue tout le serveur dès qu'un fichier de <code>backend/</code> change. Résultat pour les lots menés en parallèle :
+  un retour tardif, et un conteneur saturé (81 connexions sur 100, 204 bases de test laissées, 3 Go).
+- <em>Correction proposée.</em>
+  - semer la démonstration une fois par processus dans une base modèle (<code>CREATE DATABASE … TEMPLATE</code>), puis cloner ou
+    restaurer pour les tests qui la lisent sans l'écrire ;
+  - <code>pytest -m "not demo"</code> pour <code>-Rapide</code> ;
+  - documenter le nettoyage des bases <code>tabsante_*_gwN</code> ;
+  - relever <code>max_connections</code> du conteneur de développement.</p>
+<p><strong>P2-9. Lint Python, site public et audit des dépendances absents de la vérification.</strong> Voir § 3.
+- <em>Correction proposée.</em>
+  - <code>ruff check</code> (règles E, F, I) en dépendance de dev, dans <code>verifier_tout</code> et les deux CI ;
+  - un travail <code>site</code> (<code>npm ci &amp;&amp; npm run check &amp;&amp; npm test &amp;&amp; npm run build</code>), Lighthouse en nocturne ;
+  - <code>uv run pip-audit</code> et <code>npm audit --omit=dev</code> en nocturne, sans bloquer au début.</p>
+<p><strong>P2-10. Versions non épinglées en CI.</strong> Voir § 3.
+- <em>Correction proposée.</em> Épingler :
+  - les actions GitHub par SHA, avec commentaire de version ;
+  - <code>setup-uv</code> avec <code>version:</code> ;
+  - les images GitLab par version complète ou empreinte (<code>node:24.x-bookworm-slim</code>, <code>postgres:17.x</code>) ;
+  - la version de Node.</p>
+<p>Une mise à jour programmée (Renovate ou Dependabot) les fera avancer.</p>
+<p><strong>P2-11. « Envoyer d'abord » (terminal révoqué) passe par <code>/dev/demo</code>.</strong>
+- <em>Constat.</em> <code>Terminal.reconnecter()</code> en mode révoqué obtient ses jetons par <code>personas()</code>, donc <code>POST /dev/demo</code>. Hors
+  mode démonstration, une file non vide sur un terminal révoqué ne peut plus partir du téléphone. Il ne reste que
+  l'effacement, après décision de l'infirmier.
+- <em>Correction proposée.</em> Passer par la connexion CPS (<code>connexionCps</code>, simulée aujourd'hui) de la personne qui a
+  signé, et garder la règle « même signataire ». Ajouter un test de widget du parcours révoqué → reconnexion CPS →
+  file partie → effacement.</p>
+<p><strong>P2-12. Horloge du terminal non contrôlée.</strong>
+- <em>Constat.</em> <code>cree_le</code>, <code>realise_le</code> et <code>saisi_le</code> viennent de <code>DateTime.now()</code> du téléphone. Une avance est refusée,
+  puis acceptée plus tard. Un retard passe sans alerte : horodatages faux au dossier et à la preuve. Chez un
+  remplaçant, il cause aussi un refus CV-09 (voir § 4).
+- <em>Correction proposée.</em> Le serveur renvoie son heure (en-tête <code>Date</code> ou champ <code>maintenant</code> de <code>/sante</code>). Au-delà de
+  2 min d'écart, le terminal affiche un bandeau « Heure du téléphone décalée » et journalise l'écart avec la
+  synchronisation. Le poste fixe voit l'écart par terminal dans <code>/synchronisations</code>.</p>
+<p><strong>P2-13. Angles morts de test.</strong> Voir § 2 :
+- 5 routes jamais appelées ;
+- 37 mutations sans cas refusé, dont la révocation de terminal, la déconnexion, <code>PATCH /cabinet</code> et la prise de
+  travaux par l'agent de poste ;
+- 33 règles jamais levées, dont <strong>OFF-05</strong> et <strong>DIA-RG-15</strong> ;
+- côté web : <code>Signalements</code>, <code>Patients</code>, <code>Connexion</code>, <code>Sessions</code>, <code>Propositions</code> et <code>PriseEnCharge</code> à moins de 25 % ;
+- côté terminal : <code>EcranResultat</code> à 0 %, et 5 fichiers <code>*_web.dart</code> jamais chargés ;
+- couverture des branches du serveur non mesurée.</p>
+<p><strong>P2-14. <code>GET /plaies/{id}</code> répond 500 avec l'identifiant d'un autre objet suivi.</strong>
+- <em>Constat.</em> <code>plaies.lire</code> accepte tout objet du cabinet (<code>objet_du_cabinet</code>), puis <code>compteurs()</code> lit
+  <code>champs_fixes["grandeur_reference"]</code>, qui n'existe que pour une plaie : <code>KeyError</code>, réponse 500. N'importe quel
+  utilisateur du cabinet peut le déclencher. Aucune fuite de données.
+- <em>Preuve.</em> Sonde des routes, statut 500 pour <code>/plaies/{objet_id}</code> avec un PICC.
+  <code>tests/test_audit_preuves.py::test_plaie_lue_avec_l_identifiant_d_un_catheter</code> (xfail strict), trace :
+  <code>app/domaines/plaies.py:259</code>, <code>KeyError: 'grandeur_reference'</code>.
+- <em>Correction proposée.</em> Dans <code>lire</code> (et dans toute route <code>/plaies/{id}</code> qui lit l'objet) :
+  <code>if o.type != "plaie": raise introuvable("Plaie")</code>. Côté test, ajouter un cas « identifiant d'un autre type » pour
+  chaque famille de routes <code>/{type}/{objet_id}</code>.</p>
+<p><strong>P2-15. <code>/sync</code> : temps plus que linéaire et délai du terminal à 15 s.</strong>
+- <em>Constat.</em> Le nombre de requêtes de <code>/sync</code> est linéaire (~6 par acte). Le temps croît bien plus vite : 6,4 s pour
+  50 actes, 17,1 s pour 200, 166 s pour 500, sur un jeu réduit chargé, avec 50 actes par patient le même jour. Le
+  terminal envoie jusqu'à 500 opérations avec le délai commun de 15 s (<code>Api.delai</code>). Après une longue coupure,
+  l'envoi échoue côté terminal, alors que le serveur valide et garde ses verrous jusqu'au bout.
+- <em>Preuve.</em> <code>sonde_lot.py</code> (§ 4) ; <code>mobile/lib/depot.dart</code> (<code>tailleLot = 500</code>) ; <code>mobile/lib/api.dart</code>
+  (<code>delai = Duration(seconds: 15)</code>).
+- <em>Correction proposée.</em>
+  - terminal : lots de 50, et un délai propre à <code>/sync</code> (60 s) ;
+  - serveur : profiler le recalcul du passage (cotation par passage, rang du jour) dans un lot ;
+  - ajouter à <code>test_perf_fumee</code> un garde de <strong>temps relatif</strong> : 200 actes en moins de 6 fois le temps de 50 actes.</p>
+<p><strong>P2-16. <code>/previsionnel</code> : une requête par jour de la fenêtre.</strong> Voir § 5.
+- <em>Correction proposée.</em> Lire en une requête les attributions des tournées de la fenêtre, puis les servir en mémoire
+  (comme <code>_tournees_en_cours</code>). Ajouter un garde-fou : nombre de requêtes identique pour 1 et 32 jours.</p>
+<h2 id="lots-de-correction">Lots de correction</h2>
+<p>Les lots sont regroupés par zone de code. Deux lots ne touchent jamais les mêmes fichiers : ils peuvent avancer en
+parallèle. L'ordre conseillé suit la gravité.</p>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Lot</th>
+<th>Zone</th>
+<th>Constats</th>
+<th>Contenu</th>
+<th>Fini quand</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>L1 — Synchronisation serveur</strong></td>
+<td><code>backend/app/domaines/sync.py</code>, <code>app/lot.py</code>, <code>app/domaines/actes.py</code> (idempotence de <code>signer_acte</code>), <code>app/acces.py</code>, <code>app/domaines/{tracabilite,socle}.py</code> (comparaison au rejeu)</td>
+<td>P1-1, P2-1, P2-3, P2-15 (serveur), P2-2 si l'option A est retenue</td>
+<td>borne CV-09 sur la première session du terminal ; empreinte comparée au rejeu, 409 <code>contenu_different</code> ; identifiant absent → 422 ; code distinct sur <code>IntegrityError</code> ; profil du recalcul du passage dans un lot</td>
+<td>les 2 preuves <code>/sync</code> de <code>test_audit_preuves.py</code> vertes sans <code>xfail</code> ; sonde de fuzz versée dans <code>tests/test_sync.py</code> ; 200 actes en moins de 6 fois le temps de 50</td>
+</tr>
+<tr>
+<td><strong>L2 — File du terminal</strong></td>
+<td><code>mobile/lib/depot.dart</code> (<code>Synchro</code>, <code>tailleLot</code>), <code>terminal.dart</code> (<code>reconnecter</code>), <code>api.dart</code></td>
+<td>P2-2 (option B), P2-11, P2-12, P2-15 (terminal)</td>
+<td>lots de 50 et délai propre à <code>/sync</code> ; reconnexion révoquée par CPS ; écart d'horloge mesuré et affiché ; 409 occurrence servie → « enregistrer en non programmé »</td>
+<td><code>synchro_test.dart</code> couvre : lot de 501, 409, écart d'horloge, parcours révoqué</td>
+</tr>
+<tr>
+<td><strong>L3 — Contrat, CI et vérification</strong></td>
+<td><code>.github/workflows/ci.yml</code>, <code>.gitlab-ci.yml</code>, <code>scripts/verifier_tout.{ps1,sh}</code>, <code>backend/tests/test_contrat_openapi.py</code> (nouveau), <code>backend/pyproject.toml</code> et <code>uv.lock</code> (<code>ruff</code>), <code>web/package.json</code></td>
+<td>P1-2, P1-3, P2-9, P2-10, P1-4 et P2-8 (partie scripts)</td>
+<td>garde du contrat et de <code>schema.d.ts</code> ; travail d'intégration du terminal (nuit) ; <code>ruff</code> ; travail <code>site</code> ; audits de dépendances ; épinglage ; <code>--cov-branch</code> ; <code>-Rapide</code> sans les tests marqués <code>demo</code> ; suppression des bases en arrière-plan, sans annulation</td>
+<td>CI verte avec les nouvelles étapes ; une dérive volontaire d'<code>openapi.json</code> la fait échouer</td>
+</tr>
+<tr>
+<td><strong>L4 — Horloge et tests datés</strong></td>
+<td><code>backend/app/horloge.py</code> (date + heure, dev seulement), <code>backend/tests/horloge_figee.py</code> (nouveau, fixture importée), les 10 modules à date figée, <code>test_tracabilite.py</code>, <code>test_horloge.py</code>, <code>test_exploitation.py</code>, <code>test_journal_acces_chaine.py</code>, <code>test_formes_lectures.py</code>, <code>test_patients.py</code></td>
+<td>P1-5, P2-4, P2-7 + § 1</td>
+<td><strong>d'abord</strong> l'acte « ancien » de <code>test_series_de_sites_du_patient_toutes_fiches</code> en relatif (avant le 1er novembre) ; <code>TABSANTE_HORLOGE</code> daté (<code>AAAA-MM-JJTHH:MM</code>) ; fixtures au lieu des constantes d'import ; garde de l'horloge étendue à <code>tests/</code> ; test de formes à horloge figée</td>
+<td>passes « dimanche », « veille de férié » et « 4 janvier 2027 » vertes ; passe lancée à 23:45 verte</td>
+</tr>
+<tr>
+<td><strong>L5 — Lectures serveur et gardes de performance</strong></td>
+<td><code>backend/app/domaines/organisation.py</code> (<code>/previsionnel</code>), <code>app/domaines/plaies.py</code> (<code>lire</code>), <code>backend/tests/test_perf_fumee.py</code>, <code>test_perf_confirmer.py</code></td>
+<td>P2-5, P2-14, P2-16 + § 5</td>
+<td>attributions de la fenêtre lues une fois ; <code>/plaies/{id}</code> d'un autre type → 404 ; plafonds de requêtes seuls bloquants ; <code>jour</code> de <code>test_perf_confirmer</code> lu par <code>horloge</code> (P2-7) ; gardes pour <code>/previsionnel</code>, <code>/dispositifs?statut=ouverte</code>, <code>/tournees/{id}/plan</code>, <code>/patients/{id}/dossier</code>, <code>/compteurs</code></td>
+<td>preuve P2-14 verte sans <code>xfail</code> ; <code>/previsionnel</code> au même nombre de requêtes pour 1 et 32 jours</td>
+</tr>
+<tr>
+<td><strong>L6 — Base de test et vitesse</strong></td>
+<td><code>backend/tests/conftest.py</code> (vidage, base modèle de la démo, marqueur <code>demo</code> déclaré par <code>addinivalue_line</code>), <code>docker-compose.yml</code> (conteneur de test séparé)</td>
+<td>P1-4, P2-8</td>
+<td>vidage par <code>DELETE</code> des petites tables ou des seules tables écrites ; démo semée une fois par processus puis clonée ; conteneur de test en <code>tmpfs</code>, <code>fsync=off</code>, <code>max_connections=300</code> ; greffon d'ordre aléatoire en nocturne</td>
+<td>suite du serveur sous 30 min sur le poste ; aucun <code>DROP DATABASE</code> de plus d'une minute ; passe aléatoire nocturne verte</td>
+</tr>
+<tr>
+<td><strong>L7 — Tests du poste fixe</strong></td>
+<td><code>web/src/test/</code> (nouveaux fichiers seulement)</td>
+<td>P2-13 (web)</td>
+<td><code>Signalements</code>, <code>Patients</code>, <code>Connexion</code>, <code>Sessions</code>, <code>Propositions</code>, <code>PriseEnCharge</code>, <code>UroGenital</code>, <code>Preuves</code>, <code>VuePlaie</code> au-delà de 60 %</td>
+<td>couverture web ≥ 75 %</td>
+</tr>
+<tr>
+<td><strong>L8 — Tests du terminal</strong></td>
+<td><code>mobile/test/</code> (nouveaux fichiers ; <code>lot_e_planning_widgets_test.dart</code> pour le minuteur)</td>
+<td>P2-6, P2-13 (terminal)</td>
+<td>assertion filtrée sur le chemin attendu ; tests de widget de <code>EcranResultat</code>, <code>EcranClotureDispositif</code>, <code>EcranModalite</code>, <code>EcranRappel</code>, <code>fiche_lot10</code>, <code>redon</code></td>
+<td>couverture terminal ≥ 80 %, plus d'échec instable</td>
+</tr>
+<tr>
+<td><strong>L9 — Tests négatifs du serveur</strong></td>
+<td><code>backend/tests/</code> (nouveaux fichiers seulement)</td>
+<td>P2-13 (serveur)</td>
+<td>un cas refusé pour chacune des 33 règles jamais levées et des 37 mutations sans 4xx, en commençant par la révocation de terminal, <code>PATCH /cabinet</code>, l'agent de poste, OFF-05 et DIA-RG-15</td>
+<td>greffon d'audit : 0 règle littérale jamais levée</td>
+</tr>
+</tbody>
+</table></div>
+<p>Points de contact entre lots :
+- L1 et L2 partagent deux codes de réponse, <code>contenu_different</code> et occurrence servie. Il suffit de figer leur forme
+  au début, dans <code>docs/api/openapi.json</code>, régénéré par L3 ;
+- L3 et L6 se partagent P1-4 et P2-8 : L3 tient les scripts, L6 la base et <code>conftest.py</code>. Aucun fichier en commun.</p>
+<h2 id="annexe-a--mutations-appelées-mais-jamais-refusées-par-un-test">Annexe A — mutations appelées mais jamais refusées par un test</h2>
+<p>Mesure : statut HTTP de chaque appel de la suite (greffon d'audit). Un refus testé par une autre voie (<code>/sync</code>, appel
+direct d'une fonction de domaine) n'est pas compté.</p>
+<p><code>POST /transmissions/{transmission_id}/lecture</code> · <code>POST /interpellations/{interpellation_id}/lecture</code> ·
+<code>POST /propositions-transmission/{proposition_id}/ecart</code> · <code>POST /savoir-faire/{contenu_id}/utile</code> ·
+<code>DELETE /savoir-faire/{contenu_id}/utile</code> · <code>POST /rappels/{rappel_id}/realisation</code> ·
+<code>POST /rendez-vous/{rdv_id}/annulation</code> · <code>POST /patients/{patient_id}/teleservices</code> ·
+<code>POST /patients/{patient_id}/autosondage/reouvertures</code> · <code>PATCH /cabinet</code> · <code>POST /ordonnances/{document_id}/lectures</code> ·
+<code>POST /lectures/{lecture_id}/rejet</code> · <code>POST /facturation/cotations/confirmer</code> · <code>POST /sejours-had/{sejour_id}/sortie</code> ·
+<code>POST /sejours-had/{sejour_id}/lettre-mission</code> · <code>POST /auth/deconnexion</code> · <code>POST /auth/terminaux/{terminal}/revocation</code> ·
+<code>POST /parcours/{parcours_id}/livrables</code> · <code>POST /cpap/{objet_id}/pression</code> · <code>POST /dialyse/{objet_id}/bilans</code> ·
+<code>POST /alr/{objet_id}/fiche-de-suivi</code> · <code>POST /referentiels/motifs-consultation/demandes</code> · <code>POST /simulation/reinitialiser</code> ·
+<code>POST /prelevements/{acte_id}/envoi-laboratoire</code> · <code>POST /messagerie/relever</code> ·
+<code>POST /patients/{patient_id}/ordonnances-electroniques/{reference}/import</code> · <code>PUT /patients/{patient_id}/position</code> ·
+<code>PUT /cabinet/depart</code> · <code>PUT /patients/{patient_id}/acces-domicile</code> · <code>DELETE /patients/{patient_id}/acces-domicile/photo</code> ·
+<code>PUT /moi/geolocalisation</code> · <code>POST /occurrences/{occurrence_id}/arrivee</code> ·
+<code>POST /prescriptions/{prescription_id}/renouvellement</code> · <code>POST /postes</code> · <code>POST /postes/agent/travaux/prendre</code> ·
+<code>POST /postes/agent/travaux/{travail_id}/echec</code> · <code>POST /dev/qr-demo</code></p>
+<p>Plus 125 lectures GET jamais appelées en 4xx (identifiant inconnu, autre cabinet) : détail dans la sortie du greffon,
+à régénérer avec le lot L6.</p>
+<h2 id="annexe-b--reproduire">Annexe B — reproduire</h2>
+<pre><code># passe d'heure (base dédiée, jamais deux suites à la fois sur la même base)
+cd backend
+TABSANTE_DATABASE_URL=postgresql+psycopg://tabsante:••••@localhost:55432/tabsante_audit_tests \
+  TABSANTE_HORLOGE=23:45 uv run pytest -n 3 tests/test_sync_alerte.py tests/test_preparation_passage.py …
+# preuves de l'audit (xfail strict : vertes tant que les défauts restent)
+uv run pytest -n 1 -rxX tests/test_audit_preuves.py
+# jeux de volume réduits (N+1)
+VOLUME_PATIENTS=10 VOLUME_JOURS=4 TABSANTE_DATABASE_URL=…/tabsante_audit_perf_a uv run python scripts/semer_volume.py
+</code></pre>
+<p>Bases créées pour l'audit :
+- <code>tabsante_audit_tests_gw0-2</code> et <code>_gw0/_gw1_migration</code> ;
+- <code>tabsante_audit_plug_gw0</code> ;
+- <code>tabsante_audit_tests_mig</code> ;
+- <code>tabsante_audit_perf_a</code>, <code>tabsante_audit_perf_b</code> (laissée invalide par un <code>DROP</code> annulé), <code>tabsante_audit_perf_c</code>.</p>
+<p>Leur suppression (<code>DROP DATABASE … WITH (FORCE)</code>) est lancée. Au moment du rapport, elle attend encore la fin du point
+de contrôle en cours (P1-4), comme une vingtaine d'autres suppressions. À vérifier :
+<code>SELECT datname FROM pg_database WHERE datname LIKE 'tabsante_audit_%'</code>. Les dossiers <code>backend/var</code> du worktree sont
+effacés.</p>
+<p>Aucun serveur n'a été lancé sur 8010, 5173, 5180 ou 8000. L'API n'a jamais tourné qu'en processus (TestClient).</p>
+<h2 id="annexe-c--sonde-de-fuzz-de-sync-à-verser-dans-teststest_syncpy-lot-l1">Annexe C — sonde de fuzz de <code>/sync</code> (à verser dans <code>tests/test_sync.py</code>, lot L1)</h2>
+<p>Verte aujourd'hui (aucun 500 sur 1 320 opérations). Elle garde « une opération n'emporte jamais le lot ».</p>
+<pre class="highlight"><code class="language-python">import typing, uuid
+from fastapi.testclient import TestClient
+from app.domaines.sync import Operation
+from app.main import app
+from tests.aide import scenario
+
+def test_aucune_operation_mal_formee_ne_bloque_la_file(client, ide):
+    s = scenario(client, ide)
+    brut, u = TestClient(app, raise_server_exceptions=False), lambda: str(uuid.uuid4())
+    variantes = [{}, {"id": u()}, {"id": "pas-un-uuid"}, {"id": 12},
+                 {"id": u(), "prescription_id": s["prescription"], "occurrence_id": u(), "echange_id": u(),
+                  "accord_id": u(), "tournee_id": s["tournee"], "patient_id": s["patient"]},
+                 {"id": u(), "occurrence_id": "x", "accord_id": "x", "echange_id": "x", "prescription_id": "x"},
+                 {"id": u(), "le": "2026-09-02T10:00:00", "realise_le": 5, "pris_le": [], "cree_le": {}},
+                 {"id": u(), "donnees": None, "valeur": {"a": [1, {"b": None}]}, "contenu": "%%%"}]
+    contextes = [{}, {"patient_id": s["patient"]}, {"objet_suivi_id": s["plaie"]}, {"acte_id": u()},
+                 {"patient_id": u(), "objet_suivi_id": u(), "acte_id": u()}]
+    plantages = [(t, c, v) for t in typing.get_args(Operation.model_fields["type"].annotation)
+                 for c in contextes for v in variantes
+                 if brut.post("/sync", json={"operations": [{"type": t, **c, "donnees": dict(v)}]},
+                              headers=s["h"]).status_code &gt;= 500]
+    assert not plantages, plantages[:10]</code></pre>
+</main>
+</body>
+</html>

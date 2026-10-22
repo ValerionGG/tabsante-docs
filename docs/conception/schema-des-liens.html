@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Schéma des liens (CDC §4.9)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{--bg:#F4F6FA;--surface:#FFFFFF;--surface-2:#EEF2FB;--fg:#141A2E;--fg-2:#4A5372;--ligne:#DDE3EF;
+--accent:#2F5BEA;--accent-fg:#FFFFFF;--accent-doux:#E6ECFD;--attention:#8A5A00;--attention-fond:#FFF4DC;
+--code-fond:#F1F3F8;--police:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+--police-code:"JetBrains Mono",ui-monospace,"Cascadia Code",Consolas,monospace;--rayon:10px;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0E1220;--surface:#151A2B;--surface-2:#1C2338;
+--fg:#E8ECF7;--fg-2:#A3ACC6;--ligne:#2A3250;--accent:#7C9BFF;--accent-fg:#0E1220;--accent-doux:#1E2950;
+--attention:#F2C25B;--attention-fond:#33290F;--code-fond:#10152A;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0E1220;--surface:#151A2B;--surface-2:#1C2338;--fg:#E8ECF7;--fg-2:#A3ACC6;--ligne:#2A3250;
+--accent:#7C9BFF;--accent-fg:#0E1220;--accent-doux:#1E2950;--attention:#F2C25B;--attention-fond:#33290F;--code-fond:#10152A;color-scheme:dark}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--police);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}
+.entete{background:var(--surface);border-bottom:1px solid var(--ligne)}
+.entete div{max-width:calc(80ch + 32px);margin:0 auto;padding:12px 16px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.entete b{font-weight:600}
+.entete a{color:var(--accent);text-decoration:none;font-weight:500}
+.entete a:hover{text-decoration:underline}
+main{max-width:calc(80ch + 32px);margin:0 auto;padding:24px 16px 64px;overflow-wrap:break-word}
+.chemin{font-family:var(--police-code);font-size:12px;color:var(--fg-2);margin:0 0 8px}
+h1{font-size:28px;line-height:1.25;margin:0 0 16px}
+h2{font-size:21px;line-height:1.3;margin:36px 0 12px;padding-top:12px;border-top:1px solid var(--ligne)}
+h3{font-size:17px;margin:28px 0 8px}h4,h5,h6{font-size:15px;margin:20px 0 6px}
+a{color:var(--accent)}
+p,li{max-width:80ch}
+code{font-family:var(--police-code);font-size:.88em;background:var(--code-fond);border:1px solid var(--ligne);border-radius:5px;padding:0 4px;overflow-wrap:anywhere}
+pre{background:var(--code-fond);border:1px solid var(--ligne);border-radius:var(--rayon);padding:14px 16px;overflow-x:auto;font-size:13px;line-height:1.55}
+pre code{background:none;border:0;padding:0;font-size:inherit;overflow-wrap:normal}
+.tableau{overflow-x:auto;margin:16px 0;border:1px solid var(--ligne);border-radius:var(--rayon);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:13.5px;line-height:1.5}
+th,td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--ligne);min-width:8ch}
+th{background:var(--surface-2);font-weight:600}
+tr:last-child td{border-bottom:0}
+blockquote{margin:16px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-doux);border-radius:0 var(--rayon) var(--rayon) 0}
+hr{border:0;border-top:1px solid var(--ligne);margin:28px 0}
+img{max-width:100%}
+.non-publie{font-size:13px;color:var(--attention);background:var(--attention-fond);padding:1px 6px;border-radius:5px}
+details.sommaire{background:var(--surface);border:1px solid var(--ligne);border-radius:var(--rayon);padding:10px 16px;margin:0 0 24px}
+details.sommaire summary{cursor:pointer;font-weight:600}
+details.sommaire ul{padding-left:20px;margin:8px 0 0}
+.admonition{border:1px solid var(--ligne);border-radius:var(--rayon);padding:8px 16px;background:var(--surface)}
+.admonition-title{font-weight:600}
+</style>
+</head>
+<body>
+<header class="entete"><div><b>TabSanté — documents</b><a href="../../">← Retour au portail</a></div></header>
+<main>
+<p class="chemin">docs/conception/schema-des-liens.html</p>
+<h1 id="schéma-des-liens-cdc-49">Schéma des liens (CDC §4.9)</h1>
+<details class="sommaire"><summary>Sommaire</summary><ul><li><a href="#1-identité-dossier-et-objets-suivis-41">1. Identité, dossier et objets suivis (§4.1)</a></li><li><a href="#2-prescription-fréquences-occurrences-et-actes-42-43">2. Prescription, fréquences, occurrences et actes (§4.2, §4.3)</a></li><li><a href="#3-organisation-et-facturation-44-45">3. Organisation et facturation (§4.4, §4.5)</a></li><li><a href="#4-communication-documents-et-accès-externes-46-47">4. Communication, documents et accès externes (§4.6, §4.7)</a></li><li><a href="#5-les-deux-points-dattention-du-cdc">5. Les deux points d'attention du CDC</a></li></ul></details>
+<p><em>Lot L17 de l'audit de couverture du 16/10/2026. Le CDC demande un « diagramme entités-relations à partir des §4.1–4.8,
+avec cardinalités ». Ce schéma est tiré des modèles (<code>backend/app/models.py</code>, 97 tables) : une relation est une clé
+étrangère ; une clé non nulle donne « exactement un » côté parent (<code>||</code>), une clé nulle « zéro ou un » (<code>|o</code>), une clé
+unique « au plus un » côté enfant (<code>o|</code>). Seules les entités du §4 du CDC et leurs liens figurent ici ; les tables
+d'exploitation (sessions, idempotence, travaux du poste, réglages, savoir-faire, itinéraires) n'y sont pas.</em></p>
+<p>Régénérer la liste des clés (depuis <code>backend/</code>) :</p>
+<pre class="highlight"><code>uv run python -c "from app import models; from app.db import Base
+for t in Base.metadata.sorted_tables:
+    print(t.name, [(c.name, list(c.foreign_keys)[0].column.table.name, c.nullable, c.unique) for c in t.columns if c.foreign_keys])"</code></pre>
+<h2 id="1-identité-dossier-et-objets-suivis-41">1. Identité, dossier et objets suivis (§4.1)</h2>
+<pre class="highlight"><code class="language-mermaid">erDiagram
+    cabinet ||--o{ patient : "suit"
+    patient ||--o{ donnee_dossier : "antécédents, contacts (versions)"
+    patient ||--o{ contexte_prise_en_charge : "contextes datés"
+    patient ||--o{ sejour_had : "séjours HAD"
+    patient ||--o{ consentement : "accès externe"
+    professionnel_externe ||--o{ consentement : "reçoit"
+    patient ||--o{ episode_soins : "épisodes"
+    prescription |o--o{ episode_soins : "sans ordonnance possible"
+    patient ||--o{ objet_suivi : "plaies, dispositifs"
+    prescription |o--o{ objet_suivi : "ordonnance d'ouverture"
+    objet_suivi |o--o{ objet_suivi : "précédent (récidive C13, chaînage C20)"
+    patient ||--o{ rapprochement_identite : "doublons"</code></pre>
+<h2 id="2-prescription-fréquences-occurrences-et-actes-42-43">2. Prescription, fréquences, occurrences et actes (§4.2, §4.3)</h2>
+<pre class="highlight"><code class="language-mermaid">erDiagram
+    patient ||--o{ prescription : "ordonnances"
+    document_prescription |o--o{ prescription : "document source"
+    sejour_had |o--o{ prescription : "cadre HAD"
+    prescription ||--o{ acte_prescrit : "actes prescrits"
+    prescription |o--o{ frequence : "rendez-vous hors ordonnance : aucune"
+    acte_prescrit |o--o{ frequence : "acte servi"
+    objet_suivi |o--o{ frequence : "un objet au plus (Q-97)"
+    tournee ||--o{ frequence : "tournée"
+    frequence |o--o{ frequence : "remplace (modification, L6)"
+    frequence ||--o{ occurrence : "instances datées"
+    tournee ||--o{ occurrence : "tournée du moment"
+    acte_realise |o--o{ occurrence : "un acte sert plusieurs occurrences"
+    frequence ||--o| parcours : "parcours encadré"
+    frequence ||--o| rendez_vous_soin : "rendez-vous de soin"
+    frequence ||--o| suivi_consultation : "sous-fiche (fiche 24)"
+    occurrence |o--o| bilan : "bilan programmé"
+    protocole_soin |o--o{ parcours : "protocole"
+    prescription |o--o{ protocole_soin : "protocole écrit"
+    patient ||--o{ acte_realise : "actes signés"
+    objet_suivi |o--o{ acte_realise : "objet de la fiche"
+    intervenant ||--o{ acte_realise : "signataire"
+    acte_realise ||--o{ acte_correctif : "corrections (C11)"
+    acte_realise ||--o{ commentaire : "commentaires (C2)"
+    objet_suivi |o--o{ commentaire : "point d'origine"
+    acte_realise ||--o{ photo : "photos (C10)"
+    objet_suivi |o--o{ photo : "série de l'objet"
+    acte_realise |o--o{ signal_changement : "levé par l'acte (C3)"
+    objet_suivi |o--o{ rappel_date : "rappel daté (C4)"
+    acte_realise |o--o{ rappel_date : "origine, réalisation"
+    patient ||--o{ prescription_infirmiere : "prescriptions infirmières"
+    acte_realise |o--o{ prescription_infirmiere : "depuis une consultation"</code></pre>
+<h2 id="3-organisation-et-facturation-44-45">3. Organisation et facturation (§4.4, §4.5)</h2>
+<pre class="highlight"><code class="language-mermaid">erDiagram
+    cabinet ||--o{ intervenant : "membres"
+    intervenant ||--o{ habilitation : "habilitations datées"
+    intervenant ||--o{ formation : "formations (EX-PAR-09)"
+    cabinet ||--o{ tournee : "tournées"
+    tournee ||--o{ attribution : "tournée × moment × période"
+    intervenant ||--o{ attribution : "attribué"
+    acte_realise ||--o| cotation : "une cotation par acte"
+    patient ||--o{ compteur : "trois échelles"
+    patient ||--o{ fse : "FSE"
+    lot_fse |o--o{ fse : "mise en lot"
+    fse ||--o{ ligne_fse : "lignes"
+    cotation ||--o{ ligne_fse : "ligne cotée"
+    acte_realise ||--o{ acte_en_fse : "une FSE vivante au plus"
+    fse ||--o{ acte_en_fse : "actes"</code></pre>
+<h2 id="4-communication-documents-et-accès-externes-46-47">4. Communication, documents et accès externes (§4.6, §4.7)</h2>
+<pre class="highlight"><code class="language-mermaid">erDiagram
+    cabinet ||--o{ transmission : "trois registres"
+    patient |o--o{ transmission : "ciblée, externe"
+    acte_realise |o--o{ transmission : "entretien infirmier"
+    transmission |o--o{ transmission : "origine (requalification)"
+    transmission ||--o| interpellation : "émise, lue, traitée"
+    cabinet ||--o{ notification : "notifications (C6)"
+    patient ||--o{ document_produit : "bilans, comptes rendus"
+    document_produit ||--o{ envoi_document : "envois par canal"
+    document_produit |o--o{ bilan : "document du bilan"
+    patient ||--o{ document_recu : "reçus (QR, MSSanté)"
+    acces_externe |o--o{ document_recu : "dépôt"
+    consentement ||--o{ acces_externe : "QR borné au consentement"
+    professionnel_externe ||--o{ acces_externe : "professionnel"
+    patient ||--o{ acte_distance : "actes à distance"
+    objet_suivi |o--o{ acte_distance : "plaie"
+    document_produit |o--o{ acte_distance : "compte rendu"</code></pre>
+<p>Le journal d'audit (§4.8, <code>journal_audit</code>) ne porte pas de clé étrangère : chaque entrée nomme son entité par type et
+identifiant (<code>entite</code>, <code>entite_id</code>), pour qu'aucune suppression ne casse la chaîne ; la liste de ses événements est
+dans <code>docs/exploitation/journal-audit.md</code>.</p>
+<h2 id="5-les-deux-points-dattention-du-cdc">5. Les deux points d'attention du CDC</h2>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Point (§4.9)</th>
+<th>Choix du modèle</th>
+<th>Preuve</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>« Un acte peut servir plusieurs occurrences (et donc plusieurs fiches) sans produire autant de lignes de facturation » [T]</td>
+<td><code>occurrence.acte_id</code> → <code>acte_realise</code> (plusieurs occurrences, un acte) ; <code>cotation.acte_id</code> unique : une cotation par acte, quel que soit le nombre d'occurrences servies</td>
+<td><code>backend/tests/test_medicaments.py::test_trois_frequences_qui_coincident_un_seul_acte_facturable</code> ; au terminal <code>SaisieFiche.occurrenceIds</code> (MOD-47, 63B-6)</td>
+</tr>
+<tr>
+<td>« Une fréquence peut servir plusieurs objets suivis ou un seul » [P]</td>
+<td>Un seul : <code>frequence.objet_suivi_id</code> (nul pour une fiche sans objet) ; deux objets du même soin ont chacun leur fréquence</td>
+<td><code>backend/tests/test_dispositifs.py::test_frequence_suit_l_objet_de_sa_fiche</code> ; décision au registre : Q-97</td>
+</tr>
+</tbody>
+</table></div>
+</main>
+</body>
+</html>

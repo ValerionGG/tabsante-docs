@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><title>Actes illustrés</title>
+<link rel="stylesheet" href="clinique.css">
+<style>
+  body { background: #E9EBEF; display: flex; gap: 40px; padding: 32px 40px; width: 1500px; align-items: flex-start; }
+  .ico { width: 30px; height: 30px; background: currentColor; -webkit-mask: var(--i) center / contain no-repeat; mask: var(--i) center / contain no-repeat; display: inline-block; flex: none; }
+  /* ——— terminal : choisir un soin ——— */
+  .tel { height: 844px; }
+  .hd { padding: 4px 20px 0; }
+  .hd h1 { font-size: 24px; font-weight: 800; letter-spacing: -0.02em; margin-top: 6px; }
+  .hd p { font-size: 14px; color: var(--discret); margin-top: 2px; }
+  .recherche { margin: 14px 20px 0; height: 48px; border-radius: 14px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--bord-champ); display: flex; align-items: center; gap: 10px; padding: 0 14px; color: var(--discret); font-size: 15px; }
+  .groupe { margin: 18px 20px 8px; font-size: 13px; font-weight: 700; color: var(--discret); }
+  .grille { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 0 20px; }
+  .acte { background: var(--surface); border-radius: 18px; box-shadow: var(--ombre-1); padding: 14px 10px 12px; display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; min-height: 104px; }
+  .acte .tuile { width: 48px; height: 48px; border-radius: 14px; display: grid; place-items: center; }
+  .acte b { font-size: 13.5px; font-weight: 650; line-height: 1.2; }
+  .acte.on { box-shadow: inset 0 0 0 2px var(--primaire), var(--ombre-1); }
+  .t-bleu { background: var(--primaire-50); color: var(--primaire); }
+  .t-vert { background: var(--succes-50); color: var(--succes); }
+  .t-ambre { background: var(--alerte-50); color: var(--alerte); }
+  .t-rose { background: #FDF2FA; color: #C11574; }
+  .t-violet { background: #F4F3FF; color: #5925DC; }
+  .t-gris { background: #F1F4F9; color: var(--encre-2); }
+  /* ——— poste fixe : catalogue ——— */
+  .desk { width: 960px; background: var(--fond); border-radius: 18px; overflow: hidden; box-shadow: 0 30px 60px -20px rgba(20,25,40,.25); }
+  .desk header { background: var(--surface); border-bottom: 1px solid var(--bord); padding: 18px 24px; display: flex; align-items: center; gap: 12px; }
+  .desk header h2 { font-size: 20px; font-weight: 800; letter-spacing: -0.02em; }
+  .desk header p { font-size: 13px; color: var(--discret); }
+  .desk header .onglets { margin-left: auto; display: flex; gap: 6px; }
+  .desk header .onglets span { font-size: 13px; font-weight: 600; padding: 7px 12px; border-radius: 9px; color: var(--discret); }
+  .desk header .onglets span.on { background: #F1F4F9; color: var(--encre); }
+  .cat { padding: 20px 24px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .ligne { background: var(--surface); border-radius: 16px; box-shadow: var(--ombre-1); padding: 14px 16px; display: grid; grid-template-columns: 48px 1fr auto; gap: 14px; align-items: center; }
+  .ligne .tuile { width: 48px; height: 48px; border-radius: 14px; display: grid; place-items: center; }
+  .ligne h3 { font-size: 15px; font-weight: 700; }
+  .ligne p { font-size: 13px; color: var(--discret); margin-top: 3px; }
+  .ligne .k { text-align: right; font-size: 12.5px; color: var(--discret); }
+  .ligne .k b { display: block; font-size: 18px; color: var(--encre); letter-spacing: -0.02em; }
+</style></head>
+<body>
+<div class="tel">
+  <div class="sb"><span>10:12</span><span><i class="ph-bold ph-wifi-high"></i><i class="ph-bold ph-battery-high"></i></span></div>
+  <div class="hd"><span style="font-size:14px;color:var(--primaire);font-weight:600;display:inline-flex;gap:6px;align-items:center"><i class="ph-bold ph-caret-left"></i>Moreau Simone</span><h1>Ajouter un soin</h1><p>Passage imprévu · rattaché au passage de 10 h 05</p></div>
+  <div class="recherche"><i class="ph-bold ph-magnifying-glass"></i>Rechercher un soin</div>
+  <div class="groupe">Prescrits pour Moreau Simone</div>
+  <div class="grille">
+    <div class="acte on"><span class="tuile t-bleu"><span class="ico" style="--i:url(../illustrations/actes/outline/injection.svg)"></span></span><b>Injection anticoagulant</b></div>
+    <div class="acte"><span class="tuile t-rose"><span class="ico" style="--i:url(../illustrations/actes/outline/glycemie.svg)"></span></span><b>Glycémie capillaire</b></div>
+    <div class="acte"><span class="tuile t-vert"><span class="ico" style="--i:url(../illustrations/actes/outline/pilulier.svg)"></span></span><b>Pilulier</b></div>
+  </div>
+  <div class="groupe">Tous les soins</div>
+  <div class="grille">
+    <div class="acte"><span class="tuile t-ambre"><span class="ico" style="--i:url(../illustrations/actes/outline/pansement.svg)"></span></span><b>Pansement</b></div>
+    <div class="acte"><span class="tuile t-violet"><span class="ico" style="--i:url(../illustrations/actes/outline/prelevement.svg)"></span></span><b>Prélèvement</b></div>
+    <div class="acte"><span class="tuile t-bleu"><span class="ico" style="--i:url(../illustrations/actes/outline/perfusion-iv.svg)"></span></span><b>Perfusion</b></div>
+    <div class="acte"><span class="tuile t-gris"><span class="ico" style="--i:url(../illustrations/actes/outline/tension.svg)"></span></span><b>Paramètres vitaux</b></div>
+    <div class="acte"><span class="tuile t-vert"><span class="ico" style="--i:url(../illustrations/actes/outline/nursing.svg)"></span></span><b>Nursing</b></div>
+    <div class="acte"><span class="tuile t-rose"><span class="ico" style="--i:url(../illustrations/actes/outline/stomie-digestive.svg)"></span></span><b>Stomie</b></div>
+    <div class="acte"><span class="tuile t-gris"><span class="ico" style="--i:url(../illustrations/actes/outline/aerosol.svg)"></span></span><b>Aérosol</b></div>
+    <div class="acte"><span class="tuile t-violet"><span class="ico" style="--i:url(../illustrations/actes/outline/sonde-urinaire.svg)"></span></span><b>Sonde urinaire</b></div>
+    <div class="acte"><span class="tuile t-ambre"><span class="ico" style="--i:url(../illustrations/actes/outline/nutrition.svg)"></span></span><b>Nutrition entérale</b></div>
+  </div>
+</div>
+
+<div class="desk">
+  <header><div><h2>Soins de Moreau Simone</h2><p>Prescriptions actives et suivi par soin</p></div><div class="onglets"><span class="on">En cours · 4</span><span>Terminés</span></div></header>
+  <div class="cat">
+    <div class="ligne"><span class="tuile t-bleu"><span class="ico" style="--i:url(../illustrations/actes/outline/injection.svg)"></span></span><div><h3>Injection d'anticoagulant</h3><p>SC · 2 fois par jour · 8 h et 20 h · jusqu'au 5 oct.</p></div><div class="k"><b>14</b>passages</div></div>
+    <div class="ligne"><span class="tuile t-rose"><span class="ico" style="--i:url(../illustrations/actes/outline/glycemie.svg)"></span></span><div><h3>Glycémie capillaire</h3><p>Matin à jeun · dernière 1,12 g/L</p></div><div class="k"><b>1,12</b>g/L</div></div>
+    <div class="ligne"><span class="tuile t-vert"><span class="ico" style="--i:url(../illustrations/actes/outline/pilulier.svg)"></span></span><div><h3>Préparation du pilulier</h3><p>Hebdomadaire · lundi</p></div><div class="k"><b>lun.</b>prochain</div></div>
+    <div class="ligne"><span class="tuile t-gris"><span class="ico" style="--i:url(../illustrations/actes/outline/tension.svg)"></span></span><div><h3>Paramètres vitaux</h3><p>À chaque passage · TA 13/8 · FC 72</p></div><div class="k"><b>13/8</b>TA</div></div>
+    <div class="ligne"><span class="tuile t-violet"><span class="ico" style="--i:url(../illustrations/actes/outline/prelevement.svg)"></span></span><div><h3>Prélèvement sanguin</h3><p>INR · jeudi · laboratoire Bioliance</p></div><div class="k"><b>jeu.</b>prochain</div></div>
+    <div class="ligne"><span class="tuile t-ambre"><span class="ico" style="--i:url(../illustrations/actes/outline/pansement.svg)"></span></span><div><h3>Pansement</h3><p>Aucune plaie suivie</p></div><div class="k" style="color:var(--primaire);font-weight:600">Ouvrir</div></div>
+  </div>
+</div>
+</body></html>

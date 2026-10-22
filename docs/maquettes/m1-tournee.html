@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><title>Terminal — La page du jour</title>
+<link rel="stylesheet" href="carnet.css">
+<style>
+  body { background: #d9d2c4; }
+  .entete { padding: 6px 16px 14px; }
+  .entete h1 { font-family: var(--f-titre); font-size: 32px; line-height: 36px; font-weight: 600; letter-spacing: -0.01em; }
+  .entete .sous { margin-top: 4px; font-size: 16px; color: var(--encre-douce); }
+  .regle { display: flex; gap: 4px; margin-top: 12px; align-items: flex-end; }
+  .regle i { flex: 1; height: 10px; border-radius: 2px; background: transparent; border: 1.5px solid var(--filet-fort); }
+  .regle i.fait { background: var(--sauge); border-color: var(--sauge); }
+  .regle i.prochain { height: 16px; background: var(--moka); border-color: var(--moka); }
+  .moment { display: flex; justify-content: space-between; align-items: baseline; margin: 18px 0 2px; padding-bottom: 6px; border-bottom: 1.5px solid var(--encre); }
+  .moment h2 { font-family: var(--f-titre); font-size: 22px; font-weight: 600; }
+  .moment span { font-size: 15px; color: var(--encre-douce); }
+  .fait.ligne { min-height: 0; padding: 10px 0; }
+  .fait .soins { font-size: 15px; }
+  .ligne { display: grid; grid-template-columns: 58px 1fr auto; gap: 0 12px; padding: 12px 0; border-bottom: 1px solid var(--filet); min-height: 76px; align-items: start; position: relative; }
+  .heure { font-family: var(--f-titre); font-size: 20px; font-weight: 500; padding-top: 1px; }
+  .nom { font-family: var(--f-titre); font-size: 21px; font-weight: 600; line-height: 26px; position: relative; display: inline-block; }
+  .nom small { font-family: var(--f-ui); font-size: 15px; font-weight: 400; color: var(--encre-douce); margin-left: 6px; }
+  .soins { font-size: 16px; line-height: 22px; color: var(--encre); margin-top: 2px; }
+  .fait .heure, .fait .soins { color: var(--encre-douce); }
+  .fait .nom { color: var(--encre-douce); }
+  .rature { position: absolute; left: -2px; right: -4px; top: 13px; height: 8px; pointer-events: none; }
+  .tampon { font-family: var(--f-mono); font-size: 13px; margin-top: 6px; color: var(--sauge); border: 1.5px solid var(--sauge); border-radius: 6px; padding: 3px 6px; transform: rotate(-3deg); white-space: nowrap; margin-top: 4px; display: inline-flex; gap: 4px; align-items: center; }
+  .prochaine { background: var(--carte); border: 1.5px solid var(--moka); border-radius: 12px; padding: 12px 12px; margin: 10px -6px; box-shadow: 0 1px 0 var(--filet); }
+  .prochaine .heure { color: var(--moka); }
+  .etiquette-prochain { font-size: 13px; font-weight: 700; color: var(--moka); display: inline-flex; gap: 4px; align-items: center; margin-bottom: 2px; }
+  .chevron { font-size: 22px; color: var(--encre-douce); align-self: center; }
+  .exception .nom { color: var(--encre-douce); }
+</style></head>
+<body>
+<div class="telephone">
+  <div class="barre-etat"><span>9:41</span><span><i class="ph ph-cell-signal-slash"></i><i class="ph ph-battery-high"></i> 82 %</span></div>
+  <div class="entete">
+    <h1>Jeudi 2 octobre</h1>
+    <div class="sous">Tournée du matin · Claire Martin</div>
+    <div class="regle" aria-label="4 passages signés sur 11">
+      <i class="fait"></i><i class="fait"></i><i class="fait"></i><i class="fait"></i><i class="prochain"></i><i></i><i></i><i></i><i></i><i></i><i></i>
+    </div>
+    <div class="meta" style="margin-top:6px"><b style="color:var(--encre)"><span class="n">4</span> signés</b> sur <span class="n">11</span> passages · fin prévue vers <span class="n">12 h 10</span></div>
+  </div>
+  <div class="reseau"><i class="ph ph-cloud-slash"></i><span><b>Hors connexion</b> · 2 envois en attente</span><a href="#">Voir</a></div>
+  <div class="contenu">
+    <div class="moment"><h2>Matin</h2><span class="n" style="font-weight:500">7 h – 12 h</span></div>
+
+    <div class="ligne fait">
+      <div class="heure">7:40</div>
+      <div><span class="nom">Moreau Simone<svg class="rature" viewBox="0 0 100 8" preserveAspectRatio="none"><path d="M0 5 C 20 2, 40 6, 60 3 S 90 5, 100 3" stroke="#4F6B56" stroke-width="2.2" fill="none" stroke-linecap="round"/></svg></span>
+        <div class="soins">Injection d'anticoagulant · glycémie</div>
+        <span class="tampon"><i class="ph-fill ph-check-circle"></i>Signé 7:52</span></div>
+      <span></span>
+    </div>
+    <div class="ligne fait">
+      <div class="heure">8:05</div>
+      <div><span class="nom">Lefèvre Jeanne<svg class="rature" viewBox="0 0 100 8" preserveAspectRatio="none"><path d="M0 4 C 25 6, 45 2, 65 5 S 88 3, 100 4" stroke="#4F6B56" stroke-width="2.2" fill="none" stroke-linecap="round"/></svg></span>
+        <div class="soins">Pansement chirurgical · retrait de 7 agrafes</div>
+        <span class="tampon"><i class="ph-fill ph-check-circle"></i>Signé 8:21</span></div>
+      <span></span>
+    </div>
+
+    <div class="ligne prochaine">
+      <div class="heure">8:40</div>
+      <div><div class="etiquette-prochain"><i class="ph-fill ph-arrow-circle-right"></i>Prochain passage</div>
+        <span class="nom">Dupuis Roger<small>88 ans</small></span>
+        <div class="soins">Pansement · escarre sacrée, stade 3 · <span class="n">J+24</span></div>
+        <div style="margin-top:8px"><span class="puce ocre"><i class="ph ph-warning-circle"></i>Prescription modifiée hier</span></div></div>
+      <i class="ph ph-caret-right chevron"></i>
+    </div>
+
+    <div class="ligne">
+      <div class="heure">9:15</div>
+      <div><span class="nom">Bernard Louis<small>74 ans</small></span>
+        <div class="soins">Pansement · ulcère malléole gauche · sous chimiothérapie</div></div>
+      <i class="ph ph-caret-right chevron"></i>
+    </div>
+    <div class="ligne exception">
+      <div class="heure" style="color:var(--encre-douce)">9:50</div>
+      <div><span class="nom">Petit André<small>81 ans</small></span>
+        <div class="soins" style="color:var(--encre-douce)">Distribution des médicaments</div>
+        <div style="margin-top:6px"><span class="puce neutre"><i class="ph ph-minus-circle"></i>Non réalisé · hospitalisé</span></div></div>
+      <span></span>
+    </div>
+  </div>
+  <div class="bas"><button class="bouton-plein">Ouvrir le passage de Dupuis Roger<i class="ph ph-arrow-right"></i></button></div>
+</div>
+</body></html>

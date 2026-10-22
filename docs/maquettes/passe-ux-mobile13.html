@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Passe UX du terminal (mobile 13)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{--bg:#F4F6FA;--surface:#FFFFFF;--surface-2:#EEF2FB;--fg:#141A2E;--fg-2:#4A5372;--ligne:#DDE3EF;
+--accent:#2F5BEA;--accent-fg:#FFFFFF;--accent-doux:#E6ECFD;--attention:#8A5A00;--attention-fond:#FFF4DC;
+--code-fond:#F1F3F8;--police:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+--police-code:"JetBrains Mono",ui-monospace,"Cascadia Code",Consolas,monospace;--rayon:10px;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0E1220;--surface:#151A2B;--surface-2:#1C2338;
+--fg:#E8ECF7;--fg-2:#A3ACC6;--ligne:#2A3250;--accent:#7C9BFF;--accent-fg:#0E1220;--accent-doux:#1E2950;
+--attention:#F2C25B;--attention-fond:#33290F;--code-fond:#10152A;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0E1220;--surface:#151A2B;--surface-2:#1C2338;--fg:#E8ECF7;--fg-2:#A3ACC6;--ligne:#2A3250;
+--accent:#7C9BFF;--accent-fg:#0E1220;--accent-doux:#1E2950;--attention:#F2C25B;--attention-fond:#33290F;--code-fond:#10152A;color-scheme:dark}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--police);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}
+.entete{background:var(--surface);border-bottom:1px solid var(--ligne)}
+.entete div{max-width:calc(80ch + 32px);margin:0 auto;padding:12px 16px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.entete b{font-weight:600}
+.entete a{color:var(--accent);text-decoration:none;font-weight:500}
+.entete a:hover{text-decoration:underline}
+main{max-width:calc(80ch + 32px);margin:0 auto;padding:24px 16px 64px;overflow-wrap:break-word}
+.chemin{font-family:var(--police-code);font-size:12px;color:var(--fg-2);margin:0 0 8px}
+h1{font-size:28px;line-height:1.25;margin:0 0 16px}
+h2{font-size:21px;line-height:1.3;margin:36px 0 12px;padding-top:12px;border-top:1px solid var(--ligne)}
+h3{font-size:17px;margin:28px 0 8px}h4,h5,h6{font-size:15px;margin:20px 0 6px}
+a{color:var(--accent)}
+p,li{max-width:80ch}
+code{font-family:var(--police-code);font-size:.88em;background:var(--code-fond);border:1px solid var(--ligne);border-radius:5px;padding:0 4px;overflow-wrap:anywhere}
+pre{background:var(--code-fond);border:1px solid var(--ligne);border-radius:var(--rayon);padding:14px 16px;overflow-x:auto;font-size:13px;line-height:1.55}
+pre code{background:none;border:0;padding:0;font-size:inherit;overflow-wrap:normal}
+.tableau{overflow-x:auto;margin:16px 0;border:1px solid var(--ligne);border-radius:var(--rayon);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:13.5px;line-height:1.5}
+th,td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--ligne);min-width:8ch}
+th{background:var(--surface-2);font-weight:600}
+tr:last-child td{border-bottom:0}
+blockquote{margin:16px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-doux);border-radius:0 var(--rayon) var(--rayon) 0}
+hr{border:0;border-top:1px solid var(--ligne);margin:28px 0}
+img{max-width:100%}
+.non-publie{font-size:13px;color:var(--attention);background:var(--attention-fond);padding:1px 6px;border-radius:5px}
+details.sommaire{background:var(--surface);border:1px solid var(--ligne);border-radius:var(--rayon);padding:10px 16px;margin:0 0 24px}
+details.sommaire summary{cursor:pointer;font-weight:600}
+details.sommaire ul{padding-left:20px;margin:8px 0 0}
+.admonition{border:1px solid var(--ligne);border-radius:var(--rayon);padding:8px 16px;background:var(--surface)}
+.admonition-title{font-weight:600}
+</style>
+</head>
+<body>
+<header class="entete"><div><b>TabSanté — documents</b><a href="../../">← Retour au portail</a></div></header>
+<main>
+<p class="chemin">docs/maquettes/passe-ux-mobile13.html</p>
+<h1 id="passe-ux-du-terminal-mobile-13">Passe UX du terminal (mobile 13)</h1>
+<details class="sommaire"><summary>Sommaire</summary><ul><li><a href="#problèmes-trouvés-et-corrections">Problèmes trouvés et corrections</a></li><li><a href="#appuis-des-passages-de-routine">Appuis des passages de routine</a></li><li><a href="#captures">Captures</a></li><li><a href="#remarques-pour-le-serveur-et-la-démonstration-non-modifiés">Remarques pour le serveur et la démonstration (non modifiés)</a></li></ul></details>
+<p>Méthode Impeccable (critique, polish, adapt) sur le terminal Flutter, après douze lots écrits par des agents différents.
+Mesures faites sur une API dédiée (port 8163, base <code>tabsante_mux</code>, <code>TABSANTE_DEV_AUTH=true</code>, <code>POST /dev/demo</code>), build web
+<code>--dart-define=CAPTURES=true</code>, vue 390 × 844 à 2× par l'émulation de Chrome DevTools. Les fichiers sont dans
+<code>captures/build-mobile13-{avant|apres}-&lt;écran&gt;.png</code>.</p>
+<blockquote>
+<p>Les captures « avant » datent du 4 octobre, les « après » du 7 octobre. La démonstration compte ses passages par
+rapport au jour courant (J+7 devient J+10, 24 soins deviennent 23) : seules les données ont changé, pas la mise en page.</p>
+</blockquote>
+<h2 id="problèmes-trouvés-et-corrections">Problèmes trouvés et corrections</h2>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Problème (avant)</th>
+<th>Correction (après)</th>
+<th>Fichiers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>Cinq onglets</strong> (Tournée, Patients, Liaisons, Envois, Moi) : 78 dp par cible, « Moi » (profil, rechargement, une fois par jour) au même rang que « Liaisons » (lu plusieurs fois par tournée). DESIGN.md en annonçait quatre, sans Liaisons.</td>
+<td><strong>Quatre onglets : Tournée · Patients · Liaisons · Envois.</strong> « Moi » s'ouvre en plein écran par l'avatar de la tournée (48 dp, en-tête commun avec retour). DESIGN.md dit la décision et sa raison.</td>
+<td><code>ecrans/accueil.dart</code>, <code>ecrans/tournee.dart</code>, <code>DESIGN.md</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>« Il manque » sur cinq lignes</strong> (PCA : quatre manques longs « et 7 autres ») : la barre mangeait le bas de l'écran, là où le pouce travaille. Nursing : trois lignes.</td>
+<td>La barre nomme les premiers manques <strong>tant qu'ils tiennent sur deux lignes</strong> (trois au plus), puis « et n autres » ; <code>maxLines: 2</code>. Chaque champ garde « À renseigner », l'appui amène toujours au premier. Une règle, un endroit : <code>ilManqueCourt</code>.</td>
+<td><code>charte.dart</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>Fausse alerte allergie</strong> : « Aucune allergie connue » (Faure) s'affichait dans le bandeau ambre « Allergie » avec « Sévérité légère ».</td>
+<td>Une entrée qui dit qu'il n'y a pas d'allergie (« Aucune allergie… », « Pas d'allergie… ») devient une pastille neutre « Aucune allergie connue ». Le mot « allergie » est exigé : dans le doute, l'alerte reste.</td>
+<td><code>ecrans/dossier.dart</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>Fiche patient</strong> : « Médicaments » listé deux fois (distribution et pilulier, un seul acte) ; les soins du passage sous le signalement et la transmission, donc sous la ligne de flottaison.</td>
+<td>Un soin servi par plusieurs fréquences = une ligne (comme la tournée). Les <strong>soins du passage viennent juste après les alertes</strong>, avant ce qui est à décider ou à lire.</td>
+<td><code>ecrans/patient.dart</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>Carte « Prochain passage »</strong> : ce qui a changé (prescription modifiée, rappel du jour, saisie commencée) venait après six étiquettes de soins. La carte d'avancement coupait « soin signé · / 24 à faire » autour d'un point.</td>
+<td>Ce qui a changé d'abord (étude UX §4.1), puis les soins, puis les contextes. Avancement sur deux lignes nettes (« soin signé » / « 23 à faire »).</td>
+<td><code>ecrans/tournee.dart</code></td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>« Ajouter un soin »</strong> : grille 3 colonnes de vingt tuiles, mots coupés en deux (« Anticoagula‑nt », « Médicament‑s »), lien « ‹ Bernard Louis » propre à cet écran.</td>
+<td>Recherche, « Prescrits pour … », puis le catalogue <strong>rangé par famille de soin</strong> (Plaies et pansements, Injections et perfusions, Surveillance et prélèvements, Hygiène et traitements, Élimination, nutrition, dialyse, Respiration), en lignes de 64 dp (tuile 40 · nom entier · caret). En recherche : une liste plate des soins trouvés. En-tête commun <code>Ecran</code> (retour, patient, moment).</td>
+<td><code>ecrans/ajout.dart</code></td>
+</tr>
+<tr>
+<td>7</td>
+<td><strong>Pictogrammes et familles différents du poste fixe</strong> : anticoagulant (goutte rose / seringue bleue au web), PSE et PCA (violet / bleu), dialyse (bleu / ambre), ALR (seringue rose / douleur violette), neuropsy (ambre / vert), séance de parcours.</td>
+<td>La table <code>soins</code> du terminal reprend <code>SOINS</code> de <code>web/src/actes.tsx</code> : un soin a la même tuile sur les deux supports.</td>
+<td><code>fiches.dart</code></td>
+</tr>
+<tr>
+<td>8</td>
+<td><strong>Courbes toujours vertes</strong> : mini-courbe de la plaie, courbe de clôture et reçu verts même quand la mesure monte ; carte d'évolution du reçu toujours sur fond vert. Le poste fixe trace vert à la baisse, ambre sinon.</td>
+<td><code>couleurEvolution</code> : vert si la dernière valeur est sous la première, ambre sinon, pour <code>Sparkline</code> et <code>MiniCourbe</code> (l'étiquette de valeur prend l'encre de la paire, jamais le vert vif). Le reçu n'a un fond vert que pour une baisse. Le point corrigé reste l'anneau ambre légendé.</td>
+<td><code>charte.dart</code>, <code>ecrans/recu.dart</code></td>
+</tr>
+<tr>
+<td>9</td>
+<td><strong>En-têtes « repris » divergents</strong> : « Repris du passage du 3 oct. » (plaie), « Reprise du 28/09 » (injection), « Repris du 02/10 » (anticoagulant, stomie).</td>
+<td>« Repris du passage du … » partout.</td>
+<td><code>ecrans/fiche.dart</code>, <code>fiche_lot2.dart</code>, <code>fiche_lot3.dart</code></td>
+</tr>
+<tr>
+<td>10</td>
+<td><strong>Vert détourné</strong> : le forfait BSB du nursing en bandeau vert « acquis », doublé de la pastille du dossier.</td>
+<td>Information de cotation en bandeau neutre (le vert reste au signé, au transmis, au progrès).</td>
+<td><code>ecrans/fiche_lot2.dart</code></td>
+</tr>
+<tr>
+<td>11</td>
+<td><strong>Réponses identiques une par une</strong> : deux insulines = deux sites suggérés à accepter ; deux zones d'appui saines = deux « Absent » ; site sous-cutané de PCA/PSE = cinq réponses (œdème, induration, rougeur, douleur, écoulement).</td>
+<td>Un geste qui donne ces réponses identiques, toutes visibles et modifiables ensuite : « Prendre les sites suggérés », « Aucune rougeur sur ces n zones », « Site sans réaction ». Rien n'est présélectionné : sans l'appui, les champs restent « À renseigner ».</td>
+<td><code>ecrans/fiche.dart</code>, <code>fiche_lot2.dart</code>, <code>fiche_lot16.dart</code></td>
+</tr>
+<tr>
+<td>12</td>
+<td><strong>Trois textes à 12,5 dp</strong> sous le plancher de 13 : l'état de la saisie dans l'en-tête (« Brouillon enregistré »), les libellés des mesures du résumé, le nom de fichier de la base mise de côté.</td>
+<td>Passés à 13 (<code>T.meta</code>). Plus aucun texte lisible sous 13 dp hors des captures de démonstration.</td>
+<td><code>ecrans/passage.dart</code>, <code>ecrans/base.dart</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>Audit transverse, sans autre écart : aucune bordure latérale, cibles de 48 dp (puces, grilles, steppers 56, signature 60),
+une seule action pleine par barre, toutes les fiches passent par le même squelette <code>EcranFiche</code> (bandeaux → carte du soin →
+« Comment faire ? » → corps → photo → commentaire → barre qui signe). L'ordre et les règles sont écrits dans DESIGN.md.</p>
+<h2 id="appuis-des-passages-de-routine">Appuis des passages de routine</h2>
+<p>Mesurés par <code>mobile/test/appuis_test.dart</code> (et <code>widgets_test.dart</code> pour la plaie), qui jouent l'écran réel jusqu'à
+« Tout est renseigné ». Comptés : « Commencer le passage » (1), chaque contact qui répond, la signature maintenue (1). Une
+valeur saisie au clavier compte 2 (toucher la valeur, « Valider ») ; les chiffres tapés ne comptent pas. Le chemin
+« avant » reste possible (réponse par réponse) : aucune règle n'a été retirée.</p>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Passage de routine</th>
+<th>Avant</th>
+<th>Après</th>
+<th>Ce qui change</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Plaie (pansement, rien n'a changé)</td>
+<td>5</td>
+<td>5</td>
+<td>déjà à la cible (≤ 6) : repris + trois réponses de sécurité</td>
+</tr>
+<tr>
+<td>Injection (faite, site suggéré)</td>
+<td>4</td>
+<td>4</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Suivi diabétique (glycémie, injection, deux insulines)</td>
+<td>7</td>
+<td><strong>6</strong></td>
+<td>« Prendre les sites suggérés »</td>
+</tr>
+<tr>
+<td>Paramètres vitaux (tension et pouls, position et bras repris)</td>
+<td>8</td>
+<td>8</td>
+<td>trois mesures au clavier ; rien à grouper</td>
+</tr>
+<tr>
+<td>Nursing (pas de repas, prévention sur deux zones saines, position)</td>
+<td>7</td>
+<td><strong>6</strong></td>
+<td>« Aucune rougeur sur ces 2 zones »</td>
+</tr>
+<tr>
+<td>Perfusion IV, changement de poche (débrancher, brancher la ligne reprise, point, rinçage)</td>
+<td>7</td>
+<td>7</td>
+<td>la feuille « Brancher » reste l'étape de lecture de l'étiquette</td>
+</tr>
+<tr>
+<td>Contrôle de PCA (voie SC, deux pompes, doses, surveillance)</td>
+<td>25</td>
+<td><strong>21</strong></td>
+<td>« Site sans réaction » (5 → 1)</td>
+</tr>
+</tbody>
+</table></div>
+<p>La PCA reste longue par nature (deux pompes : débit, volume lu, alarmes ; doses reçues, tentées, total ; sédation,
+respiration, RASS, douleur) : ce sont des lectures, pas des réponses identiques. Les vitaux gagneraient à enchaîner les
+valeurs au clavier (« Suivant » d'une constante à l'autre) : non fait ici, à décider avec le terrain.</p>
+<h2 id="captures">Captures</h2>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Écran</th>
+<th>Avant</th>
+<th>Après</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tournée</td>
+<td><code>build-mobile13-avant-tournee.png</code></td>
+<td><code>build-mobile13-apres-tournee.png</code></td>
+</tr>
+<tr>
+<td>Fiche patient</td>
+<td><code>…-avant-patient.png</code></td>
+<td><code>…-apres-patient.png</code></td>
+</tr>
+<tr>
+<td>Passage plaie</td>
+<td><code>…-avant-passage-plaie.png</code></td>
+<td><code>…-apres-passage-plaie.png</code></td>
+</tr>
+<tr>
+<td>Injection</td>
+<td><code>…-avant-injection.png</code></td>
+<td><code>…-apres-injection.png</code></td>
+</tr>
+<tr>
+<td>Suivi diabétique</td>
+<td><code>…-avant-diabete.png</code></td>
+<td><code>…-apres-diabete.png</code></td>
+</tr>
+<tr>
+<td>Paramètres vitaux</td>
+<td><code>…-avant-vitaux.png</code></td>
+<td><code>…-apres-vitaux.png</code></td>
+</tr>
+<tr>
+<td>Nursing</td>
+<td><code>…-avant-nursing.png</code></td>
+<td><code>…-apres-nursing.png</code></td>
+</tr>
+<tr>
+<td>Perfusion IV</td>
+<td><code>…-avant-perfusion.png</code></td>
+<td><code>…-apres-perfusion.png</code></td>
+</tr>
+<tr>
+<td>PCA</td>
+<td><code>…-avant-pca.png</code></td>
+<td><code>…-apres-pca.png</code>, <code>…-apres-pca-voie.png</code></td>
+</tr>
+<tr>
+<td>Ajouter un soin</td>
+<td><code>…-avant-ajout.png</code></td>
+<td><code>…-apres-ajout.png</code></td>
+</tr>
+<tr>
+<td>Reçu</td>
+<td><code>…-avant-recu.png</code></td>
+<td><code>…-apres-recu.png</code></td>
+</tr>
+<tr>
+<td>Liaisons</td>
+<td><code>…-avant-liaisons.png</code></td>
+<td><code>…-apres-liaisons.png</code></td>
+</tr>
+<tr>
+<td>Envois</td>
+<td><code>…-avant-envois.png</code></td>
+<td><code>…-apres-envois.png</code></td>
+</tr>
+<tr>
+<td>Moi</td>
+<td><code>…-avant-moi.png</code> (onglet)</td>
+<td><code>…-apres-moi.png</code> (par l'avatar)</td>
+</tr>
+<tr>
+<td>Savoir-faire</td>
+<td><code>…-avant-savoir-faire.png</code></td>
+<td><code>…-apres-savoir-faire.png</code></td>
+</tr>
+<tr>
+<td>Verrou</td>
+<td><code>…-avant-verrou.png</code></td>
+<td><code>…-apres-verrou.png</code></td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="remarques-pour-le-serveur-et-la-démonstration-non-modifiés">Remarques pour le serveur et la démonstration (non modifiés)</h2>
+<ul>
+<li>La démonstration écrit « Aucune allergie connue » comme une allergie de M. Faure (<code>backend/app/domaines/dev.py</code>). Le
+  dossier devrait porter la réponse « aucune allergie connue » comme un état, pas comme une entrée d'allergie ; le
+  terminal la filtre désormais, le poste fixe l'affiche encore dans la liste des allergies.</li>
+<li>Le motif de prescription modifiée de la PCA contient une heure au format « 08:30 » : le terminal écrit « 8 h 30 ».</li>
+<li>Dans la PCA, l'ordre des manques (voie d'abord) ne suit pas l'ordre de l'écran (surveillance, pompes, voie) : l'appui
+  sur « Il manque » descend en bas de l'écran. À aligner dans <code>erreurs()</code> si le terrain le relève.</li>
+</ul>
+<blockquote>
+<p><strong>Suite (polish mobile 14, 7 octobre).</strong> Les trois remarques sont traitées : « aucune allergie connue » est un statut
+du dossier (<code>statut_allergies</code>, lu <code>allergies_statut</code> : inconnu, aucune connue, liste ; l'ancienne entrée se lit comme
+le statut) ; les heures des textes du serveur s'écrivent « 8 h 30 » (<code>heuresFr</code>) ; « Il manque » suit l'ordre de
+l'écran dans toutes les fiches (<code>Ancres.dansLOrdre</code>). La carte « Prochain passage » passe à trois étages sans doublon :
+<code>captures/build-mobile14-{avant|apres}-tournee.png</code> (démonstration vue à J+1, quand le pansement de la gastrostomie est
+dû : le rappel du jour et l'échéance du dispositif disaient la même chose).</p>
+</blockquote>
+</main>
+</body>
+</html>

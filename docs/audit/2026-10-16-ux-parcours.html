@@ -1,0 +1,849 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Audit UX de bout en bout — 16 octobre 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{--bg:#F4F6FA;--surface:#FFFFFF;--surface-2:#EEF2FB;--fg:#141A2E;--fg-2:#4A5372;--ligne:#DDE3EF;
+--accent:#2F5BEA;--accent-fg:#FFFFFF;--accent-doux:#E6ECFD;--attention:#8A5A00;--attention-fond:#FFF4DC;
+--code-fond:#F1F3F8;--police:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+--police-code:"JetBrains Mono",ui-monospace,"Cascadia Code",Consolas,monospace;--rayon:10px;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0E1220;--surface:#151A2B;--surface-2:#1C2338;
+--fg:#E8ECF7;--fg-2:#A3ACC6;--ligne:#2A3250;--accent:#7C9BFF;--accent-fg:#0E1220;--accent-doux:#1E2950;
+--attention:#F2C25B;--attention-fond:#33290F;--code-fond:#10152A;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0E1220;--surface:#151A2B;--surface-2:#1C2338;--fg:#E8ECF7;--fg-2:#A3ACC6;--ligne:#2A3250;
+--accent:#7C9BFF;--accent-fg:#0E1220;--accent-doux:#1E2950;--attention:#F2C25B;--attention-fond:#33290F;--code-fond:#10152A;color-scheme:dark}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--police);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}
+.entete{background:var(--surface);border-bottom:1px solid var(--ligne)}
+.entete div{max-width:calc(80ch + 32px);margin:0 auto;padding:12px 16px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.entete b{font-weight:600}
+.entete a{color:var(--accent);text-decoration:none;font-weight:500}
+.entete a:hover{text-decoration:underline}
+main{max-width:calc(80ch + 32px);margin:0 auto;padding:24px 16px 64px;overflow-wrap:break-word}
+.chemin{font-family:var(--police-code);font-size:12px;color:var(--fg-2);margin:0 0 8px}
+h1{font-size:28px;line-height:1.25;margin:0 0 16px}
+h2{font-size:21px;line-height:1.3;margin:36px 0 12px;padding-top:12px;border-top:1px solid var(--ligne)}
+h3{font-size:17px;margin:28px 0 8px}h4,h5,h6{font-size:15px;margin:20px 0 6px}
+a{color:var(--accent)}
+p,li{max-width:80ch}
+code{font-family:var(--police-code);font-size:.88em;background:var(--code-fond);border:1px solid var(--ligne);border-radius:5px;padding:0 4px;overflow-wrap:anywhere}
+pre{background:var(--code-fond);border:1px solid var(--ligne);border-radius:var(--rayon);padding:14px 16px;overflow-x:auto;font-size:13px;line-height:1.55}
+pre code{background:none;border:0;padding:0;font-size:inherit;overflow-wrap:normal}
+.tableau{overflow-x:auto;margin:16px 0;border:1px solid var(--ligne);border-radius:var(--rayon);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:13.5px;line-height:1.5}
+th,td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--ligne);min-width:8ch}
+th{background:var(--surface-2);font-weight:600}
+tr:last-child td{border-bottom:0}
+blockquote{margin:16px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-doux);border-radius:0 var(--rayon) var(--rayon) 0}
+hr{border:0;border-top:1px solid var(--ligne);margin:28px 0}
+img{max-width:100%}
+.non-publie{font-size:13px;color:var(--attention);background:var(--attention-fond);padding:1px 6px;border-radius:5px}
+details.sommaire{background:var(--surface);border:1px solid var(--ligne);border-radius:var(--rayon);padding:10px 16px;margin:0 0 24px}
+details.sommaire summary{cursor:pointer;font-weight:600}
+details.sommaire ul{padding-left:20px;margin:8px 0 0}
+.admonition{border:1px solid var(--ligne);border-radius:var(--rayon);padding:8px 16px;background:var(--surface)}
+.admonition-title{font-weight:600}
+</style>
+</head>
+<body>
+<header class="entete"><div><b>TabSanté — documents</b><a href="../../">← Retour au portail</a></div></header>
+<main>
+<p class="chemin">docs/audit/2026-10-16-ux-parcours.html</p>
+<h1 id="audit-ux-de-bout-en-bout--16-octobre-2026">Audit UX de bout en bout — 16 octobre 2026</h1>
+<details class="sommaire"><summary>Sommaire</summary><ul><li><a href="#1-synthèse">1. Synthèse</a></li><li><a href="#2-constats-par-parcours">2. Constats par parcours</a></li><li><a href="#3-transversal">3. Transversal</a></li><li><a href="#4-détecteur-impeccable-évaluation-b">4. Détecteur impeccable (évaluation B)</a></li><li><a href="#5-lots-de-correction-parallélisables">5. Lots de correction parallélisables</a></li><li><a href="#6-questions-à-trancher">6. Questions à trancher</a></li></ul></details>
+<blockquote>
+<p>⚠️ DEGRADED: single-context (la limite de sous-agents simultanés était atteinte : l'évaluation de conception A et le détecteur B ont tourné dans le même contexte ; A a été rédigée avant de lire la sortie du détecteur).</p>
+</blockquote>
+<p><strong>Périmètre.</strong> Les sept parcours demandés ont été joués pour de vrai : clics, saisies et validations, avec la base <code>tabsante_audit_ux</code> semée par <code>POST /dev/demo</code> puis <code>scripts/agregats.py --reconstruire</code>.
+- <strong>Poste fixe</strong> : React, servi par Vite. Largeurs 1440 et 390 px.
+- <strong>Terminal</strong> : Flutter web, en 390 × 844, mobile et tactile.
+- <strong>Personas</strong> : Paul Durand (titulaire), Claire Martin (IDE), Lucie Vidal (remplaçante) et Inès Petit (aide-soignante).
+- <strong>Base du code</strong> : <code>main</code> c62573e. Aucun fichier de l'application n'a été modifié.</p>
+<p><strong>Méthode.</strong> Un Chrome sans interface, piloté par playwright-core.
+- <strong>Journal</strong> : tout ce qui sort en console, toutes les réponses 4xx/5xx et toutes les requêtes en échec.
+- <strong>Contrôles dans la page</strong> : débordement horizontal, cibles de moins de 24 px, contraste des textes, contrôles sans nom.
+- <strong>Lecteur d'écran</strong> : arbre d'accessibilité lu sur le web, et arbre sémantique Flutter activé sur le terminal.
+- <strong>Grille</strong> : skill <code>impeccable critique</code> (heuristiques de Nielsen, charge cognitive, anti-motifs), rapprochée de <code>PRODUCT.md</code> et <code>DESIGN.md</code>.
+- <strong>Captures</strong> : <code>docs/audit/captures-ux/</code>.</p>
+<p><strong>Gravité.</strong>
+- <strong>P0</strong> : bloque un parcours, ou met en jeu la sécurité du patient, les droits ou la facturation.
+- <strong>P1</strong> : information fausse, manquante ou incohérente, ou impasse qu'on peut contourner.
+- <strong>P2</strong> : finition, cohérence ou confort.</p>
+<p><strong>Biais de l'environnement, hors application.</strong> Ils ont été exclus des constats.
+- Un antivirus (Kaspersky) injecte un élément <code>settings-manager</code> (le point bleu en bas à droite de chaque capture) et ses propres requêtes.
+- Les tuiles de carte externes (OpenFreeMap, OpenStreetMap) ont été en partie refusées.
+- Les temps viennent d'un serveur Vite de développement, non regroupé : ils comptent comme ordres de grandeur, comparés entre eux.</p>
+<hr />
+<h2 id="1-synthèse">1. Synthèse</h2>
+<h3 id="notes-par-parcours">Notes par parcours</h3>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Parcours</th>
+<th>Note /10</th>
+<th>En une phrase</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Ouverture d'une journée</td>
+<td><strong>5</strong></td>
+<td>Une structure claire, mais « À traiter » ne se vide jamais, ne trie pas par gravité et ignore le rôle (l'aide-soignante y voit et y fait le travail infirmier).</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Nouveau patient de bout en bout</td>
+<td><strong>4</strong></td>
+<td>Une création rapide et une lecture d'ordonnance soignée, mais l'ordonnance d'un autre patient se valide sans blocage, une ordonnance échue crée des fréquences rétroactives et l'INS est « qualifiée » sans contrôle de pièce.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Tournée au terminal</td>
+<td><strong>7</strong></td>
+<td>Le meilleur parcours : signature au maintien, reçu en trois états, hors connexion explicite. En face : un « prochain passage » déjà fait, des retards différents de ceux du poste fixe et une synchronisation lente au retour du réseau.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Retour au cabinet</td>
+<td><strong>5</strong></td>
+<td>« Pourquoi ? », la FSE simulée et le dossier de preuve sont solides, mais le lien « Décider » d'un signalement mène à une liste vide, les compteurs de cotations se contredisent (137 contre 37) et des libellés techniques s'affichent.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Absence d'une infirmière</td>
+<td><strong>5</strong></td>
+<td>« À couvrir » est clair, mais l'alerte de formation manquante est avalée, le choix se fait à l'aveugle et la remplaçante n'est ni prévenue ni servie (trois réponses 403, « À traiter » vide).</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Patient complexe</td>
+<td><strong>7</strong></td>
+<td>Dossier riche (frise de soins, courbe et comparaison photo de la plaie, bilans sourcés). L'alerte de perfusion trop longue manque à « À savoir avant le soin ».</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Administration</td>
+<td><strong>6</strong></td>
+<td>Pages complètes et honnêtes sur la simulation. En face : identifiants techniques, notes internes à l'écran et « terminaux » créés à chaque connexion du navigateur.</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="les-15-problèmes-les-plus-graves">Les 15 problèmes les plus graves</h3>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Grav.</th>
+<th>Problème</th>
+<th>Parcours</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>P0</td>
+<td>L'<strong>aide-soignante déclare « non réalisé » un pansement infirmier</strong> (POST 200) et voit tout le travail infirmier dans « À traiter » ; le titulaire, lui, reçoit un 403 sur la même ligne.</td>
+<td>1 (J1-4)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>P0</td>
+<td><strong>Ordonnance d'un autre patient validée</strong> (« Moreau Simone » lue dans le dossier de Lambert Marcel) : simple note grise, aucun blocage ; prescription, quatre actes et trois fréquences créés.</td>
+<td>2 (J2-1)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>P0</td>
+<td><strong>« Décider » un signalement d'aide-soignante mène à une liste vide</strong> : la classe CSS <code>focus</code> du panneau d'aperçu cache la ligne ciblée (<code>position: fixed</code>, <code>visibility: hidden</code>).</td>
+<td>4 (J4-1)</td>
+</tr>
+<tr>
+<td>4</td>
+<td>P1</td>
+<td><strong>« Déclarer le motif » réussit mais la ligne reste</strong> dans « À traiter », même après rechargement ; le compteur monte (23 → 24).</td>
+<td>1 (J1-1)</td>
+</tr>
+<tr>
+<td>5</td>
+<td>P1</td>
+<td><strong>Alerte de formation manquante ignorée</strong> quand on confie la tournée à Lucie (art. 5 ter IC/BPCO) : le serveur la renvoie, l'écran affiche « confié ».</td>
+<td>5 (J5-1)</td>
+</tr>
+<tr>
+<td>6</td>
+<td>P1</td>
+<td><strong>La remplaçante n'est pas prévenue</strong> de la tournée confiée ; son « Aujourd'hui » enchaîne trois 403 et affiche « À traiter 2 » sans aucune ligne.</td>
+<td>5 (J5-3)</td>
+</tr>
+<tr>
+<td>7</td>
+<td>P1</td>
+<td><strong>« À traiter » trié sans gravité</strong> : 16 passages non réalisés passent devant « Ligne encore posée au-delà du prescrit (14 h sur 12 h) » et le signalement d'escarre.</td>
+<td>1 (J1-3)</td>
+</tr>
+<tr>
+<td>8</td>
+<td>P1</td>
+<td><strong>Ordonnance échue validée sans alerte</strong> : fréquences ouvertes au 12/09, glycémie « sans terme » malgré « 15 jours », passages « non tracés » datés d'avant la création du patient.</td>
+<td>2 (J2-2)</td>
+</tr>
+<tr>
+<td>9</td>
+<td>P1</td>
+<td><strong>« INS qualifiée » dès la réponse INSi</strong>, sans contrôle d'une pièce d'identité.</td>
+<td>2 (J2-3)</td>
+</tr>
+<tr>
+<td>10</td>
+<td>P1</td>
+<td><strong>137 cotations provisoires</strong> selon Aujourd'hui et Preuves, <strong>37</strong> selon la File de contrôle ; « Voir les cotations » ouvre la liste non filtrée des 209 actes.</td>
+<td>4 (J4-2)</td>
+</tr>
+<tr>
+<td>11</td>
+<td>P1</td>
+<td><strong>Renouvellement envoyé au médecin d'un clic</strong>, alors que le courrier est marqué « Pré-rédigé, non relu ».</td>
+<td>6 (J6-7)</td>
+</tr>
+<tr>
+<td>12</td>
+<td>P1</td>
+<td><strong>Retards incohérents et tournée du matin qui finit à 20 h sans alerte</strong> : Lefèvre à « +13 min » au poste fixe et à « +162 min » au terminal ; le nouveau patient est placé à 19 h 49 dans la tournée du matin.</td>
+<td>1, 2, 3 (J1-8)</td>
+</tr>
+<tr>
+<td>13</td>
+<td>P1</td>
+<td><strong>Le terminal propose comme « Prochain passage » un domicile déjà fait</strong> (Roussel : « Passage fait » au terminal, « Terminé » au poste fixe, aucun soin signé).</td>
+<td>3 (J3-1)</td>
+</tr>
+<tr>
+<td>14</td>
+<td>P1</td>
+<td><strong>Libellés techniques à l'écran</strong>, notamment : « 17 cotations confirmees · 1 cotation controle · 54 cotations sans objets », « Statut : confirmee », « moteur demo-0.4 · référentiel tabsante-ngap-demo@2026.1 », « Document recu mssante ».</td>
+<td>4 (J4-3)</td>
+</tr>
+<tr>
+<td>15</td>
+<td>P1</td>
+<td><strong>L'alerte de perfusion trop longue manque au dossier</strong> : « À savoir avant le soin » et l'aperçu de Bernard ne la citent pas. Seul « Aujourd'hui » la donne.</td>
+<td>6 (J6-1)</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="état-de-santé-du-design-nielsen-produit-entier">État de santé du design (Nielsen, produit entier)</h3>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Heuristique</th>
+<th>Note</th>
+<th>Constat clé</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Visibilité de l'état du système</td>
+<td>2</td>
+<td>Exemplaire au terminal (reçu, Envois, brouillon enregistré). Au poste fixe, « À traiter » et ses compteurs ne reflètent pas les actions.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Correspondance avec le monde réel</td>
+<td>3</td>
+<td>Vocabulaire du métier juste, mais des énumérations brutes passent à l'écran (<code>confirmee</code>, <code>controle</code>) ainsi que des identifiants (OID, SNOMED, empreintes, versions du moteur).</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Contrôle et liberté</td>
+<td>2</td>
+<td>Impasses : signalement invisible, 403 sans issue, remplaçante sans vue ; le fil d'Ariane de la preuve ne revient pas à la FSE.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Cohérence et standards</td>
+<td>2</td>
+<td>Le web et le terminal divergent (retards, rôle, « Prochain passage », noms des métiers), comme les formats d'heure et les styles de sélection.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Prévention des erreurs</td>
+<td>1</td>
+<td>Sans garde-fou : mauvais patient sur l'ordonnance, ordonnance échue, droits de l'aide-soignante, envoi non relu, avertissement de formation.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Reconnaissance plutôt que rappel</td>
+<td>3</td>
+<td>Bonne en général. Les comptes par famille de soins ne sont que des icônes, et les pourcentages de confiance sont partout.</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Souplesse et efficacité</td>
+<td>3</td>
+<td>Ctrl K, clavier complet, filtres, « Il manque » qui conduit au champ, cas types du simulateur.</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Esthétique et minimalisme</td>
+<td>3</td>
+<td>Sobre et fidèle à « Clinique calme ». Doublons de libellés (file de contrôle) et sources répétées (bilans).</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Diagnostic et sortie d'erreur</td>
+<td>2</td>
+<td>Messages humains, mais sans étape suivante (« Vous n'êtes pas attribué… » sans dire qui peut).</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Aide et documentation</td>
+<td>3</td>
+<td>« Comment faire ? », explications sur place (« Seul Claire Martin… peut créer la FSE »).</td>
+</tr>
+<tr>
+<td><strong>Total</strong></td>
+<td></td>
+<td><strong>24/40</strong></td>
+<td><strong>Correct, avec des trous importants</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Spécificité du design.</strong> Le produit est pensé pour ce métier, pas interchangeable :
+- dossier de preuve en document officiel ;
+- courbe et comparaison photo J0/J+5 de la plaie ;
+- rotation des sites d'injection suggérée ;
+- signature au maintien ;
+- reçu « Sur l'appareil › En attente › Transmis ».</p>
+<p>Les anti-motifs relevés restent locaux :
+- les tuiles à gros chiffres de « Préparer demain » contredisent la règle « rangée <code>.stats</code> sans cadre, jamais de tuiles » de DESIGN.md ;
+- le panneau « Pourquoi ? » est une carte dans une carte (détecteur) ;
+- l'accent bleu est porté par « Fermer le formulaire ».</p>
+<p><strong>Charge cognitive.</strong> Elle est élevée sur « Aujourd'hui » (16 lignes identiques en tête, 21 icônes sans libellé par tournée) et sur la file de contrôle (38 lignes non regroupées). Sur quatre points de la liste de contrôle :
+- foyer unique : non ;
+- découpage en blocs : non ;
+- hiérarchie visuelle : non ;
+- choix réduits : non (le champ « Acte prescrit » propose 46 options à chaque ligne de la lecture d'ordonnance).</p>
+<p><strong>Parcours émotionnel.</strong> Le sommet est au terminal : « Injection signée », puis « Tout est transmis ». La fin de journée, au cabinet, est le point le plus bas : la liste ne se vide pas, le signalement est introuvable et les compteurs se contredisent. Selon la règle pic-fin, c'est elle qui colore la journée.</p>
+<hr />
+<h2 id="2-constats-par-parcours">2. Constats par parcours</h2>
+<p>Chaque problème donne l'écran, la reproduction, la gravité, la capture et la correction proposée. Les captures sont dans <code>captures-ux/</code>.</p>
+<h3 id="parcours-1--ouverture-dune-journée--510">Parcours 1 — Ouverture d'une journée · 5/10</h3>
+<p><strong>Ce qui marche</strong>
+- La page « Aujourd'hui » est lisible : « À traiter », « À préparer » (avec un état vide rédigé), « Tournées du jour », « Rappels », « Plaies en cours ». Capture <code>01-aujourdhui-paul-1440-pleine.png</code>.
+- Le panneau d'aperçu du patient est non modal. Le focus y entre et revient au déclencheur sur Échap, et l'identité, l'INS, l'allergie, les plaies et les soins sont utiles (<code>01-apercu-patient-1440.png</code>).
+- Au clavier, le lien « Aller au contenu » est présent, et le contour de focus de 2 px est visible sur tous les éléments parcourus (<code>08-focus-clavier-1440.png</code>).
+- Aucun texte mesuré sous 4,5:1 sur les écrans du poste fixe.
+- « Préparer demain » réunit les prérequis à confirmer, les heures fixes, un ordre proposé et ce qu'il coûte (<code>01-preparer-demain-1440.png</code>). Le planning est lisible (<code>01-tournees-paul-1440.png</code>).</p>
+<p><strong>Problèmes</strong></p>
+<p><strong>J1-1 · P1 · Déclarer un passage non réalisé ne le retire jamais d'« À traiter ».</strong>
+- <em>Reproduire</em> : Paul, Aujourd'hui, ligne « Passage non réalisé · Dupuis Roger, hier soir », « Déclarer le motif », « Patient absent », « Déclarer non réalisé ». <code>POST /occurrences/…/non-realisation</code> répond 200 (<code>statut: non_realisee</code>), mais la ligne reste, après rechargement compris, et le compteur passe de 23 à 24.
+- <em>Cause</em> : <code>GET /tableau-de-bord</code> renvoie à dessein les occurrences déjà déclarées, avec leur motif (<code>backend/app/domaines/tableau_de_bord.py:479</code>). <code>web/src/suivi.ts:198</code> en fait des tâches sans regarder <code>n.motif</code>, avec toujours l'action « Déclarer le motif ».
+- <em>Corriger</em> : ne garder dans « À traiter » que les entrées sans motif. Montrer les autres dans l'historique (« Déclaré · patient absent ») et aligner <code>/compteurs</code>. Ajouter une confirmation (« Passage déclaré non réalisé, rien ne sera facturé ») et rendre le focus à la ligne suivante, car il tombe sur <code>body</code>.</p>
+<p><strong>J1-2 · P1 · « Déclarer le motif » proposé au titulaire, puis refusé sans issue.</strong>
+- <em>Reproduire</em> : Paul, « Déclarer le motif » sur « Bernard Louis · hier matin · pansement » (tournée de Claire). La boîte affiche « Vous n'êtes pas attribué à cette tournée pour ce moment » (403, règle PAN-RG-05) et ne propose rien d'autre (<code>01-apres-declaration-1440.png</code>).
+- <em>Corriger</em> : n'offrir l'action qu'aux personnes autorisées, ou, en cas de refus, dire qui peut le faire (« Claire Martin, attribuée au matin, ou le titulaire depuis Tournées ») et offrir « Lui envoyer un message ».</p>
+<p><strong>J1-3 · P1 · « À traiter » n'est pas trié par gravité.</strong>
+- <em>Reproduire</em> : Paul, Aujourd'hui, liste complète. Seize « Passage non réalisé » viennent avant « Ligne encore posée au-delà du prescrit · Bernard Louis · 14 h 14 sur 12 h prescrites » (17e) et le « Signalement de l'aide-soignante » d'une rougeur de talon (16e). Sept lignes identiques concernent Bernard (suivi diabétique, une par jour). Capture <code>01-aujourdhui-paul-1440-pleine.png</code>.
+- <em>Corriger</em> : ordre clinique d'abord (dispositif au-delà du prescrit, signalement, plaie sans progrès), puis l'administratif. Regrouper les non-réalisés par patient et par soin : « Bernard Louis · suivi diabétique · 7 passages non tracés · Déclarer ».</p>
+<p><strong>J1-4 · P0 · Le rôle n'est pas respecté au poste fixe : l'aide-soignante voit le travail infirmier et peut l'annuler.</strong>
+- <em>Reproduire</em> : Inès Petit, Aujourd'hui. On y trouve :
+  - 16 passages non réalisés de pansement, suivi diabétique, prélèvements et dialyse ;
+  - « Ligne encore posée au-delà du prescrit » (perfusion) ;
+  - « Plaie sans progrès » ;
+  - « Décider » sur son propre signalement ;
+  - le bouton « Nouveau patient ».</p>
+<p>Ensuite, « Déclarer le motif » sur « Bernard Louis · hier matin · pansement », puis « Patient absent » : <code>POST /occurrences/…/non-realisation</code> répond <strong>200</strong>. Une aide-soignante vient de retirer de la facturation un acte infirmier (<code>01-aujourdhui-ines-1440.png</code>).
+- <em>Incohérence</em> : au terminal, Inès ne voit que ses soins (« 27 autres soins de la tournée restent à l'infirmière », <code>03-terminal-ines-accueil-390.png</code>).
+- <em>Corriger</em> :
+  - côté serveur, la règle d'attribution (PAN-RG-05) doit vérifier le rôle du soin (<code>SOINS_NURSING</code> pour l'aide-soignante) en plus de la tournée et du moment ;
+  - côté web, filtrer <code>useATraiter</code> par rôle, comme le terminal ;
+  - masquer « Nouveau patient » et « Décider » pour l'aide-soignante.</p>
+<p><strong>J1-5 · P1 · En 390 px, la page commence aux deux tiers de l'écran.</strong>
+- <em>Reproduire</em> : Claire, 390 × 844, Aujourd'hui. Logo, recherche (« Ctrl K » sur un téléphone), notifications, utilisateur, rangée de navigation et bandeau de démonstration occupent environ 360 px. La première ligne d'« À traiter » commence vers 640 px (<code>01-aujourdhui-claire-390.png</code>). La rangée de navigation fait 394 px : la page défile de 4 px à l'horizontale, sur tous les écrans visités.
+- <em>Corriger</em> : en dessous de 900 px, une barre compacte (logo, recherche en icône, menu), le bandeau de démonstration réduit à une ligne repliable, « Ctrl K » masqué au tactile, et <code>max-width: 100%</code> sur la rangée de navigation.</p>
+<p><strong>J1-6 · P2 · Tournées du jour : des comptes en icônes seules.</strong>
+- <em>Reproduire</em> : la ligne « Claire Martin · 27 passages à faire » est suivie de 21 pastilles icône + chiffre ; le nom du soin n'est donné qu'au lecteur d'écran (<code>01-aujourdhui-paul-1440.png</code>).
+- <em>Corriger</em> : les trois familles principales en mots (« 3 pansements, 4 soins respiratoires… »), puis « et 9 autres ».</p>
+<p><strong>J1-7 · P2 · Le panneau Paramètres est difficile à trouver.</strong>
+- <em>Reproduire</em> : à 900 px de haut, la barre latérale défile, et Paramètres est rangé dans « Ressources », replié tout en bas (<code>01-laterale-bas-1440.png</code>).
+- <em>Corriger</em> : épingler Paramètres au pied de la barre, à côté du profil.</p>
+<p><strong>J1-8 · P1 · Retards incohérents entre poste fixe et terminal, et tournée du matin qui finit le soir sans alerte.</strong>
+- <em>Reproduire</em> : Tournées, Itinéraire et carte, matin.
+  - Claire : « Fin estimée 18 h 43, en retard de 13 min » (<code>01-itineraire-paul-1440.png</code>).
+  - Le terminal de Claire : « Fin 20 h 00 » ; Lefèvre « retard d'environ 162 minutes » (prévue 8 h, l'heure prescrite), là où le poste fixe dit « +13 min » (prévue 9 h 45) ; Moreau « +304 min » (<code>03-terminal-itineraire-390.png</code>).
+  - Le patient créé au parcours 2 entre en 14e arrêt à 19 h 49 dans la tournée du matin (<code>02-premiere-tournee-lambert-1440.png</code>). Rien dans « À traiter » ne signale un « matin » qui déborde au-delà de midi.
+- <em>Corriger</em> :
+  - une seule référence de retard, commune au serveur et aux deux clients : écart à l'heure prescrite quand elle existe, sinon à l'heure prévue, dite en mots ;
+  - une ligne « À traiter » quand la fin estimée dépasse la plage du moment ;
+  - à l'ajout d'un patient, proposer le moment et la place.</p>
+<p><strong>J1-9 · P2 · Formats et ordre des noms mêlés sur un même écran.</strong> Exemples : « Heure prescrite 08:00 chez Jeanne Lefèvre : arrivée estimée à 10:32 », la pastille « 09 h 30 » et « 9 h 29 » dans la même liste (<code>01-preparer-demain-1440.png</code>), « 08:00 » dans le simulateur, « 522 min » au terminal. <em>Corriger</em> : passer les messages du serveur (météo, heure prescrite, hors zone) par le format commun « 8 h 00 », avec le nom en « NOM Prénom ».</p>
+<p><strong>J1-10 · P2 · « Préparer demain » s'ouvre sur quatre tuiles à gros chiffres</strong> (Domiciles, Durée totale estimée, Fin estimée, Distance), ce que DESIGN.md écarte. <em>Corriger</em> : la rangée <code>.stats</code> sans cadre de l'Itinéraire.</p>
+<p><strong>J1-11 · P2 · Carte : repères superposés.</strong> Le 12 est caché sous le 13, et la bulle d'arrivée masque les repères 4, 5 et 7 (<code>01-itineraire-paul-1440.png</code>). Sans fond de carte, « Chargement du fond de carte… » reste affiché sans fin. <em>Corriger</em> : écarter les repères qui se recouvrent, placer la bulle hors des repères, remplacer le message par « Fond de carte indisponible : parcours seul » au bout de 10 s.</p>
+<p><strong>J1-12 · P2 · Libellés de métier.</strong>
+- Lucie est « Infirmier diplômé d'État » dans la liste des profils et « Infirmier remplaçant » sur sa carte CPS.
+- Claire, Lucie et Inès sont au masculin (« Aide-soignant »), alors que le terminal dit « Infirmière, infirmier » (<code>00-connexion-1440.png</code>, <code>03-terminal-qui-etes-vous-390.png</code>).
+- « Retirer l'absence de Inès Petit » devrait élider : « d'Inès ».</p>
+<p><em>Corriger</em> : un libellé de métier accordé au genre de la personne, le même partout.</p>
+<h3 id="parcours-2--nouveau-patient-de-bout-en-bout--410">Parcours 2 — Nouveau patient de bout en bout · 4/10</h3>
+<p><strong>Ce qui marche</strong>
+- Le formulaire de création est court. Les allergies sont codées depuis le référentiel, avec leur source (« Constaté par l'IDE »). La création ouvre le dossier avec « À savoir avant le soin » (allergie, identité provisoire, « Qualifier ») (<code>02-dossier-nouveau-1440.png</code>).
+- L'INSi simulé répond en un clic et la réponse est versionnée, avec sa source (<code>02-ins-reponse-1440.png</code>).
+- La lecture d'ordonnance place le document et le texte lu à côté de la proposition, chaque champ avec sa confiance. Rien n'est créé sans validation, et les écarts entre la proposition et ce qui est validé sont conservés (<code>02-lecture-ordonnance-1440.png</code>, <code>02-apres-validation-ordonnance-1440.png</code>).</p>
+<p><strong>Problèmes</strong></p>
+<p><strong>J2-1 · P0 · L'ordonnance d'un autre patient se valide sans blocage.</strong>
+- <em>Reproduire</em> : Claire crée Lambert Marcel, puis Prescriptions, « Verser une ordonnance », « Lancer la lecture ». Le texte lu porte « Mme Moreau Simone ». L'écran n'en dit qu'une ligne grise au bas de la carte : « Patient écrit sur l'ordonnance : « Moreau Simone » — vérifiez qu'il s'agit bien de ce dossier. » « Valider la proposition » passe : une prescription, quatre actes et trois fréquences sont créés chez Lambert (<code>02-lecture-ordonnance-1440.png</code>).
+- <em>Corriger</em> : si le nom lu ne correspond pas au dossier, afficher un bandeau critique en tête et désactiver « Valider » jusqu'à « J'ai vérifié : c'est bien ce patient » ou « Ce n'est pas lui : rejeter ». Garder la trace de ce choix.</p>
+<p><strong>J2-2 · P1 · Une ordonnance échue crée des fréquences rétroactives.</strong>
+- <em>Reproduire</em> : même lecture (ordonnance du 12/09, 15 jours, renouvelable une fois), validée le 16/10. Le plan de soins affiche :
+  - injection du 12 au 21 sept. ;
+  - prélèvement le 17 sept. ;
+  - <strong>glycémie « du 12 sept., sans terme »</strong>.</p>
+<p>Le prévisionnel montre « 8 passages non tracés » sur des jours où le patient n'existait pas encore dans le cabinet (<code>02-plan-de-soins-1440.png</code>).
+- <em>Corriger</em> : signaler l'ordonnance échue ou presque échue avant validation ; proposer comme début la date du jour ou du premier passage ; borner chaque fréquence à la durée de l'ordonnance ; ne jamais compter « non tracé » avant la création du dossier.</p>
+<p><strong>J2-3 · P1 · « INS qualifiée » sans contrôle d'identité.</strong>
+- <em>Reproduire</em> : Dossier administratif, Identité, INSi, « Interroger ». L'en-tête passe aussitôt à « INS qualifiée » et à « DMP consultable ». Aucune étape ne demande la pièce d'identité vérifiée. Le web comme le serveur ignorent la notion (aucune occurrence de « pièce d'identité » ou équivalent).
+- <em>Corriger</em> : deux états, « INS récupérée » après INSi, puis « INS qualifiée » après « Identité vérifiée sur pièce (type, date, par qui) ». Ne rien envoyer au DMP avant.</p>
+<p><strong>J2-4 · P1 · L'adresse est classée « facultative », dans Contacts.</strong>
+- <em>Reproduire</em> : formulaire « Nouveau patient » : l'adresse est le septième « Ajouter » de « Contacts (facultatif) » (<code>02-nouveau-patient-1440.png</code>). Elle conditionne pourtant la tournée (placement, zone, indemnités kilométriques).
+- <em>Corriger</em> : quand le lieu est « Domicile », l'adresse devient obligatoire et s'affiche à côté du lieu de résidence. Au besoin, avertir « Domicile non placé : il n'entrera pas dans l'itinéraire ».</p>
+<p><strong>J2-5 · P2 · « Ajouter » ne déplace pas le focus.</strong>
+- <em>Reproduire</em> : clavier, « Ajouter : allergie ». Le sous-formulaire s'ouvre, mais le focus reste sur <code>body</code>, et la frappe part dans le vide (<code>02-allergie-saisie-1440.png</code>).
+- <em>Corriger</em> : focus sur le premier champ ouvert, et retour au bouton « Ajouter » à l'annulation.</p>
+<p><strong>J2-6 · P2 · Codes techniques à l'écran.</strong>
+- « SNOMED CT 91936005 » dans chaque suggestion d'allergie (<code>02-allergie-suggestions-1440.png</code>).
+- « OID 1.2.250.1.213.1.4.8 » sous l'INS.
+- « empreinte 1c714dbe4a49… » sur l'ordonnance versée (<code>02-ordonnance-versee-1440.png</code>).</p>
+<p><em>Corriger</em> : les montrer en infobulle ou dans le détail d'audit, pas dans la lecture courante (voir la règle « Voix » de DESIGN.md).</p>
+<p><strong>J2-7 · P2 · Étapes et chemins en trop.</strong>
+- Après « Verser le document », il faut encore « Lancer la lecture » (« jamais lue »).
+- Le bouton d'en-tête « Nouvelle prescription » ouvre la saisie manuelle, alors que la lecture d'ordonnance, plus rapide, est enfouie dans « Ordonnances sources ».</p>
+<p><em>Corriger</em> : lancer la lecture d'office après le versement. Faire de « Nouvelle prescription » un choix entre « Photographier ou verser l'ordonnance (recommandé) » et « Saisir à la main ».</p>
+<p><strong>J2-8 · P2 · La confiance s'affiche sur chaque champ</strong> (« 90 % », « 80 % ») et noie les vraies alertes (« À vérifier · 40 % »). <em>Corriger</em> : n'afficher que les champs sous un seuil.</p>
+<p><strong>J2-9 · P2 · « Fermer le formulaire » est en bouton primaire bleu</strong> (<code>02-nouveau-patient-1440.png</code>). L'accent est réservé à l'action. <em>Corriger</em> : un bouton secondaire, ou « Annuler » en bas du formulaire.</p>
+<h3 id="parcours-3--tournée-au-terminal--710">Parcours 3 — Tournée au terminal · 7/10</h3>
+<p><strong>Ce qui marche</strong>
+- <strong>Enrôlement et code.</strong> L'enrôlement de démonstration est clair, et le bouton désactivé dit ce qui manque (« Il manque 10 caractères », <code>03-terminal-accueil-390.png</code>). Un code trivial est refusé avec sa raison (« Une suite de chiffres se devine », <code>03-terminal-pin-trivial-390.png</code>).
+- <strong>Avant d'arriver.</strong> La feuille réunit l'allergie, les prérequis à confirmer (« Confirmer / Non tenu / Patient prévenu ») et « Prévenir le patient » (<code>03-terminal-lefevre-390.png</code>).
+- <strong>Saisie.</strong> « Il manque : … » fait défiler jusqu'au premier champ vide, et « Brouillon enregistré » s'affiche en tête. La rotation des sites d'injection montre l'historique sur 7 jours et une suggestion (<code>03-terminal-injection-d-390.png</code>).
+- <strong>Signature.</strong> La signature au maintien remplit le bouton ; un appui court ouvre une confirmation, ce qui sert l'accessibilité (<code>03-terminal-signature-maintien-390.png</code>, <code>03-terminal-signature-appui-court-390.png</code>).
+- <strong>Reçu.</strong> Il suit trois états : Sur l'appareil, En attente, Transmis (<code>03-terminal-signature-recu-390.png</code>, <code>03-terminal-recu-transmis-390.png</code>).
+- <strong>Hors connexion.</strong> « En attente sans réseau · L'envoi partira tout seul dès le retour du réseau », puis l'onglet Envois et « Tout est transmis » (<code>03-terminal-horsligne-recu-390.png</code>, <code>03-terminal-horsligne-envois-390.png</code>, <code>03-terminal-envois-apres-reseau-390.png</code>). Le verrou affiche « Tout est transmis ».
+- <strong>Aide-soignante.</strong> Une carte explique son périmètre (<code>03-terminal-ines-accueil-390.png</code>).</p>
+<p><strong>Problèmes</strong></p>
+<p><strong>J3-1 · P1 · Le « Prochain passage » est un domicile déjà fait.</strong>
+- <em>Reproduire</em> : Claire, terminal, Tournée. « Prochain passage : Roussel Jeanne », avec « Passage fait » et « Commencer le passage » (<code>03-terminal-tournee-chargee-390.png</code>), alors que l'itinéraire du terminal coche Roussel « Passage fait » et que le poste fixe la dit « Terminé ». Le compteur indique pourtant « 0 / 27 soin signé ».
+- <em>Corriger</em> : le prochain passage saute les domiciles terminés. « Passage fait » doit dire ce qu'il mesure : « Visite terminée · 0 soin signé » quand l'arrivée et le départ sont signalés sans signature.</p>
+<p><strong>J3-2 · P1 · Les retards diffèrent de ceux du poste fixe.</strong> Voir J1-8 (<code>03-terminal-itineraire-390.png</code>).</p>
+<p><strong>J3-3 · P1 · Accessibilité au lecteur d'écran sur les écrans clés.</strong> Constaté dans l'arbre sémantique Flutter :
+- l'erreur de code (« Une suite de chiffres se devine… ») n'y figure pas : rien n'est annoncé ;
+- la barrière de la feuille « Avant d'arriver » est annoncée « Dismiss », en anglais (localisations Material non françaises) ;
+- les repères de la carte se lisent « 13 », « 12 »… sans nom de patient ;
+- l'état réseau se lit deux fois (« En ligne, En ligne »).</p>
+<p><em>Corriger</em> : <code>SemanticsService.announce</code> ou une région live pour les erreurs ; <code>flutter_localizations</code> avec <code>fr</code> ; une étiquette « Arrêt 3, Lefèvre Jeanne, en route » sur chaque repère ; une seule étiquette pour l'état réseau.</p>
+<p><strong>J3-4 · P2 · Un message contradictoire après le code.</strong> « Aucune tournée sur ce téléphone. Une connexion au réseau est nécessaire pour la charger. » s'affiche à côté de « En ligne », pendant que la précharge tourne d'elle-même (<code>03-terminal-apres-pin-390.png</code>). <em>Corriger</em> : « Chargement de votre tournée… », avec un indicateur. Garder le message de réseau pour le seul cas hors ligne.</p>
+<p><strong>J3-5 · P2 · Pas d'état réseau pendant le passage.</strong> Hors connexion, l'écran de saisie ne montre rien du réseau (seulement « Brouillon enregistré », <code>03-terminal-horsligne-prelevement-390.png</code>) ; on ne l'apprend qu'au reçu. PRODUCT.md demande des « états réseau toujours visibles ». <em>Corriger</em> : une pastille « Hors ligne » dans l'en-tête du passage.</p>
+<p><strong>J3-6 · P2 · Prélèvement : des saisies en trop.</strong>
+- Les examens ne sont pas repris de la prescription : « Glycémie à jeun, bilan lipidique » est pourtant connu du prérequis.
+- Le laboratoire n'est pas prérempli, alors que le dossier indique « Laboratoire Centre ».
+- « À jeun » est redemandé, alors que le prérequis est confirmé.
+- La liste des tubes n'a pas de fluorure, le tube de la glycémie.
+- L'historique « Site de ponction » mêle les sites d'injection sous-cutanée (cuisse, abdomen).</p>
+<p>Captures : <code>03-terminal-horsligne-prelevement-b-390.png</code>, <code>03-terminal-horsligne-prelevement-c-390.png</code>, <code>03-terminal-tube-390.png</code>, <code>03-terminal-manque-suite-390.png</code>.</p>
+<p><em>Corriger</em> : préremplir depuis l'ordonnance, le prérequis et le dossier ; ajouter « Fluorure (gris) » ; filtrer l'historique par voie.</p>
+<p><strong>J3-7 · P2 · L'envoi tarde au retour du réseau.</strong> Il faut une à deux minutes avant « Tout est transmis » ; à +40 s, l'écran affiche encore « 2 en attente · Envoi automatique en cours ». <em>Corriger</em> : lancer la synchronisation sur l'événement de reconnexion, pas au prochain intervalle.</p>
+<p><strong>J3-8 · P2 · Deux styles de sélection dans un même formulaire.</strong> « Faite », « Infirmier » et « Droite du patient » sont en aplat bleu plein ; « RAS » et « Cuisse » sont en teinte avec une coche (<code>03-terminal-injection-e-390.png</code>). <em>Corriger</em> : un seul composant de choix unique.</p>
+<p><strong>J3-9 · P2 · Fiche patient au terminal.</strong>
+- La rubrique « Compteurs et cotation » (« AMI 3 recotée, identique ») et la mention « Recalé sur la grille de l'ordonnance · règle provisoire » chargent l'écran de terrain (<code>03-terminal-fiche-lefevre-390.png</code>).
+- La même allergie sévère est rouge dans la feuille « Avant d'arriver » et ambre dans la fiche.</p>
+<p><em>Corriger</em> : renvoyer la cotation au poste fixe, et donner à l'allergie une seule couleur selon sa gravité.</p>
+<p><strong>J3-10 · P2 · Carte et durées.</strong>
+- Le fond de carte du terminal vient de <code>tile.openstreetmap.org</code>, un tiers, alors que le poste fixe se limite à <code>VITE_CARTE_STYLE</code>.
+- Les durées sont en minutes brutes (« Soins 522 min », « retard d'environ 162 minutes »).</p>
+<p><strong>J3-11 · P2 · Navigation et dock.</strong>
+- « Retour à la tournée » mène à l'onglet Patients quand le passage a été ouvert depuis Patients.
+- Le dock change selon la personne : Claire a « Commencer le passage », Inès « Commencer » et « Y aller ».
+- Le premier chargement prend environ 15 s, sur un écran blanc.</p>
+<p><strong>J3-12 · P2 · « Code oublié ? » est irréversible.</strong> Le lien est placé sous le pavé, dans la zone du pouce. Une fois confirmé, plus rien ne s'ouvre sans un code du poste fixe et le réseau, même après relance (<code>03-terminal-apres-relance-390.png</code>). <em>Corriger</em> : mettre « Annuler » en action par défaut, et laisser quelques minutes pour revenir en arrière tant que rien n'est effacé.</p>
+<p><strong>J3-13 · P2 · Précharge de l'aide-soignante.</strong> Elle appelle des routes réservées à l'infirmier : <code>GET /patients/…/prescriptions-infirmieres</code> et <code>/prelevements/a-prelever</code> répondent 403 dans la console.</p>
+<h3 id="parcours-4--retour-au-cabinet--510">Parcours 4 — Retour au cabinet · 5/10</h3>
+<p><strong>Ce qui marche</strong>
+- <strong>Transmissions.</strong> Elles sont ciblées (DAR) et lisibles, avec les interpellations et les transmissions proposées (<code>04-transmissions-1440.png</code>).
+- <strong>Mention @.</strong> Elle se fait au clavier (<code>aria-activedescendant</code>, Entrée pour choisir, <code>04-mention-saisie-1440.png</code>). Le destinataire voit « @1 » dans sa barre latérale.
+- <strong>Décision sur un signalement.</strong> Trois choix expliqués, et la décision est tracée (<code>04-signalements-liste-1440.png</code>).
+- <strong>« Pourquoi ? ».</strong> Il donne la règle NGAP, le statut et le taux (<code>04-pourquoi-file-1440.png</code>). L'arbitrage se fait sur place (<code>04-arbitrer-1440.png</code>).
+- <strong>Facturation simulée.</strong> « Seul Claire Martin… peut en créer la FSE », puis FSE, Vitale, sécurisation : tout passe (<code>04-a-facturer-1440.png</code>, <code>04-fse-securisee-1440.png</code>).
+- <strong>Dossier de preuve.</strong> Il se lit comme un document officiel : tuiles d'intégrité, « transmis 18 h 52 après le soin » (<code>04-dossier-preuve-1440.png</code>).</p>
+<p><strong>Problèmes</strong></p>
+<p><strong>J4-1 · P0 · « Décider » un signalement mène à une liste vide.</strong>
+- <em>Reproduire</em> : Paul ou Inès, Aujourd'hui, « Signalement de l'aide-soignante », « Décider », vers <code>/signalements?acte=…</code>. L'écran affiche « En attente 1 », puis rien (<code>04-signalement-decider-1440.png</code>, <code>01-ines-decider-signalement-1440.png</code>).
+- <em>Cause</em> : <code>web/src/pages/Signalements.tsx:55</code> ajoute la classe <code>focus</code> à la ligne ciblée, et <code>web/src/styles.css:1219</code>, qui définit <code>.focus</code> pour le panneau d'aperçu (<code>position: fixed</code>, <code>visibility: hidden</code>, <code>opacity: 0</code>, 420 px à droite), la cache.
+- <em>Corriger</em> : renommer en <code>.sig-ligne.cible</code> (<code>styles.css:1041</code>), ou limiter le style du panneau à <code>#panneau-focus</code>. Faire défiler jusqu'à la ligne et lui donner le focus.</p>
+<p><strong>J4-2 · P1 · Trois décomptes de cotations provisoires.</strong>
+- <em>Reproduire</em> : Aujourd'hui annonce « 137 cotations provisoires à vérifier » ; Preuves, « 137 cotations provisoires » ; Facturation, File de contrôle, « Provisoires · 37 ». « Voir les cotations » ouvre <code>/preuves</code>, avec ses 209 actes non filtrés.
+- <em>Corriger</em> : une seule définition (ce qui reste à contrôler avant facturation), et que le lien ouvre la file filtrée « Provisoires ».</p>
+<p><strong>J4-3 · P1 · Libellés techniques ou non traduits.</strong>
+- <code>/preuves</code>, en-tête et colonne Intégrité : « 17 cotations confirmees · 1 cotation controle · 137 cotations provisoires · 54 cotations sans objets » (<code>04-preuves-libelles-techniques-1440.png</code>). Cause : <code>web/src/pages/Preuves.tsx:33</code>, <code>libelle(s)</code> puis « s ».
+- Le tableau des passages de la plaie affiche « AMI 2,02 à 50 % · confirmee » et « AMI 2,02 écartée · confirmee ».
+- Le dossier de preuve, le simulateur et la FSE affichent « Statut : confirmee · moteur demo-0.4 · référentiel tabsante-ngap-demo@2026.1 · tarifs tarifs_demo@initiale » et « Adaptateur factice-0.2 ».
+- Les notifications affichent « Document recu mssante ».</p>
+<p><em>Corriger</em> : une table de libellés pour les statuts (confirmée, à contrôler, provisoire, sans objet), avec de vrais pluriels ; versions et adaptateurs en infobulle d'audit ; « Document reçu par MSSanté ».</p>
+<p><strong>J4-5 · P2 · Signalement : décider oblige à quitter l'écran.</strong>
+- <em>Reproduire</em> : la décision « Objet suivi ouvert » ne propose que les objets existants (escarre sacrée, gastrostomie). Pour une rougeur du talon gauche, il faut quitter l'écran et ouvrir la plaie ailleurs (<code>04-signalement-objet-1440.png</code>).
+- Après « Enregistrer la décision », la ligne disparaît sans confirmation.
+- <em>Corriger</em> : ajouter « Ouvrir une plaie à cet endroit » dans la décision, et confirmer (« Décision tracée : surveillance renforcée »).</p>
+<p><strong>J4-6 · P2 · Arbitrage.</strong> Les deux « Pourquoi ? » (à la signature, puis par le moteur) se lisent séparément, et la cause de l'écart (taux de 50 % pour un cumul au même passage) n'est jamais dite en une phrase au moment de décider. « Confirmer la cotation » est présélectionné (<code>04-arbitrer-1440.png</code>). <em>Corriger</em> : une ligne « Écart : le moteur applique 50 % (2e acte du même passage, art. 11B) », et aucun choix par défaut.</p>
+<p><strong>J4-7 · P2 · FSE.</strong> Elle est créée d'un clic sans récapitulatif. Une fois sécurisée, elle reste « hors lot », sans étape suivante proposée (<code>04-fse-securisee-1440.png</code>). <em>Corriger</em> : un récapitulatif avant création, puis « Ajouter au lot du jour ».</p>
+<p><strong>J4-8 · P2 · File de contrôle.</strong>
+- 38 lignes sans regroupement ni pagination ; la colonne mesure 815 % de la hauteur de l'écran (détecteur).
+- Chaque ligne répète « Provisoire / Cotation provisoire » et le code sous « Pourquoi ? ».
+- Les liens « Voir la preuve » font 20 px de haut, sous les 24 px minimum (<code>04-facturation-file-1440.png</code>).</p>
+<p><em>Corriger</em> : regrouper par patient, puis par jour ; un seul libellé d'état ; une zone d'appui de 44 px, comme le prévoit DESIGN.md.</p>
+<p><strong>J4-9 · P2 · Transmissions proposées.</strong>
+- « Événement critique : malaise » (appel au 15) a le même rang que « Jours sans selles ».
+- Les libellés générés sont maladroits : « humeur absent → modéré », « Jours sans selles : 3 jours sans selles relevées au 13/10/2026 ».</p>
+<p><em>Corriger</em> : l'événement critique en tête, en couleur critique, et des libellés rédigés.</p>
+<p><strong>J4-10 · P2 · Fil d'Ariane de la preuve.</strong> Ouvert depuis une FSE, le dossier de preuve ramène à « Escarre · Dupuis Roger », pas à la FSE. <em>Corriger</em> : revenir à l'écran d'origine. Au passage, une escarre de stade 3 est cotée « Pansement simple (démo) AMX 2,02 » : à vérifier dans le moteur.</p>
+<h3 id="parcours-5--absence-dune-infirmière--510">Parcours 5 — Absence d'une infirmière · 5/10</h3>
+<p><strong>Ce qui marche</strong>
+- L'absence se déclare sur place. Le motif reste confidentiel, et c'est expliqué (<code>05-declarer-absence-1440.png</code>).
+- Le planning marque aussitôt les deux matinées « Maladie · À couvrir » en rouge, avec « À couvrir cette semaine » et deux propositions en un clic (<code>05-planning-a-couvrir-1440.png</code>).
+- La confirmation verte « confié à Lucie Vidal » s'affiche, et le dossier patient montre ensuite « Demain matin · Passage prévu · Lucie Vidal ».</p>
+<p><strong>Problèmes</strong></p>
+<p><strong>J5-1 · P1 · L'alerte de formation est avalée.</strong>
+- <em>Reproduire</em> : Paul, Tournées, absence de Claire les 17 et 18, puis « Confier à Lucie Vidal (remplaçant) ». <code>POST /attributions/…/reattribution</code> renvoie <code>avertissements: [« Prise en charge spécialisée post-hospitalisation IC / BPCO (art. 5 ter) », soins SEANCE_PARCOURS]</code>, mais l'écran n'affiche que « confié à Lucie Vidal » (<code>05-confier-lucie-1440.png</code>).
+- <em>Cause</em> : <code>web/src/pages/Planning.tsx:131</code> (<code>onSuccess</code>) ignore <code>avertissements</code>, alors que l'échange (<code>Planning.tsx:282</code>) et l'attribution (<code>Tournees.tsx:194</code>) les affichent.
+- <em>Corriger</em> : montrer l'avertissement, et mieux, l'annoncer avant le clic sur la proposition (« Lucie : formation IC/BPCO absente, 3 séances concernées »).</p>
+<p><strong>J5-2 · P1 · Le choix se fait sans la charge.</strong> « Confier à Paul Durand » est l'action primaire, sans dire que Paul tient déjà le soir et la nuit ces deux jours, ni rappeler les 51 soins ; Lucie n'est qu'en secondaire. <em>Corriger</em> : pour chaque proposition, dire la charge du jour (moments déjà tenus, nombre de soins) et les formations manquantes ; mettre en primaire la proposition la plus sûre.</p>
+<p><strong>J5-3 · P1 · La remplaçante n'est pas prévenue et son poste fixe est vide.</strong>
+- <em>Reproduire</em> : Lucie se connecte.
+  - Aucune notification « Vous remplacez Claire Martin, matin du 17 au 18 » (<code>05-notifications-lucie-1440.png</code>).
+  - Sur Aujourd'hui, la console affiche <strong>3 × 403</strong> (<code>GET /plaies?statut=ouverte</code>, <code>/compteurs</code>, <code>/tableau-de-bord</code>).
+  - « À traiter 2 » ne montre que « Vue du cabinet hors de la portée de votre remplacement ».
+  - Le sous-titre de date est vide, et la barre latérale n'a aucun compteur (<code>05-aujourdhui-lucie-1440.png</code>).
+- <em>Corriger</em> :
+  - notifier la réattribution ;
+  - côté serveur, des lectures limitées à la portée du remplacement plutôt que des 403 ;
+  - côté web, ne pas appeler ces routes pour ce profil ;
+  - un « À traiter » propre à la remplaçante (« Demain matin : 51 soins, 3 prérequis à confirmer ») et la ligne de date.</p>
+<p><strong>J5-4 · P2 · L'échange en attente devient incohérent.</strong>
+- La déclaration d'absence ne dit pas ses conséquences (« 2 matinées à couvrir ») à l'endroit où on la fait.
+- L'échange proposé de Claire à Paul pour le 17 au matin reste « Proposé » sur une case désormais tenue par Lucie.</p>
+<p><em>Corriger</em> : afficher la conséquence sous le bouton « Déclarer », et annuler ou signaler l'échange devenu sans objet.</p>
+<p><strong>J5-5 · P2 · Le titre reste alarmant.</strong> « À couvrir cette semaine » garde son titre rouge alors que tout est couvert. <em>Corriger</em> : passer au neutre (« Tout est couvert »).</p>
+<h3 id="parcours-6--patient-complexe--710">Parcours 6 — Patient complexe · 7/10</h3>
+<p><strong>Ce qui marche</strong>
+- L'en-tête d'identité porte des pastilles parlantes : allergie, INS, DMP, Vitale, chimiothérapie, prescripteur. « À savoir avant le soin » réunit la divergence à trancher et l'identité provisoire (<code>06-dossier-bernard-1440.png</code>).
+- La frise de soins et les petits multiples des constantes sont lisibles.
+- La plaie montre « En amélioration », une courbe avec repère J0, la comparaison photo J0/J+5 et un lien vers la preuve de chaque passage (<code>06-plaie-photos-1440.png</code>). Le principe « montrer le progrès » est tenu.
+- Les bilans sont prérédigés phrase par phrase, chaque phrase avec ses sources (<code>06-bilan-editeur-1440.png</code>). Le renouvellement programme sa relance (<code>06-renouvellement-envoi-1440.png</code>). Parcours et contextes sont bien présentés (<code>06-parcours-1440.png</code>).</p>
+<p><strong>Problèmes</strong></p>
+<p><strong>J6-1 · P1 · L'alerte de sécurité manque au dossier.</strong> « Ligne encore posée au-delà du prescrit · Olimel N7 · 14 h 14 sur 12 h » ne figure que dans « Aujourd'hui ». Ni « À savoir avant le soin » ni l'aperçu de Bernard ne la citent (<code>06-dossier-bernard-1440.png</code>, <code>01-apercu-patient-1440.png</code>). <em>Corriger</em> : alimenter « À savoir avant le soin » et l'aperçu à partir des mêmes alertes de dispositif.</p>
+<p><strong>J6-2 · P2 · Bilan : des sources trop présentes.</strong> Chaque phrase est suivie de six liens et de « + 1 autre source » (<code>06-bilan-editeur-1440.png</code>). <em>Corriger</em> : « 7 passages · voir les sources », dépliable.</p>
+<p><strong>J6-3 · P2 · Résumés lus au lecteur d'écran.</strong> Exemples dans la frise : « Perfusion IV : 14 passages signés du 9 oct. au 15 oct.. » et « Dr Leroy, le 9 oct.. ». L'abréviation est suivie d'un second point. <em>Corriger</em> : retirer le point final quand la phrase finit par une abréviation.</p>
+<p><strong>J6-4 · P2 · En 390 px, des coupes sans indice.</strong>
+- Les pastilles d'identité et les onglets sont coupés (« INS p… », « Coor… ») sans indice de défilement (<code>06-dossier-bernard-390.png</code>).
+- Facturation empile deux bandeaux de démonstration (<code>04-facturation-390.png</code>).
+- « 4 photos · comparer » mesure 16 px de haut.</p>
+<p><em>Corriger</em> : un dégradé de bord pour signaler le défilement, un seul bandeau de démonstration, une zone d'appui de 44 px.</p>
+<p><strong>J6-5 · P2 · La navigation ment sur la position.</strong> Depuis le dossier, la fiche plaie active « Plaies » dans la barre latérale, alors que le fil d'Ariane dit « Patients › Bernard Louis › Ulcère ». Les descriptions de « Plaies en cours » sont coupées par une ellipse qui masque la localisation (détecteur, 1440 et 390). <em>Corriger</em> : garder « Patients » actif, et passer les descriptions sur deux lignes.</p>
+<p><strong>J6-6 · P2 · Jargon.</strong> Exemple : « Bilan annuel de plaie dû … tracé, non facturant avant le 01/01/2027 ». <em>Corriger</em> : « Bilan annuel à rédiger · facturable à partir du 1er janvier 2027 ».</p>
+<p><strong>J6-7 · P1 · Le courrier de renouvellement part d'un clic, non relu.</strong>
+- <em>Reproduire</em> : Claire, dossier de Bernard, Prescriptions, Renouvellements. La ligne indique « Courrier pré-rempli, à relire puis envoyer » ; « Envoyer au prescripteur » répond 200 (<code>statut: envoyee</code>) aussitôt, sans relecture ni confirmation, et Bilans le montre toujours « Pré-rédigé, non relu » (<code>06-renouvellements-dossier-1440.png</code>, <code>06-renouvellement-envoi-1440.png</code>).
+- <em>Corriger</em> : « Envoyer » ouvre le courrier avec « Envoyer à Dr Marchand (fictif) » en pied, ou demande un récapitulatif (destinataire, ordonnance, courrier non modifié).</p>
+<h3 id="parcours-7--administration--610">Parcours 7 — Administration · 6/10</h3>
+<p><strong>Ce qui marche</strong>
+- Les paramètres sont rangés en onglets. Les durées types sont comparées à l'observé sur les passages (« 28 min sur 17 passages », <code>07-parametres-1440.png</code>).
+- Les formations viennent d'un catalogue, avec des explications (<code>07-equipe-1440.png</code>). Les simulations se règlent service par service (<code>07-simulations-1440.png</code>).
+- Le banc de cotation est chiffré (151 conformes, 0 écart, <code>07-banc-1440.png</code>).
+- La reprise de dossiers fait un aperçu à blanc (« rien n'est créé ») et reconnaît ce qui est déjà repris (<code>07-reprise-apercu-1440.png</code>).
+- La révocation d'un terminal est expliquée.</p>
+<p><strong>Problèmes</strong></p>
+<p><strong>J7-1 · P2 · Terminaux.</strong>
+- Chaque connexion du navigateur crée un « terminal » nommé <code>poste-fixe-3435b4f0 (développement)</code>, ou par un UUID : sept lignes en une matinée (<code>07-terminaux-1440.png</code>).
+- « Émettre un code », la tâche principale, est rangé dans une colonne à part.
+- « Téléphone d'Inès : Dernière connexion — aucune », alors que « Aujourd'hui » annonce « dernière synchronisation à 8 h 11 ».</p>
+<p><em>Corriger</em> : ne pas lister les sessions du navigateur comme des terminaux, donner des noms lisibles, et lire la synchronisation à une seule source.</p>
+<p><strong>J7-2 · P2 · Reprise de dossiers.</strong>
+- Choisir « Export Carea (JSON) » puis « Charger l'exemple » remet le format sur « Fichier complet (JSON) » et charge l'exemple générique.
+- « 2 passage(s), 0 transmission(s) » : la voix proscrit les pluriels « (s) ».
+- « Albertine Roux » et « Roux Albertine » se côtoient dans le même aperçu.</p>
+<p><em>Corriger</em> : garder le format choisi et charger son propre exemple, accorder les pluriels, écrire les noms en « NOM Prénom ».</p>
+<p><strong>J7-3 · P2 · Notes internes visibles.</strong> Exemples : « Carte CPS réelle et Pro Santé Connect à brancher », « l'arbitrage attend TABSANTE », « Carea (produit antérieur du fondateur, reprise autorisée) », « Adaptateur cps-simulee-0.1 ». <em>Corriger</em> : les réserver à la documentation ou au journal d'audit.</p>
+<p><strong>J7-4 · P2 · Temps perçus</strong> (serveur de développement). Banc de cotation environ 10 s, Terminaux environ 8 s, Paramètres environ 7 s avant le contenu. <em>Corriger</em> : squelettes par section, et mise en cache du dernier rapport du banc.</p>
+<hr />
+<h2 id="3-transversal">3. Transversal</h2>
+<p><strong>Erreurs de console et réponses HTTP</strong> (hors injections de l'antivirus)</p>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Écran</th>
+<th>Erreur</th>
+<th>Constat</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Aujourd'hui · Lucie</td>
+<td>403 sur <code>/plaies?statut=ouverte</code>, <code>/compteurs</code>, <code>/tableau-de-bord</code></td>
+<td>J5-3</td>
+</tr>
+<tr>
+<td>Terminal · Inès</td>
+<td>403 sur <code>/patients/…/prescriptions-infirmieres</code>, <code>/prelevements/a-prelever</code></td>
+<td>J3-13</td>
+</tr>
+<tr>
+<td>Aujourd'hui · Paul</td>
+<td>403 « Vous n'êtes pas attribué… » sur la non-réalisation</td>
+<td>J1-2</td>
+</tr>
+<tr>
+<td>Toutes les pages du poste fixe</td>
+<td><code>GET /evenements net::ERR_ABORTED</code> à chaque navigation : flux d'événements coupé au démontage, bénin, mais bruit à fermer proprement</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Itinéraire 390 px</td>
+<td>MapLibre : « Expected value to be of type number, but found null » ×3 (expression de style sur une valeur nulle)</td>
+<td>J1-11</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Temps perçus</strong> (Vite de développement, ordres de grandeur)</p>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Étape</th>
+<th>Temps</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Connexion → Aujourd'hui prêt</td>
+<td>8 s</td>
+</tr>
+<tr>
+<td>Tournées</td>
+<td>7 s</td>
+</tr>
+<tr>
+<td>Carte prête</td>
+<td>12,5 s</td>
+</tr>
+<tr>
+<td>Transmissions</td>
+<td>9 s</td>
+</tr>
+<tr>
+<td>Facturation</td>
+<td>10 s</td>
+</tr>
+<tr>
+<td>Création du patient</td>
+<td>5 s</td>
+</tr>
+<tr>
+<td>Lecture d'ordonnance</td>
+<td>6 s</td>
+</tr>
+<tr>
+<td>Terminal, premier affichage</td>
+<td>15 s</td>
+</tr>
+<tr>
+<td>Terminal, synchronisation après retour du réseau</td>
+<td>1 à 2 min</td>
+</tr>
+<tr>
+<td><code>POST /dev/demo</code>, premier semis</td>
+<td>44 s</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Accessibilité</strong>
+- <em>Poste fixe</em> : lien d'évitement présent, focus visible, structure titres, listes et boutons nommés propre sur « À traiter », aucun contraste mesuré sous 4,5:1. Restent les cibles de moins de 24 px (« Voir la preuve », « 4 photos · comparer », « Simulations ») et le focus perdu par « Ajouter » (J2-5).
+- <em>Terminal</em> : voir J3-3.</p>
+<p><strong>Débordements en 390 px.</strong> La navigation de 394 px fait défiler toutes les pages de 4 px à l'horizontale (J1-5). Les pastilles et onglets sont coupés sans indice (J6-4).</p>
+<p><strong>Cohérence entre poste fixe et terminal</strong>
+- les retards et les heures de fin (J1-8) ;
+- le prochain passage (J3-1) ;
+- le périmètre du rôle de l'aide-soignante (J1-4) ;
+- les libellés de métier (J1-12) ;
+- « Liaisons 36 » au terminal contre « Transmissions 8 + Notifications 28 » au poste fixe, même total sous deux noms ;
+- la couleur de l'allergie (J3-9) ;
+- le fournisseur de tuiles (J3-10).</p>
+<h2 id="4-détecteur-impeccable-évaluation-b">4. Détecteur <code>impeccable</code> (évaluation B)</h2>
+<p><strong>Analyse statique.</strong> <code>impeccable detect --json web/src</code> ne trouve rien. Les composants TSX ne lui donnent pas de balisage exploitable.</p>
+<p><strong>Analyse par adresse.</strong> <code>detect --viewport 1440x900|390x844 &lt;url&gt;</code> a échoué huit fois sur un délai de navigation de 30 s : le flux <code>/evenements</code> et le module de rechargement de Vite gardent la page ouverte.</p>
+<p><strong>Script <code>detect.js</code> injecté dans la page</strong> (serveur <code>live-server</code> ouvert puis arrêté, aucune balise injectée dans les fichiers) :</p>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Page</th>
+<th>Constats</th>
+<th>Lecture</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Aujourd'hui 1440 / 390</td>
+<td>4 <code>text-overflow</code></td>
+<td>Réels : ellipse sur les descriptions de plaies (localisation masquée, J6-5) et le nom du cabinet.</td>
+</tr>
+<tr>
+<td>Facturation 1440</td>
+<td>236 <code>text-overflow</code></td>
+<td>En grande partie des <strong>faux positifs</strong> (contenu des <code>&lt;details&gt;</code> « Pourquoi ? » fermés).</td>
+</tr>
+<tr>
+<td>Facturation 1440</td>
+<td>39 <code>nested-cards</code></td>
+<td>Panneau « Pourquoi ? » dans la carte de ligne : réel, mineur.</td>
+</tr>
+<tr>
+<td>Facturation 1440</td>
+<td>3 <code>text-occlusion</code></td>
+<td>Puces de code sur les <code>dt</code> d'un « Pourquoi ? » : à vérifier, probablement les <code>&lt;details&gt;</code> fermés.</td>
+</tr>
+<tr>
+<td>Facturation 1440</td>
+<td>1 <code>first-viewport-column-overflow</code></td>
+<td>Réel : file non paginée (J4-8).</td>
+</tr>
+<tr>
+<td>Itinéraire 1440</td>
+<td>3 <code>cramped-padding</code>, 1 <code>nested-cards</code>, 1 <code>line-length</code></td>
+<td>Les deux premiers sur l'attribution et la bulle MapLibre (<strong>faux positifs</strong>, tiers). La longueur de ligne vient d'une aide d'environ 100 caractères.</td>
+</tr>
+<tr>
+<td>Dossier Bernard 1440 / 390</td>
+<td>1 / 0</td>
+<td>Seul le nom du cabinet tronqué.</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Accord avec la revue.</strong> Le détecteur confirme J4-8 et J6-5. Il ne voit rien des problèmes de parcours (droits, impasse CSS, compteurs, données), qui ne se révèlent qu'en jouant le parcours.</p>
+<hr />
+<h2 id="5-lots-de-correction-parallélisables">5. Lots de correction parallélisables</h2>
+<p>Les lots sont regroupés par zone de code. Ceux d'une même ligne ne touchent pas les mêmes fichiers et peuvent avancer en parallèle. Les dépendances sont signalées.</p>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Lot</th>
+<th>Zone de code</th>
+<th>Constats</th>
+<th>Taille</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>A · « À traiter » et compteurs</strong></td>
+<td><code>web/src/suivi.ts</code>, <code>web/src/pages/Aujourdhui.tsx</code>, <code>backend/app/domaines/tableau_de_bord.py</code>, route <code>/compteurs</code></td>
+<td>J1-1, J1-3, J1-6, J4-2 (un seul décompte, lien filtré), J1-4 côté web (filtre par rôle), J5-3 côté web (date, pas d'appel interdit)</td>
+<td>M</td>
+</tr>
+<tr>
+<td><strong>B · Droits et rôles côté serveur</strong></td>
+<td>règle PAN-RG-05 (non-réalisation), lectures de la remplaçante, précharge de l'aide-soignante</td>
+<td>J1-4 (P0), J1-2 (message avec « qui peut »), J5-3 (lectures limitées au lieu de 403), J3-13</td>
+<td>M · à faire avant ou avec A</td>
+</tr>
+<tr>
+<td><strong>C · Signalements</strong></td>
+<td><code>web/src/pages/Signalements.tsx</code>, <code>web/src/styles.css</code> (<code>.focus</code>, <code>.sig-ligne</code>)</td>
+<td>J4-1 (P0, renommer la classe), J4-5 (ouvrir une plaie depuis la décision, confirmation)</td>
+<td>S</td>
+</tr>
+<tr>
+<td><strong>D · Lecture d'ordonnance et nouveau patient</strong></td>
+<td>lecture d'ordonnance (<code>/lectures/:id</code>), formulaire « Nouveau patient » (<code>Patients.tsx</code>), versement d'ordonnance</td>
+<td>J2-1 (P0, garde patient), J2-2 (ordonnance échue, bornes), J2-4 (adresse obligatoire), J2-5, J2-7, J2-8, J2-9</td>
+<td>M</td>
+</tr>
+<tr>
+<td><strong>D2 · Identité INS</strong></td>
+<td><code>Identite.tsx</code> et domaine identité côté serveur</td>
+<td>J2-3 (récupérée puis qualifiée après pièce), J2-6 (OID, SNOMED en infobulle)</td>
+<td>M</td>
+</tr>
+<tr>
+<td><strong>E · Planning et absences</strong></td>
+<td><code>web/src/pages/Planning.tsx</code>, <code>Tournees.tsx</code>, notifications côté serveur</td>
+<td>J5-1, J5-2, J5-4, J5-5, notification de réattribution (J5-3)</td>
+<td>M</td>
+</tr>
+<tr>
+<td><strong>F · Itinéraire et retards</strong></td>
+<td>estimation côté serveur (une seule référence de retard, débordement du moment), <code>pages/Itineraire.tsx</code>, <code>Regulation.tsx</code>, <code>PreparationTournee.tsx</code>, <code>carte.tsx</code>, itinéraire du terminal</td>
+<td>J1-8, J3-2, J1-9 (format des messages du serveur), J1-10, J1-11, J3-10</td>
+<td>L · le serveur d'abord, puis web et terminal en parallèle</td>
+</tr>
+<tr>
+<td><strong>G · Libellés et formats</strong></td>
+<td><code>web/src/pages/Preuves.tsx</code>, <code>format.ts</code> (<code>libelle</code>), <code>tracabilite.tsx</code>, <code>DossierPreuve.tsx</code>, <code>Simulateur.tsx</code>, <code>Notifications.tsx</code>, <code>Connexion.tsx</code>, chaînes du serveur</td>
+<td>J4-3, J1-12, J6-3, J6-6, J7-2 (pluriels, ordre des noms), J7-3</td>
+<td>M</td>
+</tr>
+<tr>
+<td><strong>H · Terminal : accueil et passage</strong></td>
+<td><code>mobile/lib/ecrans/</code> (accueil, fiche, prélèvement, session, verrou), synchronisation</td>
+<td>J3-1, J3-4, J3-5, J3-6, J3-7, J3-8, J3-9, J3-11, J3-12</td>
+<td>L</td>
+</tr>
+<tr>
+<td><strong>I · Terminal : accessibilité</strong></td>
+<td><code>mobile/lib/main.dart</code> (localisations <code>fr</code>), <code>charte.dart</code>, écrans du code et de la carte</td>
+<td>J3-3</td>
+<td>S · <code>charte.dart</code> est partagé avec H : livrer I d'abord ou se coordonner</td>
+</tr>
+<tr>
+<td><strong>J · Responsive 390 px du poste fixe</strong></td>
+<td>coquille et barre latérale dans <code>web/src/styles.css</code>, bandeau de démonstration, cibles</td>
+<td>J1-5, J6-4, J4-8 (zones d'appui), J1-7</td>
+<td>M · touche <code>styles.css</code> comme C : sections distinctes</td>
+</tr>
+<tr>
+<td><strong>K · Facturation et renouvellements</strong></td>
+<td><code>Facturation.tsx</code> (file, arbitrage, FSE), <code>Renouvellements.tsx</code> et renouvellements du dossier, fil d'Ariane de la preuve</td>
+<td>J6-7 (P1), J4-6, J4-7, J4-8 (regroupement), J4-10</td>
+<td>M</td>
+</tr>
+<tr>
+<td><strong>L · Administration</strong></td>
+<td><code>Terminaux.tsx</code>, reprise (<code>PageReprise</code>), <code>Parametres.tsx</code></td>
+<td>J7-1, J7-2 (format conservé), J7-4</td>
+<td>S</td>
+</tr>
+<tr>
+<td><strong>M · Dossier patient</strong></td>
+<td><code>SyntheseC.tsx</code>, <code>focus.tsx</code> (aperçu), éditeur de bilan, barre latérale active</td>
+<td>J6-1 (P1), J6-2, J6-5</td>
+<td>S</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Ordre conseillé.</strong>
+1. Les P0, en parallèle : B et A pour J1-4, C, et D pour J2-1.
+2. Les P1 : A, E, F (côté serveur), D2, G, K, M.
+3. Les finitions : H, I, J, L.</p>
+<hr />
+<h2 id="6-questions-à-trancher">6. Questions à trancher</h2>
+<ol>
+<li><strong>Rôle de l'aide-soignante au poste fixe.</strong> Doit-elle voir les passages infirmiers non réalisés, même en lecture seule ? Le terminal dit non ; le poste fixe dit oui et la laisse agir.</li>
+<li><strong>Définition du « retard ».</strong> Écart à l'heure prescrite, ou à l'heure prévue par l'ordre de passage ? Les deux clients ont fait un choix différent.</li>
+<li><strong>Qualification de l'INS.</strong> Faut-il ajouter l'étape « vérifiée sur pièce » demandée par le RNIV, ou la simulation de démonstration suffit-elle jusqu'au branchement réel ?</li>
+<li><strong>Liste « À traiter ».</strong> Trier par gravité clinique, ou ajouter à la colonne un filtre « Sécurité » à côté de « Soins » et « Facturation » ?</li>
+</ol>
+</main>
+</body>
+</html>

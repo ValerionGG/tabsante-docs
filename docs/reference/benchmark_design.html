@@ -1,0 +1,1026 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Benchmark design UI/UX — TabSanté V2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{--bg:#F4F6FA;--surface:#FFFFFF;--surface-2:#EEF2FB;--fg:#141A2E;--fg-2:#4A5372;--ligne:#DDE3EF;
+--accent:#2F5BEA;--accent-fg:#FFFFFF;--accent-doux:#E6ECFD;--attention:#8A5A00;--attention-fond:#FFF4DC;
+--code-fond:#F1F3F8;--police:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+--police-code:"JetBrains Mono",ui-monospace,"Cascadia Code",Consolas,monospace;--rayon:10px;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0E1220;--surface:#151A2B;--surface-2:#1C2338;
+--fg:#E8ECF7;--fg-2:#A3ACC6;--ligne:#2A3250;--accent:#7C9BFF;--accent-fg:#0E1220;--accent-doux:#1E2950;
+--attention:#F2C25B;--attention-fond:#33290F;--code-fond:#10152A;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0E1220;--surface:#151A2B;--surface-2:#1C2338;--fg:#E8ECF7;--fg-2:#A3ACC6;--ligne:#2A3250;
+--accent:#7C9BFF;--accent-fg:#0E1220;--accent-doux:#1E2950;--attention:#F2C25B;--attention-fond:#33290F;--code-fond:#10152A;color-scheme:dark}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--police);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}
+.entete{background:var(--surface);border-bottom:1px solid var(--ligne)}
+.entete div{max-width:calc(80ch + 32px);margin:0 auto;padding:12px 16px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.entete b{font-weight:600}
+.entete a{color:var(--accent);text-decoration:none;font-weight:500}
+.entete a:hover{text-decoration:underline}
+main{max-width:calc(80ch + 32px);margin:0 auto;padding:24px 16px 64px;overflow-wrap:break-word}
+.chemin{font-family:var(--police-code);font-size:12px;color:var(--fg-2);margin:0 0 8px}
+h1{font-size:28px;line-height:1.25;margin:0 0 16px}
+h2{font-size:21px;line-height:1.3;margin:36px 0 12px;padding-top:12px;border-top:1px solid var(--ligne)}
+h3{font-size:17px;margin:28px 0 8px}h4,h5,h6{font-size:15px;margin:20px 0 6px}
+a{color:var(--accent)}
+p,li{max-width:80ch}
+code{font-family:var(--police-code);font-size:.88em;background:var(--code-fond);border:1px solid var(--ligne);border-radius:5px;padding:0 4px;overflow-wrap:anywhere}
+pre{background:var(--code-fond);border:1px solid var(--ligne);border-radius:var(--rayon);padding:14px 16px;overflow-x:auto;font-size:13px;line-height:1.55}
+pre code{background:none;border:0;padding:0;font-size:inherit;overflow-wrap:normal}
+.tableau{overflow-x:auto;margin:16px 0;border:1px solid var(--ligne);border-radius:var(--rayon);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:13.5px;line-height:1.5}
+th,td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--ligne);min-width:8ch}
+th{background:var(--surface-2);font-weight:600}
+tr:last-child td{border-bottom:0}
+blockquote{margin:16px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-doux);border-radius:0 var(--rayon) var(--rayon) 0}
+hr{border:0;border-top:1px solid var(--ligne);margin:28px 0}
+img{max-width:100%}
+.non-publie{font-size:13px;color:var(--attention);background:var(--attention-fond);padding:1px 6px;border-radius:5px}
+details.sommaire{background:var(--surface);border:1px solid var(--ligne);border-radius:var(--rayon);padding:10px 16px;margin:0 0 24px}
+details.sommaire summary{cursor:pointer;font-weight:600}
+details.sommaire ul{padding-left:20px;margin:8px 0 0}
+.admonition{border:1px solid var(--ligne);border-radius:var(--rayon);padding:8px 16px;background:var(--surface)}
+.admonition-title{font-weight:600}
+</style>
+</head>
+<body>
+<header class="entete"><div><b>TabSanté — documents</b><a href="../../">← Retour au portail</a></div></header>
+<main>
+<p class="chemin">docs/reference/benchmark_design.html</p>
+<h1 id="benchmark-design-uiux--tabsanté-v2">Benchmark design UI/UX — TabSanté V2</h1>
+<details class="sommaire"><summary>Sommaire</summary><ul><li><a href="#0-synthèse-exécutive-10-points">0. Synthèse exécutive (10 points)</a></li><li><a href="#1-carte-de-maturité-design-a">1. Carte de maturité design (a)</a></li><li><a href="#2-fiches-design--lgc-idel-français">2. Fiches design — LGC IDEL français</a></li><li><a href="#3-apps-plaies--la-référence-de-la-rigueur-visuelle">3. Apps plaies — la référence de la rigueur visuelle</a></li><li><a href="#4-références-internationales-et-systèmes-de-design">4. Références internationales et systèmes de design</a></li><li><a href="#5-principes-et-patterns-pour-tabsanté-b">5. Principes et patterns pour TabSanté (b)</a></li><li><a href="#6-direction-visuelle-proposée-c--dans-la-charte-c17">6. Direction visuelle proposée (c) — dans la charte C17</a></li><li><a href="#7-anti-patterns-à-éviter-d">7. Anti-patterns à éviter (d)</a></li><li><a href="#8-top-10-des-améliorations-design-priorisées-e">8. Top 10 des améliorations design priorisées (e)</a></li><li><a href="#9-sources">9. Sources</a></li></ul></details>
+<p><strong>« La plateforme de soins qui facture sur preuve » — langage visuel, hiérarchie, navigation, saisie, preuve</strong>
+Recherche web réalisée le 2 octobre 2026. Complète <code>benchmark_tabsante.md</code> (benchmark fonctionnel) : ici, on ne parle que de <strong>design</strong> — langage visuel, hiérarchie de l'information, navigation, densité, typographie, couleur, iconographie, data-viz, formulaires, états vides / erreur / hors ligne, confiance, accessibilité, mouvement et ton.</p>
+<blockquote>
+<p><strong>Légende fiabilité</strong>
+- ✅ <strong>vu</strong> = captures d'écran de l'app regardées directement (pages App Store affichées dans un navigateur, sans téléchargement) ou page officielle lue
+- 🔶 = source secondaire (comparatif, presse, blog éditeur, agrégateur) : à recouper
+- ⚠️ NV = non vérifié visuellement (aucune capture produit consultable) : jugement par déduction</p>
+<p><strong>Méthode.</strong> Pour chaque produit : page App Store (captures + avis + notes de version), site éditeur (pages fonctionnalités, textes alternatifs des images), polices et couleurs dominantes extraites du code HTML public des sites, forums infirmiers. Les captures App Store sont des <strong>visuels marketing</strong> : elles montrent ce que l'éditeur veut montrer, souvent une version plus ancienne ou idéalisée. Aucune démo ni essai n'a été fait.</p>
+<p><strong>Citations.</strong> Les avis d'utilisateurs sont <strong>paraphrasés</strong> (avec lien) plutôt que recopiés ; les libellés d'interface cités entre guillemets sont de courts textes d'écran.</p>
+<p><strong>Contraintes TabSanté rappelées</strong> (cf. <code>composants_communs_v1.8.txt</code>) : charte <strong>C17</strong> (chrome #DCEBEA / texte #0E4746, page crème #FAF8F4, champs #FFFFFF, signal #FAEBD2 / #6B4E12, acquis #E4EFE7 / #1F5738, action #1F6FB2, critique #A62B38, rampe ambre #FBF0DE · #F2DDB8 · #E3C286 · #CFA254, la couleur ne porte jamais seule l'information) ; <strong>C18</strong> schéma corporel unique ; <strong>C19</strong> barre du bas réservée à ce qui termine le passage, un seul bouton plein par écran, bouton inactif qui dit ce qui manque.</p>
+</blockquote>
+<hr />
+<h2 id="0-synthèse-exécutive-10-points">0. Synthèse exécutive (10 points)</h2>
+<ol>
+<li><strong>Le marché IDEL est visuellement à mi-chemin.</strong> Personne n'est « cheap » au point d'être inutilisable, mais <strong>personne n'a un langage visuel clinique abouti</strong>. Les meilleurs (Swily, CareCare, Ozzen) ont le vernis d'une app grand public moderne ; les historiques (Soins 2000, Calendridel, Vega EVE) portent encore des écrans de poste Windows sur téléphone.</li>
+<li><strong>Le niveau de référence n'est pas chez les IDEL : il est chez les apps plaies et le home care nord-américain.</strong> Swift Skin &amp; Wound (mesure, % de fermeture, courbe, deltas), AlayaCare (statut icône + mot, progression « 1/5 », pointage, écran de synchronisation) et Healico (mesure calibrée, fil photo par plaie) fixent la barre.</li>
+<li><strong>Aucun concurrent ne rend la « preuve » visible.</strong> On voit des coches, des « factures à sécuriser », des montants. Personne ne montre <strong>la chaîne acte → signature → horodatage → ligne FSE</strong>. C'est un territoire de design vierge, cohérent avec le positionnement.</li>
+<li><strong>Les couleurs du marché sont saturées et décoratives</strong> (violet Ozzen, bleu électrique Swily, bordeaux Calendridel, marine Albus). La charte C17 de TabSanté — chrome bleu-vert pâle, crème, une seule couleur d'action — est <strong>plus calme et plus « document »</strong> que toute la concurrence. C'est un atout de différenciation à assumer, pas à corriger.</li>
+<li><strong>CareCare est le plus proche en esprit</strong> (fond crème/pêche, bleu-vert sombre, page « Validation avant télétransmission » détaillant les parts AMO/AMC/patient). C'est la référence directe à dépasser sur le poste « facturer ».</li>
+<li><strong>Le statut par couleur seule est partout</strong> (barres rouges/vertes Calendridel, points colorés du schéma de plaies Axxess, coches vertes Albus). La règle C17 « couleur jamais seule » est un vrai différenciateur d'accessibilité et de lecture en plein soleil.</li>
+<li><strong>Le hors ligne est revendiqué mais jamais montré.</strong> Seul Soins 2000 affiche « Synchronisation OK, dernière synchro … » et l'état du lecteur. Swily précise que l'écriture demande le réseau. Un <strong>langage visuel du hors ligne</strong> (bandeau, compteur d'envois en attente, horodatage de synchro) est un levier de confiance fort pour TabSanté (héritage V1).</li>
+<li><strong>Typographie : aucun choix pensé pour la lecture clinique.</strong> Poppins + police fantaisie (Agathe YOU, site), Outfit (Albus), Plus Jakarta Sans (Swily), Montserrat/Poppins (Calendridel), polices système ailleurs. Pour une app lue à bout de bras, en extérieur, avec des doses et des identifiants, <strong>une police à désambiguïsation forte (Atkinson Hyperlegible Next, licence OFL)</strong> est un choix défendable et différenciant.</li>
+<li><strong>Le ton du marché oscille entre familier (« tu », émojis) et administratif (identifiants RPPS en capitales).</strong> Il y a de la place pour un ton <strong>professionnel, calme et précis</strong> — celui d'un collègue fiable, pas d'un coach.</li>
+<li><strong>Top 3 des chantiers design</strong> : (1) la ligne de tournée et ses statuts icône + mot ; (2) la signature comme geste délibéré suivie d'un reçu horodaté ; (3) le « fil de preuve » sur le poste fixe et le dossier de preuve imprimable qui se lit comme un document officiel.</li>
+</ol>
+<hr />
+<h2 id="1-carte-de-maturité-design-a">1. Carte de maturité design (a)</h2>
+<h3 id="11-tableau-de-synthèse">1.1 Tableau de synthèse</h3>
+<p>Score /5 = maturité du <strong>design produit</strong> (pas des fonctions). Il agrège : cohérence visuelle, hiérarchie, lisibilité terrain, statuts, hors ligne visible, saisie, ton.</p>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Acteur</th>
+<th>Score</th>
+<th>Plateforme (apparence)</th>
+<th>Palette / typo perçues</th>
+<th>Navigation</th>
+<th>Fiabilité</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Swift Skin &amp; Wound</strong> (plaies, CA/US)</td>
+<td><strong>4,5</strong></td>
+<td>Natif iOS, sombre sur photo</td>
+<td>Neutres + couleurs d'axes de mesure</td>
+<td>Barre d'outils 5 actions (Measure, Assess, Treatment, Progress, Lock)</td>
+<td>✅ vu</td>
+</tr>
+<tr>
+<td><strong>AlayaCare</strong> (home care, CA)</td>
+<td><strong>4</strong></td>
+<td>Natif, en-tête marine</td>
+<td>Marine, vert d'état, ambre de marque</td>
+<td>Planning jour + fiche visite + « Care card »</td>
+<td>✅ vu</td>
+</tr>
+<tr>
+<td><strong>Pixacare</strong> (plaies, FR)</td>
+<td><strong>4</strong></td>
+<td>Natif iOS épuré</td>
+<td>Blanc, gris, accent rouge</td>
+<td>Onglets bas, photo d'abord</td>
+<td>✅ vu</td>
+</tr>
+<tr>
+<td><strong>Healico</strong> (plaies, FR, Urgo)</td>
+<td><strong>4</strong></td>
+<td>Natif iOS</td>
+<td>Cyan/bleu marketing, cartes blanches, mascotte 3D</td>
+<td>Fil par patient, filtres par plaie</td>
+<td>✅ vu</td>
+</tr>
+<tr>
+<td><strong>Swily</strong></td>
+<td><strong>4</strong></td>
+<td>Natif iOS (« uniquement pour iPhone »)</td>
+<td>Bleu vif, titres serif éditoriaux (marketing), Plus Jakarta Sans (site)</td>
+<td>Liste de tournée ordonnée + planning équipe</td>
+<td>✅ vu (2 captures)</td>
+</tr>
+<tr>
+<td><strong>CareCare</strong></td>
+<td><strong>3,5</strong></td>
+<td>App iOS/iPad + web</td>
+<td>Crème/pêche, bleu-vert sombre #124548, CTA ambre, vert #55C975</td>
+<td>Carte de tournée, facturation, dossiers</td>
+<td>✅ vu</td>
+</tr>
+<tr>
+<td><strong>Ozzen</strong></td>
+<td><strong>3,5</strong></td>
+<td>App mobile + web</td>
+<td>Violet #3C38B4, dégradés, Epilogue (site)</td>
+<td>Agenda de tournée, actions rapides</td>
+<td>✅ vu (marketing)</td>
+</tr>
+<tr>
+<td><strong>Agathe YOU</strong> (n°1)</td>
+<td><strong>3</strong></td>
+<td>App iOS/Android + version bureau</td>
+<td>Menthe/teal, Poppins (site)</td>
+<td>Onglets bas + bouton « + » central à menu</td>
+<td>✅ vu (captures datées 2021)</td>
+</tr>
+<tr>
+<td><strong>Albus</strong></td>
+<td><strong>3</strong></td>
+<td>App iOS/Android + Air (bureau)</td>
+<td>Thème marine sombre, avatars dessinés, Outfit (site)</td>
+<td>5 onglets (Agenda, Patients, …, Scan, Préférences)</td>
+<td>✅ vu</td>
+</tr>
+<tr>
+<td><strong>Citana</strong></td>
+<td>3 ⚠️</td>
+<td>Web + mobile</td>
+<td>n.c.</td>
+<td>n.c.</td>
+<td>⚠️ NV</td>
+</tr>
+<tr>
+<td><strong>IDELPro</strong></td>
+<td>3 ⚠️</td>
+<td>Web (Next.js) + mobile</td>
+<td>Violet doux #9B7FD0, ton avec émojis</td>
+<td>Tableau de bord, tournée, transmissions</td>
+<td>⚠️ NV</td>
+</tr>
+<tr>
+<td><strong>Oly</strong></td>
+<td>3 ⚠️</td>
+<td>Mobile</td>
+<td>Bleu #1B3A6B</td>
+<td>4 onglets : Accueil, Tournée, Patients, Trans.</td>
+<td>⚠️ NV (description)</td>
+</tr>
+<tr>
+<td><strong>Simply Vitale 4.0</strong></td>
+<td>2,5 ⚠️</td>
+<td>Tablette durcie propriétaire</td>
+<td>Bandeau vert d'actions rapides</td>
+<td>Accueil « copilote »</td>
+<td>⚠️ NV (article presse)</td>
+</tr>
+<tr>
+<td><strong>Vega / EVE</strong></td>
+<td>2,5</td>
+<td>App iOS/iPad (EVE) + Windows</td>
+<td>Bleu marine, cartes blanches</td>
+<td>« Feuille de route », Factures, Patients, Menu</td>
+<td>✅ vu (EVE)</td>
+</tr>
+<tr>
+<td><strong>Calendridel</strong></td>
+<td>1,5</td>
+<td>Hybride web</td>
+<td>Bordeaux en dégradé, boutons en relief, Montserrat/Poppins + Material Icons</td>
+<td>Grille d'accueil + 2–3 rangées d'onglets empilées</td>
+<td>✅ vu</td>
+</tr>
+<tr>
+<td><strong>Soins 2000</strong></td>
+<td>1,5</td>
+<td>App iOS = tableau Windows porté</td>
+<td>Système, bleu</td>
+<td>Menu hamburger, tableaux à grille</td>
+<td>✅ vu</td>
+</tr>
+<tr>
+<td><strong>Medilink (ex-Chorus)</strong>, <strong>Equinox myDay</strong></td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>⚠️ NV (aucun visuel public trouvé)</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="12-carte-deux-axes">1.2 Carte (deux axes)</h3>
+<p>Axe horizontal : <strong>maturité visuelle</strong> (cohérence, calme, lisibilité). Axe vertical : <strong>profondeur clinique / preuve visible</strong> (objets suivis, mesure, traçabilité affichée).</p>
+<pre class="highlight"><code> profondeur clinique / preuve visible
+  ▲
+  │                                         Swift S&amp;W ●
+  │                              Healico ●   Pixacare ●
+  │                                      AlayaCare ●
+  │        Calendridel ●            (Axxess ◐ wound mgr)
+  │   (traçabilité → facture,                 ◆ CIBLE TabSanté V2
+  │    mais UI datée)                           (haut-droite)
+  │                        CareCare ●
+  │              Albus ●   Agathe ●   Ozzen ●   Swily ●
+  │   Soins 2000 ●   EVE ●
+  └──────────────────────────────────────────────────────► maturité visuelle</code></pre>
+<p><strong>Lecture :</strong> le quadrant <strong>haut-droite</strong> (visuel mûr + preuve/objets visibles) n'est occupé que par des <strong>apps plaies autonomes</strong> et du <strong>home care américain</strong>. Aucun LGC IDEL français n'y est. TabSanté doit y aller en combinant la rigueur de Swift (mesure, deltas, verrou) et la clarté de statut d'AlayaCare, dans une charte plus calme que tous les IDEL.</p>
+<hr />
+<h2 id="2-fiches-design--lgc-idel-français">2. Fiches design — LGC IDEL français</h2>
+<h3 id="21-agathe-you-cba--35">2.1 Agathe YOU (CBA) — 3/5</h3>
+<ul>
+<li><strong>Sources :</strong> App Store (4,6/5, 687 notes) ✅ vu ; site agatheyou.fr ; page innovations 2026 🔶.</li>
+<li><strong>Apparence :</strong> app mobile au look natif léger, fond très clair teinté menthe, accent teal ; icône oiseau blanc + cœur rose. Site : Poppins + une police fantaisie arrondie (Chewy) chargée sur la page d'accueil ; couleur de thème marine #28367F. <strong>Incohérence marque site/app.</strong></li>
+<li><strong>Tournée :</strong> écran « Tournée de [prénom] », sélecteur de date avec flèches, <strong>liste groupée par heure</strong> (repères 8h00, 10h00, 11h00…), chaque ligne : heure, <strong>NOM en capitales</strong> + prénom, soin en clair (« Pansement simple + Vaccin anti-grippe »). Puce rosée « Premier soin » sur les nouveaux patients ✅.</li>
+<li><strong>Navigation :</strong> barre d'onglets bas avec <strong>bouton « + » central</strong> (rond teal) ouvrant un menu : lecture carte Vitale, acte isolé, nouveau RDV, dossier de soins, nouveau patient, nouvelle ordonnance ✅.</li>
+<li><strong>Saisie :</strong> assistant d'ordonnance en étapes (« Étape 7/8 ») avec <strong>question formulée en langage naturel</strong> (« Comment organisons-nous pour cette série de soin ? »), contrôle segmenté, sélecteurs de date, bouton « Continuer → » ✅. Bon modèle « une question par écran ».</li>
+<li><strong>Facturation / télétransmission :</strong> OrdoScan (photo d'ordonnance → cotation), détection d'erreurs avant rejet (selon la fiche store) 🔶. Pas de visuel d'état de télétransmission vu.</li>
+<li><strong>Hors ligne, photos, signature :</strong> non montrés. Saisie vocale du dossier mentionnée (2026) 🔶.</li>
+<li><strong>À emprunter :</strong> groupement temporel de la tournée ; assistant d'ordonnance conversationnel ; le badge « Premier soin ».</li>
+<li><strong>Faiblesses :</strong> captures App Store datées d'<strong>août 2021</strong> (signal de négligence de vitrine) ; textes alternatifs du site bourrés de mots-clés et sans description ; noms en capitales. Avis : service client et interface parfois jugés complexes, litiges de facturation rapportés sur infirmiers.com (paraphrase, <a href="https://www.infirmiers.com/forum/logiciel-agathe-attention-t166859.html">forum</a>) ; à l'inverse, des avis store louent la fluidité téléphone/ordinateur.</li>
+</ul>
+<h3 id="22-albus-sofia--corilus--35">2.2 Albus (Sofia / Corilus) — 3/5</h3>
+<ul>
+<li><strong>Sources :</strong> App Store (4,6/5, 1,5 k notes) ✅ vu ; forum l-idel.fr 🔶.</li>
+<li><strong>Apparence :</strong> <strong>thème sombre marine intégral</strong>, texte blanc, accent vert pour l'onglet actif ; <strong>avatars de patients dessinés</strong> façon cartoon et <strong>confettis</strong> autour d'un statut « Actif » sur la fiche patient. Site : Outfit + Amulya, palette marine #034363, bleu #2EA3F2, corail #FF5D47.</li>
+<li><strong>Tournée :</strong> agenda du jour avec date en en-tête (« 13/05/2024 ») et sous-titre de tournée, <strong>contrôle segmenté « RESTANTE / TOUS »</strong>, ligne = avatar + nom + plage horaire + <strong>puces de codes d'actes</strong> (PSE, MCI, OBSD…) + coche verte à droite ; un événement personnel (« Coiffeur », icône tasse) s'intercale ✅.</li>
+<li><strong>Dossier patient :</strong> en-tête nom, 4 onglets iconés (Patient, Presc., RDV, Documents), coordonnées, <strong>carte Google intégrée</strong>, NIR affiché ✅.</li>
+<li><strong>Prescription :</strong> liste d'actes (« OBSD (AMI 1.5) », « ISCI (AMI 1.5) ») avec description et coche, lien vers l'ordonnance datée, bloc « Rendez-vous » (traitement effectué par, lieu, tournée, note pour la facturation) ✅.</li>
+<li><strong>Hors ligne :</strong> argument fort du store (« avec ou sans réseau ») ; indicateur visuel non vu.</li>
+<li><strong>À emprunter :</strong> le filtre <strong>« Restant / Tous »</strong> de la tournée (montre le reste à faire) ; les codes d'actes en puces compactes.</li>
+<li><strong>Faiblesses :</strong> thème sombre peu lisible en plein soleil et peu « document » ; avatars cartoon et confettis hors registre clinique ; coches vertes seules. Avis : impossible de corriger une ordonnance après facturation depuis le mobile, création de dossier incomplète sur l'app, planning mensuel non modifiable (paraphrase, <a href="https://apps.apple.com/fr/app/albus/id1456276481">App Store</a>). Historique de migration Albus Air difficile (lenteurs, factures perdues, paraphrase, <a href="https://www.l-idel.fr/forum/messages.html?idsujet=15800&amp;page=0&amp;pgi=0">l-idel.fr, 2018–2020</a>).</li>
+</ul>
+<h3 id="23-simply-vitale-40-cegedim--255--nv">2.3 Simply Vitale 4.0 (Cegedim) — 2,5/5 ⚠️ NV</h3>
+<ul>
+<li><strong>Sources :</strong> article ActuSoins 🔶 (pas de capture consultée).</li>
+<li><strong>Apparence décrite :</strong> page d'accueil « copilote » qui sépare les actions <strong>en tournée</strong> et <strong>hors tournée</strong> (administratif) ; <strong>bandeau vert en bas</strong> avec actions rapides d'accès au dossier (Vitale, appli carte Vitale, INS) ; visites par ordre chronologique ; présence des collègues en tournée « à l'instant T » ; touches humaines : <strong>saint du jour, icône d'anniversaire</strong> du patient.</li>
+<li><strong>Matériel :</strong> tablette durcie, verre trempé, housse lavable, torche et lecture QR.</li>
+<li><strong>À emprunter :</strong> la séparation <strong>« dans la tournée / hors tournée »</strong> pour le tableau de bord ; voir qui est en tournée (structures).</li>
+<li><strong>Faiblesses :</strong> matériel captif ; design non vérifiable publiquement.</li>
+</ul>
+<h3 id="24-vega--eve-epsilog-cgm--255">2.4 Vega / EVE (Epsilog, CGM) — 2,5/5</h3>
+<ul>
+<li><strong>Sources :</strong> App Store EVE by VEGA (3,7/5, 12 notes) ✅ vu ; site Vega (Roboto Slab) 🔶.</li>
+<li><strong>Apparence :</strong> iOS, fond blanc avec filigrane, cartes blanches, barre d'onglets <strong>marine</strong> à onglet actif inversé : « Feuille de route », Factures, Patients, Menu ✅.</li>
+<li><strong>Tournée :</strong> bandeau de semaine (jours + dates) ; <strong>en-tête « INFIRMIERE RPPS… [PRÉNOM] » en capitales</strong> ; cartes : <strong>NOM</strong> + prénom, soin en clair <strong>tronqué par des points de suspension</strong>, icône maison (soin à domicile), heure seulement sur certaines lignes. En fin de liste : « <strong>Fin de journée ? Télétransmettre</strong> » (bouton plein) ✅.</li>
+<li><strong>Facturation :</strong> carte récapitulative « Actes à facturer du … au … » : nombre de séances, prescription, <strong>part caisse / part complémentaire / part patient / total</strong> en colonnes alignées, bouton « Valider » ✅.</li>
+<li><strong>À emprunter :</strong> l'<strong>action de fin de journée placée en fin de liste</strong> ; la décomposition AMO / AMC / patient.</li>
+<li><strong>Faiblesses :</strong> identifiant technique RPPS exposé en titre ; capitales ; troncature des soins (l'information clinique disparaît) ; note store moyenne.</li>
+</ul>
+<h3 id="25-soins-2000-logisurm--155">2.5 Soins 2000 (Logisur'M) — 1,5/5</h3>
+<ul>
+<li><strong>Sources :</strong> App Store Soins2000 ✅ vu.</li>
+<li><strong>Apparence :</strong> <strong>tableau Windows porté tel quel sur iPhone</strong> : grilles, cases à cocher, loupes « Détail », boutons pilules bleus, police système ; <strong>date de naissance au format américain</strong> (mois/jour/année) ✅.</li>
+<li><strong>Bons signaux (à reprendre, redessinés) :</strong> rangée d'état <strong>« Lecteur ✓ CPS ✓ CV ✓ »</strong> en haut ; ligne <strong>« Synchronisation OK, dernière synchro le … à … »</strong> ; compteur « 2 factures à sécuriser » + bouton « Sécuriser ». C'est <strong>le seul acteur IDEL qui montre l'état matériel et la synchro</strong> ✅.</li>
+<li><strong>Faiblesses :</strong> densité de bureau sur 6 pouces, cibles minuscules, zéro hiérarchie.</li>
+</ul>
+<h3 id="26-ozzen--355">2.6 Ozzen — 3,5/5</h3>
+<ul>
+<li><strong>Sources :</strong> App Store (4,7/5, 151 notes) ✅ vu (captures marketing) ; pages fonctionnalités ozzen.fr.</li>
+<li><strong>Apparence :</strong> marque <strong>violette</strong> (#3C38B4), dégradés lavande, cartes flottantes de notification (« Ordonnance à renouveler », « Il y a quelque chose à fêter ! »), mockups en main. Site Elementor, Epilogue.</li>
+<li><strong>Tournée :</strong> soins <strong>ordonnés automatiquement</strong> dans l'ordre de la tournée ; compteurs (passages à faire, patients hospitalisés, soins annulés) ; <strong>pointage après chaque rendez-vous</strong> ; accès en un geste au téléphone, GPS, transmissions, dossier, ordonnances 🔶 ; carte « Votre tournée du jour » groupée par « Matin » avec avatars ✅.</li>
+<li><strong>Dossier :</strong> catégories personnalisables, constantes en tableaux/courbes, <strong>photo de plaie dans le fil du dossier</strong> ✅ ; un patient de démonstration nommé d'après un personnage de fiction (ton ludique).</li>
+<li><strong>À emprunter :</strong> compteurs d'exceptions en tête de tournée (hospitalisé, annulé) ; pointage ; rappels d'échéance d'ordonnance.</li>
+<li><strong>Faiblesses :</strong> palette décorative (violet + rose + dégradés) peu clinique. Avis : lecteur lent à connecter, télétransmission très longue, écran noir ou gris à l'ouverture (paraphrase, <a href="https://apps.apple.com/fr/app/ozzen-agenda-dossier-de-soins/id1516601926">App Store</a>).</li>
+</ul>
+<h3 id="27-carecare--355">2.7 CareCare — 3,5/5</h3>
+<ul>
+<li><strong>Sources :</strong> App Store (5/5, 5 notes) ✅ vu ; carecare.fr (Webflow ; couleurs dominantes #1C1C1C, #55C975, #CAEED4, #124548).</li>
+<li><strong>Apparence :</strong> <strong>fond crème/pêche</strong>, en-têtes <strong>bleu-vert sombre</strong>, <strong>CTA ambre/jaune</strong>, cartes blanches ; titres de captures en gras avec surlignage (« La bonne cotation, automatiquement ») ✅. Palette la plus proche de C17 de tout le marché.</li>
+<li><strong>Tournée :</strong> <strong>carte interactive</strong> avec épingles numérotées (bleu-vert sombre), sélecteur « À domicile / Au cabinet », réordonnancement au glisser du pouce, placement automatique ✅.</li>
+<li><strong>Facturation :</strong> écran <strong>« Validation avant télétransmission »</strong> : date, montant facturé, décomposition par part, boutons « Facturer et télétransmettre » (plein ambre) / « Facturer uniquement » (secondaire) ✅. Tableau de bord financier (CA, encaissé, restant) 🔶.</li>
+<li><strong>Constantes :</strong> <strong>grille d'icônes</strong> (Pouls, Tension, Poids, Glycémie, Insuline, INR), champ de valeur, interrupteur <strong>« Vigilance sur cette constante »</strong> ✅.</li>
+<li><strong>Ton :</strong> tutoiement sur le blog et le site (« dont tu ne voudras plus te passer »).</li>
+<li><strong>À emprunter :</strong> la page de <strong>vérification avant envoi</strong> ; la grille de constantes ; la notion de <strong>vigilance</strong> posée par l'IDE.</li>
+<li><strong>Faiblesses :</strong> deux boutons pleins sur l'écran de facturation (hiérarchie diluée) ; ton familier ; peu d'avis.</li>
+</ul>
+<h3 id="28-swily--45">2.8 Swily — 4/5</h3>
+<ul>
+<li><strong>Sources :</strong> App Store (5/5, 22 notes) ✅ vu ; swily.io (Plus Jakarta Sans, HubSpot).</li>
+<li><strong>Apparence :</strong> <strong>la plus contemporaine du marché IDEL</strong> : natif iOS, cartes blanches, boutons pilules bleus (« Filtrer »), <strong>planning d'équipe en barres colorées par tournée</strong> (Principal, Cavaillon…) ; marketing en <strong>serif éditorial</strong> (« Moins de saisie. Plus de soin. », « Toute l'équipe, un seul planning. ») ✅.</li>
+<li><strong>Tournée :</strong> liste ordonnée « dans l'ordre choisi », visites ajoutées / déplacées / réattribuées depuis le téléphone ; planning de semaine par infirmier 🔶.</li>
+<li><strong>Saisie :</strong> scan de mutuelle par IA avec champs extraits (Type, Patient…) sous la photo ✅.</li>
+<li><strong>Hors ligne :</strong> <strong>préchargement de la journée en consultation</strong>, mais <strong>l'écriture demande la reconnexion</strong> (selon leur propre page) 🔶 → faiblesse terrain nette.</li>
+<li><strong>À emprunter :</strong> la rigueur natif iOS ; la vue planning d'équipe ; la photo de document + champs extraits pour relecture.</li>
+<li><strong>Faiblesses :</strong> couleurs de tournée multiples et saturées (rose, olive, jaune) ; hors ligne en lecture seule ; iPhone uniquement.</li>
+</ul>
+<h3 id="29-calendridel--155-visuel--fonctionnellement-profond">2.9 Calendridel — 1,5/5 (visuel) — fonctionnellement profond</h3>
+<ul>
+<li><strong>Sources :</strong> App Store (4,2/5, 36 notes) ✅ vu ; calendridel.fr.</li>
+<li><strong>Apparence :</strong> <strong>bordeaux en dégradé, boutons en relief façon skeuomorphe</strong>, accueil en <strong>grille de lanceurs</strong> (Cabinets, Dossiers de soins, Annonces, Forum, Cotations, Contrats, Fiches), <strong>deux à trois rangées d'onglets iconés empilées</strong> dans le dossier patient, symboles ♀/♂ colorés, <strong>tableaux à défilement horizontal</strong> avec <strong>barre rouge/verte à gauche comme seul statut</strong>, actions groupées « Action à effectuer » ✅.</li>
+<li><strong>Bon concept :</strong> « générer les factures à partir de la traçabilité des actes » — c'est le discours le plus proche de « facturer sur preuve », sans la forme.</li>
+<li><strong>Faiblesses :</strong> densité, hiérarchie et esthétique datées ; couleur seule. Avis : un utilisateur signale l'app qui ne fonctionne plus (2022) ; note de version récente sur un « écran blanc en sortie de veille » ✅.</li>
+</ul>
+<h3 id="210-citana-anamnèse--35--nv">2.10 Citana (Anamnèse) — 3/5 ⚠️ NV</h3>
+<ul>
+<li>Discours « sans installation, sans formation longue », dossier mobile (constantes, traitements, antécédents), <strong>parcours prévention guidé</strong> (pré-questionnaire, facteurs de risque, plan en un clic) 🔶. Pertinent pour le design des <strong>consultations infirmières</strong> (CIA/CIB) : un parcours guidé, pas un formulaire-fleuve.</li>
+</ul>
+<h3 id="211-idelpro--35--nv">2.11 IDELPro — 3/5 ⚠️ NV</h3>
+<ul>
+<li>Site Next.js, palette violet doux (#9B7FD0, #C9B8E6). Revendique une app <strong>utilisable d'une main</strong> ; dictée vocale, transmissions texte/audio/photo 🔶. <strong>Ton familier avec émojis</strong> (café, sommeil) pour parler de fatigue — sympathique en marketing, inadapté dans un outil de preuve.</li>
+</ul>
+<h3 id="212-oly--35--nv">2.12 Oly — 3/5 ⚠️ NV</h3>
+<ul>
+<li>4 onglets <strong>Accueil / Tournée / Patients / Trans.</strong> ; accueil « Bonjour [prénom] 👋 » + date + visites du jour ; transmissions en fil de messages attribués et horodatés 🔶. Modèle de navigation simple et lisible.</li>
+</ul>
+<h3 id="213-medilink-ex-chorus-fiducial-equinox-myday---nv">2.13 Medilink (ex-Chorus), FIDUCIAL Equinox (myDay) — ⚠️ NV</h3>
+<ul>
+<li>Aucun visuel produit public exploitable trouvé (page Medilink en 404, page Equinox inaccessible). Ne pas les noter.</li>
+</ul>
+<hr />
+<h2 id="3-apps-plaies--la-référence-de-la-rigueur-visuelle">3. Apps plaies — la référence de la rigueur visuelle</h2>
+<h3 id="31-swift-skin--wound-swift-medical--455--vu">3.1 Swift Skin &amp; Wound (Swift Medical) — 4,5/5 ✅ vu</h3>
+<ul>
+<li><strong>Liste des plaies :</strong> vignette photo, nom de la plaie, localisation (« Stage 4, Right Lateral Malleolus »), <strong>« %Closed » en gros chiffre</strong> (34, 68), âge de la plaie ; onglets bas Assessments / Orders / Care Plan / Notes.</li>
+<li><strong>Mesure :</strong> photo plein écran, <strong>contour tracé</strong> sur la plaie, <strong>axes longueur/largeur colorés</strong> ; bandeau bas : date, <strong>« 4.1 cm² »</strong> en très gros, score PUSH et % de fermeture, <strong>icône cadenas</strong> (évaluation verrouillée).</li>
+<li><strong>Progression :</strong> <strong>courbe</strong> de surface dans le temps (points + ligne), puis liste « Dimensions » où <strong>chaque mesure a un trait de couleur à gauche identique à l'axe dessiné sur la photo</strong> + valeur + <strong>puce de variation</strong> (−38 %, −24 %…).</li>
+<li><strong>À emprunter :</strong> le <strong>lien couleur axe ↔ ligne de mesure</strong> (doublé d'un libellé, donc conforme C17) ; le chiffre principal en très grand ; les <strong>deltas en puces</strong> ; le <strong>verrou</strong> comme métaphore de signature.</li>
+<li><strong>Limite :</strong> thème sombre sur photo (bon pour la photo, pas pour le reste) ; anglais.</li>
+</ul>
+<h3 id="32-healico-urgo-medical--45--vu">3.2 Healico (Urgo Medical) — 4/5 ✅ vu</h3>
+<ul>
+<li><strong>Fil par patient :</strong> filtres en puces par plaie (« Tout », « Ulcère de jambe, Tibia droit », « Non relié à une plaie ») ; entrées datées avec <strong>deux photos côte à côte</strong>, message, évaluation.</li>
+<li><strong>Mesure :</strong> « Mesurez les plaies en un clin d'œil avec une photo » — <strong>contour à points verts éditables</strong>, <strong>marqueur de calibration</strong> à 4 points posé près de la plaie, boutons « Reprendre / Valider » (technologie Imito) ✅.</li>
+<li><strong>Catalogue :</strong> recherche + catégories iconées (Pansement, Compression, Crème, Nettoyant) + puces de filtres.</li>
+<li><strong>À emprunter :</strong> fil chronologique <strong>filtrable par objet</strong> ; contour éditable ; marqueur de calibration visible dans l'image.</li>
+<li><strong>Limite :</strong> <strong>mascotte 3D</strong> et cyan très saturé (marketing) ; pas de lien facturation.</li>
+</ul>
+<h3 id="33-pixacare--45--vu">3.3 Pixacare — 4/5 ✅ vu</h3>
+<ul>
+<li>Natif iOS épuré : photos en <strong>cartes avec date et nom en surimpression</strong> + <strong>étiquettes</strong> (PLAIE, AVANT-BRAS, MÉLANOME) ; <strong>identification patient par QR code</strong> (étiquette scannée) ; conversations de groupe avec photos jointes ✅.</li>
+<li><strong>À emprunter :</strong> étiquettes anatomiques en puces ; identification par scan pour éviter l'erreur de patient.</li>
+</ul>
+<h3 id="34-e-pansement---nv">3.4 e-Pansement — ⚠️ NV</h3>
+<ul>
+<li>Bilan initial de plaie <strong>en trois temps</strong> (remplir, ajouter photos et contexte, transmettre), téléexpertise via Omnidoc 🔶. Bon découpage en étapes.</li>
+</ul>
+<h3 id="35-tissue-analytics-net-health---nv-pas-de-capture-consultée">3.5 Tissue Analytics (Net Health) — ⚠️ NV (pas de capture consultée)</h3>
+<ul>
+<li><strong>Tracé automatique</strong> de la plaie avec <strong>pastille de calibration</strong> dans le cadre, mesures dont profondeur et volume, <strong>indicateur de vélocité de cicatrisation</strong> (probabilité de cicatriser à 4/8/12/16 semaines) 🔶.</li>
+<li><strong>À emprunter (avec prudence) :</strong> une projection de trajectoire est puissante mais <strong>relève du jugement clinique</strong> ; C17 interdit au logiciel de dire « bon état clinique ». Si on l'affiche un jour, ce sera un fait mesuré (« surface −38 % en 4 semaines »), pas un pronostic.</li>
+</ul>
+<hr />
+<h2 id="4-références-internationales-et-systèmes-de-design">4. Références internationales et systèmes de design</h2>
+<h3 id="41-home-care--clinique">4.1 Home care / clinique</h3>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Référence</th>
+<th>Ce qu'on voit / lit</th>
+<th>À emprunter</th>
+<th>Fiabilité</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>AlayaCare</strong> (app intervenant)</td>
+<td>Planning : bandeau de semaine, <strong>pastille « 1/5 Done »</strong>, « Scheduled: 6 h 30 min » ; cartes de visite avec <strong>icône + plage horaire</strong> ; visite en cours <strong>bordée de vert + icône horloge + « Clocked-in on authorized visit »</strong> ; visite annulée <strong>fond gris foncé + icône ⊘ + mot « (Cancelled) »</strong> ; fiche visite : « Starting in 5 min », <strong>gros bouton « Clock In »</strong>, <strong>icônes de risques</strong> (animal, environnement, allergie). Documentation : <strong>l'en-tête change de couleur une fois pointé</strong> ; écran « <strong>Sync Activity</strong> » (envois en cours / en attente) et alertes de confirmation au retour du réseau 🔶</td>
+<td>Statut <strong>icône + mot + couleur</strong> ; progression de journée ; contextes de risque en tête de fiche ; écran de synchronisation</td>
+<td>✅ vu (store) / 🔶 (aide)</td>
+</tr>
+<tr>
+<td><strong>Axxess</strong> (Wound Manager)</td>
+<td><strong>Schéma corporel</strong> multi-vues (face, droite, dos, gauche, pieds) ; points <strong>rouges</strong> (actives), <strong>violets</strong> (plusieurs au même endroit), <strong>verts</strong> (cicatrisées), <strong>noirs</strong> (historiques) ; <strong>nombre de plaies sous chaque vue</strong> ; bulles « ? » d'aide contextuelle</td>
+<td>Le compteur par vue et les aides contextuelles. <strong>Contre-exemple</strong> : le statut par couleur seule (à corriger par forme + libellé, cf. C18)</td>
+<td>🔶 (aide en ligne)</td>
+</tr>
+<tr>
+<td><strong>WellSky</strong> (Offline, Point of Care 2026)</td>
+<td>Documentation hors ligne puis envoi « en quelques secondes » ; réglage <strong>Auto-Sync</strong> ; nouvelle app native qui rassemble IA et dossier au point de soin 🔶</td>
+<td>La synchro automatique avec contrôle manuel visible</td>
+<td>🔶</td>
+</tr>
+<tr>
+<td><strong>Epic Rover</strong></td>
+<td>Scan du bracelet puis du médicament ; <strong>alerte immédiate</strong> si mauvais patient / dose / péremption (« 5 bons ») 🔶</td>
+<td>Le <strong>scan comme preuve</strong> (Vitale, ApCV, étiquette produit) avec retour immédiat et non ambigu</td>
+<td>🔶</td>
+</tr>
+<tr>
+<td><strong>Netsmart HCHB</strong></td>
+<td>Scribe IA annoncé (cf. benchmark fonctionnel) ; pas de visuel consulté</td>
+<td>—</td>
+<td>⚠️ NV</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="42-systèmes-de-design-santé-et-services-publics">4.2 Systèmes de design santé et services publics</h3>
+<ul>
+<li><strong>NHS digital service manual</strong> ✅</li>
+<li>Corps de texte <strong>19 px sur grand écran, 16 px sur petit</strong> ; échelle 14 · 16 · 19 · 22 · 26 · 36 · 48 · 64 ; <strong>pas d'italique ni de soulignement</strong> (sauf liens), gras avec parcimonie, <strong>alignement à gauche</strong> (aide les loupes d'écran).</li>
+<li><strong>Fond gris-bleu clair</strong> de page pour réduire l'éblouissement et aider les lecteurs dyslexiques ; contraste AA minimum (4,5:1 texte courant, 3:1 grands textes et composants), <strong>jamais l'information par la couleur seule</strong> ; focus très visible.</li>
+<li><strong>Warning callout</strong> : encadré « Important », <strong>2 au maximum par page</strong>, titres courts. <strong>Care cards</strong> : 3 niveaux d'urgence distincts, à ne pas mélanger avec les avertissements.</li>
+<li>→ Validation directe de la règle C17 et du principe « deux couleurs saturées au maximum ».</li>
+<li><strong>GOV.UK Design System</strong> ✅</li>
+<li><strong>Une question par page</strong>, le libellé sert de titre, lien retour, bouton <strong>« Continuer »</strong> aligné à gauche ; champs facultatifs marqués <strong>« (facultatif) »</strong>, <strong>jamais d'astérisque</strong> ; <strong>éviter les curseurs</strong> (inaccessibles au glisser).</li>
+<li><strong>Page « Vérifier vos réponses »</strong> avant envoi : liste récapitulative par section, liens « Modifier » par ligne, <strong>déclaration</strong> courte, bouton au verbe exact (« Accepter et envoyer »).</li>
+<li>→ Modèle pour l'assistant ordonnance, la consultation infirmière et la <strong>vérification avant télétransmission</strong>.</li>
+<li><strong>Doctolib — Oxygen</strong> 🔶</li>
+<li>Système unique pour produit, design et dev ; <strong>tokens sémantiques nommés par intention, surface et force</strong> (ex. <code>brand-subtle-base</code>, <code>neutral-prominent-base</code>) ; titres Montserrat, texte Roboto (source secondaire) ; refonte de marque 2023 en interne, bleu conservé, accueil critique sur le côté « simpliste » du nouveau logo.</li>
+<li>→ Nommer les tokens TabSanté <strong>par rôle</strong> (signal, acquis, action, critique), ce que fait déjà C17.</li>
+<li><strong>DSFR (Système de design de l'État) et police Marianne</strong> ✅ : <strong>réservés aux services de l'État</strong> ; interdits aux acteurs privés. → TabSanté peut emprunter le <strong>registre</strong> « document officiel » (structure, sobriété, numérotation) mais <strong>ne doit jamais imiter l'identité de l'État</strong> (Marianne, bloc-marque, bleu-blanc-rouge).</li>
+<li><strong>Apple HIG / WCAG 2.2</strong> ✅ : cible tactile <strong>44 pt</strong> (Apple), <strong>48 dp</strong> (Material) ; WCAG 2.5.8 (AA) <strong>24 × 24 px minimum</strong>, 2.5.5 (AAA) <strong>44 × 44 px</strong>. Étude Parhi et al. : <strong>≈ 9,6 mm</strong> pour un usage au pouce sans erreur.</li>
+<li><strong>Google — design hors ligne</strong> 🔶 : indicateur <strong>discret mais persistant</strong> quand on est hors ligne, icône « nuage barré » + libellé « Pas de connexion », laisser l'utilisateur <strong>travailler sur tout le reste</strong> ; bandeau persistant tant que l'état dure (pas un toast qui disparaît).</li>
+</ul>
+<h3 id="43-inspiration--calme-élégant-dense--craft-uniquement">4.3 Inspiration « calme, élégant, dense » (craft uniquement)</h3>
+<ul>
+<li><strong>Linear</strong> ✅ : « la structure doit se sentir, pas se voir » — navigation <strong>atténuée</strong> pour laisser le contenu dominer, <strong>moins de bordures</strong>, contrastes adoucis, gris plus chauds ; thèmes générés en espace colorimétrique perceptuel (LCH).</li>
+<li><strong>Stripe Dashboard</strong> 🔶 : <strong>chiffres tabulaires</strong>, montants <strong>alignés à droite</strong>, statuts centrés, palette d'état étroite (le rouge veut toujours dire « attention »), <strong>le tableau est la vérité, le graphique résume</strong>.</li>
+</ul>
+<hr />
+<h2 id="5-principes-et-patterns-pour-tabsanté-b">5. Principes et patterns pour TabSanté (b)</h2>
+<p>Chaque principe : <strong>quoi</strong>, <strong>pourquoi</strong>, <strong>inspiré de</strong>. Les principes respectent C17 / C18 / C19.</p>
+<h3 id="51-terminal-mobile-flutter-une-main-souvent-hors-ligne">5.1 Terminal mobile (Flutter, une main, souvent hors ligne)</h3>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Principe / pattern</th>
+<th>Pourquoi</th>
+<th>Inspiré de</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>M1</strong></td>
+<td><strong>Tournée = frise du jour groupée par moment</strong> (Matin · Midi · Après-midi · Soir) avec, en tête, un <strong>anneau de progression « 6 / 14 passages signés »</strong> et deux compteurs d'exception (annulés, hospitalisés). Filtre <strong>« Reste à faire / Tous »</strong>.</td>
+<td>L'IDE pense en moments, pas en minutes ; l'anneau répond à « où j'en suis ? » d'un coup d'œil.</td>
+<td>AlayaCare « 1/5 Done », Agathe (groupes horaires), Albus (Restante/Tous), Ozzen (compteurs)</td>
+</tr>
+<tr>
+<td><strong>M2</strong></td>
+<td><strong>Ligne de passage en 3 niveaux, jamais tronquée sur le soin</strong> : (1) heure + <strong>Nom Prénom</strong> en casse normale ; (2) soins en clair, 2 lignes max puis « + 2 soins » ; (3) <strong>puce d'état icône + mot</strong>. Contexte du lieu (domicile/cabinet) en icône discrète.</td>
+<td>Le soin est l'information clinique : la tronquer (EVE) fait perdre le sens. Les capitales ralentissent la lecture.</td>
+<td>AlayaCare (cartes d'état), contre-exemple EVE</td>
+</tr>
+<tr>
+<td><strong>M3</strong></td>
+<td><strong>En-tête patient collant</strong> (chrome C17) : identité, âge, <strong>contextes permanents</strong> en puces icône + mot (allergie, anticoagulant, isolement, animal, accès), appel et itinéraire. Le rouge critique n'apparaît que pour un vrai critère de sécurité.</td>
+<td>Le contexte doit rester visible pendant toute la saisie, sans revenir en arrière.</td>
+<td>AlayaCare (icônes de risques), Epic Rover (alertes)</td>
+</tr>
+<tr>
+<td><strong>M4</strong></td>
+<td><strong>Barre d'action C19 qui explique son état</strong> : bouton unique « Signer le passage », inactif tant qu'il manque une donnée, avec la mention de ce qui manque (« Il manque : réalisé / non réalisé sur 1 soin ») ; un appui sur la mention fait défiler jusqu'au champ.</td>
+<td>Un bouton gris muet frustre ; un bouton qui dit pourquoi guide.</td>
+<td>C19 (déjà spécifié), GOV.UK (messages d'erreur reliés aux champs)</td>
+</tr>
+<tr>
+<td><strong>M5</strong></td>
+<td><strong>Signature = geste délibéré</strong> : <strong>appui maintenu ≈ 0,8 s</strong> sur le même bouton, avec remplissage progressif et retour haptique ; alternative accessible (appui simple + confirmation). Puis <strong>reçu de signature</strong> : « Passage signé · 9 h 42 · e-CPS · hors ligne — sera transmis au retour du réseau », icône cadenas.</td>
+<td>Le geste répété 50 fois par jour doit être rapide mais <strong>impossible à déclencher par erreur</strong> ; le reçu matérialise la preuve. <strong>À arbitrer avec C19</strong> (le geste reste sur le même bouton, même place).</td>
+<td>Swift (cadenas / Lock), GOV.UK (page de confirmation), AlayaCare (Clock In)</td>
+</tr>
+<tr>
+<td><strong>M6</strong></td>
+<td><strong>Vocabulaire d'états unique, icône + mot + fond</strong> : Brouillon · À signer · <strong>Signé</strong> (acquis) · Transmis · <strong>En attente d'envoi</strong> (hors ligne) · Rejeté (signal, pas critique) · Annulé (barré + mot). Même jeu sur mobile, web et papier.</td>
+<td>La couleur seule ne survit ni au soleil ni à l'impression N&amp;B (C17).</td>
+<td>AlayaCare, Stripe (palette d'état étroite), NHS</td>
+</tr>
+<tr>
+<td><strong>M7</strong></td>
+<td><strong>Hors ligne visible et non bloquant</strong> : bandeau fin et persistant dans le chrome (« Hors connexion · 3 actes en attente d'envoi »), <strong>jamais de blocage d'écriture</strong> ; écran <strong>Synchronisation</strong> listant envois en attente / envoyés / en erreur avec <strong>horodatage de la dernière synchro</strong>.</td>
+<td>Héritage V1 et zones blanches ; la confiance vient de la visibilité, pas du silence. Swily bloque l'écriture hors ligne : TabSanté ne doit pas.</td>
+<td>Soins 2000 (dernière synchro), AlayaCare (Sync Activity), Google offline design</td>
+</tr>
+<tr>
+<td><strong>M8</strong></td>
+<td><strong>État du matériel en une rangée</strong> : puces « Lecteur · CPS · Vitale / ApCV » avec icône d'état et mot (connecté, à insérer, non détecté) visibles au moment de facturer seulement.</td>
+<td>La lenteur du lecteur est la 1re plainte (Ozzen) : montrer l'état réduit l'incertitude.</td>
+<td>Soins 2000 (« Lecteur ✓ CPS ✓ CV ✓ »), redessiné</td>
+</tr>
+<tr>
+<td><strong>M9</strong></td>
+<td><strong>Saisie numérique « gants »</strong> : pavé numérique dédié, <strong>steppers ± de 56 dp</strong>, valeur affichée en <strong>28 px chiffres tabulaires</strong>, unité toujours visible, plage de référence en texte (« habituel : 0,8–1,2 ») ; jamais de curseur (slider). Cibles <strong>≥ 48 dp (≈ 9–10 mm)</strong>, actions principales 56 dp.</td>
+<td>Doigts gantés, pouce, extérieur : la précision baisse sous 9,6 mm. Les curseurs sont imprécis et inaccessibles.</td>
+<td>Parhi et al., WCAG 2.5.5, GOV.UK (pas de curseurs), CareCare (grille de constantes)</td>
+</tr>
+<tr>
+<td><strong>M10</strong></td>
+<td><strong>Schéma corporel C18 lisible sans couleur</strong> : point du jour = forme pleine + halo ; historiques = contour gris + date ; <strong>compteur par vue</strong> (« Dos · 2 ») ; libellé texte toujours affiché.</td>
+<td>Axxess code ses états uniquement en couleurs (rouge/violet/vert/noir) : à ne pas reproduire.</td>
+<td>Axxess (compteur par vue), C18</td>
+</tr>
+<tr>
+<td><strong>M11</strong></td>
+<td><strong>Mesure de plaie guidée</strong> : cadrage avec <strong>pastille de calibration</strong> détectée, contour éditable par points, <strong>axes colorés + libellés</strong> (L, l), résultat principal « <strong>4,1 cm²</strong> » + puces de variation (« −38 % depuis le 12 sept. »), mesure marquée <strong>calibrée / non calibrée</strong> (forme du marqueur).</td>
+<td>Une mesure opposable doit dire comment elle a été obtenue.</td>
+<td>Swift HealX, Healico / Imito, Tissue Analytics</td>
+</tr>
+<tr>
+<td><strong>M12</strong></td>
+<td><strong>Comparaison photo</strong> : deux photos du même objet côte à côte, même cadrage, dates sous chaque photo, bascule « avant / après » au doigt ; bande de vignettes chronologique en dessous.</td>
+<td>Le suivi d'une plaie se lit en comparant, pas en faisant défiler.</td>
+<td>Healico (paires de photos), Pixacare (cartes datées)</td>
+</tr>
+<tr>
+<td><strong>M13</strong></td>
+<td><strong>Assistant ordonnance / consultation : une question par écran</strong>, titre = question (« Combien de passages par jour ? »), « Étape 3 sur 7 », puis <strong>écran de vérification</strong> récapitulatif avec « Modifier » par ligne avant de créer la série.</td>
+<td>Réduit la charge mentale au domicile ; la vérification évite les erreurs de cotation en amont.</td>
+<td>Agathe YOU (assistant conversationnel), GOV.UK (question pages, check answers)</td>
+</tr>
+<tr>
+<td><strong>M14</strong></td>
+<td><strong>Mode clair, lisibilité extérieure d'abord</strong> : texte courant ≥ 17 px, encre très foncée sur crème (≈ 14,6:1), pas de thème sombre par défaut ; option « contraste renforcé » plutôt qu'un mode sombre décoratif.</td>
+<td>Albus en marine intégral et Swift en noir sont pensés pour l'écran, pas pour le soleil.</td>
+<td>NHS (fond anti-éblouissement), C17 (lecture en extérieur)</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="52-poste-fixe-web-react-cabinet--structure">5.2 Poste fixe web (React, cabinet / structure)</h3>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Principe / pattern</th>
+<th>Pourquoi</th>
+<th>Inspiré de</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>W1</strong></td>
+<td><strong>Mise en page trois zones</strong> : navigation latérale <strong>atténuée</strong> (chrome C17) · liste · détail ; deux densités (« confortable », « compacte ») ; largeur de lecture limitée (≈ 70 caractères) pour les textes.</td>
+<td>Le contenu prime ; la densité sert le travail de la facturière sans écraser l'IDE occasionnelle.</td>
+<td>Linear (navigation atténuée, moins de bordures)</td>
+</tr>
+<tr>
+<td><strong>W2</strong></td>
+<td><strong>Le tableau est la vérité</strong> : chiffres <strong>tabulaires alignés à droite</strong>, euros avec virgule et espace insécable, statuts centrés <strong>icône + mot</strong>, filtres enregistrés, en-têtes collants, tri explicite.</td>
+<td>Facturation et contrôle se font en tableau ; l'alignement permet de comparer sans calcul.</td>
+<td>Stripe Dashboard</td>
+</tr>
+<tr>
+<td><strong>W3</strong></td>
+<td><strong>« Fil de preuve » dépliable sur chaque ligne de facture</strong> : FSE → actes → pour chaque acte : auteur (e-CPS), horodatage, lecture Vitale/ApCV, signature patient, photos, mesures — en frise verticale avec icônes et mots, chaque maillon cliquable. Un maillon manquant apparaît en <strong>signal</strong> (ambre), jamais en rouge.</td>
+<td><strong>C'est la promesse du produit rendue visible</strong> ; aucun concurrent ne le fait.</td>
+<td>Aucun (espace blanc) ; forme inspirée des journaux d'audit et d'AlayaCare</td>
+</tr>
+<tr>
+<td><strong>W4</strong></td>
+<td><strong>Dossier de preuve imprimable qui se lit comme un acte</strong> : page de garde (patient, période, IDE, cabinet), sommaire, <strong>pagination « page 3 / 12 »</strong>, horodatage d'édition et empreinte du document, tableaux sobres, <strong>réglage saturé C17 pour le N&amp;B</strong>, titres en serif, aucune interface d'app à l'écran. <strong>Sans</strong> imiter l'identité de l'État.</td>
+<td>En contrôle CPAM, le document doit inspirer la confiance d'une pièce administrative.</td>
+<td>Registre DSFR / documents publics (sans leur identité), C17 « réglage saturé »</td>
+</tr>
+<tr>
+<td><strong>W5</strong></td>
+<td><strong>« Vérifier puis télétransmettre » en une page</strong> : récapitulatif du lot (nombre de FSE, total AMO / AMC / patient), alertes de cohérence groupées en tête (« 2 actes sans signature patient »), bouton unique au verbe exact : « Signer et télétransmettre 12 FSE ».</td>
+<td>La dernière étape doit tout résumer et nommer l'action irréversible.</td>
+<td>GOV.UK (check answers), CareCare (validation avant télétransmission), EVE (parts)</td>
+</tr>
+<tr>
+<td><strong>W6</strong></td>
+<td><strong>Rejets = file de travail</strong> : motif traduit en français clair, ligne d'origine, <strong>action suggérée</strong> (corriger, renvoyer, écrire à la caisse avec modèle), état de résolution.</td>
+<td>Les rejets sont la 1re douleur ; il faut une liste qui se vide, pas un journal.</td>
+<td>CareCare (résolution guidée, courriels pré-rédigés)</td>
+</tr>
+<tr>
+<td><strong>W7</strong></td>
+<td><strong>Page d'objet suivi</strong> (plaie, PICC, stomie) : en-tête de l'objet (type, site, date d'ouverture, protocole), <strong>courbe calibrée + tableau des mesures</strong>, bande photo, événements annotés sur la courbe (changement de protocole) ; page de lecture <strong>sans barre d'action</strong> (C19).</td>
+<td>L'objet est l'unité de suivi et de preuve.</td>
+<td>Swift (courbe + dimensions + deltas), Healico</td>
+</tr>
+<tr>
+<td><strong>W8</strong></td>
+<td><strong>Palette de commandes et raccourcis</strong> (recherche globale patient / FSE / objet, raccourcis clavier affichés au survol).</td>
+<td>La facturière enchaîne des centaines d'actions ; le clavier est plus rapide que la souris.</td>
+<td>Linear</td>
+</tr>
+<tr>
+<td><strong>W9</strong></td>
+<td><strong>Tableau de supervision « conformité »</strong> (structures) : compteurs cliquables — actes non prouvés, objets en retard de réfection, BSI à renouveler, rejets ouverts — chacun menant à une liste filtrée ; pas de graphiques décoratifs.</td>
+<td>Un tableau de bord sert à décider quoi traiter, pas à impressionner.</td>
+<td>Stripe (résumé → tableau), Simply Vitale (dans / hors tournée)</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="6-direction-visuelle-proposée-c--dans-la-charte-c17">6. Direction visuelle proposée (c) — dans la charte C17</h2>
+<h3 id="61-couleur--rôles-c17--neutres-dencre-proposés">6.1 Couleur : rôles C17 + neutres d'encre proposés</h3>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Token (proposé)</th>
+<th>Valeur</th>
+<th>Rôle</th>
+<th>Contraste vérifié</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>chrome.bg</code> / <code>chrome.fg</code></td>
+<td>#DCEBEA / #0E4746</td>
+<td>En-têtes, navigation, identité ; <strong>jamais une action</strong></td>
+<td>8,5:1 ✅</td>
+</tr>
+<tr>
+<td><code>page.bg</code></td>
+<td>#FAF8F4</td>
+<td>Fond crème</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>field.bg</code></td>
+<td>#FFFFFF</td>
+<td>Ce qui reçoit la frappe</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>signal.bg</code> / <code>signal.fg</code></td>
+<td>#FAEBD2 / #6B4E12</td>
+<td>Changement de prescription, rappel daté, alerte non bloquante, <strong>maillon de preuve manquant</strong></td>
+<td>6,6:1 ✅</td>
+</tr>
+<tr>
+<td><code>acquis.bg</code> / <code>acquis.fg</code></td>
+<td>#E4EFE7 / #1F5738</td>
+<td>Signé, transmis, clôturé</td>
+<td>7,2:1 ✅</td>
+</tr>
+<tr>
+<td><code>action</code> / <code>on-action</code></td>
+<td>#1F6FB2 / #FFFFFF</td>
+<td>Un seul bouton plein par écran</td>
+<td>5,3:1 ✅</td>
+</tr>
+<tr>
+<td><code>critique</code></td>
+<td>#A62B38</td>
+<td>Hémorragie, événement critique, alerte de sécurité. Rien d'autre</td>
+<td>6,6:1 sur crème, 6,9:1 texte blanc ✅</td>
+</tr>
+<tr>
+<td><code>ambre.1…4</code></td>
+<td>#FBF0DE · #F2DDB8 · #E3C286 · #CFA254</td>
+<td>Échelles graduées (douleur, intensité)</td>
+<td>voir note ci-dessous</td>
+</tr>
+<tr>
+<td><strong>Proposé</strong> <code>ink</code></td>
+<td>#1D2626</td>
+<td>Texte courant</td>
+<td>14,6:1 sur crème ✅ (AAA)</td>
+</tr>
+<tr>
+<td><strong>Proposé</strong> <code>ink.muted</code></td>
+<td>#4F5B5A</td>
+<td>Métadonnées (auteur, heure)</td>
+<td>6,7:1 ✅</td>
+</tr>
+<tr>
+<td><strong>Proposé</strong> <code>field.border</code></td>
+<td>#7A8584</td>
+<td>Bordure de champ (WCAG 1.4.11)</td>
+<td>3,6:1 crème, 3,8:1 blanc ✅</td>
+</tr>
+<tr>
+<td><strong>Proposé</strong> <code>hairline</code></td>
+<td>#D5DAD8</td>
+<td>Séparateurs décoratifs uniquement</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>Proposé</strong> <code>action.pressed</code></td>
+<td>#174F80</td>
+<td>État appuyé / lien dans le chrome</td>
+<td>8,5:1 sur blanc, 6,9:1 sur chrome ✅</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Points de vigilance mesurés :</strong>
+- <strong>Chrome #DCEBEA vs page #FAF8F4 = 1,16:1</strong> → la séparation chrome/contenu doit passer par un <strong>filet</strong> (<code>hairline</code>) ou une ombre légère, pas par la seule teinte.
+- <strong>Bleu d'action sur chrome = 4,3:1</strong> (sous 4,5:1 pour un petit texte) → <strong>pas de petit texte bleu dans le chrome</strong>, ce qui est cohérent avec « le chrome ne signifie jamais une action ». Si un lien y est indispensable : <code>action.pressed</code>.
+- <strong>Rampe ambre : #CFA254 sur crème = 2,2:1, #E3C286 = 1,6:1</strong> → sous le seuil 3:1 des éléments graphiques. Chaque cran doit donc porter <strong>un contour #6B4E12 + son symbole ou son chiffre</strong> (ce que C17 exige déjà). Texte #6B4E12 sur #CFA254 = 3,3:1 → <strong>gros texte gras seulement</strong>.
+- <strong>Focus clavier</strong> : double anneau 2 px #FFFFFF + 2 px <code>action</code> (pas de nouvelle couleur).</p>
+<h3 id="62-typographie">6.2 Typographie</h3>
+<p><strong>Recommandation : Atkinson Hyperlegible Next</strong> (Braille Institute, <strong>licence SIL OFL 1.1</strong>, variable 200–800 + italique, 150 langues, auto-hébergeable, disponible via Google Fonts).
+- <strong>Pourquoi :</strong> conçue pour la <strong>désambiguïsation des glyphes</strong> (I / l / 1, 0 / O, rn / m) — décisif pour des doses, des numéros de lot, des NIR, lus à bout de bras, en extérieur, par des IDE de tous âges ; large hauteur d'x ; ton humain sans être enfantin. <strong>Aucun concurrent ne l'utilise</strong> : identité typographique propre.
+- <strong>Compagnons :</strong>
+  - <strong>Atkinson Hyperlegible Mono</strong> (même famille, OFL) pour <strong>identifiants et codes</strong> (NIR, RPPS, n° de FSE, lot, code d'acte) et, si besoin, colonnes de chiffres.
+  - <strong>Source Serif 4</strong> (Adobe, OFL) <strong>uniquement pour les titres du dossier de preuve imprimé</strong> (registre « acte »).
+- <strong>À vérifier :</strong> présence des <strong>chiffres tabulaires</strong> (<code>tnum</code>) dans Atkinson Hyperlegible Next ⚠️ NV. Sinon : Mono pour les colonnes chiffrées.
+- <strong>Alternative si l'équipe veut plus neutre :</strong> <strong>Source Sans 3</strong> (OFL, humaniste, <code>tnum</code> disponible, excellent français). <strong>À éviter :</strong> Marianne (réservée à l'État) ; polices système seules (rendu différent iOS / Android / Windows, impression incohérente) ; Inter (excellente mais très « SaaS générique »).
+- <strong>Règles :</strong> pas d'italique pour l'emphase, pas de capitales pour les noms, gras avec parcimonie (NHS) ; alignement à gauche ; chiffres tabulaires pour toute valeur comparée.</p>
+<p><strong>Échelle typographique</strong> (px ; Flutter en dp logiques ; interlignage entre parenthèses) :</p>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Rôle</th>
+<th>Terminal mobile</th>
+<th>Poste fixe web</th>
+<th>Graisse</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Titre d'écran</td>
+<td>24 (30)</td>
+<td>28 (36)</td>
+<td>700</td>
+</tr>
+<tr>
+<td>Titre de section</td>
+<td>20 (26)</td>
+<td>20 (28)</td>
+<td>650</td>
+</tr>
+<tr>
+<td>Sous-titre / nom patient</td>
+<td>18 (24)</td>
+<td>17 (24)</td>
+<td>600</td>
+</tr>
+<tr>
+<td><strong>Texte courant</strong></td>
+<td><strong>17 (24)</strong></td>
+<td><strong>15 (22)</strong></td>
+<td>400</td>
+</tr>
+<tr>
+<td>Texte secondaire</td>
+<td>15 (21)</td>
+<td>14 (20)</td>
+<td>400</td>
+</tr>
+<tr>
+<td>Métadonnées (heure, auteur)</td>
+<td>13 (18) — minimum absolu</td>
+<td>13 (18)</td>
+<td>500</td>
+</tr>
+<tr>
+<td><strong>Valeur saisie / mesure</strong></td>
+<td><strong>28 (32)</strong> tabulaire</td>
+<td>22 (28) tabulaire</td>
+<td>600</td>
+</tr>
+<tr>
+<td>Chiffre héros (surface, total lot)</td>
+<td>34 (40)</td>
+<td>32 (40)</td>
+<td>700</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="63-espacement-rayons-élévation-mouvement">6.3 Espacement, rayons, élévation, mouvement</h3>
+<ul>
+<li><strong>Espacement (base 4)</strong> : 4 · 8 · 12 · 16 · 24 · 32 · 48 · 64. Marge latérale mobile <strong>16</strong> ; ligne de tournée ≥ <strong>72</strong> de haut ; barre d'action <strong>72 + zone sûre</strong> ; bouton principal <strong>56</strong> ; secondaire <strong>48</strong>.</li>
+<li><strong>Rayons</strong> : 4 (puces, étiquettes) · 8 (champs, boutons) · 12 (cartes) · 16 (feuilles modales, haut seulement) · cercle (avatars à initiales, anneau de progression). Pas de pilules partout : un rendu un peu plus « document ».</li>
+<li><strong>Élévation (ombres teintées du bleu-vert du chrome)</strong> :</li>
+<li><code>e0</code> : à plat + filet <code>hairline</code> (par défaut) ;</li>
+<li><code>e1</code> : <code>0 1px 2px rgba(14,71,70,.08), 0 1px 1px rgba(14,71,70,.04)</code> (cartes) ;</li>
+<li><code>e2</code> : <code>0 8px 24px rgba(14,71,70,.12)</code> (feuilles, menus) ;</li>
+<li>impression : aucune ombre.</li>
+<li><strong>Mouvement</strong> : 150–200 ms ease-out pour les changements d'état, 250 ms pour les feuilles, <strong>remplissage linéaire 800 ms</strong> pour la signature maintenue, retour haptique léger à la validation ; <strong>aucun rebond, aucun confetti</strong> ; respect de « réduire les animations ».</li>
+</ul>
+<h3 id="64-iconographie">6.4 Iconographie</h3>
+<ul>
+<li><strong>Phosphor Icons (licence MIT)</strong> : même jeu sur <strong>React</strong> (<code>@phosphor-icons/react</code>) et <strong>Flutter</strong> (<code>phosphor_flutter</code>, MIT) ; plusieurs <strong>graisses</strong> (Regular, Bold, Fill…) qui permettent un code <strong>de forme</strong> pour les états : contour = à faire, plein = acquis — un indice non chromatique conforme C17.</li>
+<li><strong>Health Icons (CC0)</strong> pour les pictogrammes cliniques (seringue, pansement, perfusion…), redessinés au besoin sur la grille 24 et le trait Phosphor Regular pour l'homogénéité.</li>
+<li><strong>Icônes propres</strong> pour les dispositifs absents des bibliothèques (PICC, chambre implantable, stomie, PCA) : même grille, même trait.</li>
+<li>Règle : <strong>une icône n'est jamais seule</strong> pour un état ou une action importante — toujours un mot (sauf barre d'onglets à libellés).</li>
+<li>Alternative : Lucide (ISC) ou Tabler (MIT), trait 2 px sur 24 — mais pas de graisses « pleines » cohérentes pour coder les états.</li>
+</ul>
+<h3 id="65-data-viz">6.5 Data-viz</h3>
+<ol>
+<li><strong>Le tableau est la vérité, la courbe résume</strong> (Stripe) : toute courbe est accompagnée de ses valeurs.</li>
+<li><strong>Courbe de plaie</strong> : surface (cm²) dans le temps ; marqueur <strong>plein = mesure calibrée</strong>, <strong>creux = non calibrée</strong> ; trou dans la série = pointillé ; événements (changement de protocole, hospitalisation) = filet vertical + libellé.</li>
+<li><strong>Libellé direct</strong> des séries au bout des lignes plutôt qu'une légende ; unités sur l'axe et sur chaque valeur.</li>
+<li><strong>Jamais de rouge dans une courbe</strong> (le rouge est réservé au critique) ; série principale en <code>chrome.fg</code> (#0E4746), comparaison en <code>ink.muted</code> ; zones de référence en <code>ambre.1</code> <strong>avec libellé</strong>.</li>
+<li><strong>Variation en puces textuelles</strong> (« −38 % en 4 sem. ») — pas de flèche verte/rouge qui juge (C17 : le logiciel ne qualifie pas l'état clinique).</li>
+<li><strong>Sparklines</strong> dans les listes (constantes, surface) : 48 × 16, sans axe, dernière valeur écrite à côté.</li>
+<li><strong>Format français</strong> : « 12 sept. », « 4,1 cm² », espace insécable fine avant l'unité, 24 h « 8 h 30 ».</li>
+<li><strong>Impression</strong> : courbes noires et grises, motifs de marqueurs distincts, aucune information de couleur.</li>
+</ol>
+<h3 id="66-ton-et-micro-textes-français-professionnel-calme">6.6 Ton et micro-textes (français, professionnel, calme)</h3>
+<p><strong>Règles :</strong>
+1. <strong>Vouvoiement</strong> ou formulation impersonnelle ; <strong>boutons à l'infinitif avec objet</strong> : « Signer le passage », « Télétransmettre 12 FSE », « Clôturer la plaie ».
+2. <strong>Pas d'émojis, pas de points d'exclamation</strong>, pas de jargon interne (identifiants techniques jamais en titre).
+3. <strong>Erreur = ce qui s'est passé + ce qu'il faut faire</strong>, sans blâme : « La carte Vitale n'a pas été lue. Réinsérez-la ou passez par l'appli carte Vitale. »
+4. <strong>États factuels</strong> : « Non réalisé — motif : patient absent » plutôt que « Échec ».
+5. <strong>Le logiciel constate, l'infirmier juge</strong> : jamais « bonne évolution », toujours « surface −38 % ».
+6. <strong>Rassurer par des faits</strong> : « Enregistré sur ce téléphone à 9 h 42. Sera transmis au retour du réseau. »
+7. <strong>Facultatif écrit « (facultatif) »</strong>, jamais d'astérisque (GOV.UK).
+8. <strong>Noms</strong> : jamais en capitales. Patients : « Nom Prénom » en casse normale (ordre administratif, tri) ; professionnels : « Prénom Nom ».
+9. <strong>Preuve, pas surveillance</strong> : « Votre dossier de preuve » / « Protégez-vous en cas de contrôle », jamais « traçage », « suivi GPS ».</p>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>À éviter</th>
+<th>Préférer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>« Oups ! Une erreur est survenue 😕 »</td>
+<td>« Envoi impossible pour l'instant. Vos 3 actes restent enregistrés et partiront automatiquement. »</td>
+</tr>
+<tr>
+<td>« Valider » (partout)</td>
+<td>« Signer le passage » / « Créer la série de soins »</td>
+</tr>
+<tr>
+<td>« INFIRMIERE RPPS0053124 ALINE »</td>
+<td>« Aline Martin · IDE » (RPPS en métadonnée, police mono)</td>
+</tr>
+<tr>
+<td>« Données manquantes »</td>
+<td>« Il manque : réalisé / non réalisé sur 1 soin »</td>
+</tr>
+<tr>
+<td>« Plaie en bonne voie ! »</td>
+<td>« Surface 4,1 cm² · −38 % depuis le 12 sept. »</td>
+</tr>
+<tr>
+<td>« Mode hors ligne activé » (toast)</td>
+<td>Bandeau persistant : « Hors connexion · 3 actes en attente d'envoi »</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="7-anti-patterns-à-éviter-d">7. Anti-patterns à éviter (d)</h2>
+<p><em>Ce qui fait paraître un logiciel IDEL français daté ou « cheap ».</em></p>
+<ol>
+<li><strong>Tableau de bureau porté sur téléphone</strong> (grilles, loupes, cases minuscules) — Soins 2000.</li>
+<li><strong>Identifiants techniques en titre</strong> (« INFIRMIERE RPPS… ») et <strong>NOMS EN CAPITALES</strong> — EVE, Agathe.</li>
+<li><strong>Soin clinique tronqué par « … »</strong> dans la liste — EVE.</li>
+<li><strong>Boutons en relief et dégradés</strong>, ombres portées lourdes — Calendridel.</li>
+<li><strong>Accueil en grille de lanceurs</strong> et <strong>rangées d'onglets empilées</strong> — Calendridel.</li>
+<li><strong>Statut par couleur seule</strong> (barre rouge/verte, point coloré, coche verte) — Calendridel, Axxess, Albus.</li>
+<li><strong>Thème sombre intégral</strong> sur un outil lu en extérieur — Albus.</li>
+<li><strong>Mascottes, avatars cartoon, confettis</strong> dans l'outil (acceptables en marketing, pas dans un dossier de soins) — Albus, Healico.</li>
+<li><strong>Plusieurs couleurs saturées concurrentes</strong> (violet + rose + jaune + bleu) — Ozzen, Swily (planning).</li>
+<li><strong>Deux boutons pleins côte à côte</strong> pour deux actions de facturation — CareCare.</li>
+<li><strong>Formats non français</strong> (date mois/jour, point décimal, 12 h) — Soins 2000.</li>
+<li><strong>Hors ligne silencieux ou bloquant</strong> : aucun indicateur, ou écriture impossible — Swily (écriture), la plupart (silence).</li>
+<li><strong>Vitrine négligée</strong> : captures store de 2021, textes alternatifs remplis de mots-clés, police fantaisie sur le site — Agathe YOU.</li>
+<li><strong>Ton familier ou émojis</strong> dans un outil de preuve — IDELPro, Oly (accueil), CareCare (tutoiement).</li>
+<li><strong>Toasts éphémères pour des états durables</strong> (hors ligne, rejet) — à la place : bandeau persistant ou file de travail.</li>
+<li><strong>Curseurs (sliders) pour des valeurs cliniques</strong> — imprécis avec des gants, inaccessibles.</li>
+<li><strong>Écrans blancs / noirs au démarrage ou en sortie de veille</strong> (signalés chez Ozzen et Calendridel) — prévoir un squelette de chargement et un état local immédiat.</li>
+<li><strong>Imiter l'identité de l'État</strong> (Marianne, bloc-marque) pour « faire officiel » — interdit et contre-productif.</li>
+</ol>
+<hr />
+<h2 id="8-top-10-des-améliorations-design-priorisées-e">8. Top 10 des améliorations design priorisées (e)</h2>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Amélioration</th>
+<th>Surface</th>
+<th>Impact attendu</th>
+<th>Effort</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>Système d'états unique icône + mot + fond</strong> (Brouillon, À signer, Signé, Transmis, En attente d'envoi, Rejeté, Annulé), décliné mobile / web / papier</td>
+<td>Les deux</td>
+<td><strong>Très fort</strong> : lisibilité terrain, accessibilité C17, cohérence de la preuve</td>
+<td>Faible</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>Ligne de tournée + frise par moment + anneau de progression + filtre « Reste à faire »</strong></td>
+<td>Mobile</td>
+<td><strong>Très fort</strong> : écran le plus vu de la journée (≈ 15–30 consultations / jour)</td>
+<td>Moyen</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>Signature maintenue + reçu horodaté</strong> (avec alternative accessible), dans la barre C19</td>
+<td>Mobile</td>
+<td><strong>Fort</strong> : matérialise la promesse ; zéro signature accidentelle</td>
+<td>Faible</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>Langage hors ligne</strong> : bandeau persistant, compteur d'envois, écran Synchronisation, état lecteur / CPS / Vitale</td>
+<td>Mobile</td>
+<td><strong>Fort</strong> : confiance, réduit les appels au support (plaintes Ozzen)</td>
+<td>Moyen</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>Fil de preuve dépliable</strong> par ligne de FSE (acte → auteur → horodatage → Vitale → signature → pièces)</td>
+<td>Web</td>
+<td><strong>Très fort</strong> : différenciation unique et démontrable en démo</td>
+<td>Moyen</td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>Dossier de preuve imprimable</strong> au registre « acte officiel » (page de garde, sommaire, pagination, empreinte, N&amp;B)</td>
+<td>Web / PDF</td>
+<td><strong>Fort</strong> : arme commerciale « protégez-vous en cas de contrôle »</td>
+<td>Moyen</td>
+</tr>
+<tr>
+<td>7</td>
+<td><strong>Typographie Atkinson Hyperlegible Next + Mono + échelle</strong> et <strong>tokens nommés par rôle</strong> (C17 + neutres d'encre)</td>
+<td>Les deux</td>
+<td><strong>Fort</strong> : identité propre, lisibilité des doses / identifiants</td>
+<td>Faible</td>
+</tr>
+<tr>
+<td>8</td>
+<td><strong>Saisie numérique « gants »</strong> : pavé dédié, steppers 56 dp, valeurs 28 px tabulaires, plages en texte, pas de curseur</td>
+<td>Mobile</td>
+<td><strong>Moyen à fort</strong> : vitesse et justesse de saisie des constantes et mesures</td>
+<td>Faible</td>
+</tr>
+<tr>
+<td>9</td>
+<td><strong>Mesure de plaie + comparaison photo + courbe calibrée</strong> (marqueur plein / creux, deltas en texte)</td>
+<td>Mobile + web</td>
+<td><strong>Fort</strong> : démontre l'objet suivi ; prépare l'AMI 3,48 bilan plaie (01/01/2027)</td>
+<td>Élevé</td>
+</tr>
+<tr>
+<td>10</td>
+<td><strong>Page « Vérifier puis télétransmettre »</strong> et <strong>file de rejets</strong> au langage clair</td>
+<td>Web (+ mobile)</td>
+<td><strong>Fort</strong> : moins de rejets, une seule action irréversible bien nommée</td>
+<td>Moyen</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Mesures de succès suggérées :</strong> temps par acte signé (objectif ≤ 30 s, cf. benchmark fonctionnel) ; taux de signatures annulées dans les 10 s (erreurs de geste) ; nombre de tickets « synchro / lecteur » ; taux de rejet par lot ; test de lecture en plein soleil (5 IDE, téléphone à luminosité réduite, identification des statuts sans couleur).</p>
+<hr />
+<h2 id="9-sources">9. Sources</h2>
+<p><strong>Stores (captures et avis consultés)</strong>
+- Agathe YOU : https://apps.apple.com/fr/app/agathe-you/id1559727100 ; https://www.agatheyou.fr/application/ ; https://laruche.cbainfo.fr/actualites/dernieres-innovations-agathe-you/
+- Albus : https://apps.apple.com/fr/app/albus/id1456276481
+- Ozzen : https://apps.apple.com/fr/app/ozzen-agenda-dossier-de-soins/id1516601926 ; https://ozzen.fr/fonctionnalites/tournee/ ; https://ozzen.fr/fonctionnalites/dossiers-patients/
+- CareCare : https://apps.apple.com/fr/app/carecare-le-logiciel-des-idel/id6502758131 ; https://www.carecare.fr/
+- Swily : https://apps.apple.com/fr/app/swily-tourn%C3%A9es-soins-idel/id6743699018 ; https://swily.io/fonctionnalites/logiciel-gestion-tournees-infirmier-liberal
+- EVE by VEGA : https://apps.apple.com/fr/app/eve-by-vega/id6742820039 ; https://www.vega-logiciel.fr/infirmiere/
+- Soins 2000 : https://apps.apple.com/fr/app/soins2000/id6736681643
+- Calendridel : https://apps.apple.com/fr/app/calendridel/id1525941386 ; https://www.calendridel.fr/trans/facturation/
+- Healico : https://apps.apple.com/fr/app/healico/id1486300710
+- Pixacare : https://apps.apple.com/fr/app/pixacare/id1502981786
+- Swift Skin and Wound : https://apps.apple.com/us/app/swift-skin-and-wound/id1410310051
+- AlayaCare : https://apps.apple.com/us/app/alayacare/id1030754584</p>
+<p><strong>Sites et presse (descriptions, non vus visuellement)</strong>
+- Simply Vitale 4.0 : https://www.actusoins.com/avec-simply-vitale-4-0-cegedim-sante-offre-aux-infirmieres-une-autre-vision-de-leur-journee-sur-une-nouvelle-tablette-plus-performante.html
+- Citana : https://www.anamnese.care/citana/profession/infirmier-logiciel
+- IDELPro : https://idelpro.fr/
+- Oly : https://www.oly-app.fr/
+- e-Pansement : https://www.e-pansement.fr/
+- Tissue Analytics : https://www.nethealth.com/tissue-analytics/ ; https://www.nethealth.com/blog/7-best-wound-measurement-software/
+- Axxess Wound Manager : https://www.axxess.com/help/agencycore/mobile-and-evv/mobile-wound-manager/
+- AlayaCare (aide, accès refusé au robot — infos via résultats de recherche) : https://alayacare.zendesk.com/hc/en-us/articles/360042877512-AlayaCare-Care-Worker-Mobile-App-Product-Overview ; https://alayacare.zendesk.com/hc/en-us/articles/115000700687-How-do-I-complete-a-Visit-while-in-Offline-Mode
+- WellSky : https://apps.apple.com/us/app/wellsky-hhh-offline/id945701011 ; https://www.homecaremag.com/news/wellsky-announces-new-point-care-mobile-app
+- Epic Rover : https://www.mindbowser.com/epic-rover-guide/ ; https://digitalhealth.folio3.com/blog/prevent-medication-errors-with-epic-rover/</p>
+<p><strong>Forums (avis)</strong>
+- https://www.l-idel.fr/forum/messages.html?idsujet=15800&amp;page=0&amp;pgi=0 (Albus Air)
+- https://www.infirmiers.com/forum/logiciel-agathe-attention-t166859.html (Agathe)</p>
+<p><strong>Systèmes de design et accessibilité</strong>
+- NHS typographie : https://service-manual.nhs.uk/design-system/styles/typography ; couleur : https://service-manual.nhs.uk/design-system/styles/colour ; warning callout : https://service-manual.nhs.uk/design-system/components/warning-callout ; care cards : https://service-manual.nhs.uk/design-system/patterns/help-users-decide-when-and-where-to-get-care
+- GOV.UK question pages : https://design-system.service.gov.uk/patterns/question-pages/ ; check answers : https://design-system.service.gov.uk/patterns/check-answers/
+- Doctolib Oxygen (secondaire) : https://oh-my-design.kr/design-systems/doctolib ; https://medium.com/doctolib/measuring-design-system-compliance-of-your-teams-ccbd718499f8 ; refonte 2023 : https://elmarq.fr/analyses/doctolib ; https://www.cbnews.fr/marques/doctolib-se-dote-nouvelle-identite-visuelle
+- DSFR / Marianne (usage réservé à l'État) : https://github.com/GouvernementFR/dsfr ; https://www.info.gouv.fr/marque-de-letat/la-typographie
+- Linear : https://linear.app/now/behind-the-latest-design-refresh ; https://linear.app/now/how-we-redesigned-the-linear-ui
+- Stripe (secondaire) : https://www.925studios.co/blog/stripe-dashboard-design-breakdown
+- Hors ligne : https://design.google/library/offline-design ; https://m1.material.io/patterns/offline-states.html
+- Cibles tactiles : https://wcag22aa.org/new-criteria/target-size/ ; https://accessibility.build/wcag/2-5-5 ; Parhi, Karlson, Bederson (2006) : https://www.microsoft.com/en-us/research/wp-content/uploads/2006/01/parhi-mobileHCI06.pdf ; https://www.nngroup.com/articles/touch-target-size/</p>
+<p><strong>Typographie et icônes (licences)</strong>
+- Atkinson Hyperlegible Next (OFL) : https://github.com/googlefonts/atkinson-hyperlegible-next ; https://www.brailleinstitute.org/freefont/
+- Phosphor (MIT) / Lucide (ISC) / Tabler (MIT) : https://dev.to/svgicons/lucide-vs-tabler-vs-phosphor-which-free-icon-set-fits-your-ui-4ocl ; Flutter : https://pub.dev/packages/phosphor_flutter
+- Health Icons (CC0) : https://healthicons.org/about ; https://github.com/resolvetosavelives/healthicons</p>
+<p><strong>Limites de cette étude</strong>
+- Les captures App Store sont des <strong>visuels marketing</strong>, parfois anciens (Agathe : 2021). L'interface réelle peut différer : une démo de chaque concurrent reste recommandée.
+- Pas de visuel consulté pour Simply Vitale, Citana, IDELPro, Oly, Medilink, Equinox, e-Pansement, Tissue Analytics, Netsmart.
+- Les pages d'aide AlayaCare ont refusé l'accès automatique : les détails (couleur d'en-tête au pointage, écran Sync Activity) viennent de résultats de recherche.
+- Les palettes et polices des <strong>sites</strong> (extraites du HTML) ne reflètent pas forcément celles des <strong>apps</strong>.
+- Les contrastes indiqués ont été calculés selon la formule WCAG 2.x sur les valeurs hexadécimales ; à revalider sur écran réel et en impression.
+- La présence de chiffres tabulaires dans Atkinson Hyperlegible Next n'a pas été vérifiée.</p>
+</main>
+</body>
+</html>

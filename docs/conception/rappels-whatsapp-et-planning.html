@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rappels automatiques (WhatsApp et autres canaux) et planning — plan, non engagé</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{--bg:#F4F6FA;--surface:#FFFFFF;--surface-2:#EEF2FB;--fg:#141A2E;--fg-2:#4A5372;--ligne:#DDE3EF;
+--accent:#2F5BEA;--accent-fg:#FFFFFF;--accent-doux:#E6ECFD;--attention:#8A5A00;--attention-fond:#FFF4DC;
+--code-fond:#F1F3F8;--police:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+--police-code:"JetBrains Mono",ui-monospace,"Cascadia Code",Consolas,monospace;--rayon:10px;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0E1220;--surface:#151A2B;--surface-2:#1C2338;
+--fg:#E8ECF7;--fg-2:#A3ACC6;--ligne:#2A3250;--accent:#7C9BFF;--accent-fg:#0E1220;--accent-doux:#1E2950;
+--attention:#F2C25B;--attention-fond:#33290F;--code-fond:#10152A;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0E1220;--surface:#151A2B;--surface-2:#1C2338;--fg:#E8ECF7;--fg-2:#A3ACC6;--ligne:#2A3250;
+--accent:#7C9BFF;--accent-fg:#0E1220;--accent-doux:#1E2950;--attention:#F2C25B;--attention-fond:#33290F;--code-fond:#10152A;color-scheme:dark}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--police);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}
+.entete{background:var(--surface);border-bottom:1px solid var(--ligne)}
+.entete div{max-width:calc(80ch + 32px);margin:0 auto;padding:12px 16px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.entete b{font-weight:600}
+.entete a{color:var(--accent);text-decoration:none;font-weight:500}
+.entete a:hover{text-decoration:underline}
+main{max-width:calc(80ch + 32px);margin:0 auto;padding:24px 16px 64px;overflow-wrap:break-word}
+.chemin{font-family:var(--police-code);font-size:12px;color:var(--fg-2);margin:0 0 8px}
+h1{font-size:28px;line-height:1.25;margin:0 0 16px}
+h2{font-size:21px;line-height:1.3;margin:36px 0 12px;padding-top:12px;border-top:1px solid var(--ligne)}
+h3{font-size:17px;margin:28px 0 8px}h4,h5,h6{font-size:15px;margin:20px 0 6px}
+a{color:var(--accent)}
+p,li{max-width:80ch}
+code{font-family:var(--police-code);font-size:.88em;background:var(--code-fond);border:1px solid var(--ligne);border-radius:5px;padding:0 4px;overflow-wrap:anywhere}
+pre{background:var(--code-fond);border:1px solid var(--ligne);border-radius:var(--rayon);padding:14px 16px;overflow-x:auto;font-size:13px;line-height:1.55}
+pre code{background:none;border:0;padding:0;font-size:inherit;overflow-wrap:normal}
+.tableau{overflow-x:auto;margin:16px 0;border:1px solid var(--ligne);border-radius:var(--rayon);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:13.5px;line-height:1.5}
+th,td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--ligne);min-width:8ch}
+th{background:var(--surface-2);font-weight:600}
+tr:last-child td{border-bottom:0}
+blockquote{margin:16px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-doux);border-radius:0 var(--rayon) var(--rayon) 0}
+hr{border:0;border-top:1px solid var(--ligne);margin:28px 0}
+img{max-width:100%}
+.non-publie{font-size:13px;color:var(--attention);background:var(--attention-fond);padding:1px 6px;border-radius:5px}
+details.sommaire{background:var(--surface);border:1px solid var(--ligne);border-radius:var(--rayon);padding:10px 16px;margin:0 0 24px}
+details.sommaire summary{cursor:pointer;font-weight:600}
+details.sommaire ul{padding-left:20px;margin:8px 0 0}
+.admonition{border:1px solid var(--ligne);border-radius:var(--rayon);padding:8px 16px;background:var(--surface)}
+.admonition-title{font-weight:600}
+</style>
+</head>
+<body>
+<header class="entete"><div><b>TabSanté — documents</b><a href="../../">← Retour au portail</a></div></header>
+<main>
+<p class="chemin">docs/conception/rappels-whatsapp-et-planning.html</p>
+<h1 id="rappels-automatiques-whatsapp-et-autres-canaux-et-planning--plan-non-engagé">Rappels automatiques (WhatsApp et autres canaux) et planning — plan, non engagé</h1>
+<details class="sommaire"><summary>Sommaire</summary><ul><li><a href="#1-objectif">1. Objectif</a></li><li><a href="#2-ce-qui-encadre-le-projet-à-lire-avant-tout">2. Ce qui encadre le projet (à lire avant tout)</a></li><li><a href="#3-dossier-patient--ce-quil-faut-ajouter">3. Dossier patient — ce qu'il faut ajouter</a></li><li><a href="#4-catalogue-des-rappels-envisagés">4. Catalogue des rappels envisagés</a></li><li><a href="#5-la-partie-planning">5. La partie planning</a></li><li><a href="#6-architecture-envisagée">6. Architecture envisagée</a></li><li><a href="#7-décisions-à-prendre-par-le-fondateur">7. Décisions à prendre par le fondateur</a></li><li><a href="#8-lots-proposés-quand-vous-déciderez-dengager">8. Lots proposés (quand vous déciderez d'engager)</a></li></ul></details>
+<p><em>Document de cadrage du 9 octobre 2026. Rien n'est construit : ce plan sert à décider avant d'engager. Il s'appuie sur
+ce qui existe déjà dans TabSanté (rappels datés C4, notifications C6, tâche de nuit, tournées, rendez-vous de soin,
+géolocalisation des tournées en cours de fusion, registre des simulations).</em></p>
+<h2 id="1-objectif">1. Objectif</h2>
+<p>Prévenir automatiquement, au bon moment et par le canal choisi :</p>
+<ul>
+<li><strong>le patient</strong> (ou l'aidant qu'il désigne) : passage de demain, heure d'arrivée, préparation (à jeun, ordonnance,
+  carte Vitale), report ou annulation ;</li>
+<li><strong>les membres du cabinet</strong> : tournée du lendemain, échéances (fin d'ordonnance, BSI, bilan), rappels datés du jour,
+  passages non réalisés, échanges et remplacements, résultats reçus.</li>
+</ul>
+<p>Et compléter <strong>le planning</strong> pour que ces rappels partent d'une organisation juste (absences, tournée du lendemain,
+charge de chacun).</p>
+<h2 id="2-ce-qui-encadre-le-projet-à-lire-avant-tout">2. Ce qui encadre le projet (à lire avant tout)</h2>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Contrainte</th>
+<th>Conséquence pour TabSanté</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Dire qu'une infirmière passe chez quelqu'un révèle une prise en charge : c'est une <strong>donnée de santé</strong> (RGPD, art. 9).</td>
+<td>Consentement explicite du patient, recueilli et tracé au dossier, révocable à tout moment ; message réduit au strict nécessaire.</td>
+</tr>
+<tr>
+<td><strong>WhatsApp n'est pas un hébergeur de données de santé (HDS)</strong> ; Meta reçoit les métadonnées (numéro, heure, fréquence) et traite hors UE.</td>
+<td>Jamais de nature du soin, de diagnostic, de traitement ni de résultat dans un message. Un détail = un lien vers un espace sécurisé, ou un appel au cabinet.</td>
+</tr>
+<tr>
+<td>Entre professionnels, les données de santé circulent par <strong>MSSanté</strong> (doctrine ANS et CNIL).</td>
+<td>Pour l'équipe, la <strong>notification de l'application</strong> reste la voie normale ; WhatsApp au plus pour un « réveil » sans donnée patient (« 3 nouvelles notifications TabSanté »).</td>
+</tr>
+<tr>
+<td><strong>WhatsApp Business Platform</strong> : compte vérifié, numéro dédié, <strong>modèles de messages validés par Meta</strong> (catégorie « utilitaire »), réponses libres seulement 24 h après un message du patient, <strong>coût par conversation</strong>, passage par un prestataire agréé (BSP).</td>
+<td>Modèles versionnés en français, peu nombreux, sans variable sensible ; contrat de sous-traitance avec le prestataire ; AIPD mise à jour.</td>
+</tr>
+<tr>
+<td>Le patient choisit son canal ; beaucoup de patients âgés n'ont pas WhatsApp.</td>
+<td>Plusieurs canaux derrière un même mécanisme : WhatsApp, SMS, appel vocal automatique (plus tard), e-mail, aucun.</td>
+</tr>
+<tr>
+<td>Réponses du patient par WhatsApp.</td>
+<td>Seulement des réponses courtes reconnues (« OK », « REPORTER », « STOP ») ; tout autre message reçoit « Pour toute question sur vos soins, appelez le cabinet au … » et n'est pas versé au dossier.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="3-dossier-patient--ce-quil-faut-ajouter">3. Dossier patient — ce qu'il faut ajouter</h2>
+<p>Une rubrique <strong>« Contact et rappels »</strong> dans le dossier administratif :</p>
+<ul>
+<li><strong>Qui reçoit</strong> : le patient, ou un aidant / la personne de confiance avec l'accord du patient.</li>
+<li><strong>Canal et numéro</strong> : WhatsApp, SMS, e-mail ou aucun ; numéro chiffré en base ; vérification du numéro par un code
+  à l'inscription.</li>
+<li><strong>Consentement</strong> : date, recueilli par (soignant), mode (oral / écrit), types de rappels acceptés (passage, arrivée,
+  préparation, échéances), révocation (« STOP » ou au cabinet).</li>
+<li><strong>Préférences</strong> : langue, heures de silence (pas de message avant 8 h ni après 20 h par défaut), délai de la veille.</li>
+<li><strong>Historique des messages</strong> : modèle utilisé, date, canal, statut (planifié, envoyé, remis, lu, échec, annulé),
+  réponse courte reçue. Visible des infirmiers et de l'administration du cabinet ; l'aide-soignante voit seulement
+  si le patient est prévenu. Conservé selon la durée D-06, jamais exporté vers le DMP ni le portail externe.</li>
+</ul>
+<h2 id="4-catalogue-des-rappels-envisagés">4. Catalogue des rappels envisagés</h2>
+<h3 id="patients-exemples-de-textes-à-valider">Patients (exemples de textes, à valider)</h3>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Rappel</th>
+<th>Déclencheur</th>
+<th>Exemple de message</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Passage de demain</td>
+<td>la veille à 18 h, occurrences du lendemain</td>
+<td>« Bonjour, votre infirmier passera demain matin, entre 8 h et 9 h. Cabinet TabSanté. »</td>
+</tr>
+<tr>
+<td>Arrivée</td>
+<td>départ signalé vers ce patient (géolocalisation activée et consentement)</td>
+<td>« Votre infirmière arrive vers 9 h 40. »</td>
+</tr>
+<tr>
+<td>Retard</td>
+<td>retard estimé de plus de 20 min</td>
+<td>« Votre infirmier aura environ 25 min de retard. »</td>
+</tr>
+<tr>
+<td>Préparation</td>
+<td>prélèvement prévu le lendemain matin</td>
+<td>« Pour le passage de demain matin, merci de rester à jeun à partir de minuit. » <em>(à valider : il laisse deviner un prélèvement)</em></td>
+</tr>
+<tr>
+<td>Documents</td>
+<td>ordonnance arrivant à échéance, carte Vitale à présenter</td>
+<td>« Pensez à demander à votre médecin le renouvellement de votre ordonnance avant le 15 octobre. »</td>
+</tr>
+<tr>
+<td>Report, annulation</td>
+<td>occurrence déplacée ou retirée</td>
+<td>« Le passage de jeudi matin est reporté à vendredi matin. »</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Exclus d'office</strong> : rappel de prise de médicament, résultat de laboratoire, toute mention de la pathologie ou du soin.</p>
+<h3 id="membres-du-cabinet-par-la-notification-de-lapplication--whatsapp-en-simple--réveil--si-décidé">Membres du cabinet (par la notification de l'application ; WhatsApp en simple « réveil » si décidé)</h3>
+<ul>
+<li>Tournée du lendemain : nombre de patients, premier passage, alerte météo, remplacement en cours.</li>
+<li>Échéances : fin d'ordonnance à J-7, BSI à refaire, bilan à rédiger, rappels datés du jour (ablation d'agrafes…).</li>
+<li>À traiter : passages non réalisés à déclarer, saisies différées à valider, échange ou réattribution proposé,
+  remplacement qui commence ou se termine, résultat de laboratoire reçu (sans valeur).</li>
+</ul>
+<h2 id="5-la-partie-planning">5. La partie planning</h2>
+<p><strong>Déjà en place</strong> : tournées par moment, une personne par rôle, attributions datées, planning par rôle,
+prévisionnel, échanges et cessions (même hors connexion), réattribution d'un passage, remplaçants à portée limitée,
+rendez-vous de soin ; en cours de fusion : ordre de passage, heures d'arrivée estimées, durées par intervenant.</p>
+<p><strong>À prévoir</strong>, parce que les rappels n'ont de valeur que si le planning est juste :</p>
+<ol>
+<li><strong>Indisponibilités et congés</strong> de chaque intervenant ; le planning signale les tournées sans personne et propose
+   une réattribution ou un remplaçant (le CDC le laisse « à préciser »).</li>
+<li><strong>Préparation de la tournée du lendemain</strong> : la veille, l'ordre de passage proposé, la durée totale estimée,
+   les alertes (météo, retards probables), puis une validation par l'infirmière — c'est cette validation qui
+   déclenche les rappels « passage de demain » aux patients, avec une fenêtre horaire réaliste.</li>
+<li><strong>Charge par intervenant</strong> : heures estimées de soins et de trajet par jour et par semaine, pour équilibrer.</li>
+<li><strong>Vue calendrier</strong> (semaine, mois) des attributions, absences et remplacements, par rôle.</li>
+<li><strong>Changement de dernière minute</strong> : un passage déplacé ou réattribué recalcule les rappels et prévient le patient
+   et la nouvelle personne.</li>
+<li><strong>Export des horaires</strong> de l'équipe (agenda personnel) : sans aucun nom de patient — à décider.</li>
+</ol>
+<h2 id="6-architecture-envisagée">6. Architecture envisagée</h2>
+<ul>
+<li><strong>Messages planifiés</strong> : une table des messages à envoyer (destinataire, canal, modèle, variables autorisées,
+  date d'envoi, statut, tentatives), remplie chaque soir par la tâche de nuit à partir des occurrences validées
+  du lendemain, des rendez-vous et des rappels datés ; recalculée quand l'ordre ou l'attribution change ;
+  idempotente ; annulée si l'occurrence est retirée.</li>
+<li><strong>Port « messagerie sortante »</strong> avec des adaptateurs : WhatsApp (via le prestataire agréé), SMS, e-mail,
+  notification de l'application ; <strong>adaptateur simulé</strong> pour la démonstration, déclaré dans Paramètres ›
+  Simulations, avec un « téléphone du patient » à l'écran qui reçoit les messages et permet de répondre.</li>
+<li><strong>Modèles</strong> de messages versionnés, en français, aux variables limitées (prénom de l'infirmier, moment, fenêtre
+  horaire, date) ; un test interdit toute variable sensible.</li>
+<li><strong>Retours</strong> : webhooks de statut (remis, lu) et réponses courtes, signature vérifiée ; « REPORTER » crée une
+  demande au cabinet, jamais un report automatique.</li>
+<li><strong>Garde-fous</strong> : heures de silence, plafond de messages par patient et par jour, arrêt d'urgence global,
+  journalisation sans contenu sensible, numéros chiffrés.</li>
+<li><strong>Terminal</strong> : l'infirmière voit si le patient est prévenu et peut envoyer « je suis en route » d'un geste.</li>
+</ul>
+<h2 id="7-décisions-à-prendre-par-le-fondateur">7. Décisions à prendre par le fondateur</h2>
+<ol>
+<li>Canal par défaut proposé au patient : WhatsApp, SMS ou les deux.</li>
+<li>Choix du prestataire WhatsApp (BSP) et du fournisseur SMS, budget mensuel par cabinet.</li>
+<li>Peut-on évoquer la préparation (« restez à jeun ») ou faut-il rester sur « passage demain » ?</li>
+<li>Avis d'arrivée au patient : oui, non, ou seulement sur demande.</li>
+<li>WhatsApp pour l'équipe : jamais, ou seulement en « réveil » sans donnée.</li>
+<li>Heures d'envoi (veille 18 h ?) et heures de silence.</li>
+<li>Durée de conservation de l'historique des messages.</li>
+<li>Aidant destinataire : avec quel accord du patient, et pour quels rappels.</li>
+<li>Indisponibilités : qui les saisit et qui valide.</li>
+</ol>
+<h2 id="8-lots-proposés-quand-vous-déciderez-dengager">8. Lots proposés (quand vous déciderez d'engager)</h2>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Lot</th>
+<th>Contenu</th>
+<th>Dépend de</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Dossier « Contact et rappels », consentement, historique</td>
+<td>—</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Messages planifiés, modèles, adaptateur simulé, page de démonstration</td>
+<td>lot 1</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Planning : indisponibilités, tournée du lendemain validée, charge, calendrier</td>
+<td>géolocalisation fusionnée</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Rappels équipe dans l'application, puis rappels patients sur le canal simulé</td>
+<td>lots 2 et 3</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Branchement réel WhatsApp / SMS via prestataire</td>
+<td>décisions 1, 2, 5, AIPD</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Terminal : patient prévenu, « je suis en route »</td>
+<td>lots 2 et 4</td>
+</tr>
+</tbody>
+</table></div>
+</main>
+</body>
+</html>

@@ -1,0 +1,437 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Passe UX du poste fixe, lot web 19</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{--bg:#F4F6FA;--surface:#FFFFFF;--surface-2:#EEF2FB;--fg:#141A2E;--fg-2:#4A5372;--ligne:#DDE3EF;
+--accent:#2F5BEA;--accent-fg:#FFFFFF;--accent-doux:#E6ECFD;--attention:#8A5A00;--attention-fond:#FFF4DC;
+--code-fond:#F1F3F8;--police:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+--police-code:"JetBrains Mono",ui-monospace,"Cascadia Code",Consolas,monospace;--rayon:10px;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0E1220;--surface:#151A2B;--surface-2:#1C2338;
+--fg:#E8ECF7;--fg-2:#A3ACC6;--ligne:#2A3250;--accent:#7C9BFF;--accent-fg:#0E1220;--accent-doux:#1E2950;
+--attention:#F2C25B;--attention-fond:#33290F;--code-fond:#10152A;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0E1220;--surface:#151A2B;--surface-2:#1C2338;--fg:#E8ECF7;--fg-2:#A3ACC6;--ligne:#2A3250;
+--accent:#7C9BFF;--accent-fg:#0E1220;--accent-doux:#1E2950;--attention:#F2C25B;--attention-fond:#33290F;--code-fond:#10152A;color-scheme:dark}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--police);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}
+.entete{background:var(--surface);border-bottom:1px solid var(--ligne)}
+.entete div{max-width:calc(80ch + 32px);margin:0 auto;padding:12px 16px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.entete b{font-weight:600}
+.entete a{color:var(--accent);text-decoration:none;font-weight:500}
+.entete a:hover{text-decoration:underline}
+main{max-width:calc(80ch + 32px);margin:0 auto;padding:24px 16px 64px;overflow-wrap:break-word}
+.chemin{font-family:var(--police-code);font-size:12px;color:var(--fg-2);margin:0 0 8px}
+h1{font-size:28px;line-height:1.25;margin:0 0 16px}
+h2{font-size:21px;line-height:1.3;margin:36px 0 12px;padding-top:12px;border-top:1px solid var(--ligne)}
+h3{font-size:17px;margin:28px 0 8px}h4,h5,h6{font-size:15px;margin:20px 0 6px}
+a{color:var(--accent)}
+p,li{max-width:80ch}
+code{font-family:var(--police-code);font-size:.88em;background:var(--code-fond);border:1px solid var(--ligne);border-radius:5px;padding:0 4px;overflow-wrap:anywhere}
+pre{background:var(--code-fond);border:1px solid var(--ligne);border-radius:var(--rayon);padding:14px 16px;overflow-x:auto;font-size:13px;line-height:1.55}
+pre code{background:none;border:0;padding:0;font-size:inherit;overflow-wrap:normal}
+.tableau{overflow-x:auto;margin:16px 0;border:1px solid var(--ligne);border-radius:var(--rayon);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:13.5px;line-height:1.5}
+th,td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--ligne);min-width:8ch}
+th{background:var(--surface-2);font-weight:600}
+tr:last-child td{border-bottom:0}
+blockquote{margin:16px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-doux);border-radius:0 var(--rayon) var(--rayon) 0}
+hr{border:0;border-top:1px solid var(--ligne);margin:28px 0}
+img{max-width:100%}
+.non-publie{font-size:13px;color:var(--attention);background:var(--attention-fond);padding:1px 6px;border-radius:5px}
+details.sommaire{background:var(--surface);border:1px solid var(--ligne);border-radius:var(--rayon);padding:10px 16px;margin:0 0 24px}
+details.sommaire summary{cursor:pointer;font-weight:600}
+details.sommaire ul{padding-left:20px;margin:8px 0 0}
+.admonition{border:1px solid var(--ligne);border-radius:var(--rayon);padding:8px 16px;background:var(--surface)}
+.admonition-title{font-weight:600}
+</style>
+</head>
+<body>
+<header class="entete"><div><b>TabSanté — documents</b><a href="../../">← Retour au portail</a></div></header>
+<main>
+<p class="chemin">docs/maquettes/passe-ux-web19.html</p>
+<h1 id="passe-ux-du-poste-fixe-lot-web-19">Passe UX du poste fixe, lot web 19</h1>
+<details class="sommaire"><summary>Sommaire</summary><ul><li><a href="#tableau-de-bord">Tableau de bord</a></li><li><a href="#fiche-mère-bilansconsultation-sous-fiche-compétences">Fiche mère Bilans/Consultation, sous-fiche, compétences</a></li><li><a href="#dossier--synthèse-et--fragilité-et-dépistage-">Dossier : synthèse et « Fragilité et dépistage »</a></li><li><a href="#courbes-de-croissance">Courbes de croissance</a></li><li><a href="#plaie-en-accès-direct-plaie-sur-le-site-délégation-et-dialogues">Plaie en accès direct, plaie sur le site (délégation) et dialogues</a></li><li><a href="#partage-externe-actes-à-distance-accès-externes">Partage externe, actes à distance, accès externes</a></li><li><a href="#portail-externe">Portail externe</a></li><li><a href="#terminaux">Terminaux</a></li><li><a href="#garde-derreur-des-pages-routées">Garde d'erreur des pages routées</a></li><li><a href="#vérifications">Vérifications</a></li><li><a href="#laissé-en-létat-à-arbitrer">Laissé en l'état (à arbitrer)</a></li></ul></details>
+<p>Critique puis polissage des écrans ajoutés depuis la passe 15 : fiche 24 (onglet Bilans/Consultation, sous-fiche,
+compétences, repères de l'avenant 11), bloc « Fragilité et dépistage » et synthèse du dossier, courbes de croissance,
+plaie en accès direct et plaie sur le site d'un dispositif (délégation), portail externe, partage et actes à distance,
+gestion des terminaux, tableau de bord et garde d'erreur des pages routées.</p>
+<p><strong>Méthode.</strong> API de la passe (port 8212, base <code>tabsante_web19</code>, <code>TABSANTE_DEV_AUTH=true</code>, <code>alembic upgrade head</code>,
+<code>POST /dev/demo</code>) et Vite (5187). Captures pleine page (2 600 px au plus) à 1440 × 900 et 1024 × 768, avant puis
+après, sur les mêmes données : <code>captures/passe-web19-{avant|apres}-&lt;écran&gt;-&lt;largeur&gt;.png</code> (19 écrans × 2 largeurs).
+Les boîtes de dialogue sont capturées à la taille de la fenêtre. Script : <code>capture-web.mjs</code> avec <code>LISTE=web19
+PASSE=passe-web19</code> (il émet un QR neuf pour ouvrir le portail externe et simule une réponse vide du tableau de bord
+pour montrer la garde d'erreur). axe-core 4 (WCAG 2.0, 2.1, 2.2 A et AA) sur les 19 écrans.</p>
+<p>Le classement suit l'impact : <strong>bloquant</strong> (l'écran est faux ou illisible), <strong>fort</strong> (lecture ou action gênée),
+<strong>moyen</strong> (hiérarchie, cohérence), <strong>faible</strong> (finition).</p>
+<h2 id="tableau-de-bord">Tableau de bord</h2>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Impact</th>
+<th>Problème (avant)</th>
+<th>Correction (après)</th>
+<th>Fichiers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T1</td>
+<td>bloquant</td>
+<td><strong>Tableau « Suivi des patients » cassé</strong> : la carte de suivi de la fiche 24 (<code>.suivi { display: grid; padding; gap }</code>) s'appliquait aussi à <code>table.suivi</code>. L'en-tête devenait une bande grise sur la moitié de la largeur, les colonnes ne s'alignaient plus sur leurs titres (« Évolution » au-dessus des courbes).</td>
+<td>Règles de la fiche 24 bornées à <code>li.suivi</code>. Le tableau retrouve ses colonnes ; la colonne patient s'élargit (plus de nom sur quatre lignes à 1440).</td>
+<td><code>web16.css</code></td>
+</tr>
+<tr>
+<td>T2</td>
+<td>fort</td>
+<td>File des cotations : une cotation longue (<code>AMI 1 + AMI 2,3 + INCLUS 0 + INCLUS 0</code>) écrasait le libellé sur trois lignes (« Cumul / au / même passage »), puis cachait son dernier code sous la puce.</td>
+<td>Le libellé garde 180 px ; les codes se replient entre deux codes, jamais dans un code, alignés à droite.</td>
+<td><code>web19.css</code></td>
+</tr>
+<tr>
+<td>T3</td>
+<td>moyen</td>
+<td>Légende des mini-courbes : cinq familles toujours listées, « INR » compris sans aucune ligne d'INR.</td>
+<td>Seules les familles présentes sont légendées ; « Bornes prescrites » seulement si une cible est tracée.</td>
+<td><code>TableauDeBord.tsx</code></td>
+</tr>
+<tr>
+<td>T4</td>
+<td>faible</td>
+<td>Parcours encadrés : « 0 limite proche », « 0 livrable en retard » en gras comme ce qui compte ; 16 px entre les deux lignes.</td>
+<td>Un compteur à zéro passe en discret ; 4 px entre lignes.</td>
+<td><code>ParcoursEncadres.tsx</code>, <code>web19.css</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>Vérifié sans changement : ordre soin puis gestion (passe 15), squelette, « Rien en attente », aide-soignante sans file
+des cotations ni contrôle d'envoi (profil Petit : seules les échéances et la saisie différée en gestion).</p>
+<h2 id="fiche-mère-bilansconsultation-sous-fiche-compétences">Fiche mère Bilans/Consultation, sous-fiche, compétences</h2>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Impact</th>
+<th>Problème</th>
+<th>Correction</th>
+<th>Fichiers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F1</td>
+<td>fort</td>
+<td>« Saisir le score SEGA » / « Réévaluer… » dans les repères de l'avenant 11 : un lien en gris de sous-ligne (<code>.sous-ligne</code> écrasait <code>.lien</code>), indiscernable du texte.</td>
+<td>Couleur et graisse d'un lien.</td>
+<td><code>web19.css</code></td>
+</tr>
+<tr>
+<td>F2</td>
+<td>moyen</td>
+<td>Sous-fiche : « Hors forfait BSI », « Art. 5 ter » en étiquette neutre sur le fond gris de la page (#F1F4F9 sur #F4F6FA) : l'étiquette disparaissait.</td>
+<td>Surface blanche et filet pour les étiquettes neutres de l'en-tête.</td>
+<td><code>web19.css</code></td>
+</tr>
+<tr>
+<td>F3</td>
+<td>moyen</td>
+<td>Champ « Motif » en lecture seule identique à un champ à remplir (la règle <code>input[readonly]</code> de styles.css ne gagnait jamais contre la règle de base) ; le libellé d'un parcours coupé net.</td>
+<td>Lecture seule lisible : fond neutre, filet clair, encre seconde ; points de suspension et libellé entier au survol.</td>
+<td><code>web19.css</code>, <code>SousFiche.tsx</code></td>
+</tr>
+<tr>
+<td>F4</td>
+<td>moyen</td>
+<td>Sous-fiche introuvable (ou refusée) : l'avis seul, sans chemin de retour.</td>
+<td>Lien « Revenir à Bilans/Consultation ».</td>
+<td><code>SousFiche.tsx</code></td>
+</tr>
+<tr>
+<td>F5</td>
+<td>faible</td>
+<td>« la prochaine est prévue le 14 oct.. » : double point après l'abréviation.</td>
+<td>Un seul point.</td>
+<td><code>SousFiche.tsx</code></td>
+</tr>
+<tr>
+<td>F6</td>
+<td>faible</td>
+<td>Filets latéraux : bilan dû sur la fiche source (<code>inset 3px</code>), commentaire d'une évaluation (<code>border-left: 2px</code>).</td>
+<td>Liseré ambre tout autour ; encart teinté.</td>
+<td><code>web19.css</code></td>
+</tr>
+<tr>
+<td>F7</td>
+<td>faible</td>
+<td>Compétences à renforcer vides : sous-titre + message + lien, 250 px pour rien.</td>
+<td>Sous-titre seulement s'il y a des compétences ; panneau vide resserré.</td>
+<td><code>BilansConsultation.tsx</code>, <code>web19.css</code></td>
+</tr>
+<tr>
+<td>F8</td>
+<td>faible</td>
+<td>« 1 consultation signée avant les suivis… » : 4,39:1 sur le fond gris (axe).</td>
+<td>Encre discrète renforcée (4,5:1).</td>
+<td><code>web19.css</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>La fiche mère ne dit jamais de montant ; le calendrier des lettres-clés reste réservé au droit <code>voir_cotation</code>.</p>
+<h2 id="dossier--synthèse-et--fragilité-et-dépistage-">Dossier : synthèse et « Fragilité et dépistage »</h2>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Impact</th>
+<th>Problème</th>
+<th>Correction</th>
+<th>Fichiers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>P1</td>
+<td>bloquant</td>
+<td><strong>Synthèse du dossier</strong> : <code>.valeur-lue</code> de la consultation (<code>height: 40px; display: flex</code>) écrasait celle du dossier. Chaque antécédent et contact tenait sur une ligne de 40 px : entourage et pharmacie <strong>débordaient du panneau</strong> et se chevauchaient (« Mme / Roy / 06 / 00 00 »).</td>
+<td>Règle de la consultation bornée à <code>p.valeur-lue</code>.</td>
+<td><code>web11.css</code></td>
+</tr>
+<tr>
+<td>P2</td>
+<td>fort</td>
+<td>Antécédents et contacts, colonne de 400 px : trois actions laissaient 170 px à la valeur, le téléphone se coupait au milieu (« 06 00 00 / 00 14 »).</td>
+<td>Requête de conteneur : sous 420 px de rubrique, les actions passent sous la valeur.</td>
+<td><code>web19.css</code></td>
+</tr>
+<tr>
+<td>P3</td>
+<td>moyen</td>
+<td>« Kit remis » : un bouton qui se lit comme un état.</td>
+<td>« Tracer un kit remis ».</td>
+<td><code>Synthese.tsx</code></td>
+</tr>
+<tr>
+<td>P4</td>
+<td>moyen</td>
+<td>Nursing (vu en passant) : <code>.niveau</code> du niveau de compétence transformait les quantités en pseudo-boutons de 40 px.</td>
+<td>Bornée à <code>button.niveau</code>.</td>
+<td><code>web16.css</code></td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="courbes-de-croissance">Courbes de croissance</h2>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Impact</th>
+<th>Problème</th>
+<th>Correction</th>
+<th>Fichiers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>C1</td>
+<td>fort</td>
+<td>Cinq noms de percentiles (97ᵉ, 85ᵉ, 50ᵉ, 15ᵉ, 3ᵉ) empilés tous les 12 px au bout des couloirs : une colonne de chiffres loin de ses courbes (longueur, périmètre crânien).</td>
+<td>Étiquetage direct des seules bornes et de la médiane (97ᵉ, 50ᵉ, 3ᵉ), 14 px d'écart ; le couloir 15ᵉ–85ᵉ reste nommé par la légende.</td>
+<td><code>Croissance.tsx</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>Vérifié : légende commune (couloirs, médiane en pointillé, mesures rondes reliées), tableau alternatif des mesures,
+résumé accessible, hors couloir dit par un mot ; jamais la couleur seule.</p>
+<h2 id="plaie-en-accès-direct-plaie-sur-le-site-délégation-et-dialogues">Plaie en accès direct, plaie sur le site (délégation) et dialogues</h2>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Impact</th>
+<th>Problème</th>
+<th>Correction</th>
+<th>Fichiers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>G1</td>
+<td>fort</td>
+<td>À 1024 × 768, le dialogue entier défilait : « Ouvrir la plaie » et « Annuler » sous la ligne de flottaison, l'en-tête partait avec le contenu.</td>
+<td>Tous les dialogues : en-tête et actions fixes, seul le corps défile ; filet au-dessus des actions.</td>
+<td><code>web19.css</code></td>
+</tr>
+<tr>
+<td>G2</td>
+<td>moyen</td>
+<td>Prescription d'origine coupée (« 01/10/202 ») en demi-colonne ; « Vue » seule sur sa ligne.</td>
+<td>Prescription pleine largeur ; région, latéralité et vue sur une ligne.</td>
+<td><code>Delegation.tsx</code></td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="partage-externe-actes-à-distance-accès-externes">Partage externe, actes à distance, accès externes</h2>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Impact</th>
+<th>Problème</th>
+<th>Correction</th>
+<th>Fichiers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>X1</td>
+<td>fort</td>
+<td>Accès externes, professionnels préenregistrés : sans tuile, le texte tombait dans la colonne de 40 px de la ligne de tâche (« Jean / Marchand / (fictif) », RPPS sur deux lignes).</td>
+<td>Tuile d'identité, RPPS insécable.</td>
+<td><code>Partage.tsx</code></td>
+</tr>
+<tr>
+<td>X2</td>
+<td>moyen</td>
+<td>Journal des accès : région défilante sans arrêt au clavier (axe).</td>
+<td>Région nommée, atteignable au clavier.</td>
+<td><code>Partage.tsx</code>, <code>web19.css</code></td>
+</tr>
+<tr>
+<td>X3</td>
+<td>moyen</td>
+<td>Compte rendu signé d'un acte à distance : la ligne « Conclusion » collée au bas du panneau (sa marge sortait du panneau), 2 px hors de l'alignement du titre.</td>
+<td>Marge intérieure, alignée sur le titre.</td>
+<td><code>web19.css</code></td>
+</tr>
+<tr>
+<td>X4</td>
+<td>faible</td>
+<td>« Registre du cabinet » seul sur une seconde ligne d'en-tête ; « Droits » centré face à deux lignes de puces ; « Révoqué », « Expiré » sans icône (règle C4 de la passe 15).</td>
+<td>Lien au pied du panneau ; libellés alignés en haut ; icône interdit ou sablier.</td>
+<td><code>Partage.tsx</code>, <code>web19.css</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>L'aide-soignante ne voit aucune cotation d'acte à distance (vérifié avec le profil Petit).</p>
+<h2 id="portail-externe">Portail externe</h2>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Impact</th>
+<th>Problème</th>
+<th>Correction</th>
+<th>Fichiers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>E1</td>
+<td>moyen</td>
+<td>« Courbes de suivi » : le choix de la mesure collé au titre (externe.css, chargé avant styles.css, perdait sa marge automatique contre <code>.champ { margin: 0 }</code>).</td>
+<td>Choix aligné à droite.</td>
+<td><code>web19.css</code></td>
+</tr>
+<tr>
+<td>E2</td>
+<td>moyen</td>
+<td>« Ce que le patient vous permet » : filet latéral bleu de 4 px (masqué par l'ordre des feuilles, mais déclaré).</td>
+<td>Panneau teinté bleu, filet tout autour.</td>
+<td><code>web19.css</code></td>
+</tr>
+<tr>
+<td>E3</td>
+<td>faible</td>
+<td>L'avis « Allergies » collé à la première ligne de la synthèse ; champ fichier natif hors du système.</td>
+<td>16 px d'écart ; bouton du champ fichier en bouton secondaire.</td>
+<td><code>web19.css</code></td>
+</tr>
+<tr>
+<td>E4</td>
+<td>faible</td>
+<td>Graphe : l'étiquette « 71 kg » de la dernière valeur recouvrait le dernier segment quand la courbe descend.</td>
+<td>Une courbe seule : l'étiquette se pose du côté opposé au dernier segment, dans le cadre.</td>
+<td><code>Graphe.tsx</code></td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="terminaux">Terminaux</h2>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Impact</th>
+<th>Problème</th>
+<th>Correction</th>
+<th>Fichiers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>R1</td>
+<td>moyen</td>
+<td>Colonne « Terminal » bridée à 240 px : « Dernière connexion : 08/10/2026 / 21:49 » coupé, colonne « État » à moitié vide.</td>
+<td>260 px au moins, sans plafond ; dates insécables.</td>
+<td><code>web19.css</code></td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="garde-derreur-des-pages-routées">Garde d'erreur des pages routées</h2>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Impact</th>
+<th>Problème</th>
+<th>Correction</th>
+<th>Fichiers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>B1</td>
+<td>fort</td>
+<td>Un bandeau ambre en haut d'une page vide, sans titre, une seule issue (recharger).</td>
+<td>État de page centré : tuile, titre <code>h1</code>, ce qui reste possible, « Recharger la page » (action principale) et « Revenir à Aujourd'hui ».</td>
+<td><code>composants.tsx</code>, <code>web19.css</code></td>
+</tr>
+<tr>
+<td>B2</td>
+<td>moyen</td>
+<td>Toutes les pages : le nom accessible du logo (« TabSanté, aujourd'hui ») ne contenait pas son texte visible (axe, WCAG 2.5.3).</td>
+<td>« TabSanté <cabinet>, aller à Aujourd'hui ».</td>
+<td><code>Cadre.tsx</code></td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="vérifications">Vérifications</h2>
+<ul>
+<li>axe-core, 19 écrans à 1440 : <strong>17 violations avant</strong> (logo sur les 15 pages du cadre, contraste de la note des
+  anciennes consultations, journal défilant hors clavier), <strong>0 après</strong>, à 1440 comme à 1024.</li>
+<li>Aucun filet latéral coloré dans les écrans de la passe ; aucune dépendance ajoutée ; aucun appel ni comportement modifié.</li>
+<li><code>npx tsc --noEmit</code> : 0 erreur. <code>npx vitest run</code> : 27 fichiers, 308 tests verts, aucun test modifié.
+  <code>npx oxlint src</code> : 0 avertissement.</li>
+</ul>
+<h2 id="laissé-en-létat-à-arbitrer">Laissé en l'état (à arbitrer)</h2>
+<ul>
+<li><strong>Paramètres vitaux d'un nourrisson</strong> : cinq vignettes « Aucune mesure » (tension, fréquences, SpO₂, douleur)
+  occupent la grille au-dessus des courbes de croissance. Les regrouper touche <code>Vitaux.tsx</code>, hors de cette passe.</li>
+<li>À 1024 px, la troisième courbe de croissance reste seule sur sa ligne (grille de deux) ; idem « Douleur » dans les vitaux.</li>
+<li>Accès externes : « Préenregistrer » passe sous le titre dans la colonne de 400 px.</li>
+<li>Score SEGA affiché sans interprétation (seuil 35 dans les repères seulement) : décision produit.</li>
+<li>Le libellé de menu « Preuves et cotations » reste visible pour l'aide-soignante (libellé seul ; aucune cotation dans
+  les écrans vérifiés avec son profil).</li>
+<li>Filets latéraux hors de cette passe : <code>.bandeau-nature</code> (web11.css) et <code>.citation</code> (styles.css).</li>
+<li>« Suivi introuvable » est le message du serveur ; une formulation pour l'infirmier (« Ce suivi n'existe plus ou a
+  été clôturé ») demande l'API.</li>
+</ul>
+</main>
+</body>
+</html>

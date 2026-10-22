@@ -1,0 +1,488 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fiche 24 « Bilans/Consultation » et avenant 11 — analyse d&#x27;écart et plan (serveur)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{--bg:#F4F6FA;--surface:#FFFFFF;--surface-2:#EEF2FB;--fg:#141A2E;--fg-2:#4A5372;--ligne:#DDE3EF;
+--accent:#2F5BEA;--accent-fg:#FFFFFF;--accent-doux:#E6ECFD;--attention:#8A5A00;--attention-fond:#FFF4DC;
+--code-fond:#F1F3F8;--police:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+--police-code:"JetBrains Mono",ui-monospace,"Cascadia Code",Consolas,monospace;--rayon:10px;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0E1220;--surface:#151A2B;--surface-2:#1C2338;
+--fg:#E8ECF7;--fg-2:#A3ACC6;--ligne:#2A3250;--accent:#7C9BFF;--accent-fg:#0E1220;--accent-doux:#1E2950;
+--attention:#F2C25B;--attention-fond:#33290F;--code-fond:#10152A;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0E1220;--surface:#151A2B;--surface-2:#1C2338;--fg:#E8ECF7;--fg-2:#A3ACC6;--ligne:#2A3250;
+--accent:#7C9BFF;--accent-fg:#0E1220;--accent-doux:#1E2950;--attention:#F2C25B;--attention-fond:#33290F;--code-fond:#10152A;color-scheme:dark}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--police);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}
+.entete{background:var(--surface);border-bottom:1px solid var(--ligne)}
+.entete div{max-width:calc(80ch + 32px);margin:0 auto;padding:12px 16px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.entete b{font-weight:600}
+.entete a{color:var(--accent);text-decoration:none;font-weight:500}
+.entete a:hover{text-decoration:underline}
+main{max-width:calc(80ch + 32px);margin:0 auto;padding:24px 16px 64px;overflow-wrap:break-word}
+.chemin{font-family:var(--police-code);font-size:12px;color:var(--fg-2);margin:0 0 8px}
+h1{font-size:28px;line-height:1.25;margin:0 0 16px}
+h2{font-size:21px;line-height:1.3;margin:36px 0 12px;padding-top:12px;border-top:1px solid var(--ligne)}
+h3{font-size:17px;margin:28px 0 8px}h4,h5,h6{font-size:15px;margin:20px 0 6px}
+a{color:var(--accent)}
+p,li{max-width:80ch}
+code{font-family:var(--police-code);font-size:.88em;background:var(--code-fond);border:1px solid var(--ligne);border-radius:5px;padding:0 4px;overflow-wrap:anywhere}
+pre{background:var(--code-fond);border:1px solid var(--ligne);border-radius:var(--rayon);padding:14px 16px;overflow-x:auto;font-size:13px;line-height:1.55}
+pre code{background:none;border:0;padding:0;font-size:inherit;overflow-wrap:normal}
+.tableau{overflow-x:auto;margin:16px 0;border:1px solid var(--ligne);border-radius:var(--rayon);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:13.5px;line-height:1.5}
+th,td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--ligne);min-width:8ch}
+th{background:var(--surface-2);font-weight:600}
+tr:last-child td{border-bottom:0}
+blockquote{margin:16px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-doux);border-radius:0 var(--rayon) var(--rayon) 0}
+hr{border:0;border-top:1px solid var(--ligne);margin:28px 0}
+img{max-width:100%}
+.non-publie{font-size:13px;color:var(--attention);background:var(--attention-fond);padding:1px 6px;border-radius:5px}
+details.sommaire{background:var(--surface);border:1px solid var(--ligne);border-radius:var(--rayon);padding:10px 16px;margin:0 0 24px}
+details.sommaire summary{cursor:pointer;font-weight:600}
+details.sommaire ul{padding-left:20px;margin:8px 0 0}
+.admonition{border:1px solid var(--ligne);border-radius:var(--rayon);padding:8px 16px;background:var(--surface)}
+.admonition-title{font-weight:600}
+</style>
+</head>
+<body>
+<header class="entete"><div><b>TabSanté — documents</b><a href="../../">← Retour au portail</a></div></header>
+<main>
+<p class="chemin">docs/reference/analyse_fiche24_avenant11.html</p>
+<h1 id="fiche-24--bilansconsultation--et-avenant-11--analyse-décart-et-plan-serveur">Fiche 24 « Bilans/Consultation » et avenant 11 — analyse d'écart et plan (serveur)</h1>
+<details class="sommaire"><summary>Sommaire</summary><ul><li><a href="#a-changements-du-cdc-et-exigences-de-la-fiche-24--état-du-code">(a) Changements du CDC et exigences de la fiche 24 → état du code</a></li><li><a href="#b-avenant-11--ce-que-la-plateforme-doit-tenir">(b) Avenant 11 — ce que la plateforme doit tenir</a></li><li><a href="#c-plan-dimplémentation-étapes-2-et-3">(c) Plan d'implémentation (étapes 2 et 3)</a></li><li><a href="#d-réalisé-étapes-2-et-3-et-points-dintégration">(d) Réalisé (étapes 2 et 3) et points d'intégration</a></li></ul></details>
+<p>Base : CDC V2 du 5 octobre 2026 (<code>cdc_v2_texte.txt</code>), extrait <code>fiche24-bilans-consultation.txt</code>, calendrier
+<code>avenant11_idel_calendrier_2026_2029.txt</code>, maquette <code>docs/maquettes/references/fiche24-bilans-consultation-maquette.html</code>.
+Code examiné : <code>backend/</code> au commit <code>e02347a</code> (tête de migration <code>0029</code>).</p>
+<p>Légende : <strong>Fait</strong> (couvert, preuve citée) · <strong>Partiel</strong> (une partie existe, le manque est dit) · <strong>Absent</strong>.
+Les codes du cahier ne vivent que dans ce document, les commentaires et le champ <code>regle</code> des refus.</p>
+<hr />
+<h2 id="a-changements-du-cdc-et-exigences-de-la-fiche-24--état-du-code">(a) Changements du CDC et exigences de la fiche 24 → état du code</h2>
+<h3 id="a1-passages-du-cdc-modifiés-depuis-la-version-précédente">a.1 Passages du CDC modifiés depuis la version précédente</h3>
+<p>Comparaison ligne à ligne (texte normalisé) entre le CDC précédent et celui du 5 octobre 2026. Hors fiche 24
+elle-même (traitée en a.2) et hors mise en forme (sommaire repaginé, tables passées en lignes « | », tables 19
+« injections » scindées), les changements de fond sont :</p>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Passage</th>
+<th>Changement</th>
+<th>État dans le code</th>
+<th>Ce qui manque</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>§4.3 définition « Parcours »</td>
+<td>Exception : les séances art. 5 ter et art. 7 RAAC ont une sous-fiche propre dans Bilans/Consultation</td>
+<td><strong>Partiel</strong> — <code>app/domaines/parcours.py</code> tient les deux parcours (<code>TYPES["prise_en_charge_specialisee"]</code>, <code>TYPES["postoperatoire"]</code>) ; la séance (<code>app/fiches/parcours.py</code>, <code>DonneesSeance</code>) ne porte qu'un commentaire</td>
+<td>Volet de saisie de la séance (éléments qu'aucune fiche ne trace), tronc commun, compétences</td>
+</tr>
+<tr>
+<td>§6.4 bis « Contenu des séances »</td>
+<td>Le contenu des parcours art. 7 et art. 5 ter n'est plus « à détailler » : il est fixé par les tables 38 et 39 ; la règle « aucune saisie propre » est levée pour ces deux parcours</td>
+<td><strong>Partiel</strong> — éléments proposés (constantes, douleur, pansement) marqués [P] dans <code>parcours.py</code></td>
+<td>Éléments des tables 38/39 portés par le volet ; élément conditionnel « contact de l'équipe médicale si anomalie » (EX-CI-19)</td>
+</tr>
+<tr>
+<td>Tables 37 et 42, art. 5 ter</td>
+<td>Durée « 4 à 6 mois (IC), jusqu'à 6 mois (BPCO stade II et suivants) » au lieu de « 4 à 6 mois »</td>
+<td><strong>Partiel</strong> — fenêtre fixe de 6 mois (<code>parcours.py</code>, <code>_mois(j0, 6)</code>)</td>
+<td>Pathologie (IC / BPCO) et durée choisie (4 à 6 mois pour l'IC) au parcours</td>
+</tr>
+<tr>
+<td>§6.3 bis</td>
+<td>Fiche 24 Bilans/Consultation créée (4 octobre 2026) ; la fiche ne doit jamais redevenir un fourre-tout</td>
+<td><strong>Absent</strong></td>
+<td>Fiche mère et sous-fiches</td>
+</tr>
+<tr>
+<td>§6.8 EX-SC-01</td>
+<td>La consultation en cinq champs renvoie au tronc commun de la fiche 24 (EX-CI-04)</td>
+<td><strong>Partiel</strong> — <code>app/fiches/consultation.py</code> (lot 14) : cinq champs texte, diagnostics en texte libre, compte rendu PDF</td>
+<td>Tronc commun détaillé (EX-CI-21), objectifs évaluables, volet par motif, motif du référentiel</td>
+</tr>
+<tr>
+<td>§13 registre</td>
+<td>D-19 tranchée (NANDA-I en V2, NOC préparé, NIC non prévu), D-20 (avenant 11 vérifié, condition « déjà pris en charge » à confirmer), D-21 ouverte (support de la fiche de suivi postopératoire)</td>
+<td><strong>Partiel</strong> — table NANDA-I vide versionnée (<code>app/referentiels/diagnostics_infirmiers.json</code>, D-03)</td>
+<td>Table NOC vide, note 1 à 5 ; règle D-20 configurable ; support D-21 paramétrable</td>
+</tr>
+<tr>
+<td>§14 glossaire</td>
+<td>Entrées Consultation infirmière, Sous-fiche, Motif, Plan personnalisé de prévention</td>
+<td>—</td>
+<td>Vocabulaire repris dans les libellés</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="a2-exigences-ex-ci-de-la-fiche-24">a.2 Exigences EX-CI de la fiche 24</h3>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Exigence</th>
+<th>État</th>
+<th>Preuve dans le code</th>
+<th>Ce qui manque</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EX-CI-01 motif = référentiel (volet, facturable, cotation, J0, fenêtre, plafond + unité, exclusions, cumul, date d'effet)</td>
+<td><strong>Absent</strong></td>
+<td>— (seuls <code>prescriptible.json</code>, <code>diagnostics_infirmiers.json</code> existent comme référentiels fichiers)</td>
+<td>Fichier + table versionnée des motifs</td>
+</tr>
+<tr>
+<td>EX-CI-02 date d'effet : tracé non facturant avant l'effet</td>
+<td><strong>Absent</strong></td>
+<td>—</td>
+<td>Date d'effet lue à la date de réalisation ; aucune ligne avant l'effet</td>
+</tr>
+<tr>
+<td>EX-CI-03 volet versionné, sous-fiche signée lue selon sa version</td>
+<td><strong>Absent</strong> (le principe d'immuabilité existe : <code>acte_realise</code> immuable, <code>charge_signee</code>)</td>
+<td><code>app/models.py</code> <code>ActeRealise</code>, trigger 0001</td>
+<td>Version du motif figée dans les faits de l'acte</td>
+</tr>
+<tr>
+<td>EX-CI-04 tronc commun identique (5 champs + objectifs)</td>
+<td><strong>Partiel</strong></td>
+<td><code>consultation.py</code> <code>DonneesConsultation</code></td>
+<td>Tronc commun structuré commun à toutes les sous-fiches</td>
+</tr>
+<tr>
+<td>EX-CI-05 pas de ressaisie, contexte repris des fiches 18, C22, 10, 6, 1</td>
+<td><strong>Partiel</strong> — chaque fiche lit ses propres séries (<code>app/domaines/series.py</code>, <code>parcours.synthese_hypoglycemie</code>, <code>medicaments.lignes_traitement</code>)</td>
+<td></td>
+<td>Lecture de préparation qui assemble le contexte ; l'IDE coche ce qu'elle retient</td>
+</tr>
+<tr>
+<td>EX-CI-06 seul TABSANTE maintient les motifs ; le cabinet demande</td>
+<td><strong>Absent</strong></td>
+<td></td>
+<td>Aucune route d'écriture ; demande de motif tracée</td>
+</tr>
+<tr>
+<td>EX-CI-07 une sous-fiche, une identité d'acte, une cotation au plus ; le moteur ne lit que la sous-fiche</td>
+<td><strong>Partiel</strong> — contrat moteur <code>app/cotation/interface.py</code> (<code>EntreeCotation.faits</code>) ; doublure <code>app/cotation/demo.py</code> (<code>_consultation_infirmiere</code> rend toujours une ligne)</td>
+<td></td>
+<td>Faits de facturation de la sous-fiche ; aucune ligne pour un motif non facturable</td>
+</tr>
+<tr>
+<td>EX-CI-08 séance dédiée (même passage interdit, autre passage permis) ; planning qui signale</td>
+<td><strong>Absent</strong></td>
+<td></td>
+<td>Faits « séance dédiée » au moteur, avertissement de planification</td>
+</tr>
+<tr>
+<td>EX-CI-09 statut BSI → CIA, CIB, bilan de plaie non facturant ; AMI / AMX pour l'art. 5 ter</td>
+<td><strong>Partiel</strong> — statut BSI = contexte daté <code>bsi_bsa/bsb/bsc</code> (<code>app/domaines/patients.py</code>, <code>app/fiches/nursing.py</code> <code>FORFAITS</code>) ; transmis au moteur (<code>contextes</code>)</td>
+<td></td>
+<td>Exclusion « forfait de soins infirmiers » lue dans le motif ; AMX en démonstration</td>
+</tr>
+<tr>
+<td>EX-CI-10 trois origines de fréquence, conservées et restituées ; D-20 [P]</td>
+<td><strong>Absent</strong> — une fréquence exige une ordonnance (<code>frequence.prescription_id</code> NOT NULL)</td>
+<td></td>
+<td>Origine au suivi ; fréquence sans ordonnance (rôle propre, demande du patient) ; règle D-20 désactivable</td>
+</tr>
+<tr>
+<td>EX-CI-11 fiche mère : sous-fiches actives seulement ; catalogue à l'ouverture</td>
+<td><strong>Absent</strong></td>
+<td></td>
+<td>Vue d'ensemble ; catalogue séparé</td>
+</tr>
+<tr>
+<td>EX-CI-12 entrée directe depuis la tournée ; signal « bilan dû » depuis les fiches 1 et 18</td>
+<td><strong>Partiel</strong> — occurrences <code>BILAN</code> dans la tournée (<code>app/domaines/bilans.py</code> <code>/bilans/dus</code>)</td>
+<td></td>
+<td>Préparation par occurrence ; signal « bilan annuel de plaie dû »</td>
+</tr>
+<tr>
+<td>EX-CI-13 vue d'ensemble : compteurs consommé / restant, dates limites, livrables dus</td>
+<td><strong>Partiel</strong> pour les parcours (<code>parcours.vue_parcours</code>)</td>
+<td></td>
+<td>Même vue pour les consultations, regroupée</td>
+</tr>
+<tr>
+<td>EX-CI-14 à 14 quinquies, EX-CI-23 composant « Éducation et compétences »</td>
+<td><strong>Absent</strong> (les blocs d'accompagnement de l'acte D existent : <code>app/fiches/medicaments.py</code> <code>BlocAccompagnement</code>)</td>
+<td></td>
+<td>Évaluation de compétence (personne, niveau, modalité, commentaire, supports) ; historique patient ; « à renforcer depuis N séances » ; référentiel par volet, NOC vide ; compétence libre, suggestion proche, statistiques anonymisées</td>
+</tr>
+<tr>
+<td>EX-CI-15/16/17 volet art. 5 ter (J0 sortie, protocole déposé, 48 h, formation, majorations, non-cumuls)</td>
+<td><strong>Partiel</strong> — J0, protocole (<code>EX-PAR-05</code>), formation (<code>apres_seance</code>), non-cumuls, livrable à J+2 (<code>delai_livrable_jours=2</code>)</td>
+<td><code>parcours.py</code></td>
+<td>Décompte en heures depuis la signature ; « sans majoration nuit / férié » au moteur ; AMI/AMX ; durée IC/BPCO ; première visite à 7 jours, hebdomadaire 2 mois</td>
+</tr>
+<tr>
+<td>EX-CI-18/19/20 volet RAAC (J0 domicile, consultation chirurgicale, élément conditionnel, non-cumul fiche 23)</td>
+<td><strong>Partiel</strong> — fenêtre bornée par la consultation chirurgicale (<code>_postop</code>), non-cumul cathéter périnerveux (<code>conflits_du_jour</code>), associables sans 11 B</td>
+<td></td>
+<td>Élément conditionnel bloquant (anomalie → contact tracé) ; éléments paramétrés à la création ; support D-21</td>
+</tr>
+<tr>
+<td>EX-CI-21 [P] détail du tronc commun</td>
+<td><strong>Partiel</strong></td>
+<td><code>consultation.py</code></td>
+<td>Motif (rang, demande en ses mots, personne présente), évaluation globale (données reprises cochées), diagnostic (NANDA-I, facteurs liés, caractéristiques, priorité, 1 à 3 objectifs datés), actions (éducation, prévention, accompagnement, supports, orientation → transmission tracée, prescription infirmière), résultat (acquis, synthèse, consignes, signes d'alerte, réévaluation → occurrence suivante)</td>
+</tr>
+<tr>
+<td>EX-CI-22 résultats en deux temps (D-19) : état atteint / partiel / non atteint ; NOC et note 1–5 facultatifs</td>
+<td><strong>Absent</strong></td>
+<td></td>
+<td>Champs sur l'objectif ; table NOC vide versionnée</td>
+</tr>
+<tr>
+<td>EX-CI-25 à 28 compte rendu : pré-rédigé, relu, validé ; trois destinations ; immuable, correction = nouvelle version qui remplace</td>
+<td><strong>Partiel</strong> — PDF de la consultation lot 14 signé d'office (<code>consultation.apres</code>) ; bilans relus puis signés (<code>bilans.py</code>) ; ports DMP / MSSanté (<code>app/dmp.py</code>, <code>app/messagerie.py</code>, <code>documents.acheminer</code>)</td>
+<td></td>
+<td>Brouillon relu avant signature, diffusion par défaut (DMP sauf opposition tracée, MSSanté prescripteur + médecin traitant), version corrective qui remplace</td>
+</tr>
+<tr>
+<td>EX-CI-29 à 32 volet CIA</td>
+<td><strong>Absent</strong> (données sources présentes : protocole d'insuline <code>ProtocoleDiabete</code>, glycémies fiche 10)</td>
+<td><code>app/fiches/diabete.py</code> <code>protocole_courant</code></td>
+<td>Volet, données reprises, compétences, doses jamais modifiées, adaptation sur protocole seulement, hypoglycémie → transmission, clôture</td>
+</tr>
+<tr>
+<td>EX-CI-33 à 36 volet CIB</td>
+<td><strong>Absent</strong></td>
+<td></td>
+<td>J0 du bilan, auteur, PPP (déposé ou DMP) et thèmes, compteur par bilan, 1 à 3 priorités, orientations suivies, partage priorité par priorité</td>
+</tr>
+<tr>
+<td>EX-CI-37 à 41 volet RDI</td>
+<td><strong>Absent</strong></td>
+<td><code>app/fiches/commun.py</code> <code>age_le</code></td>
+<td>Tranches d'âge calculées, un bilan par tranche, déclaration tracée, acte en sus relié à un besoin, PPP livrable, transmission au médecin traitant, ouverture de la CIB</td>
+</tr>
+<tr>
+<td>Données de facturation (table 36, fin de fiche)</td>
+<td><strong>Absent</strong></td>
+<td></td>
+<td>Faits : sous-fiche, motif + version, origine, J0 + rang, séance dédiée, BSI, formation, anomalie + contact, tranche d'âge + déclaration</td>
+</tr>
+<tr>
+<td>Clôture motivée (plafond, fenêtre, objectifs, hospitalisation, décès, refus, autre)</td>
+<td><strong>Partiel</strong> — interruption motivée des parcours (<code>parcours.interrompre</code>, EX-PAR-11) avec une autre liste de motifs</td>
+<td></td>
+<td>Liste de la fiche 24 ; clôture des suivis de consultation</td>
+</tr>
+<tr>
+<td>Hors connexion</td>
+<td><strong>Fait</strong> pour la signature — <code>signer_acte</code> rejoué par <code>/sync</code> (<code>app/domaines/sync.py</code>), idempotent</td>
+<td></td>
+<td>Rien de neuf : la sous-fiche est un acte signé</td>
+</tr>
+<tr>
+<td>Droits (IDE ; art. 5 ter : formation)</td>
+<td><strong>Fait</strong> pour la matrice et la formation (<code>app/habilitations.py</code>)</td>
+<td></td>
+<td>Routes nouvelles branchées sur la matrice</td>
+</tr>
+<tr>
+<td>Interopérabilité</td>
+<td><strong>Fait</strong> génériquement — <code>app/domaines/fhir.py</code> exporte tout acte (Procedure) et tout document (DocumentReference)</td>
+<td></td>
+<td>—</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="b-avenant-11--ce-que-la-plateforme-doit-tenir">(b) Avenant 11 — ce que la plateforme doit tenir</h2>
+<p>Principe : la plateforme tient des <strong>faits datés</strong> ; la décision de facturer, les lettres-clés, coefficients et
+tarifs appartiennent au <strong>moteur réel NGAP (actif TABSANTE)</strong>. Rien ici n'est une certitude de facturation : la
+fiche du calendrier elle-même rappelle que chaque ouverture dépend du délai légal, de la NGAP et, pour CIA / CIB,
+de l'avis de la HAS. « À confirmer TABSANTE » marque ce que ni le CDC ni l'avenant ne fixent.</p>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Mesure (échéance)</th>
+<th>Déjà couvert</th>
+<th>Crochet de données plateforme</th>
+<th>Moteur réel seulement</th>
+<th>À confirmer TABSANTE</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Revalorisation AMI / AMX 3,35 € (fin 2026) puis 3,45 € (1/11/2027)</td>
+<td>—</td>
+<td><strong>Calendrier daté des lettres-clés</strong> (démonstration) lu à la date de réalisation</td>
+<td>Valeur de la lettre-clé appliquée</td>
+<td>Date exacte de la première revalorisation (« novembre annoncé ») ; valeur actuelle</td>
+</tr>
+<tr>
+<td>CIA 20 € (après délai légal, avis HAS)</td>
+<td>Fiche 24 : motif CIA</td>
+<td>Motif au référentiel, date d'effet vide tant qu'inconnue → tracé non facturant</td>
+<td>Cotation CIA</td>
+<td>Date d'effet ; condition « déjà pris en charge » (D-20)</td>
+</tr>
+<tr>
+<td>MIR 15 € + AMI 1,35 — soins régulés SAS / PDSA ; 20 MIR / semaine / IDE ; levée de doute si aucun autre acte</td>
+<td>—</td>
+<td><strong>Origine « soin régulé »</strong> d'un passage non programmé</td>
+<td>Compteur 20 / semaine / IDE (échelle période), règle de levée de doute</td>
+<td>Identifiant de régulation à conserver ; distinction SAS / PDSA</td>
+</tr>
+<tr>
+<td>Astreinte PDSA 52 € / 4 h</td>
+<td>—</td>
+<td>Aucun (organisation territoriale, hors dossier patient)</td>
+<td>—</td>
+<td>Hors périmètre V2 ?</td>
+</tr>
+<tr>
+<td>Dépistage colorectal : RKD 3 € (+2 € si test réalisé, versement annuel)</td>
+<td>—</td>
+<td>À construire : trace « kit remis » et retour « test réalisé » (support remis d'une consultation de prévention possible)</td>
+<td>Versement annuel</td>
+<td>Circuit du retour de test</td>
+</tr>
+<tr>
+<td>Plaies non chirurgicales en accès direct, AMI 2,02 (1/1/2027), hors forfait</td>
+<td>Épisode rôle propre (<code>EpisodeSoins</code>, EX-SC-03)</td>
+<td><strong>Plaie ouverte en accès direct</strong> (sans ordonnance, plaie non chirurgicale), signalée au moteur par l'objet suivi</td>
+<td>Cotation, exclusion sous forfait</td>
+<td>Périmètre exact « prévu » des plaies</td>
+</tr>
+<tr>
+<td>Bilan de plaie courante à risque, AMI 3,48, 1 / 12 mois, pansement inclus, compte rendu au DMP (1/1/2027)</td>
+<td>Fiche 24 : sous-fiche « bilan annuel de plaie »</td>
+<td>Motif (date d'effet 1/1/2027), signal « bilan dû » depuis la plaie, exclusion sous forfait</td>
+<td>Cotation</td>
+<td>Critères de « plaie courante à risque »</td>
+</tr>
+<tr>
+<td>Diabète de l'enfant de moins de 16 ans : glycémie / bolus par pompe AMI 1, MSD 7 € (école / périscolaire ; DT1)</td>
+<td>Âge calculé (<code>age_le</code>)</td>
+<td><strong>Lieu du soin</strong> (domicile / école / périscolaire) sur le passage de la fiche 10, âge au passage</td>
+<td>Cotation, MSD</td>
+<td>Type de diabète (DT1) à porter (pathologie codée ?) ; acte « bolus par pompe » à créer dans la fiche 10</td>
+</tr>
+<tr>
+<td>CIB 20 € (1/7/2027, avis HAS)</td>
+<td>Fiche 24 : motif CIB</td>
+<td>Date d'effet 1/7/2027 au référentiel</td>
+<td>Cotation CIB</td>
+<td>Avis HAS</td>
+</tr>
+<tr>
+<td>Surveillance hebdomadaire AMI 3,77 / aiguë AMI 1,49 ; aiguë 15 passages / 3 mois ; hors forfait (1/1/2028)</td>
+<td>Compteurs à trois échelles (<code>compteur</code>, EX-FA-03)</td>
+<td>Aucun nouveau : le moteur nomme le compteur de période</td>
+<td>Compteur 15 / 3 mois, exclusion forfait</td>
+<td>Définition de la « surveillance aiguë » (prescription ? fiche 18 ?)</td>
+</tr>
+<tr>
+<td>Médicaments : ALD 15 / certaines ALD 23, AMI 1,48 (1/1/2028)</td>
+<td>Pathologies au dossier (<code>pathologie</code>)</td>
+<td>À construire : ALD portée par la pathologie</td>
+<td>Éligibilité</td>
+<td>Critères cliniques « certaines ALD 23 »</td>
+</tr>
+<tr>
+<td>MSG 3,10 € / jour avec BSC ; SEGA ≥ 35 (≥ 32 en 2029)</td>
+<td>BSC = contexte <code>bsi_bsc</code> daté</td>
+<td><strong>Score SEGA daté au dossier</strong> (rubrique versionnée) ; repère d'éligibilité calculé, seuil daté</td>
+<td>Majoration</td>
+<td>Grille SEGA exacte (bornes), validité du score</td>
+</tr>
+<tr>
+<td>AMX à taux plein pour les actes diabète avec forfait dépendance (1/1/2028)</td>
+<td>Contexte BSI transmis</td>
+<td>Aucun</td>
+<td>Règle art. 5 bis</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Deux consultations supplémentaires (2028, à définir)</td>
+<td>Référentiel des motifs (EX-CI-02)</td>
+<td>Aucun code : un motif ajouté au référentiel</td>
+<td>—</td>
+<td>Motifs</td>
+</tr>
+<tr>
+<td>CIA / CIB : séance dédiée, incompatibles avec un forfait de soins infirmiers</td>
+<td>Fiche 24 : règles de séance</td>
+<td>Faits « séance dédiée » et « forfait » au moteur</td>
+<td>Refus de cotation</td>
+<td>—</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="c-plan-dimplémentation-étapes-2-et-3">(c) Plan d'implémentation (étapes 2 et 3)</h2>
+<h3 id="modèle">Modèle</h3>
+<ul>
+<li><code>motif_consultation</code> (référentiel versionné, clé code + version, immuable) chargé de
+  <code>app/referentiels/motifs_consultation.json</code> ; la base est la référence (TABSANTE y ajoute une version sans nouvelle
+  version de l'application, <code>scripts/motifs_consultation.py</code>) ; le fichier livré n'ajoute que les versions absentes.
+  <code>demande_motif</code> : la demande d'un cabinet (EX-CI-06).</li>
+<li><code>suivi_consultation</code> : la sous-fiche ouverte pour un patient (CIA, CIB, RDI, consultation non facturable) — motif et
+  version, origine, ordonnance éventuelle, J0, limite, plafond, paramètres du volet, sa fréquence propre, clôture
+  motivée. Les séances art. 5 ter et RAAC restent des <strong>parcours</strong> (lot 15) : la fiche mère les présente comme
+  sous-fiches, leur séance porte désormais tronc commun et volet.</li>
+<li><code>frequence.prescription_id</code> facultatif (rôle propre, demande du patient) ; type de fréquence <code>rendez_vous</code> : ses
+  occurrences naissent de l'ouverture du suivi et de chaque date de réévaluation, jamais d'un rythme.</li>
+<li><code>bilan.remplace_id</code> : version corrective d'un compte rendu (EX-CI-28).</li>
+<li>Compétences : dans les actes signés (champ <code>education</code>), lues pour tout le patient — pas de table de projection.</li>
+</ul>
+<h3 id="sous-fiche-signée">Sous-fiche signée</h3>
+<ul>
+<li>Fiche <code>CONSULTATION_INFIRMIERE</code>, nouvelle forme : <code>suivi_id</code>, <code>tronc_commun</code>, <code>volet</code>, <code>education</code>,
+  <code>compte_rendu</code> (opposition DMP, destinataires, points pour le médecin). La forme du lot 14 reste acceptée et lisible
+  (actes signés immuables, clients non encore basculés).</li>
+<li>Faits de facturation (aucun coefficient) : sous-fiche, motif + version, origine, J0, rang / plafond, fenêtre,
+  séance dédiée, statut BSI, date d'effet, tranche d'âge et déclaration (RDI), obstacles. La doublure ne rend une
+  ligne de démonstration que sans obstacle.</li>
+<li>Après signature : brouillon du compte rendu (bilan <code>consultation</code>), occurrence de réévaluation, transmission
+  proposée au prescripteur sur hypoglycémie (CIA), orientation → transmission proposée, ouverture de la CIB depuis
+  le RDI.</li>
+<li>Séance de parcours : <code>tronc_commun</code>, <code>volet</code>, <code>education</code> facultatifs ; RAAC : anomalie sans contact tracé →
+  refus ; art. 5 ter : décompte de 48 h, pathologie et durée, sans majoration nuit / férié, AMI / AMX.</li>
+</ul>
+<h3 id="lectures-et-routes-appdomainesconsultationspy">Lectures et routes (<code>app/domaines/consultations.py</code>)</h3>
+<ul>
+<li><code>GET /referentiels/motifs-consultation</code> (catalogue), <code>POST /referentiels/motifs-consultation/demandes</code>.</li>
+<li><code>POST /patients/{id}/bilans-consultation/suivis</code>, <code>GET /patients/{id}/bilans-consultation</code> (fiche mère),
+  <code>GET /bilans-consultation/suivis/{id}</code>, <code>GET /bilans-consultation/suivis/{id}/preparation</code>,
+  <code>GET /occurrences/{id}/consultation</code> (entrée directe), <code>POST /bilans-consultation/suivis/{id}/cloture</code>.</li>
+<li>Compétences : <code>GET /referentiels/competences</code> (+ proche), <code>GET /patients/{id}/competences</code> (lignes de temps).</li>
+<li>Compte rendu : routes des bilans (relecture, signature) ; diffusion par défaut à la signature ;
+  <code>POST /bilans/{id}/correction</code>.</li>
+</ul>
+<h3 id="étape-3-crochets-avenant-11">Étape 3 (crochets avenant 11)</h3>
+<p>Calendrier daté des lettres-clés de démonstration (<code>app/cotation/tarifs_demo.json</code>, <code>GET /cotation/tarifs</code>) ;
+rubrique <code>score_sega</code> au dossier et repère MSG ; plaie en accès direct ; lieu du soin de la fiche 10 ; origine « soin
+régulé » des passages non programmés. Le reste demeure listé en (b).</p>
+<h3 id="démonstration">Démonstration</h3>
+<p>Patient Bernard : CIA 2/4 (compétences, hypoglycémie rapportée), bilan de surveillance mensuel, signal « bilan
+annuel de plaie dû » sur l'ulcère, suivi RAAC clos à 3/3.</p>
+<hr />
+<h2 id="d-réalisé-étapes-2-et-3-et-points-dintégration">(d) Réalisé (étapes 2 et 3) et points d'intégration</h2>
+<ul>
+<li>Migration <code>0031</code> (après <code>0030</code> séries par acte du tableau de bord) ; <code>frequence.prescription_id</code> et
+  <code>objet_suivi.prescription_id</code> deviennent facultatifs.</li>
+<li>Tableau de bord : les sous-fiches (consultation nouvelle forme, séance de parcours avec volet) ne portent aucune
+  mesure — elles restent hors de <code>serie_acte</code> (<code>FICHES_SUIVIES</code> inchangé) ; les valeurs reprises dans le tronc commun
+  sont des copies citées, jamais une série. Le contrôle « au-delà de la fréquence » compte les occurrences
+  matérialisées : les occurrences « rendez_vous » d'un suivi y entrent comme toute occurrence.</li>
+<li>Restent ouverts et listés en (b) : RKD (kit et retour du test), ALD portée par la pathologie, surveillance aiguë,
+  acte « bolus par pompe » de la fiche 10, type de diabète (DT1), astreinte PDSA ; fréquences sur ordonnance pour une
+  plaie en accès direct (passages non programmés en attendant) ; précharge hors connexion de la préparation de
+  consultation.</li>
+</ul>
+</main>
+</body>
+</html>

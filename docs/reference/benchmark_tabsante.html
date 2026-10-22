@@ -1,0 +1,1358 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Benchmark concurrentiel — TabSanté V2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{--bg:#F4F6FA;--surface:#FFFFFF;--surface-2:#EEF2FB;--fg:#141A2E;--fg-2:#4A5372;--ligne:#DDE3EF;
+--accent:#2F5BEA;--accent-fg:#FFFFFF;--accent-doux:#E6ECFD;--attention:#8A5A00;--attention-fond:#FFF4DC;
+--code-fond:#F1F3F8;--police:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+--police-code:"JetBrains Mono",ui-monospace,"Cascadia Code",Consolas,monospace;--rayon:10px;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0E1220;--surface:#151A2B;--surface-2:#1C2338;
+--fg:#E8ECF7;--fg-2:#A3ACC6;--ligne:#2A3250;--accent:#7C9BFF;--accent-fg:#0E1220;--accent-doux:#1E2950;
+--attention:#F2C25B;--attention-fond:#33290F;--code-fond:#10152A;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0E1220;--surface:#151A2B;--surface-2:#1C2338;--fg:#E8ECF7;--fg-2:#A3ACC6;--ligne:#2A3250;
+--accent:#7C9BFF;--accent-fg:#0E1220;--accent-doux:#1E2950;--attention:#F2C25B;--attention-fond:#33290F;--code-fond:#10152A;color-scheme:dark}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--police);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}
+.entete{background:var(--surface);border-bottom:1px solid var(--ligne)}
+.entete div{max-width:calc(80ch + 32px);margin:0 auto;padding:12px 16px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.entete b{font-weight:600}
+.entete a{color:var(--accent);text-decoration:none;font-weight:500}
+.entete a:hover{text-decoration:underline}
+main{max-width:calc(80ch + 32px);margin:0 auto;padding:24px 16px 64px;overflow-wrap:break-word}
+.chemin{font-family:var(--police-code);font-size:12px;color:var(--fg-2);margin:0 0 8px}
+h1{font-size:28px;line-height:1.25;margin:0 0 16px}
+h2{font-size:21px;line-height:1.3;margin:36px 0 12px;padding-top:12px;border-top:1px solid var(--ligne)}
+h3{font-size:17px;margin:28px 0 8px}h4,h5,h6{font-size:15px;margin:20px 0 6px}
+a{color:var(--accent)}
+p,li{max-width:80ch}
+code{font-family:var(--police-code);font-size:.88em;background:var(--code-fond);border:1px solid var(--ligne);border-radius:5px;padding:0 4px;overflow-wrap:anywhere}
+pre{background:var(--code-fond);border:1px solid var(--ligne);border-radius:var(--rayon);padding:14px 16px;overflow-x:auto;font-size:13px;line-height:1.55}
+pre code{background:none;border:0;padding:0;font-size:inherit;overflow-wrap:normal}
+.tableau{overflow-x:auto;margin:16px 0;border:1px solid var(--ligne);border-radius:var(--rayon);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:13.5px;line-height:1.5}
+th,td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--ligne);min-width:8ch}
+th{background:var(--surface-2);font-weight:600}
+tr:last-child td{border-bottom:0}
+blockquote{margin:16px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-doux);border-radius:0 var(--rayon) var(--rayon) 0}
+hr{border:0;border-top:1px solid var(--ligne);margin:28px 0}
+img{max-width:100%}
+.non-publie{font-size:13px;color:var(--attention);background:var(--attention-fond);padding:1px 6px;border-radius:5px}
+details.sommaire{background:var(--surface);border:1px solid var(--ligne);border-radius:var(--rayon);padding:10px 16px;margin:0 0 24px}
+details.sommaire summary{cursor:pointer;font-weight:600}
+details.sommaire ul{padding-left:20px;margin:8px 0 0}
+.admonition{border:1px solid var(--ligne);border-radius:var(--rayon);padding:8px 16px;background:var(--surface)}
+.admonition-title{font-weight:600}
+</style>
+</head>
+<body>
+<header class="entete"><div><b>TabSanté — documents</b><a href="../../">← Retour au portail</a></div></header>
+<main>
+<p class="chemin">docs/reference/benchmark_tabsante.html</p>
+<h1 id="benchmark-concurrentiel--tabsanté-v2">Benchmark concurrentiel — TabSanté V2</h1>
+<details class="sommaire"><summary>Sommaire</summary><ul><li><a href="#0-synthèse-exécutive-10-points">0. Synthèse exécutive (10 points)</a></li><li><a href="#1-cartographie-du-marché">1. Cartographie du marché</a></li><li><a href="#2-fiches-concurrents">2. Fiches concurrents</a></li><li><a href="#3-matrice-fonctionnelle-vs-cibles-tabsanté-v2">3. Matrice fonctionnelle vs cibles TabSanté V2</a></li><li><a href="#4-espaces-blancs-que-tabsanté-peut-occuper">4. Espaces blancs que TabSanté peut occuper</a></li><li><a href="#5-benchmark-de-prix-ttcmois-sauf-mention-octobre-2026">5. Benchmark de prix (TTC/mois sauf mention, octobre 2026)</a></li><li><a href="#6-calendrier-réglementaire-et-indispensables">6. Calendrier réglementaire et indispensables</a></li><li><a href="#7-top-10-des-recommandations-différenciation-et-priorisation-mvp">7. Top 10 des recommandations (différenciation et priorisation MVP)</a></li><li><a href="#8-sources">8. Sources</a></li></ul></details>
+<p><strong>« La plateforme de soins qui facture sur preuve »</strong>
+Recherche web réalisée le 1er octobre 2026. Marché : infirmiers libéraux (IDEL), cabinets multi-IDE, SELAS/SELARL, centres de soins infirmiers.</p>
+<blockquote>
+<p><strong>Légende fiabilité</strong>
+- ✅ = vérifié sur le site éditeur ou une source primaire (JO, ameli, esante.gouv.fr, GIE SESAM-Vitale)
+- 🔶 = source secondaire (comparateur, blog concurrent, presse) : à recouper
+- ⚠️ NV = non vérifié ou contradictoire
+- Beaucoup de comparatifs en ligne sont publiés <strong>par des éditeurs eux-mêmes</strong> : <code>laruche.cbainfo.fr</code> (CBA = Agathe YOU), <code>swily.io</code>, <code>albus.fr</code>, <code>medicalib.fr</code>, <code>transmedical.pro</code>. Ils sont donc biaisés.</p>
+<p><strong>Contexte TabSanté :</strong> TabSanté V1 existe déjà (tabsante.com). C'est un dossier de soins infirmiers informatisé créé en 2014 par Giovanni Silverii, IDEL, sous le nom « DSii », puis renommé Tab Santé en 2020. Il fonctionne hors ligne, sans facturation intégrée, et se positionne comme « l'un des seuls logiciels totalement dédiés au soin » ✅. La V2 ajoute la facturation et passe donc d'un outil complémentaire à un <strong>LGC concurrent frontal</strong> des leaders.</p>
+</blockquote>
+<hr />
+<h2 id="0-synthèse-exécutive-10-points">0. Synthèse exécutive (10 points)</h2>
+<ol>
+<li><strong>Le marché est concentré et en pleine migration vers le cloud et le mobile.</strong> D'après les données de télétransmission du GIE SESAM-Vitale (2019 → mars 2026), compilées par un analyste indépendant 🔶, les parts de marché IDEL sont : <strong>Agathe YOU 33,2 %</strong>, <strong>Albus AIR 17,1 %</strong>, <strong>Simply Vitale 12,3 %</strong>, <strong>Vega 10,6 %</strong>, <strong>Soins 2000 9,4 %</strong>. Ces 5 logiciels font environ 83 % du marché.</li>
+<li><strong>Consolidation en cours.</strong> Le Belge <strong>Corilus a racheté Sofia Développement</strong> (Albus, Topaze, Télévitale, Infimax, Comptasanté) le <strong>13 janvier 2026</strong> 🔶. Infimax est gelé et ses utilisateurs migrent vers Albus. Topaze ne sert plus que les kinés.</li>
+<li><strong>Une vague de challengers mobiles</strong> se positionne entre 89 et 120 €/mois, lecteur inclus et sans engagement : Ozzen (freemium), CareCare, Swily (agréé SESAM-Vitale au printemps 2026), Calendridel et IDELPro. <strong>Les prix convergent</strong> autour de 90–130 € TTC/mois tout compris.</li>
+<li><strong>Le dossier de soins reste le parent pauvre des LGC.</strong> Il se limite à des transmissions, des photos et des constantes. <strong>Aucun concurrent ne relie formellement chaque ligne de FSE à un acte signé, horodaté et prouvé</strong>, ni n'assure une traçabilité <strong>par objet</strong> (plaie, cathéter, stomie) avec mesure calibrée. Les apps plaies (Healico, Pixacare, e-Pansement) sont autonomes et obligent à <strong>saisir deux fois</strong> ; Albus le reconnaît lui-même.</li>
+<li><strong>Le contexte de fraude rend « facturer sur preuve » très pertinent.</strong> L'Assurance maladie a détecté 628 M€ de fraude en 2024, dont <strong>56 M€ chez les infirmiers (+11 %)</strong>, et 723 M€ au total en 2025. Les motifs dominants sont les actes non réalisés, les ordonnances falsifiées et les doubles facturations 🔶. Le message doit être <strong>« protégez-vous en cas de contrôle »</strong>, pas « surveillance ».</li>
+<li><strong>2026–2028 est une fenêtre réglementaire exceptionnelle</strong>, avec quatre leviers :
+   - la loi infirmière n° 2025-581 du 27/06/2025 ;
+   - le décret n° 2025-1306 du 24/12/2025 ;
+   - les arrêtés du 26/06/2026 (actes et prescription IDE) ;
+   - l'avenant 11 (signé le 31/03/2026, publié au JO le 06/05/2026, 503 M€) : AMI à 3,35 € puis 3,45 €, nouveaux actes plaies, consultations CIA et CIB, actes de surveillance en 2028.</li>
+<li><strong>Le Ségur vague 2 LGC paramédicaux</strong> (arrêté du 15/07/2026, JO du 21/07/2026) prévoit :
+   - le dépôt du dossier administratif éditeur au plus tard le <strong>17/02/2027</strong> ;
+   - les premiers bons de commande IDEL à partir du <strong>05/07/2027</strong> ;
+   - un déploiement jusqu'au 18/04/2029.</li>
+</ol>
+<p>Pendant cette période, l'État financera la mise à jour logicielle de chaque IDEL. C'est <strong>une fenêtre d'acquisition massive</strong> : les cabinets vont réévaluer leur logiciel.
+8. <strong>L'avenant 11 crée un « observatoire conventionnel des logiciels »</strong> qui suivra les tarifs des éditeurs, la portabilité des données et l'interopérabilité 🔶. Des prix transparents et un export libre deviennent un argument concurrentiel.
+9. <strong>Les références internationales donnent les bonnes pratiques à importer :</strong>
+   - la preuve de visite type <strong>EVV</strong> (6 données du 21st Century Cures Act) ;
+   - la <strong>mesure calibrée des plaies</strong> (Swift Medical HealX, Tissue Analytics avec moins de 5 % d'erreur) ;
+   - la <strong>dictée ambiante IA</strong> (WellSky Scribe : jusqu'à −50 % de temps de documentation) ;
+   - le <strong>mode hors ligne natif</strong> (AlayaCare, Axxess).
+10. <strong>Le défi n°1 de TabSanté V2 est l'agrément SESAM-Vitale</strong> (CNDA), qui demande 6 à 12 mois ; Swily a mis environ 13 mois entre son lancement et l'agrément. Il faut décider vite entre <strong>développer en interne et intégrer un moteur de facturation</strong> (ex. Orisha Intellio Éditeurs ✅).</p>
+<hr />
+<h2 id="1-cartographie-du-marché">1. Cartographie du marché</h2>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Segment</th>
+<th>Acteurs</th>
+<th>Éditeur / groupe</th>
+<th>Part de marché / taille</th>
+<th>Positionnement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>LGC leaders (facturation + DSI)</strong></td>
+<td>Agathe YOU</td>
+<td>CBA Informatique Libérale</td>
+<td>33,2 % 🔶 ; revendique 38 000 IDEL ✅</td>
+<td>Mobile-first, OrdoScan (IA de cotation), compta, garantie de paiement</td>
+</tr>
+<tr>
+<td></td>
+<td>Albus (Air / Latitude / Mobile)</td>
+<td>Sofia Développement → <strong>Corilus</strong> (janv. 2026)</td>
+<td>17,1 % 🔶 ; plus de 17 000 IDEL, n°1 des centres de soins (plus de 300) 🔶</td>
+<td>Hors ligne réel, Mac/PC/tablette/mobile, SOS-Cotation, facturation déléguée</td>
+</tr>
+<tr>
+<td></td>
+<td>Simply Vitale</td>
+<td>Cegedim Santé (RM Ingénierie)</td>
+<td>12,3 % 🔶</td>
+<td>Tablette durcie avec lecteurs intégrés et 4G, offre clé en main</td>
+</tr>
+<tr>
+<td></td>
+<td>Vega</td>
+<td>Epsilog / CompuGroup Medical</td>
+<td>10,6 % 🔶 ; plus de 50 000 praticiens paramédicaux ✅</td>
+<td>Le moins cher (dès 41,50 €), poste Windows et apps mobiles</td>
+</tr>
+<tr>
+<td></td>
+<td>Soins 2000</td>
+<td>Logisur'M</td>
+<td>9,4 % 🔶</td>
+<td>Windows gratuit hors télétransmission, app mobile compagnon</td>
+</tr>
+<tr>
+<td></td>
+<td>Equinox</td>
+<td>FIDUCIAL</td>
+<td>n.c.</td>
+<td>Dès 89 € TTC, app myDay, intégration compta</td>
+</tr>
+<tr>
+<td><strong>Challengers mobiles</strong></td>
+<td>Ozzen</td>
+<td>Ozzen</td>
+<td>Revendique 29 000 à 30 000 IDEL, offre gratuite incluse ✅</td>
+<td>Freemium (Start 0 €, Pro 119 € HT)</td>
+</tr>
+<tr>
+<td></td>
+<td>CareCare</td>
+<td>Start-up (2022)</td>
+<td>n.c. ; 4,8/5 sur Google (52 avis)</td>
+<td>Carte de tournée, assistant NGAP, blocage des FSE à risque</td>
+</tr>
+<tr>
+<td></td>
+<td>Swily</td>
+<td>Création en février 2025, agréé au printemps 2026</td>
+<td>n.c.</td>
+<td>89 € TTC « à vie » (offre de lancement), version gratuite DSI/tournée</td>
+</tr>
+<tr>
+<td></td>
+<td>Calendridel</td>
+<td>Calendridel</td>
+<td>n.c.</td>
+<td>100 % web, DSI à 10 €, facturation à 90 €, <strong>« facture à partir de la traçabilité »</strong></td>
+</tr>
+<tr>
+<td></td>
+<td>IDELPro</td>
+<td>IDELPro</td>
+<td>n.c.</td>
+<td>Mobile et web, dictée vocale, rappels BSI ; DMP/MSSanté annoncés « bientôt »</td>
+</tr>
+<tr>
+<td></td>
+<td>Citana (Anamnèse)</td>
+<td>Anamnèse</td>
+<td>Plus de 2 000 IDEL ✅</td>
+<td>30 €/mois : DMP, MSSanté, INS, ApCV homologués, télésoin, bilans prévention (pas un LGC de facturation IDEL ⚠️ NV)</td>
+</tr>
+<tr>
+<td><strong>DSI / transmissions sans facturation</strong></td>
+<td>TabSanté V1</td>
+<td>Tab Santé</td>
+<td>n.c.</td>
+<td>DSI hors ligne, conçu par un IDEL</td>
+</tr>
+<tr>
+<td></td>
+<td>Oly</td>
+<td>Oly</td>
+<td>n.c.</td>
+<td>Transmissions et tournées, moins de 16 €/mois</td>
+</tr>
+<tr>
+<td><strong>Apps plaies autonomes</strong></td>
+<td>Healico</td>
+<td>n.c.</td>
+<td>Gratuit</td>
+<td>Mesure par photo avec marqueur, bilan plaie complexe (AMI 11) en PDF, dictée</td>
+</tr>
+<tr>
+<td></td>
+<td>Pixacare</td>
+<td>n.c.</td>
+<td>Freemium</td>
+<td>Reconnaissance IA des plaies ; nécessite du réseau</td>
+</tr>
+<tr>
+<td></td>
+<td>e-Pansement</td>
+<td>Communauté</td>
+<td>Gratuit</td>
+<td>Bilan initial structuré, téléexpertise via Omnidoc</td>
+</tr>
+<tr>
+<td></td>
+<td>Cica'Clic</td>
+<td>ConvaTec</td>
+<td>Gratuit</td>
+<td>Suivi photo</td>
+</tr>
+<tr>
+<td><strong>Facturation externalisée</strong></td>
+<td>Albus Temps Libre</td>
+<td>Sofia / Corilus</td>
+<td>—</td>
+<td>3,5 % HT du CA + 99 € TTC/mois</td>
+</tr>
+<tr>
+<td></td>
+<td>Transmedical</td>
+<td>Transmedical</td>
+<td>—</td>
+<td>165 € HT/mois forfait, rejets inclus</td>
+</tr>
+<tr>
+<td><strong>Mise en relation / coordination ville-hôpital</strong></td>
+<td>Inzee.care</td>
+<td>Inzee</td>
+<td>Financé par certaines URPS (l'URPS Centre a arrêté ✅)</td>
+<td>Orientation des sorties d'hôpital vers les IDEL</td>
+</tr>
+<tr>
+<td></td>
+<td>Medicalib</td>
+<td>Medicalib</td>
+<td>Plus de 500 IDEL (ancien chiffre 🔶)</td>
+<td>Mise en relation patient–IDEL</td>
+</tr>
+<tr>
+<td></td>
+<td>Doctolib Pro</td>
+<td>Doctolib</td>
+<td>23,2 % des MG, mais marginal chez les IDEL</td>
+<td>Agenda et téléconsultation ; facturation IDEL ⚠️ NV</td>
+</tr>
+<tr>
+<td><strong>Structures SSIAD / SAD / HAD</strong></td>
+<td>Arche MC2 (Domatel, Apologic, Arcad360 Homia, Arche Mobile), Ximi, MedisysNet, Medilink (ex-Chorus)</td>
+<td>divers</td>
+<td>—</td>
+<td>Télégestion, planification, DUI (dossier usager informatisé) ; pas de facturation NGAP libérale</td>
+</tr>
+<tr>
+<td><strong>Références internationales</strong></td>
+<td>AlayaCare, Axxess, WellSky, Homecare Homebase (Netsmart), Swift Medical, Tissue Analytics (Net Health)</td>
+<td>—</td>
+<td>—</td>
+<td>EVV, hors ligne, scribe IA, imagerie des plaies</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Noms de la demande initiale non trouvés ou hors sujet (⚠️) :</strong>
+- <strong>Kalisoft</strong> : société de conseil IT, pas d'éditeur IDEL trouvé.
+- <strong>Medeolink, Easy-IDEL, Wanaaa, Nurse Pro, Soignez-moi, Idel Assistant, Kiwi Santé, SantéLink, « Ange »</strong> : aucun produit IDEL identifiable.
+- <strong>Hellocare, Weda, Medoc</strong> : outils orientés médecins.
+- <strong>AxiSanté</strong> : logiciel CGM (et non Cegedim), arrêt annoncé en 2024, orienté médecins.
+- <strong>Infimax</strong> : appartient à Sofia (via LogiCmax), et non à Cegedim ; en cours de fermeture.
+- <strong>Chorus</strong> est devenu <strong>Medilink</strong> (groupe ICT).</p>
+<hr />
+<h2 id="2-fiches-concurrents">2. Fiches concurrents</h2>
+<h3 id="21-agathe-you--cba-informatique-libérale-leader">2.1 Agathe YOU — CBA Informatique Libérale (leader)</h3>
+<ul>
+<li><strong>Part de marché :</strong> 33,2 % 🔶 ; revendique 38 000 IDEL et « 97,5 % de satisfaction » ✅.</li>
+<li><strong>Prix :</strong></li>
+<li>environ 120 à 129 €/mois avec le lecteur Bloomy 🔶 ; prix non affiché sur le site ✅ ;</li>
+<li>3 formules : b.confort (app + lecteur), b.tranquillité (+ garantie de paiement Tranquilipay), b.sérénité (+ compta Horizon) ;</li>
+<li>promotion « jusqu'à 6 mois offerts » ✅.</li>
+<li><strong>Plateformes :</strong> app iOS/Android ; lecteur Bluetooth Bloomy ; télétransmission automatique « dès que le réseau est disponible » (hors ligne partiel) ✅.</li>
+<li><strong>Facturation :</strong></li>
+<li>FSE mobile et ApCV compatible ✅ ;</li>
+<li><strong>OrdoScan</strong> : la photo d'ordonnance donne une cotation automatique ✅ (promu par la FNI) ;</li>
+<li>gestion des impayés, garantie de paiement avec détection de fraude ✅ ;</li>
+<li>ADRi ✅ (FAQ).</li>
+<li><strong>Dossier de soins :</strong> oui ✅ ; détail des photos de plaies et du BSI non documenté.</li>
+<li><strong>Interopérabilité :</strong> « Ségur » mentionné sur le site ✅ ; DMP, MSSanté, INS et PSC non détaillés publiquement.</li>
+<li><strong>Avis :</strong> quelques plaintes sur le service client dans les forums infirmiers.com 🔶. Proximité forte avec la FNI (syndicat).</li>
+<li><strong>À retenir :</strong> c'est <strong>la référence de l'IA de cotation</strong>. TabSanté doit au minimum être à parité sur le passage ordonnance → prescription.</li>
+</ul>
+<h3 id="22-albus-albus-air-latitude-mobile--sofia-développement--corilus">2.2 Albus (Albus Air, Latitude, Mobile) — Sofia Développement / Corilus</h3>
+<ul>
+<li><strong>Part de marché :</strong> 17,1 % (Albus AIR) 🔶.</li>
+<li><strong>Groupe :</strong> environ 31 000 professionnels, dont plus de 17 000 IDEL et plus de 300 centres de soins (n°1 des centres) 🔶. Albus revendique « 30 000 infirmières » ✅ (chiffre de groupe probable).</li>
+<li><strong>Propriété :</strong> fusion IDEA (Topaze + Télévitale) et SNAL (Albus) en 2019, rachat de Comptasanté en 2022, puis <strong>Corilus en janvier 2026</strong>. L'ensemble pèse plus de 120 M€ de CA cumulé et plus de 70 000 professionnels de santé en Belgique et en France 🔶.</li>
+<li><strong>Prix :</strong></li>
+<li><strong>Latitude : 99 € TTC/mois</strong> avec lecteur Bluetooth 🔶 (certaines sources citent 120 €) ;</li>
+<li><strong>Temps Libre</strong> (facturière dédiée) : +3,5 % HT du CA ✅ ;</li>
+<li>un comparatif mentionne un risque d'engagement de 36 mois ⚠️.</li>
+<li><strong>Plateformes :</strong> Mac, PC, tablette, mobile ; <strong>hors ligne réel</strong> (actes et facturation enregistrés localement puis synchronisés) ✅.</li>
+<li><strong>Fonctions :</strong> SOS-Cotation (aide NGAP), dossier de soins intégré, planning et tournées, garantie de paiement ✅.</li>
+<li><strong>Avis App Store :</strong> 4,6/5 sur 1 500 notes, version 8.3.1 récente ✅. Les plaintes portent sur l'impossibilité de corriger une ordonnance après facturation depuis le mobile (il faut un PC), sur la création de dossier patient incomplète sur l'app et sur la planification mensuelle limitée.</li>
+<li><strong>À retenir :</strong> c'est l'acteur le mieux armé pour les <strong>structures et centres de soins</strong>. Le rachat par Corilus peut entraîner des mouvements de prix ou de roadmap : <strong>opportunité de captation</strong>.</li>
+</ul>
+<h3 id="23-simply-vitale--cegedim-santé">2.3 Simply Vitale — Cegedim Santé</h3>
+<ul>
+<li><strong>Part de marché :</strong> 12,3 % 🔶.</li>
+<li><strong>Prix :</strong> sur devis. Un comparatif cite « à partir de 127 €/mois » ⚠️ NV.</li>
+<li><strong>Matériel :</strong> <strong>tablette durcie propriétaire</strong> avec lecteurs Vitale et mutuelle intégrés et module 4G ✅.</li>
+<li><strong>Hors ligne :</strong> consultation du dossier et facturation sans réseau ; la connexion n'est nécessaire que pour envoyer les FSE et alimenter le DMP ✅.</li>
+<li><strong>Fonctions :</strong> ADRi, SCOR, DMP, MSSanté, INS inclus 🔶 ; planning géolocalisé ; Simply Vitale 4.0 (2024) avec page d'accueil « copilote » ✅.</li>
+<li><strong>Avis :</strong> jugé « cher et peu fiable » sur certains forums. Plusieurs annonces de <strong>cession de contrat</strong> sur infirmiers.com 🔶, ce qui suggère un engagement contraignant.</li>
+<li><strong>À retenir :</strong> le modèle matériel captif vieillit. Les IDEL préfèrent leur propre smartphone avec un lecteur Bluetooth.</li>
+</ul>
+<h3 id="24-vega--epsilog--compugroup-medical">2.4 Vega — Epsilog / CompuGroup Medical</h3>
+<ul>
+<li><strong>Part de marché :</strong> 10,6 % 🔶 ; plus de 50 000 praticiens (tous paramédicaux), plus de 30 ans d'existence ✅.</li>
+<li><strong>Prix :</strong> <strong>dès 41,50 €/mois sans engagement</strong> 🔶 (sources entre 41,50 et 45 €). Le lecteur n'est pas inclus 🔶.</li>
+<li><strong>Plateformes :</strong> logiciel Windows (Mac seulement via émulation 🔶), app mobile <strong>EVE</strong>, Vega Mobile, Vega Tab (Surface Pro) ✅.</li>
+<li><strong>Facturation :</strong> FSE en mobilité y compris pour les actes isolés, SCOR par photo, ADRi, gestion des impayés, compta 2035 ✅ ; agrément addendum 7 🔶.</li>
+<li><strong>Interopérabilité :</strong> module DMP et MSSanté ✅, INS 🔶.</li>
+<li><strong>À retenir :</strong> c'est <strong>le prix plancher</strong>. L'expérience est centrée sur le poste fixe.</li>
+</ul>
+<h3 id="25-soins-2000--logisurm">2.5 Soins 2000 — Logisur'M</h3>
+<ul>
+<li><strong>Part de marché :</strong> 9,4 % 🔶 ; existe depuis 1997.</li>
+<li><strong>Prix :</strong> logiciel Windows <strong>gratuit hors télétransmission</strong> ; licence de télétransmission payante ✅.</li>
+<li><strong>Mobile :</strong> app compagnon iOS/Android pour sécuriser les factures au domicile et créer des actes isolés ; lecteur Bluetooth DSC-BT ✅.</li>
+<li><strong>Interopérabilité :</strong> ADRi, DMP, ApCV, indicateurs FAMI ✅.</li>
+<li><strong>À retenir :</strong> une base fidèle et sensible au prix ; le dossier de soins est faible.</li>
+</ul>
+<h3 id="26-fiducial-equinox">2.6 FIDUCIAL Equinox</h3>
+<ul>
+<li><strong>Prix :</strong> dès 89 € TTC/mois ; lecteur Kap-inSide en option ✅.</li>
+<li><strong>Fonctions :</strong></li>
+<li>app <strong>myDay</strong> : planning temps réel partagé avec collègues et remplaçants, numérisation des ordonnances et QR mutuelle au domicile ✅ ;</li>
+<li>DMP et module compta inclus ✅.</li>
+<li><strong>Avis :</strong> jugé « simple et fiable, bon support » sur les forums 🔶.</li>
+</ul>
+<h3 id="27-ozzen">2.7 Ozzen</h3>
+<ul>
+<li><strong>Prix :</strong> Start à 0 € (tournée, dossiers, scan d'ordonnances, sans facturation) ; <strong>Pro à 119 € HT/mois</strong> ; Premium sur devis ✅. Lecteur Ozzen requis pour facturer.</li>
+<li><strong>Fonctions</strong> (selon le site, à vérifier) :</li>
+<li>facturation au domicile avec algorithme NGAP ;</li>
+<li>photos de plaies et constantes, transmissions partagées ;</li>
+<li>multi-IDEL, hors ligne, piste d'audit des passages ;</li>
+<li>DMP, MSSanté, INS, PSC, e-prescription et ApCV revendiqués 🔶 ;</li>
+<li>hébergement HDS sur Google Cloud en Belgique 🔶.</li>
+<li><strong>Avis :</strong> App Store 4,7/5 sur 151 notes. Les plaintes portent sur un <strong>lecteur lent à se connecter</strong> et une <strong>première télétransmission lente</strong> ✅.</li>
+<li><strong>À retenir :</strong> c'est <strong>le freemium de référence</strong>. L'entrée gratuite par la tournée et le DSI est exactement le terrain de TabSanté V1.</li>
+</ul>
+<h3 id="28-carecare">2.8 CareCare</h3>
+<ul>
+<li><strong>Prix :</strong> <strong>120 €/mois</strong> pour l'IDEL titulaire, lecteur PC/SC inclus, sans engagement ✅ ; compte remplaçant gratuit ✅.</li>
+<li><strong>Fonctions ✅ :</strong></li>
+<li><strong>vue carte de la tournée et placement automatique des nouveaux patients</strong> ;</li>
+<li>assistant NGAP avec règles de cumul et <strong>blocage des FSE à risque de rejet</strong> 🔶 ;</li>
+<li>résolution des rejets avec emails pré-rédigés ;</li>
+<li><strong>calcul de répartition du BSI</strong> et rétrocessions des remplaçants ;</li>
+<li>dossier partagé (constantes, suivi des plaies, transmissions), comptes rendus médicaux ;</li>
+<li>scan d'ordonnance avec pré-remplissage ;</li>
+<li>envoi direct des documents au laboratoire.</li>
+<li><strong>Avis :</strong> 4,8/5 sur Google (52 avis) ✅.</li>
+<li><strong>À retenir :</strong> c'est <strong>le challenger le plus proche</strong> en matière de « facturation sécurisée ». Il ne parle cependant pas de preuve opposable.</li>
+</ul>
+<h3 id="29-swily">2.9 Swily</h3>
+<ul>
+<li><strong>Création :</strong> 3 février 2025 ; dossier d'agrément SESAM-Vitale lancé en mars 2025 ; <strong>agréé GIE SESAM-Vitale et CNDA au printemps 2026</strong> ✅.</li>
+<li><strong>Prix :</strong></li>
+<li>Confort <strong>gratuit</strong> et sans limite (dossiers, tournées, planning collaboratif) ✅ ;</li>
+<li>Facturation à <strong>89 € TTC/mois « à vie »</strong> en offre de lancement (standard 119 €), lecteur Bluetooth, rejets, formation ✅ ;</li>
+<li>remplaçants et facturières gratuits ✅.</li>
+<li><strong>Interopérabilité :</strong> ApCV compatible 🔶 ; HDS ✅.</li>
+<li><strong>Marketing :</strong> SEO très agressif, avec des pages comparatives et « alternatives » contre chaque concurrent.</li>
+<li><strong>À retenir :</strong> <strong>c'est le modèle le plus proche du parcours de TabSanté V2.</strong> Il a obtenu l'agrément en environ 13 mois et sert de benchmark de délai.</li>
+</ul>
+<h3 id="210-calendridel">2.10 Calendridel</h3>
+<ul>
+<li><strong>Prix :</strong> boîte à outils gratuite (planning cabinet, calculateur de cotation, contrats de remplacement, forum), <strong>DSI à 10 €/mois</strong>, <strong>facturation à 90 €/mois</strong> sans engagement ✅.</li>
+<li><strong>Fonctions :</strong> 100 % web (navigateur sur PC, tablette ou mobile) ; <strong>« génération des factures à partir de la traçabilité des actes, sans double saisie »</strong> ✅ ; ADRi, INSi, tiers payant, encaissement automatique ✅ ; manuel BSI v6.1 publié.</li>
+<li><strong>À retenir :</strong> c'est <strong>le concept le plus proche de « facturer sur preuve »</strong>, mais sans preuve forte (signature, horodatage, géolocalisation, objets) et sans application native hors ligne documentée.</li>
+</ul>
+<h3 id="211-autres">2.11 Autres</h3>
+<ul>
+<li><strong>Citana (Anamnèse)</strong> : 30 €/mois. Inclut l'agenda, la prise de RDV en ligne, les <strong>bilans prévention</strong>, le télésoin, la téléexpertise, l'<strong>INS, le DMP en alimentation et consultation, MSSanté et l'ApCV homologuée CNDA</strong> (version 2026.05.1) ✅. Plus de 2 000 IDEL. <strong>Pas de facturation NGAP de tournée documentée</strong> ⚠️. Conditions générales communes avec Inzee.care coordination. C'est un avant-goût des consultations infirmières.</li>
+<li><strong>IDELPro</strong> : mobile et web ; <strong>dictée vocale vers texte</strong>, rappels BSI, tournées GPS avec glisser-déposer, HDS ; DMP et MSSanté « bientôt » ; statut SESAM-Vitale flou ⚠️.</li>
+<li><strong>Oly</strong> : transmissions et tournées à moins de 16 €/mois, sans facturation.</li>
+<li><strong>Doctolib Pro</strong> : agenda et téléconsultation pour IDEL sur devis ; facturation annoncée par un blog ⚠️ NV. Ce n'est pas un dossier de soins de tournée.</li>
+<li><strong>Inzee.care / Medicalib</strong> : canaux d'adressage de patients, utiles comme <strong>partenaires d'acquisition</strong> et non comme concurrents directs.</li>
+<li><strong>SSIAD/SAD</strong> (Arche MC2, Ximi…) : télégestion GPS et DUI. C'est le benchmark pour les <strong>structures</strong> (SELAS, centres de soins), mais sans facturation NGAP libérale.</li>
+</ul>
+<h3 id="212-références-internationales-bonnes-pratiques">2.12 Références internationales (bonnes pratiques)</h3>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Acteur</th>
+<th>Pratique clé</th>
+<th>Transposition TabSanté</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>EVV, 21st Century Cures Act §12006</strong></td>
+<td>Obligatoire pour la home health Medicaid depuis le 01/01/2023 ; <strong>6 données</strong> : type de service, bénéficiaire, date, lieu, intervenant, heures de début et de fin ✅</td>
+<td>« Preuve de passage » à la française : lecture Vitale ou ApCV, horodatage, géolocalisation consentie, signature, identité de l'IDE via e-CPS</td>
+</tr>
+<tr>
+<td><strong>AlayaCare</strong></td>
+<td>EVV intégré dans l'app native, pointage GPS d'arrivée et de départ, <strong>mode hors ligne</strong> avec synchronisation automatique ; 2025 : <strong>« Visit Verification Agent »</strong> IA qui résout seul les visites en échec ✅</td>
+<td>Agent IA qui détecte les actes non prouvés ou incohérents <strong>avant</strong> la télétransmission</td>
+</tr>
+<tr>
+<td><strong>Axxess</strong></td>
+<td>Documentation au domicile hors ligne, <strong>wound manager</strong> interactif, validations temps réel, « scrubber » OASIS, aide IA à la documentation ✅</td>
+<td>Contrôle de complétude des fiches de soins, équivalent d'un scrubber NGAP</td>
+</tr>
+<tr>
+<td><strong>WellSky Scribe / WILA</strong></td>
+<td>Écoute ambiante : <strong>jusqu'à −50 % de temps de documentation</strong>, +8,6 patients par clinicien et par mois, −22 % de documentation après les heures ✅</td>
+<td>Dictée ambiante vers transmission DAR et suggestions de cotation</td>
+</tr>
+<tr>
+<td><strong>Homecare Homebase (Netsmart)</strong></td>
+<td>« Curate: Scribe » annoncé en mars 2026 🔶</td>
+<td>Idem</td>
+</tr>
+<tr>
+<td><strong>Swift Medical</strong></td>
+<td>Pastille de calibration <strong>HealX de 1 cm</strong> (FDA-registered) : longueur, largeur, surface, profondeur, colorimétrie ; fiabilité ICC de 0,97 à 1,00 contre 0,92 à 0,97 à la règle ✅</td>
+<td>Pastille de calibration ou référence AR pour la mesure de plaie opposable</td>
+</tr>
+<tr>
+<td><strong>Tissue Analytics (Net Health)</strong></td>
+<td>Mesure avec moins de 5 % d'erreur, composition tissulaire, désignation « Breakthrough » de la FDA ✅</td>
+<td>Composition tissulaire et courbe de cicatrisation par plaie</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="3-matrice-fonctionnelle-vs-cibles-tabsanté-v2">3. Matrice fonctionnelle vs cibles TabSanté V2</h2>
+<p><strong>Légende :</strong>
+- ✔ = présent et documenté
+- ◐ = partiel
+- ✖ = absent
+- ? = non documenté publiquement (ne veut pas dire absent)</p>
+<p><strong>Abréviations des colonnes :</strong> Agathe = Agathe YOU ; Simply V. = Simply Vitale ; Calendr. = Calendridel ; Healico = app plaie autonome.</p>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Fonction cible TabSanté V2</th>
+<th>Agathe</th>
+<th>Albus</th>
+<th>Simply V.</th>
+<th>Vega</th>
+<th>Ozzen</th>
+<th>CareCare</th>
+<th>Swily</th>
+<th>Calendr.</th>
+<th>Healico</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FSE au domicile (mobile)</td>
+<td>✔</td>
+<td>✔</td>
+<td>✔</td>
+<td>✔</td>
+<td>✔</td>
+<td>✔</td>
+<td>✔</td>
+<td>◐ (web)</td>
+<td>✖</td>
+</tr>
+<tr>
+<td>Hors ligne réel (soins + facturation)</td>
+<td>◐</td>
+<td>✔</td>
+<td>✔</td>
+<td>?</td>
+<td>✔🔶</td>
+<td>?</td>
+<td>?</td>
+<td>✖?</td>
+<td>?</td>
+</tr>
+<tr>
+<td>Lecteur Bluetooth PC/SC bi-fente (Vitale + CPS) inclus</td>
+<td>✔</td>
+<td>✔</td>
+<td>✔ (intégré)</td>
+<td>✖</td>
+<td>◐ (Pro)</td>
+<td>✔</td>
+<td>✔</td>
+<td>?</td>
+<td>—</td>
+</tr>
+<tr>
+<td>ApCV</td>
+<td>✔</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>✔🔶</td>
+<td>?</td>
+<td>✔🔶</td>
+<td>?</td>
+<td>—</td>
+</tr>
+<tr>
+<td>ADRi / SCOR</td>
+<td>✔</td>
+<td>✔</td>
+<td>✔</td>
+<td>✔</td>
+<td>?</td>
+<td>✔ (scan)</td>
+<td>?</td>
+<td>✔ ADRi</td>
+<td>—</td>
+</tr>
+<tr>
+<td>IMTi</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Moteur NGAP et cumuls</td>
+<td>✔</td>
+<td>✔</td>
+<td>?</td>
+<td>?</td>
+<td>✔</td>
+<td>✔</td>
+<td>✔</td>
+<td>✔ (calculateur)</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Contrôle anti-rejet avant envoi</td>
+<td>◐</td>
+<td>◐</td>
+<td>?</td>
+<td>◐</td>
+<td>?</td>
+<td>✔</td>
+<td>◐</td>
+<td>?</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Photo d'ordonnance → cotation IA</td>
+<td>✔ OrdoScan</td>
+<td>◐</td>
+<td>?</td>
+<td>✖</td>
+<td>◐ (scan)</td>
+<td>◐</td>
+<td>?</td>
+<td>✖</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Ordonnance → fréquences → tournée → affectation</td>
+<td>◐</td>
+<td>◐</td>
+<td>◐</td>
+<td>✔ (planif. auto)</td>
+<td>✔</td>
+<td>✔ (auto-placement)</td>
+<td>✔</td>
+<td>◐</td>
+<td>✖</td>
+</tr>
+<tr>
+<td><strong>Ligne FSE dérivée d'un acte signé et horodaté (preuve)</strong></td>
+<td>✖</td>
+<td>✖</td>
+<td>✖</td>
+<td>✖</td>
+<td>◐ (audit des passages)</td>
+<td>✖</td>
+<td>✖</td>
+<td>◐ (« depuis traçabilité »)</td>
+<td>✖</td>
+</tr>
+<tr>
+<td>Preuve de présence type EVV (horodatage, géoloc, signature)</td>
+<td>✖</td>
+<td>✖</td>
+<td>✖</td>
+<td>✖</td>
+<td>◐</td>
+<td>✖</td>
+<td>✖</td>
+<td>✖</td>
+<td>✖</td>
+</tr>
+<tr>
+<td><strong>Traçabilité par objet (plaie, KT, PICC, stomie)</strong></td>
+<td>✖</td>
+<td>✖</td>
+<td>✖</td>
+<td>✖</td>
+<td>✖</td>
+<td>◐ (suivi plaie)</td>
+<td>✖</td>
+<td>✖</td>
+<td>◐ (plaie seule)</td>
+</tr>
+<tr>
+<td>Photo de plaie avec <strong>mesure calibrée</strong></td>
+<td>✖</td>
+<td>✖</td>
+<td>✖</td>
+<td>✖</td>
+<td>◐ (photo)</td>
+<td>◐ (photo)</td>
+<td>✖</td>
+<td>✖</td>
+<td>✔</td>
+</tr>
+<tr>
+<td>Fiches de soins structurées (perfusion, PCA, PSE, DP, nutrition entérale…)</td>
+<td>?</td>
+<td>◐</td>
+<td>?</td>
+<td>?</td>
+<td>◐</td>
+<td>◐</td>
+<td>◐</td>
+<td>◐ (fiches de suivi)</td>
+<td>✖</td>
+</tr>
+<tr>
+<td>Transmissions DAR</td>
+<td>◐</td>
+<td>✔</td>
+<td>✔</td>
+<td>?</td>
+<td>✔</td>
+<td>✔</td>
+<td>✔</td>
+<td>✔</td>
+<td>✖</td>
+</tr>
+<tr>
+<td><strong>Diagnostic infirmier NANDA-I</strong></td>
+<td>✖</td>
+<td>✖</td>
+<td>✖</td>
+<td>✖</td>
+<td>✖</td>
+<td>✖</td>
+<td>✖</td>
+<td>✖</td>
+<td>✖</td>
+</tr>
+<tr>
+<td>BSI (téléservice intégré ou aide)</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>✔ (répartition)</td>
+<td>?</td>
+<td>✔ (manuel)</td>
+<td>✖</td>
+</tr>
+<tr>
+<td><strong>Consultation infirmière</strong> (CIA/CIB, accès direct)</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>✖</td>
+</tr>
+<tr>
+<td>Prescription IDE (arrêté du 26/06/2026)</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>✖</td>
+</tr>
+<tr>
+<td>Multi-IDE, cabinet, remplaçants</td>
+<td>✔</td>
+<td>✔</td>
+<td>✔</td>
+<td>✔</td>
+<td>✔</td>
+<td>✔</td>
+<td>✔</td>
+<td>✔</td>
+<td>◐</td>
+</tr>
+<tr>
+<td>Structures (SELAS, centres de soins, rôles, supervision)</td>
+<td>◐</td>
+<td>✔ (n°1 des centres)</td>
+<td>◐</td>
+<td>◐</td>
+<td>◐ (Premium)</td>
+<td>◐</td>
+<td>✖</td>
+<td>◐</td>
+<td>✖</td>
+</tr>
+<tr>
+<td>DMP</td>
+<td>?</td>
+<td>?</td>
+<td>✔</td>
+<td>✔</td>
+<td>✔🔶</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>✖</td>
+</tr>
+<tr>
+<td>MSSanté</td>
+<td>?</td>
+<td>?</td>
+<td>✔</td>
+<td>✔</td>
+<td>✔🔶</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>✖</td>
+</tr>
+<tr>
+<td>INS / INSi</td>
+<td>?</td>
+<td>?</td>
+<td>✔</td>
+<td>✔🔶</td>
+<td>✔🔶</td>
+<td>?</td>
+<td>?</td>
+<td>✔</td>
+<td>✖</td>
+</tr>
+<tr>
+<td>Pro Santé Connect / e-CPS</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>✔🔶</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>✖</td>
+</tr>
+<tr>
+<td>Lecture de l'ordonnance numérique (exécutant)</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>◐</td>
+<td>✔🔶</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>✖</td>
+</tr>
+<tr>
+<td>Accès médecin traitant par QR code</td>
+<td>✖</td>
+<td>✖</td>
+<td>✖</td>
+<td>✖</td>
+<td>✖</td>
+<td>◐ (comptes rendus)</td>
+<td>✖</td>
+<td>✖</td>
+<td>◐ (partage médecin)</td>
+</tr>
+<tr>
+<td>FHIR R4 (API ouverte)</td>
+<td>✖?</td>
+<td>✖?</td>
+<td>✖?</td>
+<td>✖?</td>
+<td>✖?</td>
+<td>✖?</td>
+<td>✖?</td>
+<td>✖?</td>
+<td>✖?</td>
+</tr>
+<tr>
+<td>Dictée vocale / IA de documentation</td>
+<td>✖?</td>
+<td>✖?</td>
+<td>✖?</td>
+<td>✖?</td>
+<td>✖?</td>
+<td>✖?</td>
+<td>✖?</td>
+<td>✖?</td>
+<td>✔ (dictée)</td>
+</tr>
+<tr>
+<td>Hébergement HDS</td>
+<td>✔</td>
+<td>✔</td>
+<td>✔</td>
+<td>✔</td>
+<td>✔</td>
+<td>✔</td>
+<td>✔</td>
+<td>?</td>
+<td>✖ (« HIPAA » annoncé)</td>
+</tr>
+<tr>
+<td>Référencé Ségur vague 2 LGC IDEL</td>
+<td>✖ (fenêtre ouverte)</td>
+<td>✖</td>
+<td>✖</td>
+<td>✖</td>
+<td>✖</td>
+<td>✖</td>
+<td>✖</td>
+<td>✖</td>
+<td>—</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Lecture de la matrice :</strong>
+- La parité attendue (« table stakes ») comprend : la FSE mobile, le lecteur Bluetooth inclus, le moteur NGAP, les tournées, le multi-IDE, l'ADRi et le SCOR, l'hébergement HDS et l'ApCV.
+- Aucun concurrent ne couvre les lignes suivantes, qui sont donc <strong>libres</strong> : la preuve, la traçabilité par objet, la mesure calibrée, NANDA-I, l'accès médecin par QR, FHIR et la documentation IA.
+- La consultation et la prescription IDE sont <strong>en cours de construction partout</strong>. Ce sera une course de vitesse entre novembre 2026 et juillet 2027.</p>
+<hr />
+<h2 id="4-espaces-blancs-que-tabsanté-peut-occuper">4. Espaces blancs que TabSanté peut occuper</h2>
+<ol>
+<li><strong>« Dossier de preuve opposable »</strong> (le cœur du positionnement).
+   - Aucun LGC ne présente chaque ligne de FSE comme dérivée d'un acte prouvé : horodatage, identité de l'IDE, lecture Vitale ou ApCV au domicile, signature patient ou aidant, photo, géolocalisation <strong>consentie</strong> et ponctuelle (pas de pistage continu).
+   - Le contexte s'y prête : 56 M€ de fraude infirmière détectée en 2024, contrôles et indus en hausse, actes de <strong>surveillance</strong> 2028 (AMI 3,77 hebdomadaire, AMI 1,49 aigu) qui exigeront une documentation probante.
+   - Livrable concret : export « dossier de contrôle CPAM » en un clic par patient et par période.</li>
+<li><strong>Traçabilité par objet de soin.</strong>
+   - Un registre de cycle de vie pour chaque plaie, cathéter (PICC, Midline, chambre implantable), stomie, sonde ou pompe (PCA, PSE) : date de pose, date de réfection, constantes de l'objet, photos et mesures, alertes (changement de pansement, de ligne, rinçage).
+   - Aucun concurrent ne le fait. C'est le standard hospitalier ramené au domicile.</li>
+<li><strong>Plaie intégrée et facturante.</strong>
+   - Albus reconnaît que les apps plaies du marché sont « autonomes » et obligent à saisir deux fois.
+   - L'avenant 11 crée une vraie opportunité : division de l'AMI 2.02 depuis le 21/06/2026, <strong>accès direct aux plaies sans prescription au 01/01/2027</strong>, <strong>AMI 3,48 « bilan annuel plaie »</strong> au 01/01/2027, droit de prescription IDE sur les plaies (arrêté du 26/06/2026).
+   - TabSanté peut faire <strong>mesure calibrée → bilan → cotation → prescription de pansements</strong> dans un seul flux.</li>
+<li><strong>Consultation infirmière et prescription IDE prêtes dès le premier jour.</strong>
+   - Calendrier : CIA à 20 € (novembre 2026, sous réserve de l'avis HAS), CIB à 20 € (01/07/2027), rôle propre élargi (ECG, TROD, mini-spirométrie, évaluation du risque suicidaire…), prescription dans 6 domaines.
+   - L'arrêté impose que <strong>toute prescription soit inscrite au dossier patient ou au DMP</strong> 🔶.
+   - Personne n'a encore de module visible ; Citana s'en approche côté prévention.</li>
+<li><strong>Diagnostic infirmier structuré (NANDA-I, ou à défaut transmissions ciblées DAR).</strong> Il est absent de tous les LGC IDEL alors que la loi de 2025 consacre le diagnostic et la consultation infirmière. C'est un <strong>différenciateur clinique</strong> et un levier de reconnaissance de la profession.</li>
+<li><strong>Accès médecin par QR code et coordination.</strong> Le médecin consulte sans compte le suivi de l'objet ou de la plaie, ce qui complète le DMP et MSSanté. Aucun concurrent ne le propose.</li>
+<li><strong>Structures (SELAS, SELARL, centres de soins).</strong> Rôles, affectation, supervision, piste d'audit et tableau de bord de conformité. Seul Albus est installé (et vient d'être racheté). Les outils SSIAD/SAD ne facturent pas en NGAP libéral.</li>
+<li><strong>IA de documentation vocale.</strong> La dictée vers une transmission DAR structurée, avec suggestion de cotation et de diagnostic, n'existe qu'à l'état rudimentaire chez IDELPro et Healico. Aux États-Unis, l'impact est démontré (−50 % de temps de documentation chez WellSky).</li>
+<li><strong>Transparence et portabilité.</strong> L'observatoire conventionnel des logiciels créé par l'avenant 11 et la frustration autour des engagements longs (Simply Vitale, risque de 36 mois chez Albus) favorisent une offre <strong>sans engagement, à prix public et avec export FHIR ou CSV libre</strong>.</li>
+<li><strong>Interopérabilité FHIR R4.</strong> Aucun LGC IDEL n'affiche d'API FHIR. Cela compte pour les CPTS, l'HAD, les hôpitaux (sorties via Inzee.care) et la future plateforme Mon espace santé.</li>
+</ol>
+<hr />
+<h2 id="5-benchmark-de-prix-ttcmois-sauf-mention-octobre-2026">5. Benchmark de prix (TTC/mois sauf mention, octobre 2026)</h2>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Offre</th>
+<th>Prix</th>
+<th>Lecteur</th>
+<th>Engagement</th>
+<th>Remarque</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Vega</td>
+<td>dès 41,50 € (jusqu'à 45 €) 🔶</td>
+<td>✖</td>
+<td>Sans</td>
+<td>Windows, apps mobiles en plus</td>
+</tr>
+<tr>
+<td>Soins 2000</td>
+<td>Gratuit + licence de télétransmission (montant ? )</td>
+<td>Optionnel</td>
+<td>?</td>
+<td>Windows</td>
+</tr>
+<tr>
+<td>Citana Essentiel</td>
+<td>30 € ✅</td>
+<td>—</td>
+<td>Sans</td>
+<td>Pas de facturation NGAP de tournée</td>
+</tr>
+<tr>
+<td>Oly</td>
+<td>&lt; 16 € 🔶</td>
+<td>—</td>
+<td>—</td>
+<td>DSI et transmissions seulement</td>
+</tr>
+<tr>
+<td>Calendridel</td>
+<td>0 € (outils) / 10 € (DSI) / 90 € (facturation) ✅</td>
+<td>?</td>
+<td>Sans</td>
+<td>Web</td>
+</tr>
+<tr>
+<td>Swily</td>
+<td>0 € (Confort) / <strong>89 € à vie</strong> (lancement), 119 € standard ✅</td>
+<td>✔</td>
+<td>Sans</td>
+<td>Remplaçants et facturières gratuits</td>
+</tr>
+<tr>
+<td>FIDUCIAL Equinox</td>
+<td>dès 89 € ✅</td>
+<td>Option</td>
+<td>?</td>
+<td>Compta incluse</td>
+</tr>
+<tr>
+<td>Albus Latitude</td>
+<td>99 € 🔶 (120 € selon une autre source)</td>
+<td>✔</td>
+<td>⚠️ 36 mois cité</td>
+<td>Temps Libre : +3,5 % HT du CA</td>
+</tr>
+<tr>
+<td>Infimax (fin de vie)</td>
+<td>99 à 109 € 🔶</td>
+<td>✔</td>
+<td>—</td>
+<td>Migration vers Albus</td>
+</tr>
+<tr>
+<td>Ozzen</td>
+<td>0 € (Start) / <strong>119 € HT</strong> (Pro), soit environ 143 € TTC / Premium sur devis ✅</td>
+<td>✔ (Pro)</td>
+<td>Sans</td>
+<td></td>
+</tr>
+<tr>
+<td>CareCare</td>
+<td><strong>120 €</strong> ✅</td>
+<td>✔ PC/SC</td>
+<td>Sans</td>
+<td>Compte remplaçant gratuit</td>
+</tr>
+<tr>
+<td>Agathe YOU</td>
+<td>environ 120 à 129 € 🔶</td>
+<td>✔ Bloomy</td>
+<td>?</td>
+<td>3 formules (garantie de paiement, compta)</td>
+</tr>
+<tr>
+<td>Simply Vitale</td>
+<td>sur devis (≈ 127 € ⚠️)</td>
+<td>✔ tablette intégrée</td>
+<td>Contrats cédés sur les forums</td>
+<td>Matériel captif</td>
+</tr>
+<tr>
+<td>Transmedical (externalisé)</td>
+<td>165 € HT ✅</td>
+<td>—</td>
+<td>—</td>
+<td>Facturière avec rejets inclus</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Aides qui réduisent le coût net pour l'IDEL :</strong>
+- <strong>FAMI</strong> : 490 €/an de base (5 indicateurs obligatoires : logiciel agréé compatible DMP, MSSanté…), +100 € en exercice coordonné, +350 € pour la vidéotransmission, +175 € pour les dispositifs connectés, soit 1 115 € maximum 🔶. Déclaration sur amelipro de mi-janvier au 2 mars.
+- <strong>Ségur vague 2</strong> : prestation de mise à jour prise en charge une seule fois par professionnel. Plafonds 🔶 à vérifier sur l'arrêté : <strong>IDE ≈ 270 € TTC (225 € HT)</strong>, IPA ou sage-femme ≈ 400 €, <strong>centres de soins infirmiers jusqu'à 5 940 € TTC</strong> selon l'effectif.</p>
+<p><strong>Recommandation de prix pour TabSanté V2 :</strong>
+- <strong>0 €</strong> pour le DSI et la tournée en solo (défendre et convertir la base V1 face à Ozzen, Swily et Calendridel).
+- <strong>89 à 109 € TTC</strong> pour « Soins + Facturation sur preuve », lecteur Bluetooth bi-fente inclus, sans engagement, remplaçants gratuits.
+- <strong>Offre Structure</strong> par IDE actif (par exemple 69 à 79 € par IDE à partir de 5 IDE), avec tableau de bord de supervision et audit.
+- Prix publics et <strong>export libre</strong> pour anticiper l'observatoire de l'avenant 11.</p>
+<hr />
+<h2 id="6-calendrier-réglementaire-et-indispensables">6. Calendrier réglementaire et indispensables</h2>
+<h3 id="61-calendrier">6.1 Calendrier</h3>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Date</th>
+<th>Événement</th>
+<th>Impact produit</th>
+<th>Fiabilité</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>01/07/2023</td>
+<td>Fin de commercialisation des TLA</td>
+<td>Lecteur PC/SC (référentiel TL 04.00) en Bluetooth avec mobile</td>
+<td>✅ GIE SV</td>
+</tr>
+<tr>
+<td>01/01/2024</td>
+<td>AIS rejetés pour les patients relevant du BSI ; forfaits <strong>BSA 13 €, BSB 18,20 €, BSC 28,70 €</strong></td>
+<td>Moteur BSI obligatoire</td>
+<td>🔶</td>
+</tr>
+<tr>
+<td>16/05/2024</td>
+<td>Référentiel <strong>HDS v2</strong> (arrêté du 26/04/2024) ; nouvelles certifications dès le 16/11/2024 ; <strong>migration des certifiés au plus tard le 16/05/2026</strong></td>
+<td>Hébergeur certifié HDS v2 obligatoire (aujourd'hui exigible)</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>01/01/2025</td>
+<td><strong>Ordonnance numérique</strong> obligatoire en droit pour les prescriptions de ville (généralisation progressive)</td>
+<td>Lecture de l'ordonnance par QR code et base e-prescription en tant qu'exécutant</td>
+<td>🔶</td>
+</tr>
+<tr>
+<td>2025</td>
+<td><strong>ApCV</strong> généralisée</td>
+<td>Lecture QR ou NFC de l'appli Carte Vitale</td>
+<td>🔶</td>
+</tr>
+<tr>
+<td>01/07/2025</td>
+<td>Fin d'utilisation des TLA annoncée ; ⚠️ une source indique un <strong>rejet des flux TLA à partir du 15/01/2028</strong></td>
+<td>Argument de migration</td>
+<td>⚠️ contradictoire</td>
+</tr>
+<tr>
+<td>27/06/2025</td>
+<td><strong>Loi n° 2025-581</strong> relative à la profession d'infirmier (JO du 28/06/2025) : consultation, diagnostic infirmier, prescription</td>
+<td>Modules consultation, diagnostic et prescription</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>24/12/2025</td>
+<td><strong>Décret n° 2025-1306</strong> (JO du 26/12/2025) : activités et compétences (remplace le décret de 2004)</td>
+<td>Référentiel des actes du rôle propre</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>13/01/2026</td>
+<td>Rachat de Sofia Développement (Albus) par Corilus</td>
+<td>Fenêtre de captation</td>
+<td>🔶</td>
+</tr>
+<tr>
+<td>31/03/2026</td>
+<td><strong>Avenant 11</strong> signé (JO du 06/05/2026), 503 M€ sur 2026–2029 ; crée l'<strong>observatoire conventionnel des logiciels</strong></td>
+<td>Moteur NGAP versionné par date d'effet</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>21/06/2026</td>
+<td>AMI 2.02 divisé (plaies non chirurgicales et chirurgicales simples), AMI 1.2 étendu, prescription « jusqu'à cicatrisation » acceptée 3 mois</td>
+<td>Cotation plaies</td>
+<td>🔶</td>
+</tr>
+<tr>
+<td>26/06/2026</td>
+<td><strong>Arrêtés</strong> (JO du 27/06/2026) : liste des actes et soins IDE, liste des produits et examens prescriptibles ; <strong>toute prescription doit être inscrite au dossier patient ou au DMP</strong></td>
+<td>Module de prescription IDE et alimentation DMP</td>
+<td>✅/🔶</td>
+</tr>
+<tr>
+<td>15/07/2026</td>
+<td><strong>Arrêté Ségur LGC sages-femmes et paramédicaux</strong> (JO du 21/07/2026)</td>
+<td>Référencement vague 2</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>01/09/2026</td>
+<td>Réception obligatoire des factures fournisseurs électroniques (B2B) ; <strong>actes NGAP hors champ</strong></td>
+<td>Mineur (module compta)</td>
+<td>🔶</td>
+</tr>
+<tr>
+<td>06–07/11/2026</td>
+<td><strong>AMI et AMX à 3,35 €</strong> ; <strong>CIA 20 €</strong> (diabète insulino-traité, sous réserve HAS) ; PDSA 52 € par 4 h ; MIR 15 € ; AMI 1,35 « levée de doute » ; RKD 3 €</td>
+<td>Mise à jour des tarifs et nouvelles cotations</td>
+<td>✅/🔶</td>
+</tr>
+<tr>
+<td>01/01/2027</td>
+<td><strong>AMI 3,48 bilan annuel plaie</strong> ; <strong>AMI 2.02 en accès direct sans prescription</strong> ; actes pompe à insuline en milieu scolaire et majoration MSD 7 €</td>
+<td>Module plaie et accès direct</td>
+<td>🔶</td>
+</tr>
+<tr>
+<td><strong>17/02/2027</strong></td>
+<td><strong>Date limite de dépôt du dossier administratif éditeur</strong> pour le référencement Ségur vague 2</td>
+<td><strong>Jalon critique pour TabSanté</strong></td>
+<td>✅/🔶</td>
+</tr>
+<tr>
+<td>01/07/2027</td>
+<td><strong>CIB 20 €</strong> (suivi prévention) ; formalisation de l'infirmier coordinateur ou référent</td>
+<td>Module consultation</td>
+<td>🔶</td>
+</tr>
+<tr>
+<td><strong>05/07/2027</strong></td>
+<td><strong>Premiers bons de commande Ségur IDEL</strong></td>
+<td>Pic de rééquipement</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>01/11/2027</td>
+<td><strong>AMI à 3,45 €</strong></td>
+<td>Tarifs</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>01/01/2028</td>
+<td><strong>AMI 3,77 surveillance hebdomadaire</strong> ; <strong>AMI 1,49 surveillance aiguë</strong> (15 maximum sur 3 mois) ; AMI 1,48 gestion médicamenteuse (démences et ALD psychiatriques) ; majoration MSG 3,10 € si SEGA ≥ 35 ; <strong>algorithme BSI modifié</strong> (forfait BSA supprimé pour H0E0M0)</td>
+<td>La <strong>documentation de surveillance devient facturante</strong>, au cœur du « sur preuve »</td>
+<td>🔶</td>
+</tr>
+<tr>
+<td>28/06/2027 ou 28/06/2028</td>
+<td>Date limite des preuves de conformité Ségur (les sources divergent)</td>
+<td>À vérifier dans l'arrêté</td>
+<td>⚠️</td>
+</tr>
+<tr>
+<td>01/01/2029</td>
+<td>Seuil MSG abaissé à SEGA ≥ 32 ; activité des remplaçants plafonnée à 30 %</td>
+<td></td>
+<td>🔶</td>
+</tr>
+<tr>
+<td>18/04/2029</td>
+<td>Fin du déploiement Ségur vague 2</td>
+<td></td>
+<td>✅</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="62-indispensables--must-haves--pour-vendre-en-2027">6.2 Indispensables (« must-haves ») pour vendre en 2027</h3>
+<ol>
+<li><strong>Agrément SESAM-Vitale (CNDA)</strong> : addendum en vigueur, FSE et DRE, ADRi, SCOR, IMTi, tiers payant AMO et AMC, retours NOEMIE, rejets. Lecteur <strong>PC/SC bi-fente</strong> (Vitale + CPS) en Bluetooth et <strong>API de lecture Vitale / ApCV</strong>.</li>
+<li><strong>Hébergement HDS v2</strong> (certification obligatoire depuis le 16/05/2026 pour les hébergeurs historiques) ; RGPD ; AIPD (analyse d'impact).</li>
+<li><strong>Exigences Ségur LGC vague 2</strong> (REM et DSR de l'ANS) :
+   - <strong>INS</strong> (téléservice INSi, qualification de l'identité) ;
+   - <strong>DMP et Mon espace santé</strong> en alimentation et consultation ;
+   - <strong>MSSanté</strong> (intégration des documents reçus) ;
+   - <strong>Pro Santé Connect / e-CPS</strong> avec authentification forte ;
+   - <strong>ordonnance numérique</strong> ;
+   - <strong>ApCV</strong>.</li>
+</ol>
+<p>⚠️ Le PDF du DSR (esante.gouv.fr) n'a pas pu être téléchargé (protection anti-robot). La liste exacte est à confirmer directement auprès de l'ANS.
+4. <strong>Moteur NGAP versionné par date d'effet</strong>, couvrant l'avenant 11 de novembre 2026 à janvier 2029 et le BSI (dont la modification d'algorithme en 2028).
+5. <strong>Traçabilité des prescriptions IDE au dossier ou au DMP</strong> (arrêté du 26/06/2026).
+6. <strong>Accessibilité et performance mobile</strong>, avec <strong>hors ligne réel</strong> (zones blanches).</p>
+<hr />
+<h2 id="7-top-10-des-recommandations-différenciation-et-priorisation-mvp">7. Top 10 des recommandations (différenciation et priorisation MVP)</h2>
+<p><strong>Priorités :</strong> P0 = indispensable au lancement commercial · P1 = avant le 05/07/2027 (ouverture des bons de commande Ségur) · P2 = différenciation ensuite</p>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Recommandation</th>
+<th>Priorité</th>
+<th>Pourquoi</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>Décider tout de suite entre développer et intégrer la facturation SESAM-Vitale.</strong> Intégrer un moteur agréé (ex. Orisha Intellio Éditeurs ✅ ; autres moteurs à sonder) pour réduire le délai, ou viser un agrément CNDA en propre (compter 6 à 12 mois ; Swily : environ 13 mois de la création à l'agrément). Lecteur bi-fente Bluetooth inclus.</td>
+<td><strong>P0</strong></td>
+<td>Sans agrément, la V2 n'est pas vendable. C'est le chemin critique avant le 05/07/2027.</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>Faire de la « preuve » un produit visible</strong>, pas seulement un principe. Chaque acte signé (IDE via e-CPS, horodatage, lecture Vitale ou ApCV, photo, signature patient en option, géolocalisation <strong>ponctuelle et consentie</strong>) génère la ligne FSE. Écran « Dossier de contrôle CPAM » exportable en PDF signé. <strong>Objectif de friction : 30 secondes au plus par acte.</strong></td>
+<td><strong>P0</strong></td>
+<td>C'est l'espace blanc n°1 et la réponse au contexte fraude/indus. À présenter comme une <strong>assurance contre les indus</strong>, pas comme une surveillance.</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>Contrôle anti-rejet avant envoi</strong> : cumuls NGAP (MAU/MCI, perfusions, BSI), prescripteur (RPPS ou ADELI, FINESS), complétude du SCOR (150 dpi en niveaux de gris), validité de l'ordonnance, calendrier de l'avenant 11. Agent qui signale les <strong>actes non prouvés ou incohérents</strong>, sur le modèle du « Visit Verification Agent » d'AlayaCare.</td>
+<td><strong>P0</strong></td>
+<td>CareCare et Albus en font une partie ; il faut faire mieux. Les rejets sont la première douleur exprimée sur les forums.</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>Hors ligne de qualité industrielle</strong> : synchronisation différentielle, résolution de conflits entre IDE, lecteur Bluetooth qui se connecte en moins de 2 s, télétransmission en lot dès que le réseau revient. Mesurer et publier ces performances.</td>
+<td><strong>P0</strong></td>
+<td>Lenteur du lecteur et de la télétransmission : première plainte sur Ozzen. Albus fait du hors ligne un argument. C'est l'héritage fort de TabSanté V1.</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>Parité sur l'entrée de données</strong> : photo d'ordonnance → prescription structurée → <strong>fréquences → tournée → affectation</strong> (équivalent d'OrdoScan, avec relecture humaine obligatoire), puis lecture de l'ordonnance numérique par QR code.</td>
+<td><strong>P0/P1</strong></td>
+<td>Agathe (33 % du marché) a imposé ce standard. Sans lui, TabSanté perd les comparatifs.</td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>Module Plaie et objets « wound-first »</strong> : registre par objet (plaie, PICC, chambre implantable, stomie, sonde, PCA ou PSE), photo avec <strong>mesure calibrée</strong> (pastille ou référence AR, inspiré de Swift HealX), courbe de cicatrisation, <strong>bilan → AMI 3,48 → prescription de pansements par l'IDE</strong>, partage au médecin par QR code.</td>
+<td><strong>P1</strong> (avant le 01/01/2027 pour l'accès direct plaies)</td>
+<td>Espace blanc n°2–3. Rend les apps plaies autonomes inutiles. Très démontrable en démo.</td>
+</tr>
+<tr>
+<td>7</td>
+<td><strong>Référencement Ségur vague 2</strong> : dossier administratif à déposer <strong>avant le 17/02/2027</strong>, puis preuves (INS, DMP et Mon espace santé, MSSanté, PSC, ordonnance numérique, ApCV). Préparer une <strong>offre de bascule</strong> (migration depuis Agathe, Albus et Simply Vitale) pour le 05/07/2027.</td>
+<td><strong>P1</strong></td>
+<td>Fenêtre de rééquipement financée par l'État. Ne pas être référencé revient à être exclu de la vague.</td>
+</tr>
+<tr>
+<td>8</td>
+<td><strong>Consultation infirmière et prescription IDE</strong> : gabarits CIA (novembre 2026) et CIB (juillet 2027), rôle propre élargi (ECG, TROD, mini-spirométrie, évaluations), prescription dans les 6 domaines avec <strong>inscription automatique au dossier et au DMP</strong>, consultation <strong>facturable</strong>.</td>
+<td><strong>P1</strong></td>
+<td>Exigence réglementaire et vitrine de la profession. Aucun concurrent n'est visiblement prêt.</td>
+</tr>
+<tr>
+<td>9</td>
+<td><strong>Offre Structures (SELAS, SELARL, centres de soins)</strong> : rôles (titulaire, collaborateur, remplaçant, coordinateur, facturière), affectation des tournées, supervision de la conformité (actes non prouvés, BSI à renouveler, objets en retard), répartition BSI et rétrocessions, piste d'audit, multi-sites.</td>
+<td><strong>P1/P2</strong></td>
+<td>Albus est seul sur les centres et vient d'être racheté. C'est un segment à valeur (ARPU multi-IDE, plafond Ségur de 5 940 € par centre).</td>
+</tr>
+<tr>
+<td>10</td>
+<td><strong>Différenciation clinique et IA en deuxième temps</strong> : dictée ambiante vers transmission DAR (avec relecture), <strong>NANDA-I</strong> proposé à partir des données observées (sous licence NANDA-I), API <strong>FHIR R4</strong> ouverte (CPTS, HAD, hôpital, Inzee.care), export libre. <strong>Prix public sans engagement</strong> (0 € DSI, environ 89 à 109 € « Soins + Facturation »).</td>
+<td><strong>P2</strong></td>
+<td>Différenciation durable, cohérente avec l'observatoire des logiciels de l'avenant 11 et les preuves WellSky ou Axxess.</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Périmètre MVP conseillé pour les 20 fiches de soins.</strong>
+- <strong>MVP : 8 fiches</strong> qui couvrent l'essentiel du chiffre d'affaires IDEL :
+  1. pansements et plaies ;
+  2. injections ;
+  3. perfusions IV et SC ;
+  4. prélèvements ;
+  5. médicaments et pilulier ;
+  6. suivi diabétique ;
+  7. nursing et BSI ;
+  8. constantes et surveillance (pour l'AMI 3,77 en 2028).
+- <strong>Deuxième vague :</strong> stomies, anticoagulants, nutrition entérale, soins respiratoires.
+- <strong>Troisième vague</strong> (actes experts et rares) : PCA, PSE, dialyse péritonéale, analgésie locorégionale.</p>
+<p><strong>Risques à piloter :</strong>
+- <strong>Perception de « flicage »</strong> : rendre la géolocalisation optionnelle et ponctuelle, et communiquer sur la protection face aux indus.
+- <strong>Friction de saisie</strong> : mesurer le temps passé par acte.
+- <strong>Délai d'agrément.</strong>
+- <strong>Rachats et réactions des leaders</strong> : Corilus/Albus, ou Agathe qui pourrait copier la « preuve ».
+- <strong>Licence NANDA-I</strong> (payante).
+- <strong>Responsabilité de l'IA de cotation</strong> : garder un humain dans la boucle.</p>
+<hr />
+<h2 id="8-sources">8. Sources</h2>
+<p><strong>Marché, parts de marché, consolidation</strong>
+- Parts de marché IDEL issues des données GIE SESAM-Vitale (mai 2026) : https://avotresante.substack.com/p/qui-equipe-vraiment-les-pros-de-sante
+- Corilus rachète Sofia Développement : https://www.healthcarebusinessinternational.com/corilus-acquires-sofia-developpement-to-create-a-pan-european-healthcare-software-platform/ ; https://manda.be/articles/belgian-healthcare-software-leader-corilus-acquires-french-peer/ ; https://mergr.com/transaction/corilus-b-v-acquires-sofia-developpement
+- Sofia (IK Partners) : https://ikpartners.com/investments/sofia-developpement/
+- Groupe Sofia / migration Infimax : https://www.infimax.fr/page/groupe-sofia ; https://www.infimax.fr/page/migration-infimax-vers-albus</p>
+<p><strong>Comparatifs (souvent publiés par des éditeurs : biais possible)</strong>
+- https://www.lonasante.com/logiciel-infirmier/
+- https://www.medere.fr/blog/logiciel-infirmier-liberal
+- https://swily.io/comparatif-logiciel-infirmier
+- https://laruche.cbainfo.fr/gerer-cabinet-infirmier/facturation-idel/choisir-logiciel-infirmier/
+- https://www.albus.fr/blog/gestion-de-cabinet/comparatif-logiciel-infirmier-liberal-comment-bien-choisir-en-2026/
+- https://www.medicalib.fr/blog/comparatif-des-logiciels-infirmiers-de-2024-lequel-choisir/</p>
+<p><strong>Sites éditeurs et stores</strong>
+- Agathe YOU : https://www.agatheyou.fr/ ; https://www.agatheyou.fr/nos-offres/ ; https://fni.fr/la-cotation-automatique-avec-agathe-you-une-nouvelle-ere-pour-les-idel/ ; https://www.agatheyou.fr/vos-questions/adri/apcv-agathe-you/
+- Albus : https://www.albus.fr/ ; https://www.albus.fr/solutions/albus-temps-libre/ ; https://www.albus.fr/blog/installation-idel/albus-air-le-logiciel-infirmier-revolutionnaire-est-disponible/ ; App Store : https://apps.apple.com/fr/app/albus/id1456276481
+- Simply Vitale : https://www.cegedim-sante.com/solutions-sante-cegedim/solutions-local/simply-vitale/ ; https://www.actusoins.com/avec-simply-vitale-4-0-cegedim-sante-offre-aux-infirmieres-une-autre-vision-de-leur-journee-sur-une-nouvelle-tablette-plus-performante.html
+- Vega : https://www.vega-logiciel.fr/infirmiere/
+- Soins 2000 : https://www.soins2000.com/
+- Equinox : https://www.fiducial.fr/Sante-Paramedicaux/Equinox/L-offre
+- Ozzen : https://ozzen.fr/ ; https://apps.apple.com/fr/app/ozzen-agenda-dossier-de-soins/id1516601926
+- CareCare : https://www.carecare.fr/
+- Swily : https://swily.io/ ; https://swily.io/tarifs
+- Calendridel : https://www.calendridel.fr/tarifs/ ; https://www.calendridel.fr/trans/facturation/
+- Citana : https://www.anamnese.care/citana/profession/infirmier-logiciel ; https://blog.anamnese.care/citana-homologu%C3%A9e-appli-carte-vitale-apcv
+- IDELPro : https://idelpro.fr/
+- Oly : https://www.oly-app.fr/
+- TabSanté V1 : https://www.tabsante.com/landing1/ ; https://www.tabsante.com/le-mag/logiciel-infirmier-liberal-comment-choisir/
+- Inzee.care : https://www.inzee.care/professionnels/coordination/ ; https://urps-infirmiers-centre.fr/?page_id=7082
+- Medicalib : https://www.hospitalia.fr/Medicalib-une-plateforme-pour-mettre-en-relation-patients-et-infirmiers-a-domicile_a1335.html
+- Medilink (ex-Chorus) : https://www.group-ict.com/chorus-devient-medilink/
+- Transmedical : https://transmedical.pro/tarifs/
+- Apps plaies : https://www.healico.fr/ ; https://www.e-pansement.fr/ ; https://www.albus.fr/blog/gestion-de-cabinet/apps-plaies-pour-idel-que-valent-vraiment-ces-outils-au-quotidien/
+- SSIAD/SAD : https://arche-mc2.fr/cibles/ssiad/ ; https://www.maison-gard-30.fr/comparatif-logiciel-telegestion-saad/
+- Moteur de facturation pour éditeurs : https://healthcare.orisha.com/blog/editeurs-de-logiciel/moteur-de-facturation-sesam-vitale/ ; API de lecture Vitale (CNDA) : https://cnda.ameli.fr/editeurs/referencer-un-logiciel/api-lecture-vitale/lessentiel-sur-lapi-de-lecture-vitale/</p>
+<p><strong>Avis et forums</strong>
+- https://www.infirmiers.com/forum/choix-logiciel-idel-t160785-15.html
+- https://www.infirmiers.com/forum/cede-contrat-simply-vitale-t148953.html
+- https://www.infirmiers.com/forum/teletransmission-quel-logiciel-t71100-705.html</p>
+<p><strong>Réglementation</strong>
+- Ségur vague 2, arrêté LGC : https://laruche.cbainfo.fr/actualites/segur-2026/ ; https://application-sante-numerique.fr/blog/segur-numerique-sante-arrete-financement-lgc-paramedicaux-sages-femmes-2026/ ; https://www.urpsinfirmiers-occitanie.fr/actualites/segur-numerique-2-le-dispositif-destine-aux-idel-vient-detre-publie-au-journal-officiel.html ; ANS : https://esante.gouv.fr/ens/segur-numerique-sante/vague-2/dispositif-lgc-couloir-sages-femmes-paramedicaux ; https://esante.gouv.fr/ens/segur-numerique-sante/vague-2/referencement
+- Réforme infirmière (loi 2025-581, décret 2025-1306, arrêtés du 26/06/2026) : https://www.caducee.net/actualite-medicale/16935/reforme-infirmiere-prescription-consultation-et-actes-infirmiers-entrent-dans-une-nouvelle-phase.html ; https://www.orionsante.fr/actualites/arretes-du-26-juin-2026-22-ans-apres-une-requalification-historique-des-actes ; https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000054321952
+- Avenant 11 : https://www.calendridel.fr/ressources/avenant11/ ; https://www.caducee.net/actualite-medicale/16885/facturation-idel-l-avenant-11-revalorise-les-actes-et-change-les-cotations-infirmieres.html ; https://www.albus.fr/blog/actualites/avenant-11-idel-ce-qui-change-concretement-pour-votre-cabinet/
+- Rejets FSE : https://www.caducee.net/actualite-medicale/16913/rejets-fse-idel-les-erreurs-de-cotation-scor-et-codes-prescripteur-qui-reviennent.html
+- BSI : https://www.ameli.fr/medecin/exercice-liberal/prise-charge-situation-type-soin/bilan-de-soins-infirmiers-bsi
+- HDS v2 : https://presse.economie.gouv.fr/nouvelle-version-du-referentiel-de-certification-hds/ ; https://cms.law/fr/fra/news-information/nouveau-referentiel-de-certification-des-hebergeurs-de-donnees-de-sante-hds
+- Ordonnance numérique : https://www.cgm.com/fra_fr/magazine/articles/2025/ordonnance-numerique-9-questions-pour-tout-comprendre.html ; https://www.cegedim-sante.com/le-blog/ordonnance-numerique-comment-gerer-facilement-la-nouvelle-obligation/
+- PSC / e-CPS : https://application-sante-numerique.fr/guides/pro-sante-connect-mssante-identite-numerique/
+- FAMI : https://www.ameli.fr/infirmier/exercice-liberal/vie-cabinet/forfait-d-aide-la-modernisation-et-l-informatisation-du-cabinet
+- TLA et PC/SC : https://www.sesam-vitale.fr/en/actualites/-/blogs/la-commercialisation-des-terminaux-lecteur-applicatif-s-arrete-au-1er-juillet-2023 ; https://www.medicalib.fr/blog/tla-infirmier-tout-savoir-avant-2028/
+- Fraude : https://www.information-dentaire.fr/actualites/fraudes-a-l-assurance-maladie-un-record-de-628-millions-d-euros-detectes-en-2024/ ; https://www.acuite.fr/actualite/ocam/333932/fraude-lassurance-maladie-723-millions-deuros-detectes-en-2025-les ; https://www.actusoins.com/fraude-a-lassurance-maladie-les-infirmiers-liberaux-pointes-du-doigt-les-syndicats-reagissent.html</p>
+<p><strong>International</strong>
+- EVV (Cures Act, 6 données) : https://myvisits.net/evv-requirements-data-elements/ ; https://dhcf.dc.gov/page/electronic-visit-verification-evv
+- AlayaCare : https://alayacare.com/resource/blog/offline-mode-alayacares-care-worker-mobile-app-supports-rural-areas-and-limited-connectivity/ ; https://alayacare.com/press-release/alayacare-empowers-home-care-agencies-to-reclaim-80-of-time-and-costs-with-new-ai-automation/
+- Axxess : https://www.axxess.com/home-health-software
+- WellSky : https://wellsky.com/wellsky-ambient-listening-technology-helps-clinicians-reduce-documentation-time-by-up-to-50/ ; https://wellsky.com/wellsky-scribe-solution-helps-home-health-clinicians-see-more-patients-spend-less-time-on-after-hours-documentation/
+- HCHB vs WellSky : https://getlimeai.com/blog/wellsky-vs-hchb/
+- Swift Medical : https://swiftmedical.com/what-is-an-adhesive-scientific-calibrant/ ; https://swiftmedical.com/swift-skin-and-wound-how-a-smartphone-app-is-revolutionizing-wound-care/
+- Tissue Analytics : https://www.nethealth.com/tissue-analytics/ ; https://www.nethealth.com/blog/tissue-analytics-imaging-analysis-solution-earns-fda-breakthrough-status-an-ehr-first/</p>
+<p><strong>Limites de cette étude :</strong>
+- Les parts de marché proviennent d'une compilation tierce des statistiques du GIE, sans méthodologie détaillée.
+- Les prix d'Agathe YOU et de Simply Vitale ne sont pas publics.
+- Les PDF REM et DSR de l'ANS n'ont pas pu être lus (protection anti-robot).
+- Les montants du financement Ségur par IDE et la date limite des preuves (2027 ou 2028) sont à confirmer dans le texte de l'arrêté.
+- Les fonctions marquées « ? » ne sont simplement pas documentées publiquement. Une démo ou un essai de chaque concurrent est recommandé.</p>
+</main>
+</body>
+</html>

@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Terminal : passe UI/UX et aide contextuelle (2026-10-22)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{--bg:#F4F6FA;--surface:#FFFFFF;--surface-2:#EEF2FB;--fg:#141A2E;--fg-2:#4A5372;--ligne:#DDE3EF;
+--accent:#2F5BEA;--accent-fg:#FFFFFF;--accent-doux:#E6ECFD;--attention:#8A5A00;--attention-fond:#FFF4DC;
+--code-fond:#F1F3F8;--police:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+--police-code:"JetBrains Mono",ui-monospace,"Cascadia Code",Consolas,monospace;--rayon:10px;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0E1220;--surface:#151A2B;--surface-2:#1C2338;
+--fg:#E8ECF7;--fg-2:#A3ACC6;--ligne:#2A3250;--accent:#7C9BFF;--accent-fg:#0E1220;--accent-doux:#1E2950;
+--attention:#F2C25B;--attention-fond:#33290F;--code-fond:#10152A;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0E1220;--surface:#151A2B;--surface-2:#1C2338;--fg:#E8ECF7;--fg-2:#A3ACC6;--ligne:#2A3250;
+--accent:#7C9BFF;--accent-fg:#0E1220;--accent-doux:#1E2950;--attention:#F2C25B;--attention-fond:#33290F;--code-fond:#10152A;color-scheme:dark}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--police);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}
+.entete{background:var(--surface);border-bottom:1px solid var(--ligne)}
+.entete div{max-width:calc(80ch + 32px);margin:0 auto;padding:12px 16px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.entete b{font-weight:600}
+.entete a{color:var(--accent);text-decoration:none;font-weight:500}
+.entete a:hover{text-decoration:underline}
+main{max-width:calc(80ch + 32px);margin:0 auto;padding:24px 16px 64px;overflow-wrap:break-word}
+.chemin{font-family:var(--police-code);font-size:12px;color:var(--fg-2);margin:0 0 8px}
+h1{font-size:28px;line-height:1.25;margin:0 0 16px}
+h2{font-size:21px;line-height:1.3;margin:36px 0 12px;padding-top:12px;border-top:1px solid var(--ligne)}
+h3{font-size:17px;margin:28px 0 8px}h4,h5,h6{font-size:15px;margin:20px 0 6px}
+a{color:var(--accent)}
+p,li{max-width:80ch}
+code{font-family:var(--police-code);font-size:.88em;background:var(--code-fond);border:1px solid var(--ligne);border-radius:5px;padding:0 4px;overflow-wrap:anywhere}
+pre{background:var(--code-fond);border:1px solid var(--ligne);border-radius:var(--rayon);padding:14px 16px;overflow-x:auto;font-size:13px;line-height:1.55}
+pre code{background:none;border:0;padding:0;font-size:inherit;overflow-wrap:normal}
+.tableau{overflow-x:auto;margin:16px 0;border:1px solid var(--ligne);border-radius:var(--rayon);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:13.5px;line-height:1.5}
+th,td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--ligne);min-width:8ch}
+th{background:var(--surface-2);font-weight:600}
+tr:last-child td{border-bottom:0}
+blockquote{margin:16px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-doux);border-radius:0 var(--rayon) var(--rayon) 0}
+hr{border:0;border-top:1px solid var(--ligne);margin:28px 0}
+img{max-width:100%}
+.non-publie{font-size:13px;color:var(--attention);background:var(--attention-fond);padding:1px 6px;border-radius:5px}
+details.sommaire{background:var(--surface);border:1px solid var(--ligne);border-radius:var(--rayon);padding:10px 16px;margin:0 0 24px}
+details.sommaire summary{cursor:pointer;font-weight:600}
+details.sommaire ul{padding-left:20px;margin:8px 0 0}
+.admonition{border:1px solid var(--ligne);border-radius:var(--rayon);padding:8px 16px;background:var(--surface)}
+.admonition-title{font-weight:600}
+</style>
+</head>
+<body>
+<header class="entete"><div><b>TabSanté — documents</b><a href="../../">← Retour au portail</a></div></header>
+<main>
+<p class="chemin">docs/audit/2026-10-22-ux-terminal.html</p>
+<h1 id="terminal--passe-uiux-et-aide-contextuelle-2026-10-22">Terminal : passe UI/UX et aide contextuelle (2026-10-22)</h1>
+<details class="sommaire"><summary>Sommaire</summary><ul><li><a href="#ce-qui-a-été-vu">Ce qui a été vu</a></li><li><a href="#changements-visibles-par-écran">Changements visibles, par écran</a></li><li><a href="#système-daide">Système d'aide</a></li><li><a href="#vérifications">Vérifications</a></li><li><a href="#deuxième-passe-après-fusion-de-main-et-du-lot-l18-keycloak">Deuxième passe (après fusion de main et du lot L18 Keycloak)</a></li><li><a href="#ce-qui-reste">Ce qui reste</a></li></ul></details>
+<p>Branche <code>evol-ux-terminal</code> (depuis <code>main</code> a76cd53). Terminal Flutter construit pour le navigateur contre une API de
+démonstration propre (base <code>tabsante_uxt</code>, port 8781), parcouru en captures à 390 × 844 (jour et nuit) et 768 px.
+Captures avant/après : <code>docs/audit/captures-ux/2026-10-22-terminal/</code> (<code>avant-*</code>, <code>apres-*</code>).</p>
+<p>Méthode : critique Impeccable en contexte unique (registre « product », DESIGN.md « Terrain jour/nuit » gardé), sans
+sous-agents d'évaluation ni détecteur automatique : le terminal est un canevas Flutter, le détecteur ne lit que du
+HTML/CSS. Le contenu de l'aide a été rédigé par trois agents en lecture seule à partir du code des écrans, puis relu et
+recoupé (sources en commentaire de chaque entrée).</p>
+<h2 id="ce-qui-a-été-vu">Ce qui a été vu</h2>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Constat</th>
+<th>Gravité</th>
+<th>Suite</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Le zéro barré d'Atkinson (texte et Mono) se lit « 8 » à petite taille : « 9 h 00 », « 0 / 28 », « 0 % depuis J0 », « 19/10 ».</td>
+<td>P1</td>
+<td>Corrigé : zéro pointé partout.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Aucune aide dans le terminal : ni explication d'écran, ni rappel du geste maintenu, ni index.</td>
+<td>P1</td>
+<td>Ajouté : « ? », astuces, écran « Aide ».</td>
+</tr>
+<tr>
+<td>3</td>
+<td>« Soin non réalisé » dit à l'aide-soignante « Rien n'est facturé… » et « ni facturé » : la facturation lui est montrée.</td>
+<td>P1</td>
+<td>Corrigé : mentions retirées pour l'AS.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Tournée : la ligne « date · tournée · moment » se coupait au mot « matin » à côté de l'avatar.</td>
+<td>P2</td>
+<td>Corrigé : la date sur toute la largeur, le bonjour, l'aide et « Moi » dessous.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Planning : indicateurs en Mono aux espaces insécables non resserrées (« 7  h  27 »).</td>
+<td>P2</td>
+<td>Corrigé (<code>seule()</code>, convention des nombres posés seuls).</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Itinéraire : l'attribution de la carte en 16 dp débordait du bas de la carte.</td>
+<td>P3</td>
+<td>Corrigé : 13 dp.</td>
+</tr>
+<tr>
+<td>6 bis</td>
+<td>Envois : un refus de validation nommait le champ technique (« Occurrence ids : Choisissez un élément de la liste »).</td>
+<td>P2</td>
+<td>Corrigé : libellés des champs d'un acte (« Soins prévus : … »).</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Fiches : à l'ouverture, « À vérifier avant le passage » (trois boutons empilés par prérequis) et les alertes occupent tout le premier écran ; aucun champ n'est visible sans défiler.</td>
+<td>P2</td>
+<td>Corrigé (2e passe) : prérequis en résumé, allergie condensée ; le premier champ se voit (pansement, injection, prélèvement, constantes, stomie).</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Tournée : les suggestions et l'itinéraire passent avant le prochain passage (« Prochain passage » sous le pli à 844 dp).</td>
+<td>P2</td>
+<td>Corrigé (2e passe, sur décision de la coordination) : prochain passage en tête, suggestions juste dessous.</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Choix du profil : l'indicateur de chargement apparaît au-dessus de la liste et la décale, sans dire qui se connecte.</td>
+<td>P3</td>
+<td>Corrigé (2e passe, après fusion de L18) : indicateur dans la ligne touchée, la liste ne bouge plus.</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Lien « Non réalisé… » et liens de titre de section : cible de 44 dp.</td>
+<td>P3</td>
+<td>Corrigé (2e passe) : 48 dp, comme « Il manque », le retour et les bascules.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Points forts constatés et gardés : contraste jour et nuit, statuts en forme + mot, barre « Il manque » qui amène au
+champ, signature maintenue, ruban d'envoi, barre d'onglets à badges, états vides des envois et de la recherche.</p>
+<h2 id="changements-visibles-par-écran">Changements visibles, par écran</h2>
+<ul>
+<li><strong>Partout</strong> : zéro pointé (Mono : fonction OpenType <code>zero</code> dans <code>T</code> ; Next : glyphe recopié de la Mono à chaque
+  graisse par <code>mobile/tool/zero_pointe.py</code>, licence OFL sans nom réservé). Bouton « ? » dans l'en-tête de chaque écran
+  plein (<code>Ecran(aide:)</code>, <code>EnTete(aide:)</code>), à droite du titre et avant le menu ⋮.</li>
+<li><strong>Onglets</strong> : « ? » à droite du titre de « Patients », « Liaisons » (après « Écrire »), « Envois » ; sur la
+  « Tournée », avant l'avatar. Astuces en tête de « Patients », « Liaisons », « Envois ».</li>
+<li><strong>Tournée</strong> : en-tête sur deux niveaux ; « ? » sur « Suggestions » ; l'astuce du dock flotte juste au-dessus de lui
+  (elle ne déplace pas la tournée).</li>
+<li><strong>Passage (pansement) et fiches</strong> : « ? » de la fiche (aide propre à chaque famille : <code>aideFiche(code)</code>), « ? » sur
+  « Mesures », la photo, le protocole d'insuline, les lignes de perfusion, l'identité et l'étiquetage du prélèvement, la
+  suggestion de site d'injection ; « ? » de la signature à droite de « Il manque » / « Tout est renseigné » (geste
+  maintenu « Signer » seulement). Les astuces de la saisie se posent au-dessus de la barre de signature, jamais devant
+  les alertes du patient.</li>
+<li><strong>Fiche du patient</strong> : astuce après les alertes (allergie d'abord).</li>
+<li><strong>Reçu</strong> : « ? » en haut à droite ; astuce sous le ruban d'envoi.</li>
+<li><strong>Moi</strong> : nouvelle ligne « Aide » (« Chaque écran expliqué · revoir les astuces ») ; « ? » sur « Notifications ».</li>
+<li><strong>Soin non réalisé</strong> : plus de mention de facturation pour l'aide-soignante.</li>
+<li><strong>Planning</strong> : chiffres resserrés. <strong>Itinéraire</strong> : attribution lisible. <strong>Envois</strong> : refus de validation dits par le
+  libellé du champ (soins prévus, heure du soin, prescription…).</li>
+<li><strong>Aide</strong> (feuilles et astuces) : typographie française, insécables avant « : ; ? % » et dans les guillemets.</li>
+</ul>
+<h2 id="système-daide">Système d'aide</h2>
+<ul>
+<li><code>mobile/lib/aide.dart</code> : <strong>92 aides</strong> (<code>Aide(id, ecran:, titre:, texte:, etapes:, infirmier:)</code>) dont 23 de fiches de
+  soin (22 familles + l'aide générale des fiches) et 6 blocs délicats, et <strong>23 astuces</strong>. 49 aides et 3 astuces sont
+  réservées à l'infirmier. Les <code>id</code> sont les ancres du portail (<code>terminal-…</code>).</li>
+<li><code>mobile/lib/config.dart</code> : <code>portailUrl</code> (« En savoir plus » → <code>portailUrl#id</code>, lien masqué si vide).</li>
+<li><code>mobile/lib/ecrans/aide.dart</code> : <code>BoutonAide</code> (« ? » 48 dp), feuille du bas (titre, texte, « Ce que vous faites »
+  numéroté, « En savoir plus », « Toute l'aide du terminal », « Fermer » fixé sous le pouce), <code>Astuces</code> (une bulle à la
+  fois par écran, fermée par intervenant dans le stockage local du terminal, clé <code>astuces_fermees</code>), <code>EcranAide</code>
+  (recherche sans accents, filtre par rôle, « Revoir les astuces »).</li>
+<li>Rôle : l'aide-soignante ne voit ni le « ? » ni l'astuce d'une entrée réservée ; aucune entrée qui lui est visible ne
+  parle de cotation, facturation, tarif ou majoration (vérifié par test).</li>
+<li>Mode captures : astuces masquées, sauf <code>&amp;astuces=1</code>.</li>
+<li>Tests : <code>mobile/test/aide_test.dart</code> (13) — intégrité des id, couverture des fiches, ton et rôle, recherche, lien du
+  portail, typographie, feuille (ouverture, étapes, fermeture), « ? » masqué pour l'AS, astuces (une à la fois,
+  mémorisation par intervenant, relecture au redémarrage, « Revoir »), écran Aide.</li>
+</ul>
+<h2 id="vérifications">Vérifications</h2>
+<ul>
+<li><code>flutter analyze</code> : aucune remarque. <code>flutter test</code> : 914 tests, tous verts (51 ignorés, comme avant ; 901 au départ,
+  13 ajoutés dans <code>aide_test.dart</code>, un cas ajouté au test des refus de validation).</li>
+<li>Un seul test adapté : <code>lot_e_planning_widgets_test.dart</code> attend « 76 % » avec l'espace que la Mono resserre
+  (convention <code>seule()</code> des nombres posés seuls) au lieu de l'insécable.</li>
+<li>La capture <code>#ecran=recu</code> (scénario de démonstration sans fiche) reste blanche, avant comme après ce lot ; le reçu se
+  voit par <code>#ecran=recu&amp;fiche=PARAMETRES_VITAUX</code> et dans le parcours réel.</li>
+</ul>
+<h2 id="deuxième-passe-après-fusion-de-main-et-du-lot-l18-keycloak">Deuxième passe (après fusion de <code>main</code> et du lot L18 Keycloak)</h2>
+<ul>
+<li><strong>Fiches et passage</strong> : <code>PrerequisPassage(compact: true)</code> — une ligne par prérequis (libellé, « Non tenu » s'il l'est,
+  « Confirmer » d'un appui, 48 dp), « Tout confirmer » quand plusieurs attendent, « Détails » pour la consigne,
+  « Non tenu » et « Patient prévenu » (« Replier » ensuite) ; tout confirmé, une seule ligne « Tout est confirmé ».
+  <code>AlertesPatient(condense: true)</code> : toujours en tête, en un bloc serré (« Allergie : … », sévérité dite si sévère,
+  « Concerne : … » gardé, contextes en pastilles) ; la réaction reste sur la fiche du patient. « Avant d'arriver » garde
+  la liste complète. Captures : <code>apres-passage</code>, <code>apres-injection</code>, <code>apres-prelevement</code>, <code>apres-constantes</code>,
+  <code>apres-nuit-constantes</code>.</li>
+<li><strong>Tournée</strong> : « Prochain passage » en tête, suggestions et itinéraire juste dessous (<code>apres-tournee</code>). Le test du lot
+  proactif attend désormais le nouvel ordre (<code>proactif_test.dart</code>).</li>
+<li><strong>Avant la session</strong> : « ? » sur l'enrôlement, le choix du profil, la création du code, le verrou et la session
+  perdue ; le profil touché affiche son chargement dans sa ligne (<code>apres-02-profil-chargement</code>). La logique
+  d'authentification de L18 n'est pas touchée (état d'affichage seulement).</li>
+<li><strong>Cibles</strong> : liens de titre de section, mention « Il manque », bouton retour de l'en-tête, bascules du schéma des
+  sites et des éléments de séance ALR à 48 dp. Aucun test de position n'a eu à changer.</li>
+<li><strong>Captures</strong> : <code>#ecran=recu</code> sans fiche affiche le reçu d'un pansement complet, sinon celui des constantes
+  (<code>apres-recu-par-defaut</code>), au lieu d'un écran blanc.</li>
+<li>Tests ajoutés : <code>ux_terminal_test.dart</code> (3 : résumé et premier champ visible à 390 × 844, « Tout confirmer » puis
+  « Tout est confirmé » et « Détails », non tenu dit) ; <code>aide_test.dart</code> (+2 : « ? » d'avant session, chargement dans la
+  ligne sans décalage). <code>flutter test</code> : 927 tests verts (51 ignorés) ; <code>flutter analyze</code> sans remarque.</li>
+</ul>
+<h2 id="ce-qui-reste">Ce qui reste</h2>
+<ol>
+<li>Retour haptique : déjà présent sur la signature maintenue ; rien d'ajouté (le navigateur ne le rend pas).</li>
+<li>Le parcours Keycloak réel (realm, PSC simulé) n'a pas été capturé : l'API de démonstration de ce lot tourne sans
+   fournisseur d'identité configuré ; seul le parcours de démonstration (profils) est vu.</li>
+</ol>
+</main>
+</body>
+</html>

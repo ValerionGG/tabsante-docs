@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><title>Reçu de signature</title>
+<link rel="stylesheet" href="clinique.css">
+<style>
+  body { background: #E9EBEF; }
+  .tel { background: var(--surface); }
+  .haut { padding: 36px 24px 0; text-align: center; }
+  .sceau { width: 88px; height: 88px; border-radius: 50%; margin: 0 auto; background: var(--succes-50); display: grid; place-items: center; box-shadow: 0 0 0 10px #F6FEF9; }
+  .sceau i { font-size: 46px; color: var(--succes-500); }
+  h1 { font-size: 28px; font-weight: 800; letter-spacing: -0.03em; margin-top: 22px; }
+  .sous { font-size: 16px; color: var(--discret); margin-top: 6px; }
+  .recap { margin: 26px 16px 0; border: 1px solid var(--bord); border-radius: 20px; overflow: hidden; }
+  .row { display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; border-bottom: 1px solid #EEF1F6; font-size: 15px; }
+  .row:last-child { border-bottom: 0; }
+  .row span { color: var(--discret); } .row b { font-weight: 600; text-align: right; }
+  .row .mono { font-family: ui-monospace, 'Cascadia Mono', monospace; font-size: 13px; font-weight: 500; color: var(--encre-2); }
+  .evo { margin: 12px 16px 0; padding: 16px; border-radius: 20px; background: linear-gradient(180deg, #F6FEF9, #fff); border: 1px solid #D1FADF; display: flex; align-items: center; gap: 14px; }
+  .evo b { font-size: 30px; letter-spacing: -0.03em; color: var(--succes); line-height: 1; }
+  .evo small { display: block; font-size: 13px; color: var(--discret); margin-top: 4px; }
+  .envoi { margin: 14px 24px 0; display: flex; gap: 10px; font-size: 14px; color: var(--encre-2); line-height: 1.45; }
+  .envoi i { font-size: 20px; color: var(--alerte); }
+  .actions { margin-top: auto; padding: 16px 16px 30px; display: grid; gap: 10px; }
+</style></head>
+<body>
+<div class="tel">
+  <div class="sb"><span>9:42</span><span><i class="ph-bold ph-wifi-slash"></i><i class="ph-bold ph-battery-high"></i></span></div>
+  <div class="haut">
+    <div class="sceau"><i class="ph-fill ph-seal-check"></i></div>
+    <h1>Passage signé</h1>
+    <div class="sous">Dupuis Roger · escarre sacrée</div>
+  </div>
+  <div class="recap">
+    <div class="row"><span>Réalisé le</span><b>2 octobre à 9 h 42</b></div>
+    <div class="row"><span>Signé par</span><b>Claire Martin, IDE</b></div>
+    <div class="row"><span>Empreinte</span><b class="mono">7F3A 9C21 E04B</b></div>
+  </div>
+  <div class="evo">
+    <svg width="96" height="40" viewBox="0 0 96 40"><path d="M2 6 L16 9 L30 13 L44 18 L58 23 L72 27 L94 33" stroke="#12B76A" stroke-width="2.6" fill="none" stroke-linecap="round"/><circle cx="94" cy="33" r="4" fill="#12B76A"/></svg>
+    <div><b>−42 %</b><small>de volume depuis J0, avec la mesure de ce matin</small></div>
+  </div>
+  <div class="envoi"><i class="ph-bold ph-cloud-slash"></i><span>Enregistré sur ce téléphone. L'envoi partira tout seul dès le retour du réseau.</span></div>
+  <div class="actions">
+    <button class="btn btn-primaire">Patient suivant · Bernard Louis<i class="ph-bold ph-arrow-right"></i></button>
+    <button class="btn btn-second">Retour à la tournée</button>
+  </div>
+</div>
+</body></html>

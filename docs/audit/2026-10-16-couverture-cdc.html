@@ -1,0 +1,2407 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Audit de la couverture du CDC — 16 octobre 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{--bg:#F4F6FA;--surface:#FFFFFF;--surface-2:#EEF2FB;--fg:#141A2E;--fg-2:#4A5372;--ligne:#DDE3EF;
+--accent:#2F5BEA;--accent-fg:#FFFFFF;--accent-doux:#E6ECFD;--attention:#8A5A00;--attention-fond:#FFF4DC;
+--code-fond:#F1F3F8;--police:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+--police-code:"JetBrains Mono",ui-monospace,"Cascadia Code",Consolas,monospace;--rayon:10px;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0E1220;--surface:#151A2B;--surface-2:#1C2338;
+--fg:#E8ECF7;--fg-2:#A3ACC6;--ligne:#2A3250;--accent:#7C9BFF;--accent-fg:#0E1220;--accent-doux:#1E2950;
+--attention:#F2C25B;--attention-fond:#33290F;--code-fond:#10152A;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0E1220;--surface:#151A2B;--surface-2:#1C2338;--fg:#E8ECF7;--fg-2:#A3ACC6;--ligne:#2A3250;
+--accent:#7C9BFF;--accent-fg:#0E1220;--accent-doux:#1E2950;--attention:#F2C25B;--attention-fond:#33290F;--code-fond:#10152A;color-scheme:dark}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--police);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}
+.entete{background:var(--surface);border-bottom:1px solid var(--ligne)}
+.entete div{max-width:calc(80ch + 32px);margin:0 auto;padding:12px 16px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.entete b{font-weight:600}
+.entete a{color:var(--accent);text-decoration:none;font-weight:500}
+.entete a:hover{text-decoration:underline}
+main{max-width:calc(80ch + 32px);margin:0 auto;padding:24px 16px 64px;overflow-wrap:break-word}
+.chemin{font-family:var(--police-code);font-size:12px;color:var(--fg-2);margin:0 0 8px}
+h1{font-size:28px;line-height:1.25;margin:0 0 16px}
+h2{font-size:21px;line-height:1.3;margin:36px 0 12px;padding-top:12px;border-top:1px solid var(--ligne)}
+h3{font-size:17px;margin:28px 0 8px}h4,h5,h6{font-size:15px;margin:20px 0 6px}
+a{color:var(--accent)}
+p,li{max-width:80ch}
+code{font-family:var(--police-code);font-size:.88em;background:var(--code-fond);border:1px solid var(--ligne);border-radius:5px;padding:0 4px;overflow-wrap:anywhere}
+pre{background:var(--code-fond);border:1px solid var(--ligne);border-radius:var(--rayon);padding:14px 16px;overflow-x:auto;font-size:13px;line-height:1.55}
+pre code{background:none;border:0;padding:0;font-size:inherit;overflow-wrap:normal}
+.tableau{overflow-x:auto;margin:16px 0;border:1px solid var(--ligne);border-radius:var(--rayon);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:13.5px;line-height:1.5}
+th,td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--ligne);min-width:8ch}
+th{background:var(--surface-2);font-weight:600}
+tr:last-child td{border-bottom:0}
+blockquote{margin:16px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-doux);border-radius:0 var(--rayon) var(--rayon) 0}
+hr{border:0;border-top:1px solid var(--ligne);margin:28px 0}
+img{max-width:100%}
+.non-publie{font-size:13px;color:var(--attention);background:var(--attention-fond);padding:1px 6px;border-radius:5px}
+details.sommaire{background:var(--surface);border:1px solid var(--ligne);border-radius:var(--rayon);padding:10px 16px;margin:0 0 24px}
+details.sommaire summary{cursor:pointer;font-weight:600}
+details.sommaire ul{padding-left:20px;margin:8px 0 0}
+.admonition{border:1px solid var(--ligne);border-radius:var(--rayon);padding:8px 16px;background:var(--surface)}
+.admonition-title{font-weight:600}
+</style>
+</head>
+<body>
+<header class="entete"><div><b>TabSanté — documents</b><a href="../../">← Retour au portail</a></div></header>
+<main>
+<p class="chemin">docs/audit/2026-10-16-couverture-cdc.html</p>
+<h1 id="audit-de-la-couverture-du-cdc--16-octobre-2026">Audit de la couverture du CDC — 16 octobre 2026</h1>
+<details class="sommaire"><summary>Sommaire</summary><ul><li><a href="#1-méthode">1. Méthode</a></li><li><a href="#2-résumé-chiffré">2. Résumé chiffré</a></li><li><a href="#3-manques">3. Manques</a></li><li><a href="#4-échantillon-des-lignes--fait--71">4. Échantillon des lignes « Fait » (71)</a></li><li><a href="#5--simulé--qui-peuvent-devenir--fait---partiel--et--bloqué--à-revoir">5. « Simulé » qui peuvent devenir « Fait », « Partiel » et « Bloqué » à revoir</a></li><li><a href="#6-cohérence-entre-les-trois-clients">6. Cohérence entre les trois clients</a></li><li><a href="#7-décisions-du-fondateur-71-de-la-matrice">7. Décisions du fondateur (§7.1 de la matrice)</a></li><li><a href="#8-lots-de-correction-proposés">8. Lots de correction proposés</a></li></ul></details>
+<p>Branche <code>evol-audit-cdc</code>, issue de <code>main</code> au commit <code>c62573e</code>. Audit en lecture seule : le code de l'application n'est pas modifié. Seul ce rapport est ajouté.</p>
+<p>Abréviations : <code>b/</code> = <code>backend/app/</code>, <code>t/</code> = <code>backend/tests/</code>, <code>w/</code> = <code>web/src/</code>, <code>m/</code> = <code>mobile/lib/</code>.</p>
+<p>Efforts : <strong>S</strong> jusqu'à une demi-journée, <strong>M</strong> de un à trois jours, <strong>L</strong> au-delà.</p>
+<p>Colonne « Lot » : renvoi aux lots de correction du §8.</p>
+<h2 id="1-méthode">1. Méthode</h2>
+<ul>
+<li><strong>Sources.</strong> Ont été relus, section par section :</li>
+<li>le CDC (<code>docs/reference/cdc_v2_texte.txt</code>), avec ses tableaux de fin : acteurs, habilitations, cycles de vie, répartition des fonctions entre les clients, interfaces, registre des décisions ;</li>
+<li>les fiches 1 à 24 (<code>docs/reference/fiche*.txt</code>) ;</li>
+<li>les composants communs C1 à C25 ;</li>
+<li>l'avenant 11 et son analyse.</li>
+</ul>
+<p>Les exigences ont été cherchées au-delà des seuls identifiants EX-* et <em>-RG-</em> :
+  - les phrases en « doit », « affiche », « permet », « refuse », « trace » ;
+  - chaque champ listé et chaque valeur de liste ;
+  - chaque état et chaque transition ;
+  - les indicateurs de restitution (§7 de chaque fiche) et les sorties (§8 : bilans, notifications).
+- <strong>Confrontation.</strong> Chaque exigence a été cherchée dans <code>docs/couverture_cdc.md</code>, puis dans le code (serveur, poste fixe, terminal) et dans les tests.
+- <strong>Échantillon.</strong> <strong>71 lignes « Fait »</strong> ont été contrôlées, réparties sur toutes les sections (§4). Pour chacune :
+  - le fichier et la fonction cités ont été ouverts, puis le test cité ;
+  - on a vérifié que le test exerce la règle elle-même, et pas seulement la route ;
+  - on a vérifié que chaque client annoncé a bien son code et son test.
+- <strong>Tests exécutés</strong> sur une base dédiée (<code>tabsante_audit_cdc</code>, <code>-n 2</code>, supprimée à la fin) :
+  - <strong>Suite serveur complète : 1 266 réussis, 2 ignorés.</strong> Un test a d'abord échoué, <code>t/test_tableau_de_bord.py::test_ecriture_du_cache_n_attend_pas_le_pool_des_requetes</code> : le cluster PostgreSQL, partagé avec les autres worktrees, n'avait plus d'emplacement de connexion. Relancé seul, il réussit.
+  - Sonde écrite pour l'audit, hors dépôt : une fréquence échue bloque la suivante (P1-13).
+  - Les suites web (Vitest) et terminal (Flutter) n'ont pas pu tourner dans ce worktree : il n'a ni <code>node_modules</code> ni SDK Flutter. Leurs preuves ont été lues, mais pas exécutées.
+  - Un contrôle automatique a confirmé que les 598 références <code>fichier::test</code> du serveur citées par la matrice existent toutes, ainsi que les 187 libellés de tests web et terminal.
+- <strong>Organisation.</strong> L'audit a été mené par périmètre :
+  - socle ;
+  - dossier et prescription ;
+  - facturation et coordination ;
+  - fiches 1-5, 6-12, 13-18 et 19-23 ;
+  - fiche 24 et composants ;
+  - hors connexion, interfaces et sécurité ;
+  - décisions ;
+  - doublures.</p>
+<p>Chaque constat cite son fichier et sa fonction. Quand un constat repose sur la seule lecture du code, il le dit.</p>
+<h2 id="2-résumé-chiffré">2. Résumé chiffré</h2>
+<h3 id="ce-que-la-matrice-annonce">Ce que la matrice annonce</h3>
+<p>Recompte ligne à ligne au commit <code>c62573e</code> : les comptes concordent.</p>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Périmètre</th>
+<th style="text-align: right;">Fait</th>
+<th style="text-align: right;">Partiel</th>
+<th style="text-align: right;">Simulé</th>
+<th style="text-align: right;">Bloqué</th>
+<th style="text-align: right;">Total</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Éléments du CDC (§2)</td>
+<td style="text-align: right;">333</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">188</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">533</td>
+</tr>
+<tr>
+<td>Règles des fiches 1 à 23 (§3.2)</td>
+<td style="text-align: right;">444</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">58</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">504</td>
+</tr>
+</tbody>
+</table></div>
+<p>Deux incohérences internes :
+- le §1 annonce « 506 règles de gestion » alors que les tableaux en comptent 504 ;
+- le §7.1 annonce « 71 questions » alors qu'il en contient 80.</p>
+<h3 id="ce-que-laudit-constate">Ce que l'audit constate</h3>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Constat</th>
+<th style="text-align: right;">Nombre</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Manques <strong>P0</strong> : exigence absente, ou classée Fait alors qu'elle est fausse</td>
+<td style="text-align: right;"><strong>29</strong></td>
+</tr>
+<tr>
+<td>Manques <strong>P1</strong> : exigence partielle, le plus souvent faite au serveur mais pas saisissable au terminal</td>
+<td style="text-align: right;"><strong>73</strong> (71 au tableau, plus C16 et le schéma des liens)</td>
+</tr>
+<tr>
+<td>Manques <strong>P2</strong> : preuve faible, ligne de matrice absente ou périmée</td>
+<td style="text-align: right;"><strong>44</strong></td>
+</tr>
+<tr>
+<td>Lignes « Fait » échantillonnées</td>
+<td style="text-align: right;">71</td>
+</tr>
+<tr>
+<td>… confirmées (dont une quinzaine dont la preuve citée est à corriger, ou dont un client n'a pas de test)</td>
+<td style="text-align: right;">50</td>
+</tr>
+<tr>
+<td>… partielles</td>
+<td style="text-align: right;">13</td>
+</tr>
+<tr>
+<td>… fausses (HAB-16, PSC-RG-04, C17)</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr>
+<td>… à preuve faible : le test n'exerce pas la règle</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr>
+<td>Lignes « Fait » hors échantillon à rétrograder, trouvées au fil de l'audit (§3)</td>
+<td style="text-align: right;">11</td>
+</tr>
+<tr>
+<td>« Simulé » qui peuvent passer « Fait » sans partenaire externe</td>
+<td style="text-align: right;">80 sur 258</td>
+</tr>
+<tr>
+<td>« Simulé » qui invoquent une décision déjà tranchée par le CDC ou une fiche</td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr>
+<td>« Partiel » et « Bloqué » dont la cause a disparu</td>
+<td style="text-align: right;">0 sur 16</td>
+</tr>
+<tr>
+<td>Questions du §7.1 en double (avec le registre D-nn ou entre elles)</td>
+<td style="text-align: right;">21</td>
+</tr>
+<tr>
+<td>Questions du §7.1 hors CDC</td>
+<td style="text-align: right;">10</td>
+</tr>
+<tr>
+<td>Questions du §7.1 déjà tranchées en tout ou partie (5 branchées contre le texte)</td>
+<td style="text-align: right;">10</td>
+</tr>
+</tbody>
+</table></div>
+<p>Les « Fait » à rétrograder hors échantillon sont : PRL-RG-08, EX-NUT-02 ter, EX-PF-01, EX-PAR-09, EX-CI-33, AV-08, MOD-47, C20, C22, C23 et C24.</p>
+<h3 id="lecture">Lecture</h3>
+<p>La matrice dit « 0 Absent ». Ce n'est vrai que pour ce qu'elle liste.</p>
+<p>Relues phrase par phrase, les fiches contiennent des éléments qui n'ont aucune ligne dans la matrice : des champs, les indicateurs de restitution de leur §7, les bilans propres à chaque objet suivi de leur §8, et des règles « bis » ou « ter ». Vingt-neuf de ces éléments sont absents du code.</p>
+<p>Le défaut le plus fréquent est pourtant ailleurs : une règle est faite et testée au serveur, mais le terminal ne permet pas de la saisir, alors que la fiche se remplit au domicile. La matrice classe ces lignes Fait, contre sa propre règle de prudence.</p>
+<p>À l'inverse, environ 80 lignes Simulé sont en réalité Fait côté plateforme : la règle est codée et testée par nous, et seul le service en aval est factice (FSE, MSSanté, moteur NGAP).</p>
+<h2 id="3-manques">3. Manques</h2>
+<h3 id="31-p0--exigence-absente-ou-fausse">3.1 P0 — exigence absente ou fausse</h3>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Référence CDC (citation courte)</th>
+<th>État réel constaté</th>
+<th>Client(s)</th>
+<th>Effort</th>
+<th>Lot</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>P0-01</td>
+<td>§3.2 tableau 3, « Émettre une transmission ciblée » : colonne AS = « E »</td>
+<td>Refusée à l'AS. <code>b/habilitations.py:MATRICE["transmission_ciblee"]</code> vaut « — » pour l'AS et <code>b/domaines/transmissions.py:_creer</code> répond 403. Le test cité pour HAB-16 (<code>t/test_transmissions::test_trois_registres_et_droits_d_emission</code>) vérifie précisément ce refus, donc l'inverse du CDC. Le terminal dit à l'AS que l'intra-cabinet est son seul registre (<code>m/ecrans/transmissions.dart:419</code>). Aucune décision écrite ne justifie l'écart. <strong>HAB-16 est classée Fait à tort.</strong></td>
+<td>serveur · web · mobile</td>
+<td>S</td>
+<td>L1</td>
+</tr>
+<tr>
+<td>P0-02</td>
+<td>PSC-RG-04 [T] « Une ligne posée non déposée … ne déclenche aucune notification »</td>
+<td><code>b/fiches/perfusions.py:apres</code> est branché sur PERFUSION_SC (<code>b/fiches/__init__.py:81</code>) et envoie <code>ligne_ouverte</code> sans distinguer SC et IV. Aucun test ne vérifie l'absence de notification. <strong>PSC-RG-04 est classée Fait à tort.</strong></td>
+<td>serveur</td>
+<td>S</td>
+<td>L3</td>
+</tr>
+<tr>
+<td>P0-03</td>
+<td>Fiche 05 §8 : « le retrait du site emporte la dépose des lignes qu'il portait »</td>
+<td><code>b/fiches/perfusions.py:regles_sc</code> retire le site et laisse la ligne posée. Le terminal ne fait rien non plus (<code>m/fiches_lot3.dart:SaisiePerfusionSC.donnees</code>).</td>
+<td>serveur · mobile</td>
+<td>S</td>
+<td>L3</td>
+</tr>
+<tr>
+<td>P0-04</td>
+<td>PSE-RG-21, fiche 16 §2.6 : « il crée l'occurrence de séance dans la tournée de ce moment »</td>
+<td><code>b/domaines/seance.py:fixer_moment</code> n'écrit que <code>MomentSeance</code>, sans fréquence ni occurrence. <strong>Classée Fait à tort.</strong></td>
+<td>serveur</td>
+<td>M</td>
+<td>L9</td>
+</tr>
+<tr>
+<td>P0-05</td>
+<td>Fiches 10 et 11 §6 : la dose, le site et les résultats « sont tracés, pas transmis » (fiche 10 l.537, fiche 11 l.375 ; même règle en fiche 6)</td>
+<td><code>b/cotation/__init__.py:entree</code> transmet au moteur toutes les données et tous les faits, car <code>non_transmis</code> est vide pour MEDICAMENTS, SUIVI_DIABETIQUE et ANTICOAGULANT (<code>b/fiches/__init__.py</code>). Nursing, Nutrition et Dialyse, eux, filtrent.</td>
+<td>serveur</td>
+<td>S</td>
+<td>L2</td>
+</tr>
+<tr>
+<td>P0-06</td>
+<td>C24 [T] « Pas d'horaire sans pièce : … signalé au tableau de bord du cabinet »</td>
+<td>La prescription accepte un <code>document_id</code> vide (<code>b/domaines/prescriptions.py:PrescriptionIn</code>), et rien dans <code>b/domaines/tableau_de_bord.py</code> ne signale un horaire prescrit sans ordonnance jointe.</td>
+<td>serveur · web</td>
+<td>S</td>
+<td>L13</td>
+</tr>
+<tr>
+<td>P0-07</td>
+<td>C24 [T] Horaire prescrit et heure réelle : « L'écart est affiché, jamais bloquant »</td>
+<td>Cet écart n'est calculé ni affiché sur aucun client. L'heure prévue, elle, est bien montrée (<code>m/ecrans/tournee.dart:408</code>, <code>w/pages/Tournees.tsx:299</code>).</td>
+<td>serveur · web · mobile</td>
+<td>S</td>
+<td>L6, L15</td>
+</tr>
+<tr>
+<td>P0-08</td>
+<td>Fiche 18, CDC l.620 [T] « Épreuve de lever … écarts calculés … versée au dossier de soins » (VIT-RG-06 bis/ter, VIT-T05, T07 à T10)</td>
+<td>Rien dans <code>b/fiches/vitaux.py:LigneTension</code>, aucun écran, aucune ligne de matrice. Le renvoi NPS-T08 (<code>m/ecrans/fiche_lot19.dart:_Tolerance</code>) mène à un geste qui n'existe pas.</td>
+<td>serveur · web · mobile</td>
+<td>L</td>
+<td>L10</td>
+</tr>
+<tr>
+<td>P0-09</td>
+<td>Fiche 18 VIT-F04 : « Débit d'O₂ prescrit … affiché en regard du débit constaté ; son changement lève C3 »</td>
+<td>Ni rubrique ni prescription (<code>b/domaines/dossier.py:SeuilsSurveillance</code>). Le terminal ne saisit que le débit constaté (<code>m/ecrans/fiche.dart:1690</code>).</td>
+<td>serveur · mobile</td>
+<td>M</td>
+<td>L10</td>
+</tr>
+<tr>
+<td>P0-10</td>
+<td>Fiche 15 §2.7, règle à reporter en fiche 19 : un refus d'injection d'action prolongée « propose … une notification au prescripteur (C6) »</td>
+<td><code>b/fiches/injections.py</code> n'a ni crochet <code>apres</code> ni notification de refus.</td>
+<td>serveur · mobile</td>
+<td>S</td>
+<td>L12</td>
+</tr>
+<tr>
+<td>P0-11</td>
+<td>Fiche 7 (bloc AVK) : posologie de la semaine, « une ligne par jour daté (lundi → dimanche) », et semaine précédente</td>
+<td><code>b/fiches/medicaments.py:BlocAvk</code> ne porte que <code>dose_du_jour</code>. Même chose dans <code>m/ecrans/fiche_lot2.dart:_avk</code> et dans <code>w/pages/Medicaments.tsx</code>.</td>
+<td>serveur · web · mobile</td>
+<td>M</td>
+<td>L7</td>
+</tr>
+<tr>
+<td>P0-12</td>
+<td>Fiche 7 : signal C3 sur changement de posologie AVK</td>
+<td><code>b/fiches/medicaments.py:valeurs_signal</code> ne lit que les lignes de médicaments, jamais le bloc AVK.</td>
+<td>serveur · web · mobile</td>
+<td>S</td>
+<td>L7</td>
+</tr>
+<tr>
+<td>P0-13</td>
+<td>Fiche 12 §7 [T] « Répartition des positions et intervalle moyen entre deux changements » (rotation des appuis)</td>
+<td><code>position_sortie</code> est stockée, mais rien ne la calcule ni ne l'affiche (<code>w/pages/Nursing.tsx</code>).</td>
+<td>serveur · web</td>
+<td>S</td>
+<td>L7</td>
+</tr>
+<tr>
+<td>P0-14</td>
+<td>Fiche 12 §7 [T] « BSI arrivant à échéance dans les soixante jours », au tableau de bord du cabinet</td>
+<td>L'échéance est calculée par patient (<code>b/domaines/regles_provisoires.py:compteur_bsi</code>) mais absente de <code>b/domaines/tableau_de_bord.py</code>.</td>
+<td>serveur · web</td>
+<td>S</td>
+<td>L13</td>
+</tr>
+<tr>
+<td>P0-15</td>
+<td>Fiche 10 M8 : les passages dus non saisis apparaissent « à faire »</td>
+<td>Rien dans <code>w/pages/Diabete.tsx</code>, rien au terminal.</td>
+<td>web · mobile</td>
+<td>S</td>
+<td>L8</td>
+</tr>
+<tr>
+<td>P0-16</td>
+<td>Fiche 10 §2.9 : le patient qui passe 75 ans, « la fiche le signale au cabinet »</td>
+<td><code>b/domaines/parcours.py:eligibilite_hebdo</code> n'est calculée qu'à la demande et n'émet aucun signal.</td>
+<td>serveur · web</td>
+<td>S</td>
+<td>L8</td>
+</tr>
+<tr>
+<td>P0-17</td>
+<td>Fiches 10 et 11 §7 : indicateur d'autonomie (« compté »), cumul des écarts de dose, jours restants, résultats attendus non reçus</td>
+<td><code>b/domaines/biologie.py</code> ne connaît que <code>ferritinemies-attendues</code>, et le « compté » de DIA-RG-10 n'existe pas.</td>
+<td>serveur · web</td>
+<td>M</td>
+<td>L8 (fiche 10), L7 (fiche 11)</td>
+</tr>
+<tr>
+<td>P0-18</td>
+<td>Bilans par objet suivi (§6.11) : perfusion (fiches 4 et 5, CDC l.288, 309, 321), stomie (fiches 2 et 3), bilan nutritionnel (fiche 8 §8), suivi de trachéotomie et bilan de CPAP au prescripteur (fiche 22 §8)</td>
+<td><code>b/rythmes.py:BILANS</code> ne connaît que le bilan de plaie, et <code>b/domaines/bilans.py</code> refuse un bilan sur tout autre objet suivi.</td>
+<td>serveur · web</td>
+<td>M</td>
+<td>L5</td>
+</tr>
+<tr>
+<td>P0-19</td>
+<td>Fiches 2 et 3, STD-C03 et STU-C03 : à la clôture, « Transmission ciblée — Notification C6 — Proposée »</td>
+<td><code>b/domaines/dispositifs.py:cloturer_dispositif</code> ne propose rien et <code>b/fiches/stomies.py:cloture_urinaire</code> renvoie <code>{}</code>. Rien non plus dans <code>m/ecrans/cloture.dart</code> ni dans <code>w/pages/Dispositif.tsx:DialogueCloture</code>.</td>
+<td>serveur · web · mobile</td>
+<td>S</td>
+<td>L4</td>
+</tr>
+<tr>
+<td>P0-20</td>
+<td>Fiche 2 M8 §8 : « Consommation d'appareillage réelle face au prescrit »</td>
+<td><code>w/pages/Stomies.tsx</code> n'affiche que des totaux, et le serveur ne fait aucun calcul.</td>
+<td>serveur · web</td>
+<td>M</td>
+<td>L4</td>
+</tr>
+<tr>
+<td>P0-21</td>
+<td>Fiche 2 STD-M07 : « Lot et péremption … issus du code lu »</td>
+<td>Absents de <code>b/fiches/stomies.py:Materiel</code> et du terminal.</td>
+<td>serveur · mobile</td>
+<td>S</td>
+<td>L4</td>
+</tr>
+<tr>
+<td>P0-22</td>
+<td>Fiche 1 PAN-F15 : « Protocole initial — intervention mécanique · application thérapeutique… »</td>
+<td>Absent de <code>b/domaines/plaies.py:PlaieIn</code> et de <code>m/ecrans/ouverture.dart</code>.</td>
+<td>serveur · mobile</td>
+<td>S</td>
+<td>L4</td>
+</tr>
+<tr>
+<td>P0-23</td>
+<td>Fiche 21 PRL-E07 et §2 : « Cutané : site codé sur schéma corporel » ; prélèvements nasal, pharyngé, oculaire…</td>
+<td>Au terminal, <code>m/fiches.dart:sitesPrelevement</code> (pli du coude, avant-bras, dos de la main) sert pour toutes les voies, et <code>ChoixSite</code> est limité à ces options (<code>m/ecrans/fiche.dart:1925</code>, <code>2180</code>). Un écouvillon nasal doit donc être porté « pli du coude ». <strong>PRL-RG-08 est classée Fait à tort.</strong></td>
+<td>mobile</td>
+<td>M</td>
+<td>L12</td>
+</tr>
+<tr>
+<td>P0-24</td>
+<td>Fiche 21 §2 hémocultures : « site distinct par paire »</td>
+<td>Non contrôlé (<code>PaireHemoculture</code>, <code>m/ecrans/fiche.dart:_hemocultures</code>).</td>
+<td>serveur · mobile</td>
+<td>S</td>
+<td>L12</td>
+</tr>
+<tr>
+<td>P0-25</td>
+<td>Fiche 19 §8 et M9 : « Vaccination : information au médecin traitant » ; M11 : notification d'une injection non réalisée</td>
+<td>La fiche INJECTION n'a aucun crochet <code>apres</code> (<code>b/fiches/__init__.py:61</code>).</td>
+<td>serveur · mobile</td>
+<td>S</td>
+<td>L12</td>
+</tr>
+<tr>
+<td>P0-26</td>
+<td>Fiche 19 §7 : « Tests tuberculiniques posés sans lecture réalisée »</td>
+<td>Absent du tableau de bord.</td>
+<td>serveur · web</td>
+<td>S</td>
+<td>L13</td>
+</tr>
+<tr>
+<td>P0-27</td>
+<td>Fiche 23 ALR-SI06 : « Température … lecture seule depuis Paramètres vitaux »</td>
+<td>Absente de <code>m/ecrans/fiche_lot17.dart</code> et de <code>w/pages/Analgesie.tsx</code>, alors que la maquette l'affiche.</td>
+<td>web · mobile</td>
+<td>S</td>
+<td>L11</td>
+</tr>
+<tr>
+<td>P0-28</td>
+<td>C1 [T] « la case absent occupe sa propre ligne, au-dessus des quatre crans » ; « le libellé … s'affiche sous le cran »</td>
+<td><code>m/charte.dart:EchelleCrans</code> place « Absent » en cinquième case sur la même rangée (<code>poids: [3, 2, 2, 2, 2]</code>). Le libellé ne sert qu'au lecteur d'écran.</td>
+<td>mobile</td>
+<td>S</td>
+<td>L15</td>
+</tr>
+<tr>
+<td>P0-29</td>
+<td>C25 [T] « Mesurée — volume en mL et période »</td>
+<td><code>b/fiches/commun.py:ReleveElimination</code> n'a que <code>diurese_ml</code>. UGD-RG-16 (<code>b/fiches/uro_genito_digestif.py:386</code>) compare donc ce volume à la référence sans connaître la durée qu'il couvre.</td>
+<td>serveur · mobile</td>
+<td>S</td>
+<td>L8</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="32-p1--exigence-partielle">3.2 P1 — exigence partielle</h3>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Référence CDC (citation courte)</th>
+<th>État réel constaté</th>
+<th>Client(s)</th>
+<th>Effort</th>
+<th>Lot</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>P1-01</td>
+<td>§6.3, règle commune : photo « sur toute fiche portant un objet suivi » ; ACI-E16 ; ALR-SI05</td>
+<td><code>m/fiches.dart:fichesAvecPhoto</code> n'inclut ni PCA_SEDATION, ni ANALGESIE_LOCOREGIONALE, ni ANTICOAGULANT. Le serveur accepte pourtant ces photos (<code>b/domaines/photos.py:verser_photo</code>).</td>
+<td>mobile</td>
+<td>S</td>
+<td>L15</td>
+</tr>
+<tr>
+<td>P1-02</td>
+<td>Tableau 43 : au terminal, « consultation du dossier et du plan de soins »</td>
+<td><code>m/terminal.dart:766</code> précharge <code>/plan-de-soins</code> mais ne garde que les protocoles et les actes. Il n'y a pas d'écran du plan ; MOD-15 n'annonce que serveur et web.</td>
+<td>mobile</td>
+<td>S</td>
+<td>L15</td>
+</tr>
+<tr>
+<td>P1-03</td>
+<td>C6 : « L'intervenant valide l'envoi … ou écarte la proposition »</td>
+<td>Le terminal affiche « se décide au poste fixe » (<code>m/ecrans/evenement.dart:68</code>) et n'appelle ni l'envoi ni l'écart.</td>
+<td>mobile</td>
+<td>M</td>
+<td>L1</td>
+</tr>
+<tr>
+<td>P1-04</td>
+<td>EX-TR-04 : interpellation émise → lue → traitée</td>
+<td>Le terminal ne lit ni ne traite une interpellation. « Répondre par une transmission ciblée » crée une transmission sans lien, et l'interpellation reste ouverte (<code>m/ecrans/transmissions.dart</code>). Aucun test web ne couvre la lecture ni le traitement.</td>
+<td>mobile · web</td>
+<td>S</td>
+<td>L1</td>
+</tr>
+<tr>
+<td>P1-05</td>
+<td>Tableau 43 : la télésanté va au poste fixe (EX-CO-04)</td>
+<td>L'acte à distance de plaie ne se crée qu'au terminal : <code>w/pages/Partage.tsx:FormulaireActeDistance</code> ne propose ni objet suivi ni photo.</td>
+<td>web</td>
+<td>S</td>
+<td>L1</td>
+</tr>
+<tr>
+<td>P1-06</td>
+<td>C23 : sous HAD, « Médecin coordonnateur et infirmier coordinateur pré-cochés »</td>
+<td><code>b/domaines/socle.py:correspondants</code> ne propose que les prescripteurs et le cabinet (choix noté <code>ponytail</code>). Une vingtaine d'appelants s'appuient dessus.</td>
+<td>serveur</td>
+<td>S</td>
+<td>L1</td>
+</tr>
+<tr>
+<td>P1-07</td>
+<td>EX-FA-06 [T] « Aucune règle dupliquée entre les deux clients » (principe 9)</td>
+<td>Copies de règles du serveur côté clients : <code>m/cotation.dart:cleCotation</code> (« table tenue à la main ») et <code>facturable</code> (« miroir ») ; <code>w/pages/Facturation.tsx:97</code> ; <code>w/pages/Transmissions.tsx:REQUALIFICATIONS</code>. Le test cité n'éprouve pas l'absence de duplication. <strong>Classée Fait.</strong></td>
+<td>web · mobile</td>
+<td>M</td>
+<td>L2, L1</td>
+</tr>
+<tr>
+<td>P1-08</td>
+<td>Fiche 04 §6 l.501 : « Ligne posée et non déposée … non cotable en l'état » ; PIV-RG-06, durée retenue (Q-80)</td>
+<td><code>b/cotation/demo.py:_perfusion</code> cote AMI 14 ou 15 à la pose, sans condition de durée : une ligne IV « organisée » de 30 minutes reçoit le forfait de plus d'une heure. Le test <code>t/test_perfusion_sc::test_episode_site_et_ligne_de_nuit</code> fige ce comportement.</td>
+<td>serveur (doublure)</td>
+<td>M</td>
+<td>L2</td>
+</tr>
+<tr>
+<td>P1-09</td>
+<td>C24 [T] « Le moteur ne déduit pas un horaire de l'heure du passage »</td>
+<td><code>b/cotation/demo.py:_majorations</code> majore PANSEMENT à l'heure réelle, sans horaire prescrit. Le test <code>t/test_moteur_demo.py::test_majoration_nuit_selon_heure_reelle</code> fige ce comportement.</td>
+<td>serveur (doublure)</td>
+<td>S</td>
+<td>L2</td>
+</tr>
+<tr>
+<td>P1-10</td>
+<td>CDC §4.4 et EX-FA-02 ter : nuit « après 20 h ou avant 6 h », bornes « ni paramétrables ni à inventer » (Q-64)</td>
+<td><code>b/domaines/actes.py:PLAGES_MOMENT</code> fixe la nuit de 19 h à 8 h, alors que <code>b/commun.py:horaire_de_nuit</code> suit 20 h – 6 h : le code a deux nuits.</td>
+<td>serveur</td>
+<td>S</td>
+<td>L2</td>
+</tr>
+<tr>
+<td>P1-11</td>
+<td>C24 [T] « Mention d'origine — formulation de l'ordonnance, telle qu'écrite »</td>
+<td>Non enregistrée : <code>b/domaines/prescriptions.py</code> ne garde que <code>horaires_prescrits</code>.</td>
+<td>serveur · web</td>
+<td>S</td>
+<td>L6</td>
+</tr>
+<tr>
+<td>P1-12</td>
+<td>C24 → C3 : « Un horaire ajouté ou modifié est un changement de prescription »</td>
+<td><code>_signaler_changement</code> émet bien le signal, mais <code>_en_mots</code> omet <code>horaires_prescrits</code> : le bandeau affiche la même valeur avant et après. Aucun test.</td>
+<td>serveur</td>
+<td>S</td>
+<td>L6</td>
+</tr>
+<tr>
+<td>P1-13</td>
+<td>EX-PF-01 : « une fréquence et une seule »</td>
+<td><code>b/domaines/prescriptions.py:209</code> compte toute fréquence non arrêtée, même échue. <strong>Sonde lancée</strong> : une fréquence PERFUSION_IV échue le 03/09, puis une nouvelle ordonnance au 10/09 donnent 409 « la modifier, jamais la doubler ».</td>
+<td>serveur</td>
+<td>S</td>
+<td>L6</td>
+</tr>
+<tr>
+<td>P1-14</td>
+<td>§6.4 → : « prolongation, modification en cours de route »</td>
+<td>Aucune route de modification de fréquence, seulement <code>/arret</code> et <code>/regularisation</code>. Le refus de P1-13 demande pourtant de « la modifier ».</td>
+<td>serveur · web</td>
+<td>M</td>
+<td>L6</td>
+</tr>
+<tr>
+<td>P1-15</td>
+<td>EX-PAR-09 : « signale l'incompatibilité avant l'attribution »</td>
+<td><code>b/domaines/tournees.py:avertissements</code> n'est renvoyé qu'après l'enregistrement (<code>w/pages/Tournees.tsx:196</code> : « Attribution enregistrée »). <strong>Classée Fait.</strong></td>
+<td>serveur · web</td>
+<td>S</td>
+<td>L6</td>
+</tr>
+<tr>
+<td>P1-16</td>
+<td>§6.6 → : « acte réalisé partiellement ; refus du patient » [à préciser]</td>
+<td>Le refus existe ; il n'y a pas de statut générique « partiel », seulement des lignes <code>realisee</code> dans certaines fiches.</td>
+<td>serveur · mobile</td>
+<td>M (après décision)</td>
+<td>L6</td>
+</tr>
+<tr>
+<td>P1-17</td>
+<td>§6.1 → : patient décédé</td>
+<td><code>models.Patient</code> n'a ni statut ni date de décès. Le décès n'est qu'un motif, objet par objet, sans arrêt en cascade des fréquences, des tournées et de la facturation.</td>
+<td>tous</td>
+<td>M</td>
+<td>L14</td>
+</tr>
+<tr>
+<td>P1-18</td>
+<td>EX-ID-03 et EX-ID-04 bis : interrogation automatique des téléservices au retour de connexion, à la création et avant facturation</td>
+<td><code>b/domaines/identite.py:enchainer</code> n'est appelé que par <code>POST /teleservices</code> et par la création via la carte Vitale. Ni <code>sync.py</code>, ni la création manuelle, ni <code>facturation.py</code> ne l'appellent.</td>
+<td>serveur</td>
+<td>S</td>
+<td>L14</td>
+</tr>
+<tr>
+<td>P1-19</td>
+<td>C23 : « Mention permanente dans l'en-tête patient »</td>
+<td>L'en-tête affiche le contexte manuel <code>had</code>, pas le séjour <code>SejourHAD</code> (<code>w/pages/DossierPatient.tsx:151</code>, <code>m/ecrans/tournee.dart:329</code>). La mention « hors HAD » est absente. Deux sources de vérité.</td>
+<td>web · mobile</td>
+<td>S</td>
+<td>L14</td>
+</tr>
+<tr>
+<td>P1-20</td>
+<td>C23 : « installé par l'HAD » dans toutes les fiches à dispositif ; séjour et cadre connus hors connexion</td>
+<td>Seules PCA et PSE le savent (<code>b/fiches/pca.py:installee_had</code>, <code>m/fiches_lot16.dart:nonPayable</code>) : rien en perfusion, nutrition entérale ni dialyse.</td>
+<td>serveur · mobile</td>
+<td>M</td>
+<td>L14</td>
+</tr>
+<tr>
+<td>P1-21</td>
+<td>§12 « Stack arrêtée [T] : … Keycloak + CPS »</td>
+<td>Pas de Keycloak : <code>docker-compose.yml</code> ne lance que la base, et le jeton est émis localement (<code>b/auth.py:50</code>, <code>ponytail</code>). Le courtier d'identité se monte sans partenaire ; seuls la CPS et PSC en dépendent.</td>
+<td>serveur · infra</td>
+<td>L</td>
+<td>L18</td>
+</tr>
+<tr>
+<td>P1-22</td>
+<td>EX-PI-06 : « au laboratoire pour les examens biologiques, à la pharmacie pour le matériel »</td>
+<td><code>b/domaines/documents.py:envoyer</code> envoie la prescription infirmière entière aux deux destinataires.</td>
+<td>serveur</td>
+<td>M</td>
+<td>L5</td>
+</tr>
+<tr>
+<td>P1-23</td>
+<td>EX-PI-08 : renouvellement du matériel (stomie, consommables IV)</td>
+<td><code>b/domaines/prescription_infirmiere.py:soins_en_cours</code> ne traite que les pansements (choix noté <code>ponytail</code>).</td>
+<td>serveur · web</td>
+<td>M</td>
+<td>L5</td>
+</tr>
+<tr>
+<td>P1-24</td>
+<td>§7.2, trame du poste fixe : « prescription infirmière (aide, signature, envoi) »</td>
+<td>L'envoi ne part que du registre, et l'écran affiche un message périmé (<code>w/pages/PrescriptionInfirmiere.tsx:144</code>). La signature par carte n'existe au poste fixe que pour les actes (<code>w/simulation.tsx:SignaturesCarte</code>).</td>
+<td>web</td>
+<td>S</td>
+<td>L5</td>
+</tr>
+<tr>
+<td>P1-25</td>
+<td>Fiche 15 NPS-O12 [P] : section neuropsychiatrique du bilan de surveillance</td>
+<td>Absente de <code>b/domaines/bilans.py</code>.</td>
+<td>serveur · web</td>
+<td>M</td>
+<td>L5</td>
+</tr>
+<tr>
+<td>P1-26</td>
+<td>PIV-E05, L03, L15, PIV-RG-20, PIV-RG-03 : consommables, soluté de dilution, ligne non posée et son motif</td>
+<td>Serveur seulement. Le terminal envoie <code>consommables: []</code> et <code>motif_non_pose: null</code> (<code>m/fiches_lot3.dart:SaisiePerfusionIV.donnees</code>).</td>
+<td>mobile</td>
+<td>M</td>
+<td>L3</td>
+</tr>
+<tr>
+<td>P1-27</td>
+<td>Fiche 04 §7 et PIV-L17 : durée de vie moyenne, changements non programmés par motif, dernier changement de VAR…</td>
+<td><code>compteurs_iv</code> ne porte aucun de ces indicateurs.</td>
+<td>serveur · web</td>
+<td>S</td>
+<td>L3</td>
+</tr>
+<tr>
+<td>P1-28</td>
+<td>PIV-N05 : poids en lecture ; PIV-N03 : palier de débit</td>
+<td>Poids absent ; <code>palier_debit_ml_h</code> vaut toujours <code>null</code> au terminal.</td>
+<td>mobile</td>
+<td>S</td>
+<td>L3</td>
+</tr>
+<tr>
+<td>P1-29</td>
+<td>Fiche 04 §1 : « Pose — geste tracé, horodaté, signé »</td>
+<td>Une VVP peut être ouverte au poste fixe avec une heure de pose saisie à la main (<code>b/fiches/perfusions.py:CatheterIVIn</code>, <code>w/pages/PoseDispositif.tsx</code>).</td>
+<td>web</td>
+<td>S</td>
+<td>L4</td>
+</tr>
+<tr>
+<td>P1-30</td>
+<td>PAN-R01 et R02 : « jusqu'à deux dates programmées » (agrafes, fils)</td>
+<td>Une seule clé, <code>prochain_ablation</code>, et la seconde date annule la première (<code>b/domaines/socle.py:programmer_rappel</code>).</td>
+<td>serveur · mobile</td>
+<td>S</td>
+<td>L4</td>
+</tr>
+<tr>
+<td>P1-31</td>
+<td>PAN-RG-08 : l'instillation n'est déconseillée qu'au-delà d'un volume</td>
+<td>Une trace « passer outre » est écrite quel que soit le volume (<code>m/domaine.dart:_charge</code>).</td>
+<td>mobile</td>
+<td>S</td>
+<td>L4</td>
+</tr>
+<tr>
+<td>P1-32</td>
+<td>STD-F03 et STU-F03 « autre (texte) » ; urologue (STU-RG-09)</td>
+<td>Poste fixe seulement (<code>w/pages/PoseDispositif.tsx:760</code>). Le terminal les exclut (<code>m/ecrans/dispositif.dart:601</code>, <code>617</code>).</td>
+<td>mobile</td>
+<td>S</td>
+<td>L4</td>
+</tr>
+<tr>
+<td>P1-33</td>
+<td>C2 : « chaque ligne cochée ouvre son commentaire propre » (STD-E09 à E13, PIV-E01, E02, L16, PSC-E15, VIT-E09, E15)</td>
+<td>Le terminal n'offre que le commentaire général (<code>m/ecrans/fiche.dart:296</code>) et les textes C9 automatiques.</td>
+<td>mobile</td>
+<td>M</td>
+<td>L15</td>
+</tr>
+<tr>
+<td>P1-34</td>
+<td>Fiche 7 : INR cible, prochain rendez-vous d'INR, ordonnances visibles dans le bloc</td>
+<td>Serveur seulement (<code>BlocAvk.inr</code>, <code>prochain_inr</code>). Le terminal n'envoie jamais <code>prochain_inr</code>, si bien que PRL-RG-14 et EX-PRL-08 restent inatteignables pour l'INR.</td>
+<td>web · mobile</td>
+<td>S</td>
+<td>L7</td>
+</tr>
+<tr>
+<td>P1-35</td>
+<td>MED-RG-13 ter (dose précédente du patch) et bis·2 (compte 1/2)</td>
+<td>Dose précédente au poste fixe seulement ; compte absent. Aucune ligne de matrice.</td>
+<td>mobile</td>
+<td>S</td>
+<td>L7</td>
+</tr>
+<tr>
+<td>P1-36</td>
+<td>MED-RG-07 : préparation et vérification du pilulier, deux actes distincts</td>
+<td>Au poste fixe, un passage où les deux cases sont cochées s'affiche « Préparé » seulement (<code>w/pages/Medicaments.tsx:Pilulier</code>). <strong>Classée Fait.</strong></td>
+<td>web</td>
+<td>S</td>
+<td>L7</td>
+</tr>
+<tr>
+<td>P1-37</td>
+<td>MED-F06 : lieu de résidence « affiché » dans la fiche</td>
+<td>Non affiché, au poste fixe comme au terminal.</td>
+<td>web · mobile</td>
+<td>S</td>
+<td>L7</td>
+</tr>
+<tr>
+<td>P1-38</td>
+<td>Fiche 11 M7 : chute plaquettaire visible au domicile</td>
+<td>Le terminal n'affiche ni variation ni bandeau.</td>
+<td>mobile</td>
+<td>S</td>
+<td>L7</td>
+</tr>
+<tr>
+<td>P1-39</td>
+<td>Fiche 6 M12, fiche 11 M8 : fin de traitement C12 (maquettes du terminal)</td>
+<td>Poste fixe seulement (<code>w/pages/Soins.tsx</code>).</td>
+<td>mobile</td>
+<td>M</td>
+<td>L7</td>
+</tr>
+<tr>
+<td>P1-40</td>
+<td>Fiche 12 : NUR-E23 boisson « autre (texte) » ; NUR-E49 retrait, fuite ou arrachage de l'étui ; NUR-E14 observation cutanée à la pose de la contention</td>
+<td>Absents de <code>b/fiches/nursing.py:Repas</code> et <code>EtuiPenien</code>.</td>
+<td>serveur · mobile</td>
+<td>S</td>
+<td>L7</td>
+</tr>
+<tr>
+<td>P1-41</td>
+<td>NUR-RG-16 [T] « module aide-soignant … réservé aux SELAS » (Q-30)</td>
+<td>Activé par défaut « en structure ou dès qu'un aide-soignant exerce » (<code>b/simulation.py:303</code>).</td>
+<td>serveur</td>
+<td>S</td>
+<td>L7</td>
+</tr>
+<tr>
+<td>P1-42</td>
+<td>EX-NUT-02 ter : chaque pose conserve « date, type, calibre, narine, longueur… »</td>
+<td>Longueur, lot et tolérance ne sont pas affichés (<code>w/pages/Nutrition.tsx:Succession</code>), comme la ligne le reconnaît. <strong>Classée Fait.</strong></td>
+<td>web</td>
+<td>S</td>
+<td>L8</td>
+</tr>
+<tr>
+<td>P1-43</td>
+<td>NUT-E10 : état de la narine, dont « macération »</td>
+<td>La valeur manque à <code>m/fiches_lot10.dart:etatsSiteNarine</code>.</td>
+<td>mobile</td>
+<td>S</td>
+<td>L8</td>
+</tr>
+<tr>
+<td>P1-44</td>
+<td>Fiche 10 M1-M2 (protocole) et M8 (historique) : écrans du terminal</td>
+<td>Le protocole ne se transcrit qu'au poste fixe (<code>w/pages/Diabete.tsx:FormulaireProtocole</code>). Au terminal, il n'y a pas d'historique glycémique, seulement <code>CarteHbA1c</code>.</td>
+<td>mobile</td>
+<td>M</td>
+<td>L8</td>
+</tr>
+<tr>
+<td>P1-45</td>
+<td>Avenant 11 AV-08 : « MSD … diabète de type 1 », « bolus par pompe »</td>
+<td>Ni le type de diabète ni le bolus ne sont portés (<code>b/fiches/diabete.py:DonneesDiabete</code>). <strong>Classée Fait.</strong></td>
+<td>serveur · clients</td>
+<td>S</td>
+<td>L8</td>
+</tr>
+<tr>
+<td>P1-46</td>
+<td>UGD-RG-14 : lavement « si J+n sans selles », sur prescription</td>
+<td>La condition est cochée par l'infirmier et reprise du passage précédent (<code>m/ecrans/fiche_lot10.dart</code>). Le serveur la croit sur parole ; il suffit de la décocher pour contourner la règle.</td>
+<td>serveur · mobile</td>
+<td>S</td>
+<td>L8</td>
+</tr>
+<tr>
+<td>P1-47</td>
+<td>C25 en fiche 20 : aide, aspect</td>
+<td>Le terminal envoie <code>aspect_selles: null, aide: []</code> (<code>m/fiches_lot10.dart:releve</code>).</td>
+<td>mobile</td>
+<td>S</td>
+<td>L8</td>
+</tr>
+<tr>
+<td>P1-48</td>
+<td>PSE-RG-20 : une séance par jour, au moment fixé</td>
+<td>Le terminal propose la séance dès qu'un réservoir est posé (<code>m/fiches_lot16.dart:seanceProposable</code>), et le refus n'arrive qu'à la synchronisation. Aucun test au terminal.</td>
+<td>mobile</td>
+<td>S</td>
+<td>L9</td>
+</tr>
+<tr>
+<td>P1-49</td>
+<td>PCA-RG-12 : payeur F09-F10 au terminal (Partiel connu)</td>
+<td>Le terminal dit seulement « non payable », alors que <code>compteurs.cadre</code> est déjà préchargé.</td>
+<td>mobile</td>
+<td>S</td>
+<td>L9</td>
+</tr>
+<tr>
+<td>P1-50</td>
+<td>PCA-E05 (C22) : échelle de référence du patient, douleur à la mobilisation</td>
+<td>Le terminal fixe EN et repos en dur (<code>m/fiches_lot16.dart:1097-1099</code>).</td>
+<td>mobile</td>
+<td>S</td>
+<td>L9</td>
+</tr>
+<tr>
+<td>P1-51</td>
+<td>Fiches 13-14 : registre des réservoirs de stupéfiants (lot, ordonnance, reliquat, témoin) [P]</td>
+<td>Saisi, mais jamais restitué (<code>w/pages/Pompes.tsx</code>, <code>faits_pompes</code>).</td>
+<td>serveur · web</td>
+<td>M</td>
+<td>L9</td>
+</tr>
+<tr>
+<td>P1-52</td>
+<td>PSE-RG-11 ter (M6 bis, écran du terminal) : « déjà porté »</td>
+<td>Poste fixe seulement. Les règles 11 bis à quinquies n'ont pas de ligne de matrice.</td>
+<td>mobile</td>
+<td>S</td>
+<td>L9</td>
+</tr>
+<tr>
+<td>P1-53</td>
+<td>PCA-RG-08 : en sédation profonde, le signal porte sur l'écart</td>
+<td>La courbe du poste fixe allume tout 3, même en sédation profonde (<code>w/pages/Pompes.tsx:CourbesPCA</code>).</td>
+<td>web</td>
+<td>S</td>
+<td>L9</td>
+</tr>
+<tr>
+<td>P1-54</td>
+<td>VIT-E06 (régularité du pouls), VIT-E13 (interface d'O₂) [P]</td>
+<td>Serveur seulement.</td>
+<td>mobile</td>
+<td>S</td>
+<td>L10</td>
+</tr>
+<tr>
+<td>P1-55</td>
+<td>Fiche 18 §7 : « Séances de protocole avec élément constantes manquant »</td>
+<td>Absent du tableau de bord.</td>
+<td>serveur · web</td>
+<td>S</td>
+<td>L13</td>
+</tr>
+<tr>
+<td>P1-56</td>
+<td>Fiche 15 M6 : historique (écran du terminal)</td>
+<td>Profil au poste fixe seulement (<code>w/pages/Neuropsy.tsx</code>).</td>
+<td>mobile</td>
+<td>M</td>
+<td>L10</td>
+</tr>
+<tr>
+<td>P1-57</td>
+<td>Fiche 15 NPS-F06 et N11 : état de référence par trouble [P]</td>
+<td>Absent, sans ligne de matrice.</td>
+<td>tous</td>
+<td>M</td>
+<td>L10</td>
+</tr>
+<tr>
+<td>P1-58</td>
+<td>C22 : courbe « filtrable par circonstance et par objet … porte les événements »</td>
+<td>La courbe du poste fixe n'a ni filtre ni repère (<code>w/pages/Vitaux.tsx:PetitMultiple</code>). <strong>C22 est classé Fait.</strong></td>
+<td>web</td>
+<td>M</td>
+<td>L10</td>
+</tr>
+<tr>
+<td>P1-59</td>
+<td>DIP-P07 (prochain pansement, C4) ; DIP-S15 (volumes lus sur le cycleur au branchement)</td>
+<td>Pas de champ au terminal ; <code>volumes_affiches</code> part toujours vide (<code>m/fiches_lot17.dart:481</code>).</td>
+<td>mobile</td>
+<td>S</td>
+<td>L11</td>
+</tr>
+<tr>
+<td>P1-60</td>
+<td>INJ-RG-02 ter, INJ-F04 : « chaque ligne porte sa propre prescription et sa propre fréquence »</td>
+<td><code>LigneInjection</code> ne porte ni l'une ni l'autre. Le terminal reprend les lignes du dernier passage.</td>
+<td>serveur · mobile</td>
+<td>M</td>
+<td>L12</td>
+</tr>
+<tr>
+<td>P1-61</td>
+<td>INJ-E21, INJ-RG-11 : transmission due « non produite · produite · transmise »</td>
+<td>« non produite » est accepté et jamais relancé (allergènes). Le terminal annonce un suivi au cabinet qui n'existe pas.</td>
+<td>serveur · web</td>
+<td>S</td>
+<td>L12</td>
+</tr>
+<tr>
+<td>P1-62</td>
+<td>PRL-RG-18 bis et ter : rendez-vous de rattrapage (PRL-R04) ; séance sautée, transmission ciblée</td>
+<td><code>suite="rattrapage"</code> n'est qu'un libellé : pas de rendez-vous, pas de motif « ferritinémie sous le seuil », pas de transmission exigée.</td>
+<td>serveur · mobile</td>
+<td>S</td>
+<td>L12</td>
+</tr>
+<tr>
+<td>P1-63</td>
+<td>Fiche 21 §1 et §7 : tentatives et échecs, volume cumulé, résultats attendus non revenus, prescriptions non honorées</td>
+<td>Absents, hors l'état « envoyé » des échanges simulés et les ferritinémies attendues.</td>
+<td>serveur · web</td>
+<td>M</td>
+<td>L12, L13</td>
+</tr>
+<tr>
+<td>P1-64</td>
+<td>RES-E35 [P] (réfections par l'aidant) ; PRL-E34 [P] (acheminement) ; INJ M12 [P] (rappel de lot : éditer la liste, notifier les médecins traitants)</td>
+<td>Serveur seul, ou absent.</td>
+<td>mobile · web</td>
+<td>S</td>
+<td>L12</td>
+</tr>
+<tr>
+<td>P1-65</td>
+<td>Fiche 23 l.610 : « Les seuils viennent du protocole quand il les fixe » (ALR-RG-09)</td>
+<td><code>b/fiches/analgesie.py:78</code> fixe <code>MIGRATION_CM = 1.0</code> en dur.</td>
+<td>tous</td>
+<td>M</td>
+<td>L11</td>
+</tr>
+<tr>
+<td>P1-66</td>
+<td>Fiche 19 M8 : « Signer et transmettre » la lecture du timbre au domicile</td>
+<td>Le terminal ne saisit qu'un statut ; le compte rendu se fait au cabinet (<code>b/domaines/bilans.py:_tuberculine</code>).</td>
+<td>mobile</td>
+<td>S</td>
+<td>L12</td>
+</tr>
+<tr>
+<td>P1-67</td>
+<td>C20 : ancienneté cumulée « affichée à côté de la durée d'épisode »</td>
+<td>Poste fixe seulement (<code>w/pages/Dispositif.tsx</code>). Le terminal n'affiche que J+. <strong>C20 est classé Fait.</strong></td>
+<td>mobile</td>
+<td>S</td>
+<td>L15</td>
+</tr>
+<tr>
+<td>P1-68</td>
+<td>C18 : vues « région sacrée et talons » ; filtre par produit au terminal (Partiel connu)</td>
+<td>Vues limitées à face, dos, abdomen et avant-bras (<code>b/fiches/commun.py</code>). Aucun filtre dans <code>m/restitution.dart</code>.</td>
+<td>serveur · clients</td>
+<td>S</td>
+<td>L15</td>
+</tr>
+<tr>
+<td>P1-69</td>
+<td>C23 : « le tableau de bord du cabinet le signale dès le premier acte »</td>
+<td>Signal dans <code>w/pages/Facturation.tsx</code> seulement.</td>
+<td>web</td>
+<td>S</td>
+<td>L13</td>
+</tr>
+<tr>
+<td>P1-70</td>
+<td>EX-CI-05 : contexte repris sans ressaisie, « douleur C22 » comprise</td>
+<td><code>b/domaines/consultations.py:contexte_clinique</code> ne lit la douleur que dans la fiche 18, pas dans la série C22. Le test n'affirme que la tension et le pouls.</td>
+<td>serveur</td>
+<td>S</td>
+<td>L16</td>
+</tr>
+<tr>
+<td>P1-71</td>
+<td>EX-CI-33 : données d'entrée, dont le « plan personnalisé de prévention … et ses thèmes »</td>
+<td>Le plan n'est pas affiché dans la sous-fiche, comme la ligne le dit elle-même. <strong>Classée Fait.</strong></td>
+<td>web · mobile</td>
+<td>S</td>
+<td>L16</td>
+</tr>
+</tbody>
+</table></div>
+<p>Deux sujets sont classés P1 mais demandent du travail sur la plateforme ou sur la documentation :
+- <strong>C16 [T]</strong> « Le référentiel vit dans un fichier séparé et versionné, jamais dans le code ». Les listes restent des <code>Literal</code> dans le code, alors que le mécanisme de validation datée par TABSANTE est à construire par nous. Effort L, lot L19.
+- <strong>§4.9 Schéma des liens.</strong> Le diagramme entités-relations « avec cardinalités » n'existe pas. MOD-47, classée Fait, n'en couvre qu'un point. Effort M, lot L17.</p>
+<h3 id="33-p2--preuve-faible-ligne-de-matrice-absente-ou-périmée">3.3 P2 — preuve faible, ligne de matrice absente ou périmée</h3>
+<p><strong>Faits dans le code, sans ligne de matrice</strong> (à ajouter, lot L17) :</p>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Référence</th>
+<th>Preuve trouvée</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>P2-01</td>
+<td>§4.1, tableau 4 : « Pas de partage d'objet entre fiches »</td>
+<td><code>b/domaines/actes.py</code> (<code>fiche.suit</code> → 422) ; <code>t/test_dispositifs::test_frequence_suit_l_objet_de_sa_fiche</code></td>
+</tr>
+<tr>
+<td>P2-02</td>
+<td>§4.2 : le rappel notifie l'intervenant attribué ce jour-là</td>
+<td><code>b/domaines/socle.py:notifier_rappels</code> ; <code>t/test_socle</code></td>
+</tr>
+<tr>
+<td>P2-03</td>
+<td>§6.1 → : doublons et fusion d'identités</td>
+<td><code>b/domaines/identite.py:detecter_doublons</code>, <code>fusionner</code> ; <code>t/test_identite::test_aucune_fusion_silencieuse_puis_decision_ide</code></td>
+</tr>
+<tr>
+<td>P2-04</td>
+<td>§6.1 → : changement de médecin traitant</td>
+<td><code>RUBRIQUES["medecin_traitant"]</code>, rubrique versionnée</td>
+</tr>
+<tr>
+<td>P2-05</td>
+<td>§6.4 → : grammaire des rythmes</td>
+<td><code>b/rythmes.py</code> ; <code>t/test_rythmes::test_jours_fixes_de_la_semaine</code> (seule W-11 la cite)</td>
+</tr>
+<tr>
+<td>P2-06</td>
+<td>Tableau 41 : lignes libres reprises dans les fiches</td>
+<td><code>b/fiches/nursing.py</code>, <code>respiratoire.py</code></td>
+</tr>
+<tr>
+<td>P2-07</td>
+<td>§6.7 → : annulation d'une FSE (état absent de CV-06)</td>
+<td><code>b/domaines/facturation.py:post_annulation</code> ; <code>t/test_facturation::test_fse_non_transmise_annulee_par_l_executant_libere_ses_actes</code></td>
+</tr>
+<tr>
+<td>P2-08</td>
+<td>§6.7 → : version de nomenclature applicable à la date de l'acte</td>
+<td><code>version_regles</code>, <code>version_tarifs</code> ; <code>t/test_moteur_passage::test_consultation_sans_tarif_a_la_date_non_cotee</code></td>
+</tr>
+<tr>
+<td>P2-09</td>
+<td>§6.9 → : transmission émise hors connexion</td>
+<td><code>b/domaines/sync.py:268</code> ; <code>t/test_transmissions::test_emission_hors_connexion_idempotente</code></td>
+</tr>
+<tr>
+<td>P2-10</td>
+<td>§6.10 → : durée de validité et réimpression du QR</td>
+<td><code>b/domaines/coordination.py</code> (<code>expire_le</code>)</td>
+</tr>
+<tr>
+<td>P2-11</td>
+<td>§8.1 → : préchargement, patient hors tournée</td>
+<td><code>m/dossier.dart:320</code>, <code>m/ecrans/accueil.dart:134</code> (passage hors tournée)</td>
+</tr>
+<tr>
+<td>P2-12</td>
+<td>Règles bis et ter faites sans ligne</td>
+<td>MED-RG-13 quater, INJ-RG-02 bis, UGD-RG-12 bis, PRL-RG-04 bis, PRL-RG-16 bis, RES-RG-07 bis et ter</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Preuve faible</strong> : le test cité n'exerce pas la règle, ou un client annoncé n'a pas de test.</p>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Ligne</th>
+<th>Constat</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>P2-13</td>
+<td>PR-8 bis</td>
+<td>Le déclencheur d'immuabilité sur <code>commentaire</code> (migration 0001) n'est pas testé ; <code>t/test_immuabilite</code> ne couvre que <code>acte_realise</code>.</td>
+</tr>
+<tr>
+<td>P2-14</td>
+<td>T-15</td>
+<td>Au terminal, seule la fonction <code>differe</code> est testée (<code>mobile/test/domaine_test</code>). Le motif exigé à l'écran (<code>m/ecrans/fiche.dart:125</code>) ne l'est pas.</td>
+</tr>
+<tr>
+<td>P2-15</td>
+<td>OFF-08</td>
+<td>La ligne avoue elle-même « rejeu d'un lot de plusieurs actes non testé ».</td>
+</tr>
+<tr>
+<td>P2-16</td>
+<td>EX-TR-07</td>
+<td><code>t/test_coordination::test_depot_au_registre_avec_avis_aux_infirmiers</code> ne vérifie aucune notification.</td>
+</tr>
+<tr>
+<td>P2-17</td>
+<td>EX-PF-03, EX-RS-01, C8, OFF-19</td>
+<td>Le test cité est faible ou n'est pas le bon. Les bons tests : <code>t/test_rythmes::test_principale_et_secondaire_superposees</code>, <code>t/test_nursing</code> (<code>signer_as</code>), <code>t/test_socle::test_signalement_ferme_par_la_decision_de_l_ide_jamais_par_peremption</code>, <code>t/test_echanges::test_frequence_arretee_apres_un_soin_fait_hors_connexion_off19</code>.</td>
+</tr>
+<tr>
+<td>P2-18</td>
+<td>MED-RG-16</td>
+<td>Le test ne vérifie pas que le traitement reste inchangé.</td>
+</tr>
+<tr>
+<td>P2-19</td>
+<td>STD-RG-14</td>
+<td>« Nécrotique » n'est testé nulle part.</td>
+</tr>
+<tr>
+<td>P2-20</td>
+<td>INJ-RG-07</td>
+<td>L'historique partagé n'est jamais testé avec une injection et une autre fiche.</td>
+</tr>
+<tr>
+<td>P2-21</td>
+<td>INJ-RG-06</td>
+<td>Le sérum n'est pas testé.</td>
+</tr>
+<tr>
+<td>P2-22</td>
+<td>EX-CI-37</td>
+<td>L'obstacle <code>hors_tranche_age</code> à la signature n'a pas de test.</td>
+</tr>
+<tr>
+<td>P2-23</td>
+<td>Chute plaquettaire (ACI-RG-07)</td>
+<td>Aucun test d'une chute signalée par la seule valeur précédente.</td>
+</tr>
+<tr>
+<td>P2-24</td>
+<td>DIP-RG-14, RES-RG-10</td>
+<td>Le code existe au terminal, sans test.</td>
+</tr>
+<tr>
+<td>P2-25</td>
+<td>EX-PAR-11, EX-DO-01, EX-PI-07, STU-RG-14, ALR-RG-19, C8 (décision au poste fixe)</td>
+<td>Le code existe au poste fixe, sans test web qui l'exerce.</td>
+</tr>
+<tr>
+<td>P2-26</td>
+<td>TER-01</td>
+<td>La preuve est la suite Flutter : aucun build Android dans le dépôt de travail.</td>
+</tr>
+<tr>
+<td>P2-27</td>
+<td>C24</td>
+<td>Annoncé « web · mobile », sans test client cité.</td>
+</tr>
+<tr>
+<td>P2-28</td>
+<td>PCA-RG-09 ; VIT-RG-03</td>
+<td>Rien ne vérifie que le commentaire lève l'écart, ni qu'une validation sans modification ne crée aucune mesure.</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Notes de matrice périmées</strong> : la ligne contredit le code actuel (lot L17).</p>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Ligne</th>
+<th>Ce qui a changé</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>P2-29</td>
+<td>OFF-09</td>
+<td>« Un corps d'acte malformé fait encore échouer tout le lot (NC-46) » est faux : <code>t/test_sync::test_un_acte_mal_forme_n_emporte_pas_le_lot</code> réussit (lancé).</td>
+</tr>
+<tr>
+<td>P2-30</td>
+<td>EX-ID-04, INT-04</td>
+<td>« Rien au terminal » est faux depuis <code>9ac3de3</code> : <code>m/cartes.dart:lireVitale</code>. Il faut ajouter le client mobile.</td>
+</tr>
+<tr>
+<td>P2-31</td>
+<td>EX-DS-05</td>
+<td>« Terminal : comparaison à adopter » est périmé (<code>m/ecrans/restitution.dart:ComparaisonRapide</code>).</td>
+</tr>
+<tr>
+<td>P2-32</td>
+<td>INT-12</td>
+<td>« Réception des résultats absente » : elle existe (<code>b/domaines/echanges_simules.py:recevoir_resultats</code>).</td>
+</tr>
+<tr>
+<td>P2-33</td>
+<td>EX-PAR-10</td>
+<td>« Fériés non modélisés » est faux : <code>b/calendrier.py:feries</code> ; <code>t/test_moteur_passage.py::test_dimanche_ou_ferie_prescrit_et_jamais_avec_la_nuit</code>.</td>
+</tr>
+<tr>
+<td>P2-34</td>
+<td>EX-SC-04, EX-PI-01, W-07</td>
+<td>Le « brouillon 500 » est corrigé (<code>1ff1d8e</code>).</td>
+</tr>
+<tr>
+<td>P2-35</td>
+<td>EX-PI-06, INT-11, HAB-11</td>
+<td>« Laboratoire et pharmacie non proposés » est faux : l'acheminement est fait (<code>b/domaines/documents.py:envoyer</code>). Le vrai manque est P1-22.</td>
+</tr>
+<tr>
+<td>P2-36</td>
+<td>EX-TR-07, C4, non-conformité basse l.1891</td>
+<td>« Sans ordonnanceur » est faux : <code>b/taches.py</code> appelle <code>notifier_rappels</code>.</td>
+</tr>
+<tr>
+<td>P2-37</td>
+<td>EX-PRL-04, PRL-RG-03</td>
+<td>« <code>demo.py:_prelevement</code> l'ignore » est faux : <code>cumul_ponction_veineuse</code> ; <code>t/test_moteur_passage.py::test_ponction_veineuse_a_taux_plein_par_derogation</code>.</td>
+</tr>
+<tr>
+<td>P2-38</td>
+<td>P2-14, PR-5</td>
+<td>« Sécuriser offert à tout IDE » est corrigé (<code>57c5e52</code>), et « exécutant absent de DemandeFSE » est faux (<code>b/sesam/interface.py</code>, champ <code>executant</code>).</td>
+</tr>
+<tr>
+<td>P2-39</td>
+<td>EX-TB-05</td>
+<td>« IK non couvertes » : elles sont produites sous le réglage <code>deplacements</code> (<code>b/cotation/demo.py:340-405</code>).</td>
+</tr>
+<tr>
+<td>P2-40</td>
+<td>T-08, EX-ACI-07, PAN-RG-11</td>
+<td>Manques déjà levés : VIT-RG-03 au terminal, <code>SchemaSites</code> au terminal, « le serveur seul admet 0 ».</td>
+</tr>
+<tr>
+<td>P2-41</td>
+<td>EX-ID-02, EX-ID-06 bis</td>
+<td>Les tests mobile et web existent (<code>msf_widgets_test</code>, <code>w/test/Lot21</code>) mais ne sont pas cités.</td>
+</tr>
+<tr>
+<td>P2-42</td>
+<td>En-têtes de la matrice</td>
+<td>« 506 règles » au lieu de 504 ; « 71 questions » au lieu de 80. Commentaires de code périmés : <code>b/domaines/prescription_infirmiere.py:9</code>, <code>b/domaines/transmissions.py:recevoir_externe</code>.</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Points de spécification sans suite</strong> (à préciser ou à tracer) :</p>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Référence</th>
+<th>Constat</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>P2-43</td>
+<td>§4.8 « liste exhaustive des événements journalisés » ; §7.2 inventaire des écrans (données, actions, acteurs, hors connexion O/N, écrans suivants)</td>
+<td>Ni l'une ni l'autre n'est écrite. Le §5 de la matrice ne liste que les écrans.</td>
+</tr>
+<tr>
+<td>P2-44</td>
+<td>Restes divers</td>
+<td>§6.9 délai d'alerte d'une interpellation non lue (absent) ; §6.12 filtres (période seulement) ; CV-13 (<code>annuler_rendez_vous</code> accepte « non réalisé → annulé », transition absente du cycle du CDC) ; NPS-F08 [P] ; PSE-E07 (verrouillage clavier sans widget) ; fiche 18 : ancienneté de chaque mesure au terminal et filtre de position au poste fixe.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="4-échantillon-des-lignes--fait--71">4. Échantillon des lignes « Fait » (71)</h2>
+<p>Verdicts : <strong>C</strong> = confirmé ; <strong>Pa</strong> = partiel ; <strong>F</strong> = faux ; <strong>Pf</strong> = preuve faible. Une précision entre parenthèses signale une preuve citée à corriger ou un client sans test.</p>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Id</th>
+<th>Section</th>
+<th>Verdict</th>
+<th>Constat (code ; test)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HAB-16</td>
+<td>§3.2</td>
+<td><strong>F</strong></td>
+<td><code>b/habilitations.py:MATRICE</code> ; le test vérifie le refus de l'AS, contraire au tableau 3 (P0-01).</td>
+</tr>
+<tr>
+<td>PR-8 bis</td>
+<td>§1</td>
+<td><strong>Pf</strong></td>
+<td>Le déclencheur <code>commentaire</code> n'est pas testé ; l'ajout sans écrasement l'est (<code>t/test_tracabilite::test_historique_des_commentaires_par_champ</code>).</td>
+</tr>
+<tr>
+<td>HAB-32</td>
+<td>§3.2</td>
+<td>C</td>
+<td><code>t/test_habilitations::test_hab32_compteurs_de_saisie_differee</code>.</td>
+</tr>
+<tr>
+<td>ACT-07</td>
+<td>§3.1</td>
+<td><strong>Pa</strong></td>
+<td>Le tableau 2 dit que l'administrateur « gère … référentiels » ; le code le met en lecture seule (Q-33). Le test ne porte pas sur cet acteur.</td>
+</tr>
+<tr>
+<td>CV-02</td>
+<td>§5</td>
+<td>C</td>
+<td><code>t/test_lacunes_clients::test_arret_retire_les_occurrences_a_venir_et_garde_l_historique</code>.</td>
+</tr>
+<tr>
+<td>CV-07</td>
+<td>§5</td>
+<td>C</td>
+<td><code>t/test_transmissions::test_interpellation_emise_lue_traitee</code>.</td>
+</tr>
+<tr>
+<td>CV-13</td>
+<td>§5</td>
+<td><strong>Pa</strong></td>
+<td>Transition « non réalisé → annulé » hors CDC ; « réalisé » et le 409 ne sont pas testés.</td>
+</tr>
+<tr>
+<td>CV-16</td>
+<td>§5</td>
+<td>C</td>
+<td><code>t/test_socle::test_signal_dosage_anticoagulant_leve_par_une_injection_sous_la_nouvelle_valeur</code>.</td>
+</tr>
+<tr>
+<td>EX-FA-01</td>
+<td>§6.7</td>
+<td>C</td>
+<td><code>t/test_facturation::test_le_moteur_recoit_le_contrat_complet…</code>.</td>
+</tr>
+<tr>
+<td>EX-FA-06</td>
+<td>§6.7</td>
+<td><strong>Pa</strong></td>
+<td>Règles copiées dans les clients (P1-07).</td>
+</tr>
+<tr>
+<td>EX-SC-05</td>
+<td>§6.8</td>
+<td>C</td>
+<td><code>t/test_transmissions::test_entretien_infirmier_lie_a_l_acte_sans_cotation</code> ; <code>w/test/Lot6</code> ; <code>m/test/socle_test</code>.</td>
+</tr>
+<tr>
+<td>EX-PI-07</td>
+<td>§6.8</td>
+<td>C</td>
+<td>Pas de test web du choix ponctuel.</td>
+</tr>
+<tr>
+<td>EX-TR-04</td>
+<td>§6.9</td>
+<td><strong>Pa</strong></td>
+<td>Le terminal ne lit ni ne traite (P1-04).</td>
+</tr>
+<tr>
+<td>EX-TR-07</td>
+<td>§6.9</td>
+<td>C</td>
+<td>Preuve inégale (P2-16).</td>
+</tr>
+<tr>
+<td>EX-CO-04</td>
+<td>§6.10</td>
+<td>C</td>
+<td><code>t/test_actes_distance::test_acte_distance_de_plaie_photo_seule</code> ; <code>m/test/lot10_widgets_test</code> (formulaire web : P1-05).</td>
+</tr>
+<tr>
+<td>EX-DO-01</td>
+<td>§6.11</td>
+<td>C</td>
+<td>Serveur seulement, pas de test web.</td>
+</tr>
+<tr>
+<td>EX-ID-02</td>
+<td>§6.1</td>
+<td>C</td>
+<td><code>t/test_identite::test_creation_hors_connexion_rejouable</code> (test mobile non cité).</td>
+</tr>
+<tr>
+<td>EX-ID-06 bis</td>
+<td>§6.1</td>
+<td>C</td>
+<td><code>t/test_dossier::test_contextes_listes_et_clos</code>.</td>
+</tr>
+<tr>
+<td>EX-DS-08</td>
+<td>§6.2</td>
+<td>C</td>
+<td>La meilleure preuve n'est pas citée : <code>t/test_dossier::test_synthese_en_un_ecran</code>.</td>
+</tr>
+<tr>
+<td>EX-PF-03</td>
+<td>§6.4</td>
+<td>C</td>
+<td>Preuve citée faible (P2-17).</td>
+</tr>
+<tr>
+<td>EX-PF-05</td>
+<td>§6.4</td>
+<td>C</td>
+<td><code>t/test_organisation::test_frequence_ponctuelle_creee_et_servie_hors_connexion</code> ; <code>mobile/test/lot7_test</code>.</td>
+</tr>
+<tr>
+<td>EX-PAR-06</td>
+<td>§6.4 bis</td>
+<td>C</td>
+<td><code>t/test_parcours::test_plafond_et_compteurs_restitues</code> ; <code>w/test/Lot11</code>.</td>
+</tr>
+<tr>
+<td>EX-PAR-11</td>
+<td>§6.4 bis</td>
+<td>C</td>
+<td>Serveur seulement, pas de test web.</td>
+</tr>
+<tr>
+<td>EX-TO-03</td>
+<td>§6.5</td>
+<td>C</td>
+<td><code>t/test_echanges::test_refus_d_attribution_propose_la_reattribution</code> ; <code>w/test/Lot8</code>.</td>
+</tr>
+<tr>
+<td>EX-RS-01</td>
+<td>§6.6</td>
+<td>C</td>
+<td>Preuve citée faible (P2-17).</td>
+</tr>
+<tr>
+<td>PAN-RG-07</td>
+<td>F1</td>
+<td>C</td>
+<td><code>t/test_regles_absentes::test_saignement_majeur_sur_plaie_chirurgicale_notification_proposee</code> (envoi au poste fixe seulement).</td>
+</tr>
+<tr>
+<td>PAN-RG-11</td>
+<td>F1</td>
+<td>C</td>
+<td><code>t/test_actes::test_ablation_bornee_par_le_reliquat</code> (texte de matrice périmé).</td>
+</tr>
+<tr>
+<td>STD-RG-14</td>
+<td>F2</td>
+<td>C</td>
+<td>« Nécrotique » non testé.</td>
+</tr>
+<tr>
+<td>STU-RG-14</td>
+<td>F3</td>
+<td>C</td>
+<td><code>t/test_dispositifs::test_reprise_apres_repose_des_sondes</code> (pas de test web).</td>
+</tr>
+<tr>
+<td>PIV-RG-03</td>
+<td>F4</td>
+<td><strong>Pa</strong></td>
+<td>Au terminal, l'état « prévue / non posée » n'est pas saisissable.</td>
+</tr>
+<tr>
+<td>PIV-RG-16</td>
+<td>F4</td>
+<td>C</td>
+<td><code>t/test_perfusion_iv::test_cloture_bloquee_par_une_ligne_ouverte</code>.</td>
+</tr>
+<tr>
+<td>PSC-RG-04</td>
+<td>F5</td>
+<td><strong>F</strong></td>
+<td>Une notification est envoyée (P0-02).</td>
+</tr>
+<tr>
+<td>MED-RG-07</td>
+<td>F6</td>
+<td><strong>Pa</strong></td>
+<td>Le poste fixe confond les deux piluliers (P1-36).</td>
+</tr>
+<tr>
+<td>MED-RG-16</td>
+<td>F6</td>
+<td><strong>Pf</strong></td>
+<td>Le maintien du traitement n'est pas vérifié.</td>
+</tr>
+<tr>
+<td>NUT-RG-08</td>
+<td>F8</td>
+<td>C</td>
+<td><code>t/test_nutrition_enterale::test_ligne_de_nuit_deux_signataires_et_cloture_bloquee</code>.</td>
+</tr>
+<tr>
+<td>DIA-RG-10</td>
+<td>F10</td>
+<td><strong>Pa</strong></td>
+<td>Écart commenté, mais le « compté » est absent.</td>
+</tr>
+<tr>
+<td>ACI-RG-04</td>
+<td>F11</td>
+<td>C</td>
+<td><code>t/test_partiel_c2_fiches::test_changement_de_specialite_signale_puis_leve</code>.</td>
+</tr>
+<tr>
+<td>ACI-RG-08</td>
+<td>F11</td>
+<td>C</td>
+<td><code>t/test_regles_absentes::test_anti_xa_et_tca_hors_bornes_prescrits_signales_sans_interpellation</code>.</td>
+</tr>
+<tr>
+<td>NUR-RG-03</td>
+<td>F12</td>
+<td>C</td>
+<td><code>t/test_nursing::test_deux_signatures_simultanees_un_seul_forfait</code> (vraie concurrence).</td>
+</tr>
+<tr>
+<td>PCA-RG-09</td>
+<td>F13-14</td>
+<td>C</td>
+<td><code>t/test_pca::test_doses_recues_tentees_et_controle</code>.</td>
+</tr>
+<tr>
+<td>PCA-RG-17</td>
+<td>F13-14</td>
+<td>C</td>
+<td><code>t/test_pca::test_reliquat_de_stupefiant_et_cloture</code>.</td>
+</tr>
+<tr>
+<td>NPS-RG-01</td>
+<td>F15</td>
+<td>C</td>
+<td><code>t/test_neuropsy::test_quatre_troubles_a_reponse_obligatoire_rg01</code>.</td>
+</tr>
+<tr>
+<td>NPS-RG-05</td>
+<td>F15</td>
+<td>C</td>
+<td><code>t/test_neuropsy::test_idees_de_mort_quel_que_soit_le_cran_rg05</code>.</td>
+</tr>
+<tr>
+<td>PSE-RG-07</td>
+<td>F16</td>
+<td>C</td>
+<td><code>t/test_pse::test_fin_de_seringue_cree_une_occurrence_qui_se_deplace</code> ; intégration mobile18a.</td>
+</tr>
+<tr>
+<td>PSE-RG-20</td>
+<td>F16</td>
+<td><strong>Pa</strong></td>
+<td>Le terminal propose la séance hors du moment fixé (P1-48).</td>
+</tr>
+<tr>
+<td>PSE-RG-21</td>
+<td>F16</td>
+<td><strong>Pa</strong></td>
+<td>L'occurrence de séance est absente (P0-04).</td>
+</tr>
+<tr>
+<td>DIP-RG-14</td>
+<td>F17</td>
+<td>C</td>
+<td>Pas de test mobile.</td>
+</tr>
+<tr>
+<td>VIT-RG-03</td>
+<td>F18</td>
+<td>C</td>
+<td><code>t/test_regles_absentes::test_imc_calcule_sur_la_taille_contemporaine</code> ; <code>mobile24_widgets_test</code>.</td>
+</tr>
+<tr>
+<td>INJ-RG-06</td>
+<td>F19</td>
+<td>C</td>
+<td><code>t/test_injections::test_lot_obligatoire_pour_vaccin_et_serum</code> (sérum non testé).</td>
+</tr>
+<tr>
+<td>EX-INJ-06 / INJ-RG-11</td>
+<td>F19</td>
+<td><strong>Pa</strong></td>
+<td>« Non produite » est accepté sans suivi (P1-61).</td>
+</tr>
+<tr>
+<td>INJ-RG-07</td>
+<td>F19</td>
+<td><strong>Pf</strong></td>
+<td>Historique partagé non testé entre deux fiches.</td>
+</tr>
+<tr>
+<td>UGD-RG-14</td>
+<td>F20</td>
+<td><strong>Pa</strong></td>
+<td>Condition cochée par l'infirmier (P1-46).</td>
+</tr>
+<tr>
+<td>PRL-RG-18</td>
+<td>F21</td>
+<td>C</td>
+<td><code>t/test_regles_absentes::test_saignee_cree_seance_suivante_et_ferritinemie_a_j_moins_3</code>.</td>
+</tr>
+<tr>
+<td>RES-RG-10</td>
+<td>F22</td>
+<td>C</td>
+<td><code>t/test_soins_respiratoires::test_canule_en_serie_intervalle_calcule_rappel_sans_occurrence</code> (pas de test au terminal).</td>
+</tr>
+<tr>
+<td>ALR-RG-19</td>
+<td>F23</td>
+<td>C</td>
+<td>Serveur, et <code>mobile18a_widgets_test</code> « Autonomie calculée : 54 ».</td>
+</tr>
+<tr>
+<td>C1</td>
+<td>C</td>
+<td><strong>Pa</strong></td>
+<td>Seule la réponse obligatoire est testée ; les règles d'écran sont fausses (P0-28).</td>
+</tr>
+<tr>
+<td>C8</td>
+<td>C</td>
+<td>C</td>
+<td>Preuve citée faible (P2-17).</td>
+</tr>
+<tr>
+<td>C17</td>
+<td>C</td>
+<td><strong>F</strong></td>
+<td>Palette sans rapport avec C17 sur les deux clients (§7.6).</td>
+</tr>
+<tr>
+<td>C25</td>
+<td>C</td>
+<td><strong>Pa</strong></td>
+<td>Alertes J4 et J5 testées ; période de diurèse absente (P0-29).</td>
+</tr>
+<tr>
+<td>EX-CI-05</td>
+<td>F24</td>
+<td><strong>Pf</strong></td>
+<td>Le test n'affirme que la tension et le pouls (P1-70).</td>
+</tr>
+<tr>
+<td>EX-CI-11</td>
+<td>F24</td>
+<td>C</td>
+<td><code>t/test_fiche24::test_cloture_motivee_retire_les_seances_et_garde_l_historique</code>.</td>
+</tr>
+<tr>
+<td>EX-CI-37</td>
+<td>F24</td>
+<td>C</td>
+<td>L'obstacle à la signature n'est pas testé (P2-22).</td>
+</tr>
+<tr>
+<td>EX-CI-16</td>
+<td>F24</td>
+<td>C</td>
+<td>Serveur (<code>t/test_fiche24::test_art5ter_duree_ic_48_heures…</code>), web (<code>Fiche24.test</code> « décompte de 48 h ») et terminal (<code>lot24_widgets_test</code>).</td>
+</tr>
+<tr>
+<td>OFF-06</td>
+<td>§8</td>
+<td>C</td>
+<td><code>t/test_organisation::test_frequence_ponctuelle_creee_et_servie_hors_connexion</code> ; <code>lot7_widgets_test</code> « passage imprévu ».</td>
+</tr>
+<tr>
+<td>OFF-09</td>
+<td>§8</td>
+<td>C</td>
+<td>Note périmée (P2-29).</td>
+</tr>
+<tr>
+<td>OFF-11</td>
+<td>§8</td>
+<td>C</td>
+<td><code>mobile/test/lot7_test</code> « le planning part en tête » ; <code>t/test_echanges::test_echange_hors_connexion_par_la_file</code>.</td>
+</tr>
+<tr>
+<td>OFF-17</td>
+<td>§8</td>
+<td>C</td>
+<td><code>t/test_tableau_de_bord::test_saisie_differee_par_intervenant_et_cabinet</code>.</td>
+</tr>
+<tr>
+<td>OFF-19</td>
+<td>§8</td>
+<td>C</td>
+<td>Le bon test n'est pas cité (P2-17).</td>
+</tr>
+<tr>
+<td>T-15</td>
+<td>§5</td>
+<td><strong>Pf</strong></td>
+<td>Fonction testée, écran non testé (P2-14).</td>
+</tr>
+<tr>
+<td>W-13</td>
+<td>§5</td>
+<td>C</td>
+<td><code>w/test/Lot8</code> « Planning par rôle ».</td>
+</tr>
+<tr>
+<td>TER-04</td>
+<td>§11</td>
+<td>C</td>
+<td><code>mobile/test/chiffrement_test</code> (rien en clair, altération refusée, clé perdue).</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="5--simulé--qui-peuvent-devenir--fait---partiel--et--bloqué--à-revoir">5. « Simulé » qui peuvent devenir « Fait », « Partiel » et « Bloqué » à revoir</h2>
+<h3 id="51-les-258-lignes--simulé-">5.1 Les 258 lignes « Simulé »</h3>
+<p>Ces 258 lignes se répartissent ainsi : 188 au §2, 58 règles de fiches, 2 composants, 8 écrans et 2 mesures de l'avenant.</p>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Groupe</th>
+<th style="text-align: right;">Lignes</th>
+<th>Que faire</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Dépendent vraiment d'un tiers : SESAM-Vitale, INSi, ADRi, IDB, CPS, PSC, DMP, MSSanté en réception, moteur NGAP, référentiels sous licence ou de source officielle, avis HAS, hébergeur</td>
+<td style="text-align: right;">133</td>
+<td>Rien à faire avant le partenaire.</td>
+</tr>
+<tr>
+<td>Attendent une décision réellement ouverte (D-01, 02, 04, 05, 06, 08, 10, 11, 12, 13, 21 ; Q-01, Q-18, Q-27 ; ACI-O3, NPS-O11, RES-O5, RES-O19)</td>
+<td style="text-align: right;">34</td>
+<td>Décision du fondateur (§7).</td>
+</tr>
+<tr>
+<td>Invoquent une décision <strong>déjà tranchée</strong> (§7.4) : NUR-RG-16, NUR-RG-06, EX-NUR-05, VIT-RG-09, INJ-RG-20, EX-NPS-02, D-18 (partie plateforme)</td>
+<td style="text-align: right;">7</td>
+<td>Appliquer la décision écrite (S chacune), puis passer en Fait.</td>
+</tr>
+<tr>
+<td><strong>Peuvent passer Fait sans partenaire</strong></td>
+<td style="text-align: right;">80</td>
+<td>Voir ci-dessous.</td>
+</tr>
+<tr>
+<td>Restent Simulé ou à reclasser autrement : HAB-11 → Partiel ; HAB-21 → Bloqué (D-08) ; HAB-23 (D-10) ; MOD-13 (validation LOINC)</td>
+<td style="text-align: right;">4</td>
+<td>—</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Pourquoi 80 lignes peuvent passer Fait.</strong> Dans la plupart des cas, il suffit de reclasser la ligne de matrice (lot L17), parce que la règle de la plateforme est codée et testée et que seul le service aval est factice :</p>
+<ul>
+<li><strong>La fiche n'a qu'à transmettre des faits ou restituer le retour du moteur</strong> (29 lignes). La partie plateforme est faite ; « le moteur décide » relève de TABSANTE.</li>
+<li>§2 : EX-NUT-03, EX-ACI-10, EX-PV-07, EX-INJ-07, EX-UGD-02, EX-RES-06, EX-RES-07, EX-ALR-10, EX-CI-01, EX-CI-02, EX-CI-07, EX-CI-08, EX-CI-09, EX-SC-01, EX-FA-03.</li>
+<li>Règles : STD-RG-10, PIV-RG-06, MED-RG-22, NUT-RG-14, DIA-RG-20, DIA-RG-21, ACI-RG-13, NUR-RG-05, DIP-RG-29, VIT-RG-02, INJ-RG-12, UGD-RG-08, RES-RG-47, ALR-RG-36.</li>
+<li>Limites : DIA-RG-21, ACI-RG-13 et EX-ACI-10 disent « déclenche la facturation ». Pour PIV-RG-06, la doublure est fausse (P1-08).</li>
+<li><strong>Document produit, signé, immuable et versé au registre ; seul le transport MSSanté ou DMP est un bouchon</strong> (19 lignes) :</li>
+<li>§2 : EX-MED-06, EX-MED-21, EX-INJ-06 ter, EX-PF-06 nonies, EX-PAR-07, EX-CI-26, EX-CI-28, EX-CI-40, EX-CO-05, EX-DO-02, EX-PRL-06, EX-SC-04.</li>
+<li>Règles : MED-RG-21, INJ-RG-10, PRL-RG-07, PRL-RG-12, PRL-RG-22.</li>
+<li>Écran : W-07.</li>
+<li>Composant : C6, mais seulement après P1-03.</li>
+<li><strong>Droit ou règle codé par nous, seule la FSE est factice</strong> (20 lignes) :</li>
+<li>HAB-03, 04, 05, 19, 24, 25, 27, 28, 30, 31 ;</li>
+<li>ACT-02, ACT-06, PR-2, PR-5, CV-01 ;</li>
+<li>PCA-RG-13, PCA-RG-14, UGD-RG-17, ALR-RG-22 (blocage C23, <code>b/domaines/facturation.py:BLOCAGES_C23</code>) ;</li>
+<li>EX-TB-07 (contrôle avant envoi bloquant dans <code>mettre_en_lot</code>).</li>
+<li><strong>Mécanisme fait, seule la valeur D-04 reste ouverte</strong> (portée par OFF-13 et D-04) : EX-RS-05, OFF-16, EX-TB-06.</li>
+<li><strong>Autres</strong> : OFF-07 (<code>ConnexionRequise</code> au terminal), STD-RG-07 (référentiel embarqué et synchronisé), PRL-RG-05, EX-ID-06 quater (affichage et cotation provisoire au terminal), EX-FA-05 et EX-FA-08 (reconfirmation, file de contrôle ; émetteur selon le mode d'exercice).</li>
+<li><strong>Un petit développement reste nécessaire</strong> pour quatre lignes :</li>
+<li>PRL-RG-06 : le serveur doit exiger <code>identite_controlee_le</code>. S.</li>
+<li>ALR-RG-09 : lire le seuil dans le protocole (P1-65). M.</li>
+<li>C6 au terminal (P1-03). M.</li>
+<li>RES-RG-16 : signaler l'absence de voie inhalée dans MED-F13.</li>
+</ul>
+<p><strong>À reclasser en Bloqué (décision interne) plutôt qu'en Simulé</strong>, car aucune doublure ne tient leur place :
+- EX-PV-02 quater : licence des tables de l'OMS ;
+- EX-PV-03 : validation de la table LOINC.</p>
+<p>Hors des chiffres ci-dessus, <strong>NFR-04 (Keycloak)</strong> est Simulé alors que le courtier d'identité s'installe sans partenaire. Seules la CPS et PSC en dépendent (P1-21).</p>
+<h3 id="52--partiel--et--bloqué-">5.2 « Partiel » et « Bloqué »</h3>
+<p>Aucune cause n'a disparu. Toutes ont été revérifiées dans le code au commit <code>c62573e</code> :</p>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Ligne</th>
+<th>Cause annoncée</th>
+<th>Toujours vraie ?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EX-SE-03, TER-05</td>
+<td>Kiosque et Keystore non éprouvés sur l'appareil</td>
+<td>Oui : pas de SDK Android ni d'appareil.</td>
+</tr>
+<tr>
+<td>SEC-04</td>
+<td>Keycloak et CPS réels</td>
+<td>Oui, mais Keycloak seul est faisable (P1-21).</td>
+</tr>
+<tr>
+<td>SEC-06</td>
+<td>AIPD à valider par le DPO</td>
+<td>Oui.</td>
+</tr>
+<tr>
+<td>NFR-07</td>
+<td>Pas d'API FHIR d'échange ni de profils FR Core</td>
+<td>Oui : codable, L.</td>
+</tr>
+<tr>
+<td>NFR-08, NFR-09</td>
+<td>Mesures et montée de version sur l'infrastructure cible</td>
+<td>Oui.</td>
+</tr>
+<tr>
+<td>NFR-11</td>
+<td>Accessibilité du terminal, langues</td>
+<td>Oui.</td>
+</tr>
+<tr>
+<td>EX-SE-05, P2-07, TER-06, D-09 (Bloqué)</td>
+<td>DPO, HDS, matériel, phasage</td>
+<td>Oui.</td>
+</tr>
+<tr>
+<td>NUT-RG-16</td>
+<td>Pas de test au terminal</td>
+<td>Oui : aucun test sur <code>Key('suivi-poids-ta')</code>. Un test de widget suffit (S).</td>
+</tr>
+<tr>
+<td>PCA-RG-12</td>
+<td>Payeur non affiché au terminal</td>
+<td>Oui : seul « non payable » s'affiche (P1-49).</td>
+</tr>
+<tr>
+<td>C16</td>
+<td>Codes non validés ; listes en <code>Literal</code></td>
+<td>Oui (P1, L19).</td>
+</tr>
+<tr>
+<td>C18</td>
+<td>Filtre par produit au terminal</td>
+<td>Oui (P1-68).</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="6-cohérence-entre-les-trois-clients">6. Cohérence entre les trois clients</h2>
+<p>Le tableau 43 du CDC place au <strong>domicile</strong> : la traçabilité et l'horodatage de l'acte, les constantes, la photo, la consultation du dossier et du plan de soins, la lecture des cartes, la FSE unitaire, la signature, la consultation infirmière, les transmissions ciblées, le passage imprévu et l'échange de tournée.</p>
+<p>Il place au <strong>cabinet</strong> : la rédaction et le raisonnement (bilans, comparaison photographique, courriers), la mise en lot, les retours et rejets, l'organisation, les QR Codes, les référentiels, le pilotage, la télésanté et les compteurs de saisie différée.</p>
+<h3 id="61-demandé-au-domicile-absent-ou-incomplet-au-terminal">6.1 Demandé au domicile, absent ou incomplet au terminal</h3>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Sujet</th>
+<th>Référence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Transmission ciblée par l'aide-soignant (absente aussi des deux autres clients)</td>
+<td>P0-01</td>
+</tr>
+<tr>
+<td>Photo au passage : PCA, ALR, anticoagulant</td>
+<td>P1-01</td>
+</tr>
+<tr>
+<td>Consultation du plan de soins</td>
+<td>P1-02</td>
+</tr>
+<tr>
+<td>Interpellation : la lire et la traiter</td>
+<td>P1-04</td>
+</tr>
+<tr>
+<td>Notification proposée (C6) : envoyer ou écarter, depuis les fiches 1, 2, 3, 11 et 15</td>
+<td>P1-03</td>
+</tr>
+<tr>
+<td>Perfusion IV : consommables, dilution, ligne non posée et son motif, commentaires de ligne, poids, palier</td>
+<td>P1-26, P1-28, P1-33</td>
+</tr>
+<tr>
+<td>Stomies : type « autre », urologue</td>
+<td>P1-32</td>
+</tr>
+<tr>
+<td>Bloc AVK (INR cible, prochain INR, ordonnances), chute plaquettaire, dose précédente du patch, fin de traitement C12</td>
+<td>P1-34, P1-35, P1-38, P1-39</td>
+</tr>
+<tr>
+<td>Fiche 10 : transcription du protocole, historique glycémique</td>
+<td>P1-44</td>
+</tr>
+<tr>
+<td>Fiche 18 : épreuve de lever, O₂ prescrit, commentaire par constante, régularité du pouls, interface d'O₂, ancienneté des mesures</td>
+<td>P0-08, P0-09, P1-33, P1-54, P2-44</td>
+</tr>
+<tr>
+<td>Fiche 17 : prochain pansement, volumes du cycleur</td>
+<td>P1-59</td>
+</tr>
+<tr>
+<td>PCA et PSE : cadre HAD ou libéral, échelle de douleur, « déjà porté », séance hors du moment fixé</td>
+<td>P1-48 à P1-50, P1-52</td>
+</tr>
+<tr>
+<td>Fiche 15 : historique</td>
+<td>P1-56</td>
+</tr>
+<tr>
+<td>Prélèvements : sites selon la nature</td>
+<td>P0-23</td>
+</tr>
+<tr>
+<td>ALR : température</td>
+<td>P0-27</td>
+</tr>
+<tr>
+<td>Lecture du timbre « Signer et transmettre »</td>
+<td>P1-66</td>
+</tr>
+<tr>
+<td>Composants C1 (écran), C18 (filtre), C20 (ancienneté), C23 (séjour hors PCA et PSE), C24 (écart horaire), C25 (relevé en fiche 20)</td>
+<td>P0-28, P1-68, P1-67, P1-20, P0-07, P1-47</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="62-demandé-au-cabinet-absent-ou-incomplet-au-poste-fixe">6.2 Demandé au cabinet, absent ou incomplet au poste fixe</h3>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Sujet</th>
+<th>Référence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Prescription infirmière : signature par la carte (le terminal l'a), envoi depuis l'écran de la prescription</td>
+<td>P1-24</td>
+</tr>
+<tr>
+<td>Télésanté : l'acte à distance de plaie ne se crée qu'au terminal</td>
+<td>P1-05</td>
+</tr>
+<tr>
+<td>Restitutions : registre des stupéfiants, rotation des appuis, courbe PCA en sédation profonde, filtres de C22, filtre de position des tensions</td>
+<td>P1-51, P0-13, P1-53, P1-58, P2-44</td>
+</tr>
+<tr>
+<td>Pilulier : préparation et vérification confondues au poste fixe, alors qu'elles sont justes au terminal</td>
+<td>P1-36</td>
+</tr>
+<tr>
+<td>Tableau de bord du cabinet : horaire sans pièce, BSI à 60 jours, tuberculine sans lecture, séjour HAD au premier acte, constantes manquantes, résultats attendus</td>
+<td>P0-06, P0-14, P0-26, P1-69, P1-55, P1-63</td>
+</tr>
+<tr>
+<td>Référentiels : le tableau 2 les fait gérer par l'administrateur, le code les met en lecture seule</td>
+<td>§7.6</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="63-sens-inverse-et-règles-copiées-dans-les-clients">6.3 Sens inverse, et règles copiées dans les clients</h3>
+<ul>
+<li><strong>Fait au poste fixe alors que la fiche le veut au domicile :</strong> l'ouverture d'une VVP avec heure de pose saisie à la main (P1-29). Le web crée et sécurise aussi des FSE, alors que le tableau 43 met la FSE unitaire au terminal : c'est tolérable, mais à écrire.</li>
+<li><strong>Règles dupliquées, contre EX-FA-06 et le principe 9 :</strong> <code>m/cotation.dart:cleCotation</code> et <code>facturable</code>, <code>w/pages/Facturation.tsx:97</code>, <code>w/pages/Transmissions.tsx:REQUALIFICATIONS</code> (P1-07).</li>
+</ul>
+<h2 id="7-décisions-du-fondateur-71-de-la-matrice">7. Décisions du fondateur (§7.1 de la matrice)</h2>
+<p>Le §7.1 compte 80 lignes (Q-01 à Q-80, sans trou ni doublon de numéro), alors que son en-tête annonce « 71 questions ». Une fois retirés les doublons, les questions hors CDC, celles déjà tranchées et celles dont la réponse est dans un texte public, il en reste une trentaine à poser vraiment.</p>
+<h3 id="71-doublons-du-registre-du-cdc-d-nn">7.1 Doublons du registre du CDC (D-nn)</h3>
+<p>Il faut les fusionner avec la D-nn, sans seconde entrée.</p>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Q</th>
+<th>≡</th>
+<th>Sujet</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Q-02</td>
+<td>D-10</td>
+<td>FSE des actes du remplaçant</td>
+</tr>
+<tr>
+<td>Q-10</td>
+<td>D-01</td>
+<td>Recalage des fréquences espacées</td>
+</tr>
+<tr>
+<td>Q-11</td>
+<td>D-11</td>
+<td>Passage imprévu sans prescription</td>
+</tr>
+<tr>
+<td>Q-12</td>
+<td>D-17</td>
+<td>Pansement du cathéter neuraxial</td>
+</tr>
+<tr>
+<td>Q-14</td>
+<td>D-07</td>
+<td>Composant SESAM-Vitale</td>
+</tr>
+<tr>
+<td>Q-23</td>
+<td>D-21</td>
+<td>Support de la fiche de suivi RAAC</td>
+</tr>
+<tr>
+<td>Q-75</td>
+<td>D-18</td>
+<td>Valorisation sous convention HAD</td>
+</tr>
+<tr>
+<td>Q-37, Q-43, Q-45 (durée), Q-58</td>
+<td>⊂ D-06</td>
+<td>Durées de conservation par type de donnée</td>
+</tr>
+<tr>
+<td>Q-36</td>
+<td>⊂ D-04 + D-10</td>
+<td>Remontée hors connexion après la fin d'un remplacement</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="72-doublons-internes-au-71">7.2 Doublons internes au §7.1</h3>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Questions</th>
+<th>En quoi</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Q-77 ⊂ Q-08</td>
+<td>Le déplacement non prescrit est un cas des indemnités de déplacement ; Q-77 renvoie d'ailleurs à Q-08.</td>
+</tr>
+<tr>
+<td>Q-32 ≈ Q-33 (≈ D-14)</td>
+<td>Toutes deux portent sur l'outil de TABSANTE pour publier référentiels et motifs.</td>
+</tr>
+<tr>
+<td>Q-17 (2ᵉ moitié) ≈ Q-18</td>
+<td>Toutes deux demandent ce qui part au DMP et aux destinataires pour un thème sensible (EX-CI-36).</td>
+</tr>
+<tr>
+<td>Q-42 ≈ Q-53, Q-57</td>
+<td>L'avis d'arrivée automatique au patient est un rappel automatique.</td>
+</tr>
+<tr>
+<td>Q-39, Q-40, Q-41</td>
+<td>Une seule dépendance, la cartographie, déjà au §7.</td>
+</tr>
+<tr>
+<td>Q-46, Q-47, Q-48</td>
+<td>Un seul sujet : les indisponibilités.</td>
+</tr>
+<tr>
+<td>Q-38</td>
+<td>Même question que la ligne « Solution vidéo » du §7 et qu'INT-16 [P].</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="73-questions-hors-cdc">7.3 Questions hors CDC</h3>
+<p>Q-53 à Q-60 (rappels automatiques, cadrage non engagé), Q-67 (site public) et Q-70 (hébergement de l'intégration continue) ne portent sur aucune exigence du CDC. Elles sont à déplacer dans une liste « hors CDC ».</p>
+<h3 id="74-questions-déjà-tranchées-par-le-cdc-une-fiche-ou-un-composant">7.4 Questions déjà tranchées par le CDC, une fiche ou un composant</h3>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Q</th>
+<th>Passage qui tranche</th>
+<th>Ce qui est branché</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Q-80</td>
+<td>Fiche 04 §6 l.501 : « Ligne posée et non déposée … non cotable en l'état ». L.499 : durées transmises « à la dépose — pas à la signature du passage ». PIV-RG-06 [T].</td>
+<td><strong>Contraire</strong> : <code>b/cotation/demo.py:_perfusion</code> cote le forfait à la pose (P1-08). La vraie question est de savoir s'il faut réécrire la fiche 04 sur le texte de la NGAP ; tant qu'elle ne l'est pas, la doublure contredit une règle [T].</td>
+</tr>
+<tr>
+<td>Q-62</td>
+<td>Fiche 17 §11, « Décisions et références closes » (17/09/2026), DIP-O11 : « La tension reste dans cette fiche ». EX-PV-05 [T] n'unifie que le poids.</td>
+<td><strong>Conforme</strong> (<code>tension_dialyse</code> propre, <code>b/domaines/series.py</code>). VIT-RG-09 n'est que [P] et contredit une décision close : le code peut passer en Fait, seule la contradiction du texte est à lever.</td>
+</tr>
+<tr>
+<td>Q-64</td>
+<td>CDC §4.4 l.154 : la nuit relève de la NGAP, « ni paramétrable ni à inventer » ; les trois autres moments ont des « bornes … libres, sans effet sur la cotation [P] ». EX-FA-02 ter : nuit « après 20 h ou avant 6 h ».</td>
+<td><strong>Contraire pour la nuit</strong> : <code>PLAGES_MOMENT</code> met 19 h – 8 h, alors que <code>horaire_de_nuit</code> suit 20 h – 6 h (P1-10).</td>
+</tr>
+<tr>
+<td>Q-30</td>
+<td>NUR-RG-16 [T] (fiche 12 l.326) : « option d'installation, réservée aux SELAS ».</td>
+<td><strong>Contraire</strong> : le module est activé « dès qu'un aide-soignant exerce » (P1-41). La question cite NUR-RG-21 au lieu de NUR-RG-16.</td>
+</tr>
+<tr>
+<td>Q-13 (en partie)</td>
+<td>Fiche 12 : intermédiaires « plafonnés à deux sur douze mois glissants » (l.42) ; NUR-F04 « Réalisation + 1 an » (l.218) ; coté « au dépôt du PDF » (l.314).</td>
+<td><strong>Réglable à tort</strong> : 1 à 3 intermédiaires, 6 ou 12 mois (<code>b/simulation.py:273-275</code>). Il faut fixer 2 et 12. Seul le circuit du PDF reste ouvert.</td>
+</tr>
+<tr>
+<td>Q-29</td>
+<td>C18 : « Seuil déclaré par la fiche » [P]. La structure (un seuil par fiche) est tranchée, la valeur reste ouverte.</td>
+<td><strong>Contraire sur la structure</strong> : <code>b/domaines/tracabilite.py:SUR_EMPLOI</code> est un seuil global.</td>
+</tr>
+<tr>
+<td>Q-26</td>
+<td>ACI-RG-07 (fiche 11 l.350) : variation « contre la référence et contre la valeur précédente » ; seuls le seuil et la notification restent ouverts (ACI-O3).</td>
+<td><strong>Conforme</strong> (<code>b/fiches/anticoagulant.py:regles</code> calcule les deux). La question est à réduire au seuil, et ses références sont fausses (ACI-RG-13 et 14 au lieu d'ACI-RG-07 et ACI-O3).</td>
+</tr>
+<tr>
+<td>Q-61</td>
+<td>Fiche 19 INJ-E01 (l.288) : « Jeu ordinaire ou jeu du contexte actif — §2. Types unitaires ».</td>
+<td><strong>Conforme</strong> (<code>b/fiches/__init__.py:ACTES</code>). Reste une question nouvelle : la lecture tuberculinique se prescrit-elle à part ?</td>
+</tr>
+<tr>
+<td>Q-03 (lieu de résidence)</td>
+<td>EX-MED-19 [T] fixe les lieux qui ne sont pas un domicile.</td>
+<td><strong>Conforme.</strong> Seules les majorations exclues restent au moteur.</td>
+</tr>
+<tr>
+<td>Q-25 (perfusion)</td>
+<td>PIV-RG-05 [T] : « notifie l'intervenant attribué à la tournée ».</td>
+<td><strong>Conforme.</strong> Seul le repli « au cabinet » reste à trancher.</td>
+</tr>
+<tr>
+<td>EX-NPS-02</td>
+<td>Fiche 15 l.162 : « EX-NPS-02 est tranché ».</td>
+<td>Fait (<code>piece_neuropsy</code>) ; seule la cartographie du moteur (NPS-O1) reste à TABSANTE.</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="75-questions-dont-la-réponse-est-dans-un-texte-public">7.5 Questions dont la réponse est dans un texte public</h3>
+<p>Q-05 (dates de l'avenant 11, fiche du 01/10), Q-06 (DROM), Q-07 (article 11 B), Q-09 (fériés : Code du travail et droit local d'Alsace-Moselle), Q-19, Q-21 et Q-22 (avenant 11), Q-76 (JO du 20/06/2026) et Q-79 (avenant 6) : il suffit que TABSANTE confirme la lecture faite par le moteur. Elles n'appellent pas d'arbitrage du fondateur.</p>
+<h3 id="76-décisions-à-ajouter-au-registre">7.6 Décisions à ajouter au registre</h3>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Sujet</th>
+<th>Contradiction ou point ouvert</th>
+<th>Choix actuel du code</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pulvérisation</td>
+<td>§6.3 bis l.821 : « n'a pas à figurer dans Injections [T] ». Fiche 19 l.647 et tableau l.1255 : « relevant de cette fiche ».</td>
+<td>Le code suit la fiche 19.</td>
+</tr>
+<tr>
+<td>Transmission ciblée par l'aide-soignant</td>
+<td>Tableau 3 : AS = E.</td>
+<td>Le code refuse (P0-01). Si c'est voulu, il faut une décision écrite ; sinon, c'est un défaut.</td>
+</tr>
+<tr>
+<td>Charte de couleurs C17 [T]</td>
+<td>Palette fixée (Soin #DCEBEA, Critique #A62B38, rampe ambre).</td>
+<td>Le design retenu (« Clinique premium », <code>m/charte.dart</code>, <code>w/styles.css</code>) n'en reprend aucune valeur. Il faut une décision écrite qui remplace C17, sinon C17 est faux sur les deux clients.</td>
+</tr>
+<tr>
+<td>Événement critique C7 [T]</td>
+<td>« Jamais depuis une fiche … un seul point d'entrée ».</td>
+<td>Il existe un menu du passage (<code>m/ecrans/socle.dart</code>), mais aussi quatre raccourcis dans les fiches (<code>m/ecrans/fiche_lot16:454</code>, <code>lot17:1621</code>, <code>lot18:217</code>, <code>lot19:81</code>). La fiche 23 l'autorise pour l'ALR ; les autres sont à arbitrer.</td>
+</tr>
+<tr>
+<td>Administrateur du cabinet et référentiels</td>
+<td>Tableau 2 : « gère … référentiels [T] ».</td>
+<td>Lecture seule ; TABSANTE publie (Q-33).</td>
+</tr>
+<tr>
+<td>Une fréquence, plusieurs objets</td>
+<td>§4.3 : « plusieurs objets suivis ou un seul [P] ».</td>
+<td><code>Frequence.objet_suivi_id</code> est unique.</td>
+</tr>
+<tr>
+<td>Voie inhalée</td>
+<td>RES-RG-16 renvoie la voie à la fiche 06.</td>
+<td>La liste MED-F13 (fiche 06 l.328) n'a pas de voie inhalée, alors que <code>b/fiches/commun.py</code> l'a ajoutée.</td>
+</tr>
+<tr>
+<td>Acte partiellement réalisé</td>
+<td>§6.6 → [à préciser].</td>
+<td>Pas de statut générique (P1-16).</td>
+</tr>
+<tr>
+<td>Q-01, silence vaut accord</td>
+<td>Question légitime (EX-ALR-08 [P]).</td>
+<td>La matrice (§3.1, fiche 23) rattache à tort le « silence de la caisse » à D-17, qui porte sur le pansement neuraxial.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="8-lots-de-correction-proposés">8. Lots de correction proposés</h2>
+<p>Les lots sont découpés par zone de code, pour que plusieurs agents travaillent en même temps sans se marcher dessus.</p>
+<p><strong>Première vague (L1 à L14, L16, L18 et L19), en parallèle.</strong> Certains fichiers sont partagés ; ce sont les seuls points de friction :</p>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Fichier partagé</th>
+<th>Lots</th>
+<th>Ce que chacun y touche</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>m/fiches.dart</code>, <code>m/ecrans/fiche.dart</code></td>
+<td>L8, L10, L12, L15</td>
+<td>Diabète, constantes, injections et prélèvements, photo. Des classes distinctes, mais il faut rebaser souvent.</td>
+</tr>
+<tr>
+<td><code>b/fiches/__init__.py</code></td>
+<td>L2, L12</td>
+<td><code>non_transmis</code> pour L2, crochet <code>apres</code> d'INJECTION pour L12.</td>
+</tr>
+<tr>
+<td><code>b/domaines/socle.py</code></td>
+<td>L1, L4</td>
+<td><code>correspondants</code> et rendez-vous pour L1, <code>programmer_rappel</code> pour L4.</td>
+</tr>
+<tr>
+<td><code>b/domaines/tableau_de_bord.py</code></td>
+<td>L13 seul</td>
+<td>Les autres lots fournissent des fonctions dans leurs propres modules, que L13 expose.</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Seconde vague : L15</strong> (terminal transverse), une fois L3 à L12 fusionnés. <strong>L17</strong> (matrice et décisions) passe en dernier.</p>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Lot</th>
+<th>Zone</th>
+<th>Manques</th>
+<th>Fichiers probables</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>L1</strong></td>
+<td>Transmissions, notifications, coordination</td>
+<td>P0-01 ; P1-03, 04, 05, 06 ; P1-07 (copie <code>REQUALIFICATIONS</code>) ; P2-44 (délai d'alerte, CV-13) ; notification d'un dépôt aux soignants</td>
+<td><code>b/habilitations.py</code>, <code>b/domaines/transmissions.py</code>, <code>socle.py</code> (<code>correspondants</code>, rendez-vous), <code>coordination.py</code>, <code>actes_distance.py</code> ; <code>w/pages/Transmissions.tsx</code>, <code>Propositions.tsx</code>, <code>Partage.tsx</code>, <code>Signalements.tsx</code>, <code>w/Notifications.tsx</code> ; <code>m/ecrans/transmissions.dart</code>, <code>evenement.dart</code>, <code>m/socle.dart</code> ; <code>t/test_transmissions.py</code>, <code>test_habilitations.py</code> (figer les cellules du CDC)</td>
+</tr>
+<tr>
+<td><strong>L2</strong></td>
+<td>Contrat du moteur et doublure</td>
+<td>P0-05 ; P1-07 (clé de cotation et « facturable » fournies par le serveur), P1-08, 09, 10</td>
+<td><code>b/fiches/__init__.py</code> (<code>non_transmis</code>), <code>b/cotation/__init__.py</code>, <code>b/cotation/demo.py</code>, <code>b/domaines/actes.py</code> (<code>PLAGES_MOMENT</code>) ; <code>m/cotation.dart</code> ; <code>w/pages/Facturation.tsx</code> ; <code>t/test_moteur_demo.py</code>, <code>t/test_perfusion_sc.py</code></td>
+</tr>
+<tr>
+<td><strong>L3</strong></td>
+<td>Perfusions IV et SC (fiches 4 et 5)</td>
+<td>P0-02, P0-03 ; P1-26, 27, 28</td>
+<td><code>b/fiches/perfusions.py</code> ; <code>m/fiches_lot3.dart</code>, <code>m/ecrans/fiche_lot3.dart</code> ; <code>w/pages/Perfusions.tsx</code></td>
+</tr>
+<tr>
+<td><strong>L4</strong></td>
+<td>Pansements, stomies, pose des dispositifs (fiches 1 à 3)</td>
+<td>P0-19 à P0-22 ; P1-29 à P1-32 ; STD-RG-10 (contrôle au serveur)</td>
+<td><code>b/fiches/stomies.py</code>, <code>b/domaines/dispositifs.py</code>, <code>plaies.py</code>, <code>materiel.py</code>, <code>socle.py:programmer_rappel</code>, <code>b/fiches/perfusions.py:CatheterIVIn</code> ; <code>m/ecrans/dispositif.dart</code>, <code>cloture.dart</code>, <code>ouverture.dart</code>, <code>m/domaine.dart</code> ; <code>w/pages/Stomies.tsx</code>, <code>Dispositif.tsx</code>, <code>PoseDispositif.tsx</code></td>
+</tr>
+<tr>
+<td><strong>L5</strong></td>
+<td>Bilans, documents, prescription infirmière</td>
+<td>P0-18 (bilans de perfusion, stomie, nutrition, trachéotomie, CPAP) ; P1-22 à P1-25</td>
+<td><code>b/rythmes.py</code> (<code>BILANS</code>), <code>b/domaines/bilans.py</code>, <code>documents.py</code>, <code>prescription_infirmiere.py</code> ; <code>w/pages/Bilans.tsx</code>, <code>PrescriptionInfirmiere.tsx</code>, <code>w/simulation.tsx</code></td>
+</tr>
+<tr>
+<td><strong>L6</strong></td>
+<td>Prescriptions, fréquences, attribution, C24</td>
+<td>P0-07 (calcul de l'écart) ; P1-11 à P1-16</td>
+<td><code>b/domaines/prescriptions.py</code>, <code>ordonnances.py</code>, <code>tournees.py</code>, <code>actes.py</code> (écart horaire) ; <code>w/pages/Frequence.tsx</code>, <code>Ordonnance.tsx</code>, <code>Tournees.tsx</code></td>
+</tr>
+<tr>
+<td><strong>L7</strong></td>
+<td>Fiches 6 et 7, 11, 12</td>
+<td>P0-11, 12, 13, P0-17 (fiche 11) ; P1-34 à P1-41 ; Q-13 (2 intermédiaires, 12 mois)</td>
+<td><code>b/fiches/medicaments.py</code>, <code>anticoagulant.py</code>, <code>nursing.py</code>, <code>b/simulation.py</code> (module AS, BSI), <code>b/domaines/biologie.py</code> ; <code>m/fiches_lot2.dart</code>, <code>m/ecrans/fiche_lot2.dart</code> ; <code>w/pages/Medicaments.tsx</code>, <code>Anticoagulant.tsx</code>, <code>Nursing.tsx</code>, <code>Soins.tsx</code></td>
+</tr>
+<tr>
+<td><strong>L8</strong></td>
+<td>Fiches 8, 10, 20 et C25</td>
+<td>P0-15, 16, P0-17 (fiche 10), P0-29 ; P1-42 à P1-47 ; NUT-RG-16 (test de widget)</td>
+<td><code>b/fiches/nutrition.py</code>, <code>diabete.py</code>, <code>uro_genito_digestif.py</code>, <code>b/fiches/commun.py</code> (<code>ReleveElimination</code>), <code>b/domaines/elimination.py</code>, <code>parcours.py:eligibilite_hebdo</code> ; <code>m/fiches_lot10.dart</code>, <code>m/ecrans/fiche_lot10.dart</code>, <code>m/fiches.dart</code> (diabète), <code>m/restitution.dart</code> ; <code>w/pages/Nutrition.tsx</code>, <code>Diabete.tsx</code>, <code>UroGenital.tsx</code></td>
+</tr>
+<tr>
+<td><strong>L9</strong></td>
+<td>PCA et PSE (fiches 13-14, 16)</td>
+<td>P0-04 ; P1-48 à P1-53</td>
+<td><code>b/fiches/pca.py</code>, <code>pse.py</code>, <code>b/domaines/seance.py</code> ; <code>m/fiches_lot16.dart</code>, <code>m/ecrans/fiche_lot16.dart</code>, <code>episode.dart</code> ; <code>w/pages/Pompes.tsx</code></td>
+</tr>
+<tr>
+<td><strong>L10</strong></td>
+<td>Constantes et neuropsychiatrie (fiches 18, 15)</td>
+<td>P0-08, P0-09 ; P1-54, 56, 57, 58 ; P2-44 (fiche 18)</td>
+<td><code>b/fiches/vitaux.py</code>, <code>b/domaines/series.py</code>, <code>dossier.py</code> (O₂ prescrit), <code>b/fiches/neuropsy.py</code>, <code>b/domaines/neuropsy.py</code> ; <code>m/fiches.dart:SaisieVitaux</code>, <code>m/ecrans/fiche.dart:CorpsVitaux</code>, <code>m/fiches_lot19.dart</code>, <code>m/ecrans/fiche_lot19.dart</code> ; <code>w/pages/Vitaux.tsx</code>, <code>Neuropsy.tsx</code></td>
+</tr>
+<tr>
+<td><strong>L11</strong></td>
+<td>Dialyse et analgésie locorégionale (fiches 17, 23)</td>
+<td>P0-27 ; P1-59, P1-65</td>
+<td><code>b/fiches/dialyse.py</code>, <code>analgesie.py</code> ; <code>m/fiches_lot17.dart</code>, <code>m/ecrans/fiche_lot17.dart</code> ; <code>w/pages/Dialyse.tsx</code>, <code>Analgesie.tsx</code></td>
+</tr>
+<tr>
+<td><strong>L12</strong></td>
+<td>Injections, prélèvements, soins respiratoires (fiches 19, 21, 22)</td>
+<td>P0-10, P0-23, 24, 25 ; P1-60 à P1-64, P1-66 ; PRL-RG-06 (exiger <code>identite_controlee_le</code>)</td>
+<td><code>b/fiches/injections.py</code>, <code>prelevements.py</code>, <code>respiratoire.py</code>, <code>b/fiches/__init__.py</code> (crochet <code>apres</code> d'INJECTION), <code>b/domaines/biologie.py</code>, <code>materiel.py</code> ; <code>m/fiches.dart</code> (injections, prélèvements), <code>m/ecrans/fiche.dart</code> (<code>CorpsInjection</code>, <code>CorpsPrelevement</code>), <code>m/fiches_lot18.dart</code> ; <code>w/pages/Soins.tsx</code>, <code>Biologie.tsx</code>, <code>Saignee.tsx</code>, <code>Respiratoire.tsx</code></td>
+</tr>
+<tr>
+<td><strong>L13</strong></td>
+<td>Tableau de bord du cabinet</td>
+<td>P0-06, P0-14, P0-26 ; P1-55, P1-63 (résultats attendus), P1-69 ; P2-44 (filtres)</td>
+<td><code>b/domaines/tableau_de_bord.py</code>, <code>b/domaines/lectures.py</code> ; <code>w/pages/TableauDeBord.tsx</code></td>
+</tr>
+<tr>
+<td><strong>L14</strong></td>
+<td>Identité, dossier, HAD</td>
+<td>P1-17 à P1-20</td>
+<td><code>b/domaines/identite.py</code>, <code>dossier.py</code>, <code>patients.py</code>, <code>prise_en_charge.py</code>, <code>sync.py</code> (déclencheur des téléservices), <code>b/models.py</code> + migration (décès) ; <code>w/pages/Identite.tsx</code>, <code>Synthese.tsx</code>, <code>DossierPatient.tsx</code> ; <code>m/ecrans/dossier.dart</code>, <code>tournee.dart</code></td>
+</tr>
+<tr>
+<td><strong>L15</strong> (2ᵉ vague)</td>
+<td>Terminal transverse</td>
+<td>P0-07 (affichage), P0-28 ; P1-01, 02, 33, 67, 68 ; P2-14 (test du motif différé) ; vues C18 sacrée et talons</td>
+<td><code>m/fiches.dart:fichesAvecPhoto</code>, <code>m/ecrans/fiche.dart</code>, <code>m/charte.dart:EchelleCrans</code>, <code>m/restitution.dart</code>, <code>m/terminal.dart</code> (plan de soins), <code>b/fiches/commun.py</code> (vues C18)</td>
+</tr>
+<tr>
+<td><strong>L16</strong></td>
+<td>Fiche 24</td>
+<td>P1-70, P1-71 ; P2-22</td>
+<td><code>b/domaines/consultations.py</code> ; <code>w/pages/SousFiche.tsx</code> ; <code>m/fiches_lot24.dart</code>, <code>m/ecrans/fiche_lot24.dart</code> ; <code>t/test_fiche24.py</code></td>
+</tr>
+<tr>
+<td><strong>L17</strong> (dernier)</td>
+<td>Matrice, décisions, documentation</td>
+<td>Reclassements du §5.1 ; Fait à rétrograder (HAB-16, PSC-RG-04, C17 et les 11 du §2) ; P2-01 à P2-12 (lignes manquantes), P2-29 à P2-42 (notes périmées), P2-43 ; nettoyage du §7.1 (§7) ; schéma des liens §4.9 ; test du déclencheur <code>commentaire</code> (P2-13)</td>
+<td><code>docs/couverture_cdc.md</code>, <code>docs/exploitation/</code>, <code>t/test_immuabilite.py</code></td>
+</tr>
+<tr>
+<td><strong>L18</strong></td>
+<td>Courtier d'identité Keycloak</td>
+<td>P1-21 (NFR-04 ; SEC-04 en partie)</td>
+<td><code>docker-compose.yml</code>, <code>infra/</code>, <code>b/auth.py</code>, <code>b/psc.py</code>, <code>docs/exploitation/interfaces/cps-et-connexion.md</code></td>
+</tr>
+<tr>
+<td><strong>L19</strong></td>
+<td>Référentiels et codage C16</td>
+<td>C16 (listes <code>Literal</code> vers des référentiels versionnés, validation datée par TABSANTE)</td>
+<td><code>b/referentiels/</code>, <code>b/domaines/referentiels.py</code>, <code>b/fiches/*.py</code> (listes), <code>scripts/referentiels.py</code></td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Décisions à obtenir avant d'engager certains lots</strong> (§7) :
+- L1 : la transmission ciblée par l'AS ;
+- L2 : Q-80, la cotation de la perfusion ;
+- L6 : l'acte partiel ;
+- L12 : la pulvérisation ;
+- L15 : C7 et C17.</p>
+<p>Les autres lots peuvent partir tout de suite.</p>
+</main>
+</body>
+</html>

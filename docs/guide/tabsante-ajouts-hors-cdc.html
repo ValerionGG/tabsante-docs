@@ -1,0 +1,958 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TabSanté V2 — Ajouts hors CDC</title>
+<meta name="description" content="Ce que TabSanté V2 fait en plus du cahier des charges (CDC V2 et fiche 24), où c'est, pourquoi on l'a ajouté, son état et la décision qui l'attend.">
+<!--
+  RAFRAÎCHIR CE GUIDE
+  - Fichier autonome : CSS et JS en ligne, aucun appel réseau. Même gabarit que la documentation technique et le glossaire-FAQ.
+  - Une entrée = un ajout au produit que le CDC (docs/reference/cdc_v2_texte.txt, fiche24-bilans-consultation.txt)
+    n'exige pas, dépasse nettement, ou qui complète un point qu'il laisse à préciser ([P], ou flèche « → »).
+    Une exigence du CDC livrée n'a rien à faire ici : elle est suivie dans docs/couverture_cdc.md.
+  - Les données sont dans des blocs <script type="application/json" data-theme="<id>">, dans l'ordre d'affichage :
+      {"titre", "intro", "entrees": [ … ]}
+  - Entrée : {"n": nom, "d": ce que ça fait (HTML simple), "o": [poste|terminal|serveur|site|doc|outil],
+             "p": pourquoi (raison du commit ou de la demande ; « raison non consignée » sinon),
+             "s": en-place | simule | provisoire | en-cours,
+             "c": hors (absent du CDC) | au-dela (va au-delà d'une exigence) | precise (complète un point à préciser),
+             "r": par rapport au CDC (section et ligne), "dec": décision attendue (libellé du §7.1, facultatif),
+             "t": traces (commits, fichiers), "v": [mots cherchés en plus, facultatif]}
+  - Tableau de synthèse, comptes, sommaire et ancres (#a-<nom>) sont calculés au chargement : ajouter une entrée suffit.
+  - Pas de guillemets droits dans les textes (utiliser « » et ’) ; jamais la séquence de fin de script.
+  - META (date, commit) : dans l'en-tête ci-dessous.
+-->
+<style>
+:root{
+  --primaire:#2F5BEA;--primaire-fonce:#2449C4;--primaire-50:#EEF2FE;--primaire-100:#DCE5FD;
+  --succes:#067647;--succes-50:#ECFDF3;--alerte:#B54708;--alerte-encre:#7A2E0E;--alerte-200:#FEDF89;--alerte-50:#FFFAEB;
+  --danger:#B42318;--danger-50:#FEF3F2;--violet:#5925DC;--violet-50:#F4F3FF;
+  --encre:#0F172A;--encre-2:#334155;--discret:#64748B;--champ:#8A95A8;--bord-champ:#CBD3DF;--bord:#E6EAF0;--filet:#EEF1F6;
+  --neutre-50:#F1F4F9;--surface-2:#F8FAFC;--surface:#FFFFFF;--fond:#F4F6FA;
+  --r-ctrl:10px;--r-btn:12px;--r-tuile:14px;--r-surface:16px;--r-surface-lg:20px;
+  --ombre-1:0 1px 2px rgba(16,24,40,.05),0 1px 3px rgba(16,24,40,.06);
+  --ombre-2:0 12px 24px -12px rgba(16,24,40,.18),0 2px 4px rgba(16,24,40,.04);
+  --police:"Inter Variable",Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,"Cascadia Mono",Consolas,"SFMono-Regular",Menlo,monospace;
+  --barre:288px;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:16px;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+body{margin:0;background:var(--fond);color:var(--encre);font:400 15px/1.55 var(--police);font-feature-settings:"cv11"}
+a{color:var(--primaire-fonce);text-underline-offset:2px}
+a:hover{color:var(--primaire)}
+:focus-visible{outline:2px solid var(--primaire);outline-offset:2px;border-radius:4px}
+.evitement{position:absolute;left:-9999px;top:8px;background:var(--surface);padding:10px 14px;border-radius:var(--r-btn);box-shadow:var(--ombre-2);z-index:10}
+.evitement:focus{left:8px}
+code,kbd,pre{font-family:var(--mono);font-size:.86em}
+code{background:var(--neutre-50);color:var(--encre-2);padding:1px 5px;border-radius:6px;overflow-wrap:anywhere}
+kbd{border:1px solid var(--bord-champ);border-bottom-width:2px;border-radius:6px;padding:0 5px;background:var(--surface);color:var(--encre-2)}
+.mise-en-page{display:grid;grid-template-columns:var(--barre) minmax(0,1fr);min-height:100vh}
+.barre{position:sticky;top:0;height:100vh;overflow:auto;background:var(--surface);border-right:1px solid var(--bord);padding:20px 16px 32px}
+.marque{display:flex;gap:10px;align-items:center;margin:0 4px 16px;text-decoration:none;color:var(--encre)}
+.marque span:first-child{display:grid;place-items:center;width:32px;height:32px;border-radius:10px;background:var(--primaire);color:#fff;font-weight:800;font-size:15px}
+.marque strong{font-size:15px;font-weight:800;letter-spacing:-.01em;display:block}
+.marque small{font-size:12.5px;color:var(--discret)}
+.recherche{position:sticky;top:-20px;background:var(--surface);padding:4px 0 12px;z-index:2}
+.recherche label{display:block;font-size:13px;font-weight:600;color:var(--encre-2);margin:0 4px 6px}
+.recherche input{width:100%;height:42px;border:0;border-radius:var(--r-btn);padding:0 12px;font:inherit;font-size:14.5px;color:var(--encre);background:var(--surface);box-shadow:inset 0 0 0 1px var(--champ)}
+.recherche input:focus{outline:none;box-shadow:inset 0 0 0 2px var(--primaire)}
+.recherche p{margin:6px 4px 0;font-size:12.5px;color:var(--discret);min-height:1.2em}
+.toc ol{list-style:none;margin:0;padding:0}
+.toc li{margin:1px 0}
+.toc a{display:flex;justify-content:space-between;gap:8px;padding:6px 10px;border-radius:var(--r-ctrl);color:var(--encre-2);text-decoration:none;font-size:13.5px;font-weight:500;line-height:1.35}
+.toc a:hover{background:var(--surface-2);color:var(--encre)}
+.toc a[aria-current="true"]{background:var(--primaire-50);color:var(--primaire-fonce);font-weight:650}
+.toc a.vide{opacity:.45}
+.toc .n{font-variant-numeric:tabular-nums;font-size:12px;color:var(--discret)}
+.toc-titre{font-size:13px;font-weight:700;color:var(--encre-2);margin:14px 6px 6px}
+.toc details>summary{display:none}
+main{padding:28px 32px 64px;max-width:1080px;width:100%}
+.entete{margin-bottom:20px}
+.entete h1{font-size:28px;line-height:1.2;font-weight:800;letter-spacing:-.03em;margin:0 0 6px}
+.entete p{margin:0;color:var(--encre-2);max-width:72ch}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.puce{display:inline-flex;align-items:center;gap:6px;height:26px;padding:0 10px;border-radius:999px;font-size:12.5px;font-weight:600;background:var(--neutre-50);color:var(--encre-2);white-space:nowrap}
+.puce.fait{background:var(--succes-50);color:var(--succes)}
+.puce.provisoire,.puce.decision{background:var(--alerte-50);color:var(--alerte)}
+.puce.simule{background:var(--violet-50);color:var(--violet)}
+.puce.bleu{background:var(--primaire-50);color:var(--primaire-fonce)}
+.puce.cdc{background:var(--surface);color:var(--primaire-fonce);box-shadow:inset 0 0 0 1px var(--primaire-100)}
+.puce.lieu{background:var(--surface);color:var(--encre-2);box-shadow:inset 0 0 0 1px var(--bord-champ)}
+section.chapitre{margin-top:28px}
+section.chapitre>h2{font-size:22px;line-height:1.25;font-weight:800;letter-spacing:-.02em;margin:0 0 12px;display:flex;gap:10px;align-items:center}
+section.chapitre>h2 .num{display:inline-grid;place-items:center;min-width:28px;height:28px;border-radius:8px;background:var(--primaire-50);color:var(--primaire-fonce);font-size:14px;font-weight:700}
+.carte{background:var(--surface);border-radius:var(--r-surface);box-shadow:var(--ombre-1);padding:18px 22px;margin:0 0 16px}
+.carte>h3{font-size:16.5px;font-weight:700;margin:0 0 8px;line-height:1.3}
+.carte>p:first-child{margin-top:0}
+.carte p,.carte li{max-width:80ch}
+.carte ul,.carte ol{padding-left:20px;margin:6px 0}
+.carte li{margin:3px 0}
+.encadre{border-radius:var(--r-tuile);padding:12px 14px;margin:14px 0 0;background:var(--alerte-50);color:var(--alerte-encre);box-shadow:inset 0 0 0 1px var(--alerte-200);max-width:80ch}
+.encadre.info{background:var(--primaire-50);color:var(--encre);box-shadow:inset 0 0 0 1px var(--primaire-100)}
+.encadre strong{color:inherit}
+.table{overflow-x:auto;margin:8px 0;border-radius:var(--r-btn);box-shadow:inset 0 0 0 1px var(--bord)}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{text-align:left;vertical-align:top;padding:8px 12px;border-bottom:1px solid var(--filet)}
+th{background:var(--surface-2);font-weight:650;color:var(--encre-2)}
+tr:last-child td{border-bottom:0}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+tfoot td{font-weight:700;background:var(--surface-2)}
+caption{text-align:left;font-size:13px;color:var(--discret);padding:0 0 6px}
+.cache{display:none!important}
+.mots{display:none}
+::highlight(recherche){background-color:var(--alerte-200);color:var(--encre)}
+.pied{margin-top:40px;font-size:13px;color:var(--encre-2)}
+.public-intro{margin:-4px 0 14px;color:var(--encre-2);max-width:80ch}
+.legende{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;margin:8px 0}
+.puces{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 10px}
+dl.champs{display:grid;grid-template-columns:150px minmax(0,1fr);gap:6px 16px;margin:0}
+dl.champs dt{font-size:13px;font-weight:650;color:var(--encre-2);padding-top:1px}
+dl.champs dd{margin:0;max-width:80ch}
+dl.champs dd p{margin:0 0 4px}
+.traces{margin:10px 0 0;padding-top:8px;border-top:1px solid var(--filet);font-size:12.5px;color:var(--discret)}
+.traces strong{color:var(--encre-2)}
+.lieux{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 0}
+@media (max-width:900px){
+  .mise-en-page{display:block}
+  .barre{position:static;height:auto;border-right:0;border-bottom:1px solid var(--bord);padding:16px}
+  .recherche{position:static}
+  .toc details>summary{display:block;cursor:pointer;font-weight:650;font-size:14px;padding:10px 4px;color:var(--encre-2)}
+  main{padding:20px 16px 48px}
+  .entete h1{font-size:24px}
+  .carte{padding:16px}
+  dl.champs{grid-template-columns:1fr;gap:2px}
+  dl.champs dd{margin-bottom:8px}
+}
+@media print{
+  body{background:#fff;font-size:11pt}
+  .barre,.evitement{display:none!important}
+  .mise-en-page{display:block}
+  main{padding:0;max-width:none}
+  .carte{box-shadow:none;border:1px solid #bbb;break-inside:avoid;padding:10px 12px}
+  .carte h3,h2{break-after:avoid}
+  .puce{border:1px solid #999;background:#fff!important;color:#000!important;box-shadow:none!important}
+  .encadre{background:#fff!important;color:#000!important;box-shadow:none;border:1px solid #999}
+  a{color:#000}
+  .cache{display:revert!important}
+  ::highlight(recherche){background:none}
+  table{break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<a class="evitement" href="#contenu">Aller au contenu</a>
+<div class="mise-en-page">
+<nav class="barre" aria-label="Sommaire et recherche">
+  <a class="marque" href="#haut"><span aria-hidden="true">T</span><span><strong>TabSanté V2</strong><small>Ajouts hors CDC</small></span></a>
+  <div class="recherche" role="search">
+    <label for="recherche">Rechercher un ajout</label>
+    <input id="recherche" type="search" autocomplete="off" spellcheck="false" placeholder="verrou, vidéo, démonstration…" aria-describedby="recherche-aide recherche-etat">
+    <p id="recherche-aide" class="cache">Raccourci : touche barre oblique ou Ctrl K. Échap efface.</p>
+    <p id="recherche-etat" role="status" aria-live="polite"></p>
+  </div>
+  <div class="toc"><details open><summary>Sommaire</summary><div id="sommaire"></div></details></div>
+</nav>
+
+<main id="contenu" tabindex="-1">
+<header class="entete" id="haut">
+  <h1>TabSanté V2 — ce qu'on a ajouté au CDC, et pourquoi</h1>
+  <p>Tout ce que le produit fait en plus de ce que demande le cahier des charges (CDC V2 du 5 octobre 2026 et sa fiche 24) : les fonctions demandées en cours de route, la sécurité renforcée après les audits, les garde-fous cliniques et de facturation, l'outillage qui tient la qualité. Pour chaque ajout : ce qu'il fait, où il se trouve, pourquoi il a été fait, son état, et la décision qui l'attend s'il y en a une. Les exigences du CDC elles-mêmes sont suivies ailleurs : <a href="tabsante-documentation-technique.html">documentation technique</a>, <a href="tabsante-glossaire-faq.html">glossaire et FAQ</a>, <a href="../couverture_cdc.html">matrice de couverture du CDC</a>. La comparaison avec Carea, l'ancienne application : <a href="carea-vs-tabsante.html">Carea et TabSanté</a> (synthèse, feuille de route, migration) et audit Carea et Cirona (détail).</p>
+  <!-- META : à mettre à jour à chaque rafraîchissement -->
+  <div class="meta" id="meta" data-source="git log main ; docs/couverture_cdc.md §7.1">
+    <span class="puce bleu">État au 15 octobre 2026</span>
+    <span class="puce">main <code>ff74608</code></span>
+    <span class="puce" id="compte-ajouts"></span>
+  </div>
+  <p class="encadre info"><strong>À noter.</strong> Depuis le 9 octobre, la géolocalisation est sur <code>main</code> (10 octobre) et les idées retenues de l'audit Carea et Cirona y sont réécrites en cinq lots (15 octobre) : thèmes 7 et 8. Le même jour, après <code>3d7a39a</code>, sept lots de plus : site public (thème 1) ; banc CNDA, reprise Carea et préparation des passages, trois reprises directes de Carea (thème 7) ; confort quotidien (recherche, @mention, notifications locales, photo de l'entrée, thème 5) ; qualité (idempotence, limitation de débit en base, thèmes 2 et 3) ; intégration continue et performance de <code>/sync</code> (thème 6). Chaque ajout cite sa raison dans l'audit ou dans le commit. Ce qui, dans ces lots, est exigé par le CDC (cotation par passage, remontée fidèle de <code>/sync</code>, DRE et tiers payant, reprise de dossiers, corrections du lot qualité) est en bas de page, parmi les éléments écartés.</p>
+</header>
+
+<section class="chapitre" id="bref" aria-labelledby="h-bref">
+<h2 id="h-bref">En bref</h2>
+<article class="carte">
+  <div class="table"><table id="synthese">
+    <caption>Nombre d'ajouts par thème et par état ; les deux dernières colonnes recoupent les autres.</caption>
+    <thead><tr><th scope="col">Thème</th><th scope="col" class="n">Ajouts</th><th scope="col" class="n">En place</th><th scope="col" class="n">Simulé</th><th scope="col" class="n">Provisoire</th><th scope="col" class="n">En cours</th><th scope="col" class="n">Complète un point à préciser</th><th scope="col" class="n">Décision attendue</th></tr></thead>
+    <tbody></tbody><tfoot></tfoot>
+  </table></div>
+  <div class="lieux" id="lieux" aria-label="Ajouts par endroit"></div>
+  <div id="a-retenir"></div>
+</article>
+</section>
+
+<section class="chapitre" id="lire" aria-labelledby="h-lire">
+<h2 id="h-lire">Comment lire cette page</h2>
+<article class="carte">
+  <p>Chaque ajout a été vérifié dans le code et l'historique de <code>main</code> au commit indiqué. La raison donnée est celle de la demande, du message de commit ou du document qui l'accompagne ; quand rien n'est écrit, la carte dit « raison non consignée ». Une exigence du CDC livrée telle quelle n'apparaît pas ici, même quand elle a été bien faite.</p>
+  <p><strong>État</strong></p>
+  <div class="legende">
+    <span><span class="puce fait">En place</span> fonctionne dans le produit</span>
+    <span><span class="puce simule">Simulé</span> une doublure de démonstration tient la place ; jamais à facturer</span>
+    <span><span class="puce provisoire">Provisoire</span> valeur ou contenu branché en attendant une décision</span>
+    <span><span class="puce bleu">En cours</span> en construction, pas encore sur <code>main</code></span>
+  </div>
+  <p><strong>Par rapport au CDC</strong></p>
+  <div class="legende">
+    <span><span class="puce cdc">Absent du CDC</span> le CDC n'en parle pas</span>
+    <span><span class="puce cdc">Au-delà du CDC</span> le CDC demande moins</span>
+    <span><span class="puce cdc">Complète un point à préciser</span> le CDC laisse ce point ouvert : marqué [P] « à préciser », ou introduit par une flèche « → » (« à compléter », « à écrire »)</span>
+    <span><span class="puce decision">Décision attendue</span> une question reste ouverte au fondateur (<a href="../couverture_cdc.html">couverture_cdc.md</a> §7.1)</span>
+  </div>
+  <p>Raccourcis : <kbd>/</kbd> ou <kbd>Ctrl</kbd> <kbd>K</kbd> pour chercher, <kbd>Échap</kbd> pour effacer, <kbd>Entrée</kbd> pour aller au premier résultat. La recherche ignore les accents et accepte plusieurs mots (« terminal simulé »).</p>
+</article>
+</section>
+
+<div id="zone-ajouts"></div>
+
+<section class="chapitre" id="ecartes" aria-labelledby="h-ecartes">
+<h2 id="h-ecartes">Vérifiés puis écartés : ce sont des exigences du CDC</h2>
+<article class="carte">
+  <p>Ces comportements ont été proposés comme ajouts ; la vérification montre que le CDC les demande. Ils sont suivis dans la <a href="../couverture_cdc.html">matrice de couverture</a>, pas ici.</p>
+  <ul>
+    <li><strong>Correction refusée sur une version déjà remplacée</strong> : conséquence directe de « aucune modification rétroactive » (principe 7, l. 97) et d'EX-CI-28 (l. 781).</li>
+    <li><strong>Autosondage compté une seule fois</strong> (fiche 20) : correction d'un double comptage introduit par le code, la règle UGD-RG-15 étant au CDC.</li>
+    <li><strong>Écart de plus de 50 % à confirmer, sans blocage</strong> : écrit tel quel dans les composants communs (C9, l. 119-120).</li>
+    <li><strong>Seconde pose d'étui en 24 heures, tracée et signalée</strong> : demandée par la fiche 12 ; seule la question d'un motif reste ouverte au §7.1 (« Rendez-vous pris à l'agenda »).</li>
+    <li><strong>Réponse de sécurité jamais présélectionnée</strong> : exigée par les composants communs (l. 53-54) ; seuls les gestes groupés sont un ajout (thème 5).</li>
+    <li><strong>Pages Croissance, Diabète, Conformité, Preuves, Sessions</strong> : elles servent des exigences du CDC (EX-PV-02 quater, EX-DIA, W-21, W-22, SEC) même sans identifiant d'écran.</li>
+    <li><strong>Cotation par passage</strong> (lot B) : le moteur reçoit « acte(s) réalisé(s) d'un passage » (EX-FA-01, l. 878) et « un même passage alimentant plusieurs fiches ne produit pas autant de lignes » (EX-FA-04, l. 884) ; seuls la sortie explicite, les règles datées et les faits de déplacement sont des ajouts (thème 7).</li>
+    <li><strong>Envoi <code>/sync</code> renvoyé pendant son écriture, même réponse sans doublon</strong> : c'est la « remontée fidèle » du CDC (§8.2, l. 957), un défaut corrigé (74822e7), pas un ajout.</li>
+    <li><strong>DRE, tiers payant et retours NOEMIE simulés</strong> : demandés par EX-FA-07 (l. 887) ; seules l'annulation de DRE et l'appli carte Vitale sont des ajouts (thème 7).</li>
+    <li><strong>Reprise de dossiers d'un autre logiciel</strong> : exigée par EX-ID-07 (l. 198), formats à décider (D-13) ; le format pivot de démonstration la sert. Seule la source Carea, reprise entité par entité, est un ajout (thème 7).</li>
+    <li><strong>Corrections du lot qualité</strong> (15 octobre) : historique des commentaires au terminal (C2), soins d'injection proposés par type (INJ-RG-20, Q-61), tension de dialyse en série propre (VIT-RG-09, Q-62), stade de la BPCO (Q-63), moment d'un passage non programmé (C5, Q-64), retrait de la responsabilité (HAB-33, Q-65), saisie hors délai validée au poste fixe seulement, support de la fiche de suivi RAAC (D-21) : des exigences du CDC, suivies dans la matrice. Seules l'idempotence et la limitation de débit en base sont des ajouts (thèmes 2 et 3).</li>
+  </ul>
+</article>
+</section>
+
+<section class="chapitre" id="a-completer" aria-labelledby="h-a-completer">
+<h2 id="h-a-completer">À compléter</h2>
+<article class="carte">
+  <p>Cette page a été établie vite, à la demande ; ces zones n'ont pas été balayées en détail et peuvent cacher d'autres ajouts :</p>
+  <ul>
+    <li>les règles de gestion des fiches 1 à 23 et les composants C1 à C25 : seules les règles signalées dans l'historique ont été comparées au CDC ;</li>
+    <li>les écrans du poste fixe et du terminal sans identifiant d'écran, au-delà de ceux listés ici ;</li>
+    <li>l'export CSV du tableau de bord (f4f6ef6), non rapproché d'une exigence ;</li>
+    <li>les rappels automatiques (WhatsApp, SMS) et le dossier « Contact et rappels » : cadrage non engagé (<code>docs/conception/rappels-whatsapp-et-planning.md</code>), à décrire ici s'ils sont construits ;</li>
+    <li>les lignes partielles C1 et C2 (9 octobre) : seules les règles provisoires réglables sont rapprochées ici, au thème 1.</li>
+  </ul>
+</article>
+</section>
+
+<footer class="pied">TabSanté V2 · ajouts hors CDC · fichier autonome, consultable hors connexion · données dans des blocs JSON séparés, à rafraîchir après chaque fusion de lot.</footer>
+</main>
+</div>
+
+<!-- ===================================================================== DONNÉES -->
+<!-- DONNEES-DEBUT -->
+<script type="application/json" data-theme="demandes">
+{"titre": "Demandés en cours de route", "intro": "Fonctions et chantiers demandés par le fondateur pendant la construction. Aucun ne figure au CDC, sauf la géolocalisation qui répond à un point qu'il laisse ouvert.", "entrees": [
+ {"n": "Module Savoir-faire", "o": ["poste", "terminal", "serveur"], "s": "en-place", "c": "hors",
+  "d": "<p>Une bibliothèque partagée du cabinet : gestes pas à pas, questions du réseau, vidéos et documents sourcés, rattachés aux fiches de soin. Chacun peut proposer ; un infirmier référent relit avant publication et fixe une date de révision ; les soignants votent « utile ». Au poste fixe, la vidéo est intégrée à la page (lecteur youtube-nocookie), jamais téléchargée ni hébergée. Au terminal, « Comment faire ? » se lit hors connexion ; la vignette est gardée et la vidéo s'ouvre dans le navigateur du téléphone.</p><p><strong>Écart avec la demande :</strong> les propositions viennent aujourd'hui des IDE et des aides-soignants ; les médecins n'ont pas de compte (le « médecin référent » n'existe que comme auteur des contenus de démonstration), et les contenus livrés sont des exemples « à valider par un référent ».</p>",
+  "p": "Demande du fondateur : une FAQ, des gestes et des vidéos alimentés par les infirmiers et les médecins, relus par un référent, avec des vidéos intégrées sans téléchargement.",
+  "r": "Absent du CDC. Le CDC range « stockage de flux vidéo » parmi les candidats hors périmètre (§2.3, l. 108) : le module le respecte, aucune vidéo n'est stockée.",
+  "t": "9e95c63 (sources), 0535ba1 (maquette), 424d993 (serveur), 5ae2382 (poste fixe), 73664a8 (terminal), fusion a40d1a5, 3 octobre · <code>backend/app/domaines/savoir_faire.py</code>, <code>web/src/pages/SavoirFaire.tsx</code>, <code>Relecture.tsx</code>, <code>mobile/lib/ecrans/savoir_faire.dart</code>",
+  "v": ["FAQ", "tutoriel", "geste", "référent", "vidéo", "YouTube"]},
+ {"n": "Illustrations des actes", "o": ["poste", "terminal", "serveur"], "s": "en-place", "c": "hors",
+  "d": "<p>21 pictogrammes de soin (Health Icons, licence CC0) sur l'onglet Soins, la page « Aujourd'hui », les titres de fiche, les filtres du Savoir-faire, les dispositifs et les tuiles de soin du terminal. En démonstration, des plaies dessinées par le serveur remplissent les séries de photos : jamais des photos de patients, chacune marquée « Image de démonstration ».</p>",
+  "p": "Demande du fondateur ; feuille de route du 3 octobre : « Reconnaissance immédiate des soins dans la tournée ».",
+  "r": "Le CDC ne demande aucun pictogramme (seulement des icônes éditer, supprimer, ajouter, l. 413). Les photos horodatées des plaies sont au CDC ; les illustrations n'en remplissent les séries que pour la démonstration.",
+  "t": "9ee4017 (sources et maquette), 3dd91b1 (poste fixe), 0150a68 (terminal), 08a1b22 et e4b6d21 (plaies de démonstration), 3 octobre · <code>web/src/assets/actes/</code>, <code>web/src/actes.tsx</code>, <code>mobile/lib/picto.dart</code>, <code>backend/app/domaines/dev.py</code>",
+  "v": ["pictogramme", "icône", "image"]},
+ {"n": "Géolocalisation : carte, météo, trafic et « Avant d'arriver »", "o": ["poste", "terminal", "serveur"], "s": "simule", "c": "precise",
+  "d": "<p>Au poste fixe, Tournées › Itinéraire et carte : la liste ordonnée d'abord, avec heures prévues et estimées, retards dits en mots et réordonnancement au clavier ; une carte MapLibre avec globe vu de loin et rues de près, domiciles numérotés, trajet et soignant simulé qui avance ; trajets, trafic et météo ; « Proposer un ordre » ; durée de chaque soin estimée d'après les passages réellement tracés de chaque intervenant, et « Et si c'était moi ? », qui refait la tournée avec les durées d'un autre ; « Avant d'arriver » (accès au domicile, allergies, contexte, changement de prescription, météo) ; départ et arrivée, en ligne et hors connexion ; accès au domicile (digicode, clés, animaux…), propres au cabinet, jamais versés au DMP, à l'export FHIR ni au portail externe. Le prochain domicile s'affiche sur Aujourd'hui.</p><p>Depuis, le lot A a affiné l'ordre proposé et le lot E a porté la tournée au terminal (thèmes 7 et 8). Géocodage, itinéraire, trafic, météo et position sont simulés.</p>",
+  "p": "Demande du fondateur, en construction le 9 octobre 2026, fusionnée le 10 octobre.",
+  "r": "Complète un point laissé à préciser par le CDC : le §6.5 se termine par « → Ordre de passage, géographie, durée estimée, tournée du lendemain, indisponibilité d'un intervenant » (l. 868). La feuille de route prévoyait « Planning de la semaine et tournée sur carte » (étape 6). La météo et le trafic vont au-delà de ce point.",
+  "dec": "« Durées des soins par intervenant », « Conservation des accès au domicile » ; les services géographiques et la position au thème 8.",
+  "t": "20648e4, 0663ce8, fdfa3f9, 0597737, ae0d733, 7154e6e, 0cd0f72, fusion db1d951 (10 octobre) · <code>backend/app/domaines/itineraires.py</code>, <code>backend/app/geo.py</code>, <code>web/src/pages/Itineraire.tsx</code>, <code>web/src/carte.tsx</code>, <code>docs/exploitation/geolocalisation.md</code>",
+  "v": ["géolocalisation", "itinéraire", "trajet", "carte", "globe", "météo", "trafic", "Et si c'était moi", "ordre de passage", "accès au domicile"]},
+ {"n": "Mode démonstration et page « Simulations »", "o": ["poste", "terminal", "serveur"], "s": "simule", "c": "au-dela",
+  "d": "<p>Un mode du serveur (<code>TABSANTE_MODE_DEMO</code>, refusé hors développement) qui fait tourner tout le produit sans les services nationaux. Un seul registre (<code>backend/app/simulation.py</code>) déclare 32 doublures, avec ce qu'elles remplacent : 17 services (lecteurs CPS et Vitale, INSi, ADRi, IDB, SESAM-Vitale, agent de poste ; messagerie sécurisée, laboratoire, DMP, ordonnance numérique, visio ; géocodage, itinéraire, trafic, météo, position GPS), 2 référentiels de démonstration (médicaments, diagnostics infirmiers NANDA-I), l'avis de la HAS sur les consultations CIA et CIB, et 12 règles provisoires réglables. La page Paramètres › Simulations les montre ; l'administration du cabinet y déclenche des pannes (carte bloquée, droits fermés, rejet de FSE, agent hors ligne, verglas…) ; les réglages sont gardés en base pour toute l'instance et remis à l'option prudente par la réinitialisation. La même page présente les cartes de démonstration, le banc de conformité et les postes de travail ; la reprise de dossiers d'un autre logiciel a sa page.</p><p>Un bandeau « Démonstration » reste affiché sur tout le poste fixe, avec les pannes en cours ; au terminal, un lecteur de cartes double fente de démonstration.</p>",
+  "p": "Demande du fondateur : montrer et éprouver tout le parcours (cartes, feuilles de soins, téléservices, échanges) avant les agréments et les raccordements, panne par panne. La matrice de couverture en donne la règle : chaque dépendance passe par un port et un adaptateur factice, « pour que la plateforme soit prête le jour où chaque tiers répond » (§7).",
+  "r": "Le CDC demande pour chaque interface un « comportement en échec » (§9, l. 969-981) et prévoit des tests de conformité à écrire (§12, l. 993) ; il ne prévoit ni doublures, ni mode de démonstration, ni pannes réglables.",
+  "dec": "Les règles réglables attendent leur décision : recalage des fréquences (D-01), passage imprévu sans prescription (D-11), pansement du cathéter neuraxial (D-17), cumuls de la distribution des médicaments et modalités du BSI (éditeur du moteur), délai de relance d'un renouvellement, indemnités de déplacement. La visio attend « Vidéo de télésanté », la géographie ses fournisseurs (§7.1).",
+  "t": "de12f55, b88fc15, fusion 7524e74 (démonstration A), edb3e6a (démonstration B), d5a41cf (registre unique), 277dcb9, 9 octobre ; 20648e4 (géographie, 10 octobre) ; 8307c24, 35eba6b (agent de poste, relance, 15 octobre) · <code>backend/app/simulation.py</code>, migration 0037b (<code>reglage_simulation</code>), <code>web/src/simulation.tsx</code>, <code>mobile/lib/ecrans/cartes.dart</code>",
+  "v": ["démo", "doublure", "panne", "bandeau", "registre", "CPS", "Vitale", "SESAM", "NOEMIE", "DMP", "MSSanté", "NANDA", "HAS", "visio"]},
+ {"n": "Documentation technique, glossaire-FAQ, audit et cette page", "o": ["doc"], "s": "en-place", "c": "hors",
+  "d": "<p>Quatre pages HTML autonomes, lisibles hors connexion et imprimables, avec recherche instantanée : la documentation technique (architecture, tables, chemins d'API, sécurité, services simulés, couverture), le glossaire-FAQ (332 termes, 135 questions pour 7 profils au commit ff74608), l'audit Carea et Cirona (14 octobre) et cette liste des ajouts.</p>",
+  "p": "Demande du fondateur, pour expliquer la plateforme à l'équipe et aux non-développeurs. Le commit décrit la forme (« Deux fichiers hors connexion […] sommaire collant, recherche instantanée sans accents, impression »), pas la raison.",
+  "r": "Absent du CDC, qui ne demande ni guide ni glossaire du produit. Les 16 fiches d'interface qu'il demande (§9) sont livrées à part, dans <code>docs/exploitation/interfaces</code>.",
+  "t": "384fa1b, f4918e6 (9 octobre), 2f21372 (audit, 14 octobre) · <code>docs/guide/</code>",
+  "v": ["guide", "glossaire", "documentation", "audit", "Carea", "Cirona"]},
+ {"n": "Design « Clinique premium »", "o": ["poste", "terminal", "doc"], "s": "en-place", "c": "au-dela",
+  "d": "<p>Un seul système visuel pour les deux clients : couleurs, rayons et ombres en jetons, police Inter, cadre à barre latérale et palette de commandes <kbd>Ctrl</kbd> <kbd>K</kbd> au poste fixe ; tournée, passage et reçu refaits au terminal. Retenu par le fondateur parmi trois styles comparés (Clinique premium, Sauge, Éditorial contrasté) et décrit dans <code>DESIGN.md</code>.</p>",
+  "p": "Choix du fondateur après l'étude UX, qui relevait « deux systèmes visuels concurrents » ; feuille de route : « Un seul système visuel, au niveau des meilleurs logiciels santé ».",
+  "r": "Le CDC renvoie à des maquettes d'écran en document séparé (l. 88) et demande de préserver « l'ergonomie validée par 200 IDEL » de la V1 (§2.1, l. 103) ; il ne fixe aucune charte.",
+  "t": "2318ae9 (étude UX et comparatif), 5e781e6 (maquettes), 3bd46c8 et fusion 56d160f (poste fixe), 3a9c554, 9338b12 et fusion 1671bfa (terminal), bb96328 (<code>DESIGN.md</code>), 3 octobre · <code>docs/reference/etude_ux.md</code>, <code>docs/maquettes/styles-mobile.html</code>",
+  "v": ["charte", "style", "UI", "UX", "interface"]},
+ {"n": "Passes d'ergonomie : tableau de bord et graphiques", "o": ["poste", "terminal"], "s": "en-place", "c": "au-dela",
+  "d": "<p>Des passes successives, relues sur captures : le tableau de bord met « le soin d'abord, la gestion ensuite » et s'affiche en moins de 2 secondes ; tous les graphiques partagent une même grammaire (taille réelle, infobulle, légende, impression, axe de temps commun) ; dialogues, en-têtes et libellés resserrés. Cinq passes : poste fixe 10, 15 et 19 ; terminal 13 et 21.</p>",
+  "p": "Demande continue du fondateur ; chaque passe a son compte rendu (<code>docs/maquettes/passe-ux-*.md</code>). Raisons citées : « le soin d'abord, la gestion ensuite » (691cc6f), « une grammaire commune » des graphiques (209ee8f).",
+  "r": "Le tableau de bord est au CDC (§6.12, l. 934-937) ; sa présentation, sa vitesse et la grammaire des graphiques vont au-delà.",
+  "t": "f4f6ef6, 973e4b4, 209ee8f, fusion 3d008e7 (poste fixe 10), fusion ed0de42 (poste fixe 15), 691cc6f, 57b762f, fusion c6f1dd0 (poste fixe 19), 07157c1 (terminal 13), ccb6ea0 (terminal 21), ebfa945",
+  "v": ["UX", "courbe", "graphique", "dashboard"]},
+ {"n": "Accessibilité vérifiée : aucune violation axe-core", "o": ["poste", "outil"], "s": "en-place", "c": "precise",
+  "d": "<p>Les écrans du poste fixe passent à l'outil axe-core (règles WCAG 2.0 à 2.2, niveaux A et AA) : 17 violations ramenées à 0 sur 19 écrans à la passe 19. Contrastes corrigés, focus visible, libellés pour les lecteurs d'écran ; au terminal, la signature maintenue devient une confirmation simple avec les animations réduites ou un lecteur d'écran.</p>",
+  "p": "Demande du fondateur dans les passes d'interface ; comptes rendus <code>passe-ux-web10.md</code> et <code>passe-ux-web19.md</code>.",
+  "r": "Complète un point laissé à préciser par le CDC : l'accessibilité est une rubrique « → à écrire avec l'architecte » des exigences non fonctionnelles (§12, l. 993).",
+  "t": "e4064a8 (4 octobre, « axe-core : aucune violation »), 93eafa3 (script de captures et d'axe-core), c6f1dd0 (8 octobre, « axe 17 → 0 ») · <code>docs/maquettes/capture-web.mjs</code>, lancé à la main, hors de la suite de tests automatique",
+  "v": ["accessibilité", "WCAG", "RGAA", "contraste", "lecteur d'écran"]},
+ {"n": "Site public, sans promesse non prouvée", "o": ["site", "doc"], "s": "provisoire", "c": "hors",
+  "d": "<p>Un site de présentation statique (<code>site/</code>, Astro 7, HTML et CSS seulement, aucun script exécutable), séparé de l'application : il ne reçoit aucune donnée de santé. Style Clinique premium du produit, captures réelles sur données fictives. Pages : accueil, fonctionnalités (chacune avec son état), sécurité (construit, simulé, à réaliser), tarifs « Sur demande », liste d'attente et demande de démonstration (formulaire fermé par défaut, repli par e-mail), FAQ tirée du glossaire-FAQ, mentions légales, CGU, confidentialité, cookies, page 404.</p><p>Aucune certification HDS, aucun agrément CNDA, aucune compatibilité SESAM-Vitale, aucun prix n'y est annoncé. <strong>18 champs restent à compléter</strong> (<code>site/src/lib/legal.ts</code> : 17 champs légaux et le nom commercial, non confirmé) : tant qu'il en reste un, chaque page porte un bandeau « Version de travail » et passe en <code>noindex</code>, et <code>npm run verifier:production</code> échoue, si bien que l'image Docker ne se construit pas. Le site ne peut donc pas être mis en ligne en l'état.</p>",
+  "p": "Feuille de route 15, « Site public et arrivée des cabinets » ; repris de cirona-www, le site public de Cirona (audit Carea et Cirona, recommandations 5 et 6). Règle du site : « ne rien promettre qui ne soit vrai aujourd'hui » (<code>site/README.md</code>).",
+  "r": "Absent du CDC, qui ne traite que l'application (poste fixe, terminal, API).",
+  "dec": "« Site public » (Q-67) : nom commercial et domaine, offre et prix, hébergeur du site et point de réception du formulaire, contenus légaux (éditeur, délégué à la protection des données, juridiction des CGU…), relecture des CGU et de la politique de confidentialité par un avocat.",
+  "t": "044a215, fusion 9de37c3 (15 octobre) · <code>site/</code>, <code>site/src/lib/legal.ts</code>, <code>site/README.md</code>, captures <code>docs/maquettes/captures/site-accueil-1440.png</code> et <code>-390.png</code>",
+  "v": ["site", "vitrine", "Astro", "cirona-www", "mentions légales", "CGU", "liste d'attente", "noindex", "verifier:production", "Q-67"]}
+]}
+</script>
+<script type="application/json" data-theme="securite">
+{"titre": "Sécurité renforcée après les audits", "intro": "Le CDC fixe un minimum (§10 : hébergement HDS, chiffrement au repos et en transit, base du terminal chiffrée, journal d'audit immuable, DPO) et laisse à écrire la gestion des terminaux, les sessions, les sauvegardes et les durées de conservation (l. 988). Les audits de sécurité du 3 au 9 octobre ont ajouté ce qui suit.", "entrees": [
+ {"n": "Enrôlement du terminal par code à usage unique", "o": ["terminal", "poste", "serveur"], "s": "en-place", "c": "precise",
+  "d": "<p>Un téléphone n'est accepté que s'il a reçu un code émis au poste fixe (écran Terminaux) : code de 10 caractères valable 10 minutes, puis un secret d'appareil de 256 bits gardé au coffre du téléphone et haché au serveur. Un terminal perdu se révoque depuis le poste fixe ; seule l'administration du cabinet émet les codes.</p>",
+  "p": "Sécurité serveur du lot 21 bis : « terminaux enrôlés : code à usage unique émis au poste fixe […] révocation du terminal lui-même ».",
+  "r": "Complète un point laissé à préciser par le CDC : « gestion des terminaux (enrôlement, perte, révocation) » est à écrire (§10, l. 988).",
+  "t": "6f36a9b, bb6f81f, c8ba532 (4 octobre), 8f73827 (7 octobre) · <code>backend/app/domaines/securite.py</code>, <code>mobile/lib/ecrans/connexion.dart</code>, <code>web/src/pages/Terminaux.tsx</code>",
+  "v": ["enrôlement", "code d'enrôlement", "terminal perdu", "révocation"]},
+ {"n": "Verrou de l'application à 6 chiffres", "o": ["terminal"], "s": "en-place", "c": "precise",
+  "d": "<p>Le terminal ne montre rien sans le code à 6 chiffres de l'intervenant (empreinte digitale en option) : verrouillage au lancement, en arrière-plan et après 5 minutes d'inactivité. Après 5 échecs, une attente qui double jusqu'à 15 minutes, décomptée sur une horloge monotone : changer l'heure du téléphone ne l'abrège pas. Rien n'est effacé après des échecs. « Code oublié » oublie le secret d'appareil : il faut un nouvel enrôlement au poste fixe puis une reconnexion ; la file d'envoi reste chiffrée, rien n'est perdu.</p>",
+  "p": "Audit de sécurité du terminal : non-conformité « Verrou du terminal contournable » (dab180d). Le code le dit : « Le CDC … ne fixe ni la forme ni les délais ; choix retenus, à confirmer avec le DPO ».",
+  "r": "Complète un point laissé à préciser par le CDC : « politique de mots de passe / sessions » (§10, l. 988). Le §11 (l. 990) ne prévoit aucun verrou de l'application.",
+  "t": "772f828 (4 octobre), dab180d (7 octobre), 4e8194d (9 octobre, NC-61 et NC-28) · <code>mobile/lib/verrou.dart</code>, <code>mobile/lib/terminal.dart</code>",
+  "v": ["code oublié", "verrouillage", "empreinte", "horloge monotone", "PIN"]},
+ {"n": "Jetons de session tournants, avec fenêtre de grâce", "o": ["serveur", "terminal"], "s": "en-place", "c": "precise",
+  "d": "<p>Une session vit de jetons d'accès de 15 minutes ; chaque rafraîchissement remplace le jeton de rafraîchissement (haché, à usage unique). Rejouer un ancien jeton révoque la session, comme un vol présumé ; seule exception, une fenêtre de 30 secondes rend la même paire quand une réponse s'est perdue en route. Au terminal, une seule rotation à la fois : les photos se téléchargent dans le tour de synchronisation, jamais en parallèle d'une rotation.</p>",
+  "p": "Lot sécurité 21 : « sessions révocables, configuration sûre par défaut » (b583209) ; rejeu immédiat rendu sans couper la session (aa63acb) ; deux rotations simultanées seraient prises pour un vol (1327180).",
+  "r": "Complète un point laissé à préciser par le CDC : « politique de mots de passe / sessions » (§10, l. 988). L'authentification de production prévue par le CDC (Keycloak et CPS, §12, l. 994) reste à brancher.",
+  "t": "b583209 (3 octobre), aa63acb (4 octobre), 1327180 (9 octobre) · <code>backend/app/auth.py</code>, <code>backend/app/config.py</code>, <code>mobile/lib/api.dart</code>",
+  "v": ["jeton", "rafraîchissement", "rotation", "session", "refresh token"]},
+ {"n": "Configuration sûre par défaut", "o": ["serveur"], "s": "en-place", "c": "hors",
+  "d": "<p>Le serveur démarre fermé : connexion de développement coupée par défaut, aucun secret en dur, refus de démarrer sans secret fort (32 caractères et plus) ou avec un accès ouvert à tous les sites (CORS « * ») hors développement ; nombre d'essais de connexion limité (compté en base depuis le 15 octobre, voir plus bas) ; en-têtes de sécurité sur toutes les réponses.</p>",
+  "p": "Lot sécurité 21 : « configuration sûre par défaut » (b583209).",
+  "r": "Absent du CDC.",
+  "t": "b583209, 3 octobre · <code>backend/app/config.py</code>, <code>backend/app/domaines/securite.py</code>",
+  "v": ["CORS", "secret", "limitation de débit"]},
+ {"n": "Rôle de base de données à moindre privilège", "o": ["serveur"], "s": "en-place", "c": "au-dela",
+  "d": "<p>L'API ne se connecte plus avec le compte propriétaire du schéma : son rôle ne peut ni modifier ni effacer les tables immuables (actes, audit), ni vider une table, ni désactiver un déclencheur. Seules les migrations et la tâche de nuit passent par le propriétaire. Hors développement, le serveur refuse de démarrer en superutilisateur ou en propriétaire.</p>",
+  "p": "Audit d'immuabilité : un propriétaire peut désactiver les déclencheurs et réécrire le journal (6f36a9b).",
+  "r": "Le CDC exige un journal d'audit immuable (EX-SE-04, l. 986) sans dire comment ; ce rôle rend l'immuabilité vraie même si l'API est compromise.",
+  "t": "6f36a9b, 4 octobre · <code>backend/scripts/roles_db.py</code>, <code>backend/migrations/env.py</code>",
+  "v": ["rôle restreint", "PostgreSQL", "propriétaire du schéma", "immuabilité"]},
+ {"n": "Journal des accès chaîné et ancré, plancher de 180 jours", "o": ["serveur", "poste"], "s": "en-place", "c": "au-dela",
+  "d": "<p>Chaque lecture d'un dossier patient est tracée dans un journal où chaque ligne porte l'empreinte de la précédente ; la base refuse de le réécrire. La tâche de nuit recopie la tête de cette chaîne dans la chaîne d'audit, elle-même ancrée hors de la base ; l'ancre est posée par l'administration du cabinet. La base refuse d'effacer une ligne de moins de 180 jours ou de vider le journal, même au propriétaire ; la purge coupe la chaîne par la tête et inscrit la coupure.</p>",
+  "p": "Audits : « toutes les lectures journalisées » (NC-2, 8893881), ancre réservée à l'administration (NC-41, 16f5069) ; plancher de 180 jours, « bas de la recommandation CNIL » (b55b1ef).",
+  "r": "Le CDC exige un journal d'audit immuable et sans trou qui couvre les accès (§4.8, l. 176 ; §8.2, l. 960 ; EX-SE-04, l. 986). Le chaînage propre au journal des accès, son ancrage et le plancher tenu par la base vont au-delà. Les durées de conservation restent à préciser (§10, l. 988 ; D-06).",
+  "dec": "« Conservation du journal des accès : plancher de 180 jours » : durée D-06 à fixer (365 jours provisoires) ; si elle dépasse 180 jours, une migration doit relever le plancher en base.",
+  "t": "6f36a9b (4 octobre), b55b1ef (7 octobre), 8893881, e3628e1, 16f5069 (9 octobre) · migrations 0033 et 0037s, <code>POST /audit/ancre</code>, <code>web/src/pages/Preuves.tsx</code>, <code>Conformite.tsx</code>",
+  "v": ["journal des accès", "chaîne d'audit", "ancrage", "ancre", "CNIL", "rétention", "purge"]},
+ {"n": "Fin de remplacement : sessions coupées, rétrodatation bornée", "o": ["serveur", "terminal"], "s": "provisoire", "c": "precise",
+  "d": "<p>Révoquer un remplacement révoque aussitôt ses sessions et ses jetons. La période finie, la synchronisation reste ouverte le temps du délai de remontée (120 minutes, D-04) puis la session est révoquée. La date qu'un terminal déclare pour un geste est bornée : jamais avant l'ouverture de sa session, jamais plus de 120 minutes avant sa mise en file. Au terminal, la file est gardée et le téléphone attend un nouvel enrôlement.</p>",
+  "p": "Non-conformités CV-09 et NC-41 de l'audit : un remplaçant pouvait encore écrire après sa période en antidatant ses envois (a4f8063).",
+  "r": "Complète un point laissé à préciser par le CDC : l'habilitation du remplaçant a une « durée limitée [T] ; effets à l'expiration [P] » (§5, l. 1084). Appliquer le délai D-04 aux opérations qui ne sont pas des actes est un ajout.",
+  "dec": "« Remontée hors connexion après la fin d'un remplacement » : délai maximal de remontée des opérations autres que les actes, après la fin ou la révocation ; valeur D-04 de 120 minutes provisoire. Le libellé du §7.1 (« sans plancher ») date d'avant ce correctif.",
+  "t": "a4f8063, 4e8194d, 9 octobre · <code>backend/app/domaines/sync.py</code>, <code>backend/app/auth.py</code>",
+  "v": ["remplaçant", "antidater", "D-04", "révocation", "sync"]},
+ {"n": "Quarantaine plutôt qu'effacement sur le terminal", "o": ["terminal"], "s": "en-place", "c": "precise",
+  "d": "<p>Si la base locale ne s'ouvre plus (clé absente, en-tête altéré), elle est mise de côté intacte et toujours chiffrée au lieu d'être effacée ; un écran « Base mise de côté » dit combien d'envois ne sont pas partis et la marche à suivre. Les photos ne laissent aucun fichier en clair : fichier temporaire supprimé dès la lecture, cache purgé au démarrage.</p>",
+  "p": "Lot sécurité du terminal : « jamais d'acte signé détruit » ; fusion « aucune perte d'acte signé (quarantaine) » (c61fae0).",
+  "r": "Complète un point laissé à préciser par le CDC : le cas « terminal perdu avec file non remontée » est à écrire (§8.2, l. 961) ; prolonge « remontée fidèle » (l. 957).",
+  "t": "772f828, fusion c61fae0, 4 octobre · <code>mobile/lib/chiffrement.dart</code>, <code>mobile/lib/ecrans/base.dart</code>",
+  "v": ["quarantaine", "base mise de côté", "perte"]},
+ {"n": "Téléphone protégé : écran, sauvegardes, empreintes", "o": ["terminal"], "s": "en-place", "c": "au-dela",
+  "d": "<p>Le terminal interdit les captures d'écran et la sauvegarde de ses données par le système, exige que le téléphone ait lui-même un verrouillage d'écran, et lie l'empreinte digitale aux empreintes inscrites au moment de l'activation.</p>",
+  "p": "Lot sécurité du terminal (772f828) ; non-conformités NC-28 et NC-61 de l'audit (4e8194d).",
+  "r": "Le CDC demande une base locale chiffrée, la signature dans le TEE et le mode kiosque (EX-SE-03, l. 985) ; ces protections vont au-delà.",
+  "t": "772f828 (4 octobre), 4e8194d (9 octobre)",
+  "v": ["capture d'écran", "FLAG_SECURE", "allowBackup", "empreinte"]},
+ {"n": "Cartes simulées sans valeur hors démonstration", "o": ["serveur"], "s": "en-place", "c": "hors",
+  "d": "<p>La clé et le sceau des cartes CPS et Vitale de démonstration sont publics : hors mode démonstration, le serveur n'accepte d'elles ni lecture, ni signature, ni création de patient, et toute vérification rend « faux ».</p>",
+  "p": "« Hors mode démonstration aucune carte simulée ne vaut » (277dcb9).",
+  "r": "Absent du CDC, qui ne connaît pas de cartes simulées.",
+  "t": "277dcb9, 9 octobre · <code>backend/app/cartes.py</code>",
+  "v": ["carte simulée", "CPS", "Vitale", "signature"]},
+ {"n": "Photos et PDF chiffrés fichier par fichier, avec rotation des clés", "o": ["serveur", "doc"], "s": "simule", "c": "au-dela",
+  "d": "<p>Chaque photo ou PDF est chiffré (AES-256-GCM) avec sa propre clé, elle-même enveloppée par une clé maîtresse tenue par un service de clés. Une altération ou une troncature est refusée à la lecture ; la clé maîtresse peut tourner sans réécrire les fichiers ; hors développement, le serveur refuse de démarrer sans trousseau. Le service de clés est aujourd'hui un trousseau local de démonstration.</p>",
+  "p": "L'audit avait relevé « photos/PDF en clair » (couverture §8.1). Ce qui va au-delà de l'exigence : une clé par fichier, la rotation sans réécriture, le contrôle d'intégrité à la lecture (90a675d).",
+  "r": "Exigence EX-SE-02 « chiffrement au repos et en transit » (l. 984), sans autre précision. Le service de clés réel et le chiffrement du volume restent à faire chez l'hébergeur HDS.",
+  "t": "90a675d, 9 octobre · <code>backend/app/stockage.py</code>, <code>backend/scripts/stockage.py</code>, <code>docs/exploitation/chiffrement.md</code>",
+  "v": ["chiffrement", "KMS", "clé maîtresse", "AES"]},
+ {"n": "Exercice de reprise sur deux sites", "o": ["outil", "doc"], "s": "simule", "c": "precise",
+  "d": "<p>Un sinistre joué de bout en bout sur un poste, deux dossiers tenant lieu de sites : sauvegarde chiffrée sur le site A, réplication contrôlée par empreintes vers le site B, perte du site A, restauration depuis B seul, comptes comparés, chaînes d'audit et des accès relues, fichiers déchiffrés. L'exercice du 9 octobre s'est terminé sans erreur ; la documentation liste ce qu'il ne prouve pas (latence, réplique PostgreSQL, bascule).</p>",
+  "p": "Préparer l'hébergement géo-redondant exigé avant d'avoir l'hébergeur : « exercice simulé de reprise sur deux sites (EX-SE-01) » (c06541f).",
+  "r": "Complète un point laissé à préciser par le CDC : « sauvegardes et restauration » est à écrire (§10, l. 988) ; anticipe EX-SE-01 (HDS, géo-redondance France, l. 983). L'hébergeur reste à choisir avant production.",
+  "t": "c06541f, 14d0ff4, 9 octobre · <code>backend/scripts/exercice_multisite.py</code>, <code>docs/exploitation/hebergement.md</code> §3, <code>sauvegardes.md</code>",
+  "v": ["sauvegarde", "restauration", "sinistre", "HDS", "géo-redondance", "PRA"]},
+ {"n": "Registre du DPO et analyse d'impact tenus à jour", "o": ["doc"], "s": "en-place", "c": "au-dela",
+  "d": "<p>Un registre prêt à remplir : désignation du DPO, registre des traitements pré-rempli, registre des violations, revue des accès. L'analyse d'impact (AIPD) est mise à jour avec les mesures prises et les risques résiduels ; tout ce qui reste à faire avant production y est marqué.</p>",
+  "p": "Préparer la mise en production : « tout ce qui reste marqué avant production » (14d0ff4).",
+  "r": "EX-SE-05 exige seulement un DPO désigné avant production (l. 987) ; l'analyse d'impact figure parmi les points à écrire (§10, l. 988). La désignation reste à faire.",
+  "t": "14d0ff4, 9 octobre · <code>docs/exploitation/registre_dpo.md</code>, <code>aipd.md</code>",
+  "v": ["DPO", "RGPD", "AIPD", "registre des traitements"]},
+ {"n": "Limitation de débit tenue en base, pour tous les processus", "o": ["serveur"], "s": "en-place", "c": "hors",
+  "d": "<p>Le plafond d'appels (10 par minute par adresse et par route, plus en développement) sur le rafraîchissement de session, l'enrôlement des terminaux, le portail externe, la vérification et l'ancrage de l'audit est compté en base (table <code>tentative_limitee</code>) et non plus dans la mémoire de chaque processus : il vaut pour tous les processus de l'API et survit à un redémarrage ; au-delà, refus 429 « réessayer dans une minute ». Au même lot : le bouchon Pro Santé Connect est refusé hors développement, et le serveur refuse de démarrer hors développement sans puits d'ancrage hors site (<code>TABSANTE_ANCRE_URL</code>).</p>",
+  "p": "Non-conformités restantes de l'audit (0ec0e39) : tenu en mémoire, le plafond se multipliait par le nombre de processus et repartait à zéro à chaque redémarrage. Le puits d'ancrage : sans lui, une réécriture de la chaîne d'audit ne se détecte pas (b134f4c).",
+  "r": "Absent du CDC. Le puits d'ancrage prolonge le journal d'audit immuable (EX-SE-04, l. 986).",
+  "dec": "« Puits d'ancrage hors site » (Q-66) : puits retenu avec l'hébergeur.",
+  "t": "0ec0e39, b134f4c, fusion 824bec2 (15 octobre) · <code>backend/app/domaines/securite.py</code> (<code>limiter</code>), migration 0040q, <code>backend/app/config.py</code>, <code>backend/tests/test_securite.py</code>",
+  "v": ["limitation de débit", "429", "tentative_limitee", "essais de connexion", "ancrage", "Pro Santé Connect", "lot qualité"]}
+]}
+</script>
+<script type="application/json" data-theme="clinique">
+{"titre": "Intégrité des données et sécurité clinique", "intro": "Garde-fous ajoutés pour qu'aucune saisie ne se perde ou ne s'écrase, et pour qu'une alerte clinique reste utile.", "entrees": [
+ {"n": "Brouillon partagé par occurrence, avec choix en cas de conflit", "o": ["serveur", "poste", "terminal"], "s": "en-place", "c": "au-dela",
+  "d": "<p>Une consultation ou une séance commencée par une infirmière peut être reprise par une collègue, au poste fixe comme au terminal (gardée chiffrée hors connexion). Si deux personnes ont enregistré, chacune voit qui a enregistré l'autre version et choisit : « Garder le mien » ou « Reprendre le leur » au terminal, « Le remplacer par le mien » ou « Reprendre son brouillon » au poste fixe. Rien n'est écrasé sans être vu ; la signature attend le choix ; le brouillon disparaît dès que l'occurrence n'est plus due.</p>",
+  "p": "Raison non consignée pour l'ajout ; pour la suppression : « le brouillon d'une occurrence retirée ne reste plus en base ni lisible » (53f8e1b).",
+  "r": "Le mot « brouillon » n'apparaît ni dans le CDC ni dans la fiche 24. Le CDC pose « pas de conflit d'écriture par construction » (§8.2, l. 956) : le contrôle de version garde ce principe vrai pour un objet partagé.",
+  "t": "37c2448, 49f6255, 991ac8d, e8af5f0, 53f8e1b (7 octobre), 6ff2eaf (8 octobre) · <code>backend/app/domaines/consultations.py</code>, migrations 0032 et 0034, <code>web/src/pages/SousFiche.tsx</code>, <code>mobile/lib/ecrans/fiche_lot24.dart</code>",
+  "v": ["conflit", "garder le mien", "reprendre le leur", "consultation", "séance"]},
+ {"n": "Rotation des sites d'injection : règle relative", "o": ["serveur", "poste", "terminal"], "s": "provisoire", "c": "precise",
+  "d": "<p>Une zone n'est signalée sur-employée que si elle a servi 3 fois en 7 jours <strong>et</strong> porte au moins la moitié des injections de la semaine ; elle est signalée, jamais bloquée, avec la mention « (règle provisoire) ». Même règle au serveur, au poste fixe et au terminal hors connexion.</p>",
+  "p": "« Sinon une rotation bien faite à deux injections par jour signalait tout » (6d2274e) : la seule règle de la maquette (3 emplois) signalait toutes les zones, une « alerte qui ne dit plus rien ».",
+  "r": "Complète un point laissé à préciser par le CDC : « signalement d'un site trop souvent réutilisé [P] » (EX-ACI-07, l. 489) ; « seuil déclaré par la fiche [P] » (composants communs, l. 301-303). La maquette de la fiche 10 ne montre que « 3 emplois · zone signalée ».",
+  "dec": "Pas encore au §7.1 : le code marque la règle « provisoire » et « à confirmer par TABSANTE » ; question à y ajouter.",
+  "t": "4d8aca9, 6d2274e, d60d266, 9 octobre · <code>backend/app/domaines/tracabilite.py</code> (<code>SUR_EMPLOI</code>), <code>web/src/SchemaSites.tsx</code>, <code>mobile/lib/restitution.dart</code>",
+  "v": ["sur-emploi", "schéma des sites", "lipodystrophie", "insuline", "anticoagulant"]},
+ {"n": "Courbes de croissance en premier chez l'enfant de moins de 5 ans", "o": ["serveur", "poste"], "s": "simule", "c": "precise",
+  "d": "<p>Chez le petit enfant, les courbes de poids, de taille et de périmètre crânien passent avant les constantes ; chaque mesure est jugée à l'âge qu'avait l'enfant ce jour-là, sur une référence de démonstration (OMS 0–5 ans, licence non commerciale, mention à l'écran). Passé 5 ans, les mesures restent visibles. Le terminal saisit le périmètre crânien.</p>",
+  "p": "« Chez le petit, les constantes sont rares » (9ddbdc9).",
+  "r": "Complète un point laissé à préciser par le CDC : « Restitution pédiatrique : courbes de croissance […] à examiner lors de la reprise détaillée » (EX-PV-02 quater [P], l. 632). L'ordre d'affichage va au-delà.",
+  "dec": "« Référence des courbes de croissance » : licence OMS commerciale ou courbes françaises 2018, référence au-delà de 5 ans.",
+  "t": "ddf7404, 2f927d4, 9ddbdc9 (8 octobre), 99b3d8d (9 octobre) · <code>backend/app/domaines/croissance.py</code>, <code>backend/app/referentiels/croissance_oms.json</code>, <code>web/src/pages/Croissance.tsx</code>",
+  "v": ["pédiatrie", "enfant", "OMS", "périmètre crânien"]},
+ {"n": "Âge en mois avant 2 ans", "o": ["poste"], "s": "en-place", "c": "hors",
+  "d": "<p>Un nourrisson s'affiche « 9 mois » et non « 0 an ». Au poste fixe seulement : le terminal affiche encore l'âge en années.</p>",
+  "p": "« Un nourrisson n'a pas « 0 an » » (commentaire du code, ddf7404).",
+  "r": "Absent du CDC.",
+  "t": "ddf7404, 8 octobre · <code>web/src/format.ts</code> (<code>ageAffiche</code>) ; au terminal <code>mobile/lib/domaine.dart</code> reste en années",
+  "v": ["nourrisson", "bébé", "âge"]},
+ {"n": "Maintenir pour signer", "o": ["terminal"], "s": "en-place", "c": "au-dela",
+  "d": "<p>Un geste définitif (signature, clôture) se valide en maintenant le bouton près d'une seconde ; relâcher avant annule. Avec les animations réduites ou un lecteur d'écran, un appui ouvre une confirmation.</p>",
+  "p": "« Geste définitif » ; « Il ne pourra plus être modifié sur ce téléphone » (a718550).",
+  "r": "Le CDC rend l'acte signé immuable (principe 7, l. 97 ; EX-RS-04, l. 873) sans fixer le geste ; celui-ci évite une signature par erreur.",
+  "t": "a718550, 2 octobre · <code>mobile/lib/charte.dart</code>, <code>DESIGN.md</code>",
+  "v": ["signature", "appui long", "clôture"]},
+ {"n": "Changement d'intervenant refusé tant que tout n'est pas parti", "o": ["terminal"], "s": "en-place", "c": "au-dela",
+  "d": "<p>Sur un téléphone partagé, on ne change d'intervenant que lorsque la file d'envoi, les photos et les brouillons sont vides : un envoi ne part jamais sous l'identité d'un autre.</p>",
+  "p": "« Une file ne part jamais sous un autre jeton » (ae89260).",
+  "r": "Prolonge « un intervenant, un rôle, un patient, un moment » et « journal d'audit sans trou » (§8.2, l. 956-960), qui ne prévoient pas le téléphone partagé.",
+  "t": "ae89260, 2 octobre · <code>mobile/lib/terminal.dart</code>",
+  "v": ["file d'envoi", "téléphone partagé", "intervenant"]},
+ {"n": "Clé d'idempotence sur toute écriture du poste fixe", "o": ["serveur", "poste"], "s": "en-place", "c": "hors",
+  "d": "<p>Le poste fixe pose une clé (en-tête <code>Idempotency-Key</code>) sur chaque saisie. Le serveur garde 24 heures la réponse réussie de chaque clé, pour la session qui l'a envoyée : la même clé rejouée rend la même réponse sans rien écrire ; un second envoi pendant le premier attend celui-ci ; la même clé pour une autre demande est refusée ; un refus n'est pas retenu, et la saisie corrigée repart avec la même clé. Côté client, des envois identiques simultanés sont regroupés et la boîte de dialogue reste désactivée pendant l'envoi. Sans clé, rien ne change ; le terminal garde ses identifiants d'opération de <code>/sync</code>.</p>",
+  "p": "Double envoi du poste fixe : une clé « gardée pour un double clic ou un envoi rejoué faute de réponse » (<code>app/idempotence.py</code>, 976eb1d), pour qu'une saisie ne s'écrive jamais deux fois.",
+  "r": "Absent du CDC, qui traite la remontée fidèle du terminal hors connexion (§8.2, l. 956-957) mais pas le double envoi d'une saisie du poste fixe.",
+  "t": "976eb1d, fusion 824bec2 (15 octobre) · <code>backend/app/idempotence.py</code>, table <code>requete_idempotente</code> (migration 0040q), <code>backend/tests/test_idempotence.py</code>, <code>web/src/test/DoubleEnvoi.test.tsx</code>",
+  "v": ["Idempotency-Key", "idempotence", "double clic", "double envoi", "rejeu", "lot qualité"]}
+]}
+</script>
+<script type="application/json" data-theme="facturation">
+{"titre": "Facturation sans risque", "intro": "Tant que le moteur de cotation de TABSANTE et SESAM-Vitale ne sont pas branchés, rien de ce qui est simulé ne doit pouvoir passer pour une facture, ni encombrer la file de contrôle.", "entrees": [
+ {"n": "Cotation provisoire du terminal, à deux conditions", "o": ["terminal"], "s": "simule", "c": "au-dela",
+  "d": "<p>Le téléphone n'envoie sa cotation provisoire que hors connexion, et seulement si l'acte signé correspond au passage que le moteur a rejoué. Sinon il affiche « Cotation provisoire non estimée hors connexion · le cabinet la calcule à l'envoi ». En ligne, c'est le serveur qui cote à la réception.</p>",
+  "p": "« Rien ne part, aucun décompte local, pas de fausse divergence en file de contrôle » (59db257).",
+  "r": "La cotation provisoire hors connexion est exigée (EX-FA-05, l. 885 ; §8.1, l. 952). Les deux conditions sont un garde-fou ajouté, qui respecte « aucune règle dupliquée » (EX-FA-06, l. 886).",
+  "t": "9c38d0d, 1407ef7, 59db257, 9 octobre · <code>mobile/lib/cotation.dart</code>, <code>mobile/lib/ecrans/cotation.dart</code>",
+  "v": ["cotation", "file de contrôle", "hors connexion", "moteur"]},
+ {"n": "Moteur de démonstration toujours marqué « Démonstration »", "o": ["serveur", "poste", "terminal"], "s": "simule", "c": "hors",
+  "d": "<p>Chaque cotation produite par la doublure du moteur porte « Démonstration » ou « ne pas facturer », au serveur, sur le poste fixe (facturation, dossier de preuve, bilans) et au terminal ; un acte à distance de démonstration est servi « non facturable ».</p>",
+  "p": "« La doublure n'est jamais facturable » (commentaire du terminal).",
+  "r": "Le moteur est un actif de TABSANTE fourni à part (l. 86) ; le CDC ne prévoit pas de doublure, donc pas son étiquette.",
+  "t": "17629c3 (2 octobre), 57d91e3 (3 octobre), 1407ef7, 73496f0 (9 octobre) · <code>backend/app/cotation/demo.py</code>, <code>web/src/pages/Facturation.tsx</code>, <code>mobile/lib/ecrans/cotation.dart</code>",
+  "v": ["NGAP", "doublure", "non facturable"]},
+ {"n": "Accord préalable : jamais d'accord implicite", "o": ["serveur", "poste", "terminal"], "s": "provisoire", "c": "au-dela",
+  "d": "<p>Sans décision enregistrée, un accord préalable reste « demandé » quel que soit le délai écoulé ; l'injection neuraxiale est retenue faute d'accord. Même règle au poste fixe, au terminal (« aucun délai ne vaut accord ») et à la synchronisation.</p>",
+  "p": "« Sans elles l'accord était versé tel quel au registre et l'injection partait non retenue sans trace » (982feef) ; valeur prudente en attendant la décision.",
+  "r": "Le CDC demande de rattacher la demande d'accord préalable (EX-MED-16, l. 365) sans rien dire du silence de la caisse.",
+  "dec": "« Accord préalable : silence vaut accord » : le silence vaut-il accord, après quel délai, depuis quelle date.",
+  "t": "d8c0fb8 (8 octobre), 982feef (9 octobre) · <code>backend/app/domaines/prise_en_charge.py</code>",
+  "v": ["accord préalable", "silence vaut accord", "caisse"]}
+]}
+</script>
+<script type="application/json" data-theme="ergonomie">
+{"titre": "Ergonomie du soin au quotidien", "intro": "Ajouts relevés dans l'historique, au-delà des écrans que le CDC inventorie (§7.2). Plusieurs n'ont pas de raison écrite : la carte le dit.", "entrees": [
+ {"n": "Passage de routine repris du dernier passage", "o": ["terminal"], "s": "en-place", "c": "au-dela",
+  "d": "<p>Quand rien n'a changé, un passage de routine se reprend du précédent : environ 14 appuis ramenés à 3, plus la signature. Les reprises restent visibles (« Repris du passage du … ») et se corrigent.</p>",
+  "p": "Feuille de route du 3 octobre : « ≈ 14 appuis → 3 appuis + signature quand rien n'a changé ».",
+  "r": "Le CDC ne prévoit la reprise que pour certaines valeurs (dose en cours, EX-ACI-06, l. 488) et demande de préserver l'ergonomie de la V1 (l. 103).",
+  "t": "e7eaddf, 9338b12, fusion 1671bfa, 3 octobre · <code>mobile/lib/ecrans/passage.dart</code>",
+  "v": ["routine", "appuis", "repris"]},
+ {"n": "Brouillons enregistrés en continu", "o": ["terminal"], "s": "en-place", "c": "hors",
+  "d": "<p>Toute saisie en cours est gardée au fil de l'eau sur le téléphone : un appel ou une coupure ne fait rien perdre.</p>",
+  "p": "Feuille de route du 3 octobre : « Plus rien ne se perd sur un appel ou une coupure ».",
+  "r": "Absent du CDC.",
+  "t": "e7eaddf, 233cfdf, 3 octobre",
+  "v": ["brouillon", "coupure"]},
+ {"n": "Réponses identiques d'un geste, dont « Aucun de ces quatre signes »", "o": ["terminal"], "s": "en-place", "c": "au-dela",
+  "d": "<p>Des gestes groupés pour les réponses qui ne changent pas : « Prendre les sites suggérés » (insulines), « Aucune rougeur sur ces zones » (nursing), « Site sans réaction » (PCA, PSE) ; dans la séance art. 5 ter de la fiche 24, « Aucun de ces quatre signes » (œdèmes, cyanose, sueurs, dyspnée). Rien n'est coché sans l'appui, et chaque réponse reste modifiable : une réponse de sécurité n'est jamais présélectionnée, comme l'exige le CDC. Un test mesure les appuis des passages de routine.</p>",
+  "p": "Passe d'ergonomie du terminal : « Quatre Oui/Non à donner un par un… 4 appuis → 1 » (passe-ux-mobile21.md).",
+  "r": "Les signes sont au CDC (fiche 24) et la réponse explicite est exigée (composants communs, l. 53-54) ; le raccourci va au-delà sans la contourner.",
+  "t": "06b82ba (7 octobre), 60a4be9 (9 octobre) · <code>mobile/lib/ecrans/fiche_lot24.dart</code>, <code>mobile/test/appuis_test.dart</code>",
+  "v": ["un geste", "quatre signes", "art. 5 ter", "sites suggérés"]},
+ {"n": "Barre « Il manque »", "o": ["terminal", "poste"], "s": "en-place", "c": "au-dela",
+  "d": "<p>Au bas de la fiche, la liste de ce qui manque avant de pouvoir signer, dans l'ordre de l'écran (y compris un conflit de brouillon à trancher) ; un appui fait défiler jusqu'au premier manque.</p>",
+  "p": "Raison non consignée.",
+  "r": "Les champs obligatoires sont au CDC fiche par fiche ; la barre est une forme ajoutée.",
+  "t": "a718550, cf9663a (2 octobre), cedccb6 (7 octobre), 6ff2eaf (8 octobre)",
+  "v": ["il manque", "champ obligatoire"]},
+ {"n": "Terminal en quatre onglets, « Moi » par l'avatar", "o": ["terminal"], "s": "en-place", "c": "hors",
+  "d": "<p>Quatre onglets (Tournée, Patients, Liaisons, Envois) ; le profil, le rechargement et le changement d'intervenant s'ouvrent par l'avatar.</p>",
+  "p": "« « Moi », rare… s'ouvre par l'avatar » (commentaire du code).",
+  "r": "Le CDC liste les écrans du terminal (§7.2, l. 948), pas leur navigation.",
+  "t": "9338b12 (3 octobre), 8ca5c6f, 11f85ac (7 octobre) · <code>mobile/lib/ecrans/accueil.dart</code>",
+  "v": ["onglets", "navigation", "profil"]},
+ {"n": "Page « Aujourd'hui » et liste des plaies du cabinet", "o": ["poste"], "s": "en-place", "c": "hors",
+  "d": "<p>« Aujourd'hui » montre d'abord ce qui demande une action, puis les tournées et les plaies ; la page Plaies réunit toutes les plaies du cabinet, celles qui ne progressent pas en tête, avec leurs mini-courbes.</p>",
+  "p": "Raison non consignée (arrivées avec la refonte « Clinique premium »).",
+  "r": "Absentes de la trame du poste fixe (§7.2, l. 949), distinctes du tableau de bord (§6.12).",
+  "t": "3bd46c8, 2628c7a, 3 octobre · <code>web/src/pages/Aujourdhui.tsx</code>, <code>Plaies.tsx</code>",
+  "v": ["à traiter", "plaies"]},
+ {"n": "Navigation du poste fixe : palette Ctrl K, compteurs, ressources repliables", "o": ["poste", "serveur"], "s": "en-place", "c": "hors",
+  "d": "<p>Une palette de commandes (<kbd>Ctrl</kbd> <kbd>K</kbd>) atteint toutes les pages permises et les objets suivis ouverts ; des compteurs sur la barre latérale (signalements de l'aide-soignante, saisies différées…) ; un groupe « Ressources » repliable, mémorisé par utilisateur.</p>",
+  "p": "« La palette atteint toutes les pages permises » (ef7b6ec) ; compteurs « sans le tableau de bord » (7f6acf5) ; groupe repliable : raison non consignée.",
+  "r": "Absent du CDC.",
+  "t": "3bd46c8 (3 octobre), 7f6acf5, 017d673 (4 octobre), ef7b6ec (7 octobre) · <code>GET /compteurs</code>",
+  "v": ["palette", "recherche", "barre latérale", "badges"]},
+ {"n": "Recherche dans tout le cabinet, et hors connexion au terminal", "o": ["poste", "terminal", "serveur"], "s": "en-place", "c": "hors",
+  "d": "<p>Au poste fixe, la palette <kbd>Ctrl</kbd> <kbd>K</kbd> cherche, dès deux caractères, dans tout le cabinet : patients, documents produits et reçus, transmissions, ordonnances, tournées, selon le rôle et la portée du remplaçant, et seulement ce que l'utilisateur lit déjà par les listes ; sans accents ni casse, 30 résultats au plus, une lecture par type d'élément. Chaque patient atteint est noté au journal des accès, jamais le texte cherché. Au terminal, l'onglet Patients cherche hors connexion dans la précharge seule (patients, transmissions lisibles, ordonnances, tournées du jour) : rien n'est téléchargé pour la recherche.</p>",
+  "p": "Feuille de route, ligne « Confort quotidien », idées reprises de l'ancienne application du fondateur : « la palette Ctrl K cherche dans tout le cabinet » (e5a0991). Le texte cherché, « souvent un nom », n'est pas journalisé (<code>docs/exploitation/confort-quotidien.md</code> §1).",
+  "r": "Absent du CDC, qui ne prévoit aucune recherche transversale.",
+  "dec": "« Recherche hors connexion au terminal » (Q-68) : faut-il journaliser chaque consultation faite hors connexion ; branché : non, la précharge est déjà tracée au journal des accès. Avis du DPO attendu.",
+  "t": "6e44375 (serveur), e5a0991 (poste fixe), 16f295c (terminal), fusion 882ef8e (15 octobre) · <code>backend/app/domaines/recherche.py</code> (<code>GET /recherche</code>), <code>web/src/Cadre.tsx</code>, <code>mobile/lib/confort.dart</code> (<code>rechercheLocale</code>), <code>backend/tests/test_confort_quotidien.py</code>",
+  "v": ["recherche", "Ctrl K", "palette", "hors connexion", "journal des accès", "confort quotidien"]},
+ {"n": "@mention dans les transmissions", "o": ["poste", "terminal", "serveur"], "s": "en-place", "c": "precise",
+  "d": "<p>À la saisie d'une transmission, ciblée ou intra-cabinet, « @ » propose les membres du cabinet ; chaque personne dont le nom reste écrit à l'envoi est notifiée et lit la transmission, même si elle n'en est pas destinataire (portée du remplaçant toujours appliquée). L'aide-soignante peut être citée : la notification ne porte que le registre et un extrait, jamais de cotation. Pastille « Mention pour vous », badge des mentions non lues (<code>mentions_non_lues</code> de <code>/compteurs</code>) et filtre « Me mentionnant » au poste fixe ; pastille et notification locale au terminal.</p>",
+  "p": "Feuille de route, ligne « Confort quotidien », idées reprises de l'ancienne application du fondateur (<code>docs/exploitation/confort-quotidien.md</code> §2).",
+  "r": "Complète un point laissé à préciser : EX-TR-07 notifie les transmissions intra-cabinet [P] et laisse « ciblage des notifiés » à préciser (l. 920) ; même chose dans la définition de la notification (l. 168).",
+  "t": "6e44375, e5a0991, 16f295c, ef89c48, fusion 882ef8e (15 octobre) · <code>backend/app/domaines/transmissions.py</code> (<code>GET /transmissions?mentionne=</code>), <code>web/src/mentions.tsx</code>, <code>web/src/pages/Transmissions.tsx</code>",
+  "v": ["mention", "@", "arobase", "Me mentionnant", "notification", "confort quotidien"]},
+ {"n": "Notifications locales du terminal, avec heures calmes", "o": ["terminal"], "s": "en-place", "c": "precise",
+  "d": "<p>Le terminal calcule lui-même ses avis, hors connexion, sur sa précharge et sa file, toutes les 20 secondes : rappel daté échu (une heure avant l'arrivée estimée chez le patient), tournée de demain validée (dont le serveur notifie qui la tiendra), transmission qui me mentionne, retard de 10 minutes ou plus ; chacun montré une fois. Rien ne part au réseau. Libellés minimaux : jamais le nom du patient, son soin, le libellé du rappel ni le contenu d'une transmission, au plus la civilité et l'initiale (« M. B. »), une heure, le nom d'une tournée. Heures calmes réglables dans « Moi » (21 h à 7 h par défaut) : ce qui est dû attend leur fin.</p><p><strong>Écart :</strong> l'avis s'affiche en bandeau dans l'application (et en notification du navigateur pour le terminal de démonstration, si l'intervenant l'a permis) ; la notification système d'Android et d'iOS n'est pas encore branchée.</p>",
+  "p": "Feuille de route, ligne « Confort quotidien ». Une notification peut s'afficher sur un écran verrouillé, en présence de tiers : d'où des libellés sans donnée de santé, « décidés ici » (<code>docs/exploitation/confort-quotidien.md</code> §3).",
+  "r": "Complète un point laissé à préciser : le canal des notifications (EX-TR-07, l. 920 ; définition, l. 168).",
+  "t": "6e44375 (tournée validée notifiée), 16f295c (terminal), fusion 882ef8e (15 octobre) · <code>mobile/lib/confort.dart</code>, <code>mobile/lib/ecrans/confort.dart</code>, <code>mobile/lib/notifieur_io.dart</code>, <code>mobile/test/confort_test.dart</code>",
+  "v": ["notification", "heures calmes", "rappel", "retard", "écran verrouillé", "confort quotidien"]},
+ {"n": "Photo de l'entrée du domicile", "o": ["poste", "terminal", "serveur"], "s": "en-place", "c": "hors",
+  "d": "<p>Une photo par patient de l'entrée de son domicile, dans « Accès au domicile » et « Avant d'arriver » : prise au terminal (en ligne) ou déposée au poste fixe, remplacée par la suivante. Chiffrée au repos comme les photos de soin, le journal d'audit ne gardant que son empreinte ; lue par les soignants du cabinet (aide-soignante comprise, jamais l'administration non soignante), lecture tracée au journal des accès ; jamais versée au DMP, à l'export FHIR, au portail externe ni au registre des documents. Au terminal, gardée chiffrée avec la précharge et lisible hors connexion.</p>",
+  "p": "Feuille de route, ligne « Confort quotidien », idées reprises de l'ancienne application du fondateur ; elle complète les accès au domicile de la géolocalisation (<code>docs/exploitation/confort-quotidien.md</code> §4).",
+  "r": "Absent du CDC, dont les photos sont celles des objets suivis et des actes (l. 138).",
+  "dec": "« Conservation des accès au domicile » : la photo suit la durée de l'accès au domicile.",
+  "t": "6e44375 (serveur, migration 0040f), e5a0991 (poste fixe), 16f295c (terminal), fusion 882ef8e (15 octobre) · <code>POST|GET|DELETE /patients/{id}/acces-domicile/photo</code>, table <code>photo_entree_domicile</code>, <code>mobile/lib/ecrans/confort.dart</code> (<code>PhotoEntree</code>)",
+  "v": ["photo de l'entrée", "entrée", "porte", "accès au domicile", "confort quotidien"]}
+]}
+</script>
+<script type="application/json" data-theme="qualite">
+{"titre": "Qualité d'ingénierie et outillage", "intro": "Ce qui tient le produit juste quand plusieurs équipes livrent en parallèle. À savoir : depuis le 15 octobre, une commande (<code>scripts/verifier_tout.ps1</code>) lance tous ces contrôles et un crochet la passe avant chaque envoi ; la CI hébergée est prête mais attend le choix de son hébergement (Q-70). Le script qui génère la matrice de couverture n'est pas versionné.", "entrees": [
+ {"n": "Matrice de couverture du CDC et audits périodiques", "o": ["doc"], "s": "en-place", "c": "hors",
+  "d": "<p>Chaque élément du CDC (533) et chaque règle de fiche (504) a une ligne : statut, preuve dans le code et les tests, manque restant. Cinq audits du 3 au 9 octobre (dernier au commit <code>d004f34</code>), avec les non-conformités relevées et corrigées.</p>",
+  "p": "Savoir à tout moment ce qui est fait, simulé ou bloqué : « plus aucune exigence absente, 44 non-conformités corrigées » (audit c8044ec).",
+  "r": "Absent du CDC, qui fixe les identifiants stables des exigences (l. 82) sans demander de matrice.",
+  "t": "a724f06 (3 octobre), b0b9f37, 60cfaa2 (4 octobre), d6a14b3 (7 octobre), c8044ec (9 octobre) · <code>docs/couverture_cdc.md</code>",
+  "v": ["couverture", "audit", "non-conformité", "traçabilité"]},
+ {"n": "Questions ouvertes au fondateur", "o": ["doc"], "s": "en-place", "c": "au-dela",
+  "d": "<p>Une table des décisions apparues dans le code : ce qui est branché en attendant et ce qu'il reste à trancher. 18 sujets au 9 octobre ; 70 questions, numérotées Q-01 à Q-70 sans trou, au commit ff74608 (dont Q-67 site public, Q-68 recherche hors connexion, Q-69 référentiel des prérequis de passage, Q-70 hébergement de l'intégration continue).</p>",
+  "p": "« En attendant, le code branche une valeur ou un comportement prudent, remplaçable sans migration » (§7.1).",
+  "r": "Le CDC tient un registre de ses propres décisions D-01 à D-21 (§13) ; cette table y ajoute celles que le code a fait apparaître.",
+  "t": "2f927d4 (8 octobre), c8044ec (9 octobre) · <code>docs/couverture_cdc.md</code> §7.1",
+  "v": ["décision", "fondateur", "arbitrage"]},
+ {"n": "Tableau de bord accéléré par des agrégats", "o": ["serveur"], "s": "en-place", "c": "precise",
+  "d": "<p>Les points de suivi (glycémie, constantes, INR) sont gardés dans une table d'agrégats recalculée pour les seuls actes nouveaux ou corrigés : le tableau de bord passe d'environ 2,0–2,3 s à 1,0–1,1 s (95 % des réponses) sur 150 patients et 11 807 actes, réponses identiques valeur à valeur.</p>",
+  "p": "« Le tableau de bord reste au-dessus de 2 s » (089e9d2) ; mesures avant et après (830d6b5).",
+  "r": "Complète un point laissé à préciser par le CDC : les temps de réponse sont une rubrique « → à écrire » (§12, l. 993).",
+  "t": "ac3661b, 830d6b5, 695d73b, 7 octobre · migration 0030 (<code>serie_acte</code>), <code>backend/scripts/agregats.py</code>",
+  "v": ["performance", "serie_acte", "agrégats", "lenteur"]},
+ {"n": "Garde-fou du nombre de requêtes", "o": ["outil"], "s": "en-place", "c": "precise",
+  "d": "<p>Un test plafonne le nombre de requêtes SQL et le temps des lectures lourdes : il échoue sur une régression grossière (une requête par patient ou par acte).</p>",
+  "p": "« Plafonds SQL et temps à petit volume » (f594719).",
+  "r": "Complète un point laissé à préciser par le CDC : temps de réponse (§12, l. 993).",
+  "t": "f594719 (4 octobre), 089e9d2, ac3661b (7 octobre) · <code>backend/tests/test_perf_fumee.py</code>",
+  "v": ["N+1", "requêtes", "performance"]},
+ {"n": "Instantané des formes des lectures", "o": ["outil"], "s": "en-place", "c": "hors",
+  "d": "<p>Un test garde la forme exacte de chaque réponse de lecture de l'API : une clé, un type ou une imbrication qui change le fait échouer ; on ne le régénère que pour des ajouts.</p>",
+  "p": "Pris avant le lot de performances, pour que l'optimisation ne change rien de ce que lisent les écrans (docstring du test).",
+  "r": "Absent du CDC.",
+  "t": "849389f (4 octobre), puis dbbada3, ffe4fca, b5af6a6 · <code>backend/tests/test_formes_lectures.py</code>",
+  "v": ["test", "contrat", "régression"]},
+ {"n": "Codes du CDC jamais à l'écran", "o": ["outil", "serveur", "poste"], "s": "en-place", "c": "hors",
+  "d": "<p>Les identifiants du cahier (EX-, RG-, C…) ne sortent jamais dans un texte destiné au soignant : un refus porte un message lisible et garde l'identifiant à part. Un test parcourt le code, les PDF de démonstration et les refus pour le vérifier.</p>",
+  "p": "« Identifiants du cahier dans « regle » ; ~470 littéraux nettoyés » (7f6acf5).",
+  "r": "Absent du CDC.",
+  "t": "cf9663a (2 octobre), 7f6acf5, 9aeedaf (4 octobre) · <code>backend/tests/test_libelles_sans_codes.py</code>",
+  "v": ["libellé", "message d'erreur", "refus"]},
+ {"n": "Une base de test par processus", "o": ["outil"], "s": "en-place", "c": "hors",
+  "d": "<p>Les tests du serveur tournent en parallèle, chaque processus sur sa propre base ; le test des migrations a aussi la sienne.</p>",
+  "p": "« Quelques minutes au lieu de dix » (README du serveur) ; « plus d'aller-retour de schéma sur la base partagée » (7f6acf5).",
+  "r": "Absent du CDC.",
+  "t": "849389f, 7f6acf5 (4 octobre), cefcd2f · <code>backend/tests/conftest.py</code>",
+  "v": ["pytest", "xdist", "parallèle"]},
+ {"n": "Tests d'intégration du terminal contre une vraie API", "o": ["outil", "terminal"], "s": "en-place", "c": "hors",
+  "d": "<p>Des contrôles qui pilotent le terminal contre un serveur réel : connexion, précharge, signature par la file, photo, rejeu sans doublon ; chaque fichier sème son propre cabinet de démonstration.</p>",
+  "p": "Éprouver le hors connexion de bout en bout ; chaque fichier « n'hérite plus de ce qu'un autre a consommé » (a6ce298).",
+  "r": "Absent du CDC.",
+  "t": "c22dfce (2 octobre), a6ce298 (4 octobre) ; option <code>-Integration</code> de <code>verifier_tout</code> (15 octobre) · <code>mobile/test/integration/</code> (24 fichiers, 47 tests au commit ff74608), <code>/dev/demo?jeu=</code>",
+  "v": ["intégration", "Flutter", "rejeu"]},
+ {"n": "Contrat d'API commun régénéré à chaque lot", "o": ["outil", "doc"], "s": "en-place", "c": "au-dela",
+  "d": "<p>Le contrat OpenAPI est régénéré à chaque lot ; le poste fixe en tire ses types, le terminal y contrôle ses requêtes dans ses tests.</p>",
+  "p": "Faire travailler en parallèle des équipes serveur, poste fixe et terminal sur un « contrat d'API commun » (couverture §6).",
+  "r": "Le CDC pose « une seule API » (l. 100) ; le contrat versionné et contrôlé va au-delà.",
+  "t": "e43eb51 (2 octobre), 9b4d110, ac9a383 (3 octobre) · <code>docs/api/openapi.json</code>",
+  "v": ["OpenAPI", "types", "contrat"]},
+ {"n": "Page d'erreur qui garde la navigation", "o": ["poste"], "s": "en-place", "c": "hors",
+  "d": "<p>Une page du poste fixe qui tombe laisse un avis lisible et la navigation au lieu d'une page blanche.</p>",
+  "p": "« Une page qui tombe laisse désormais un avis et la navigation » (cb4800a).",
+  "r": "Absent du CDC.",
+  "t": "cb4800a (7 octobre), c6f1dd0 (8 octobre) · <code>web/src/composants.tsx</code> (<code>GardePage</code>)",
+  "v": ["page blanche", "erreur"]},
+ {"n": "Mode captures et certificat de développement", "o": ["outil"], "s": "en-place", "c": "hors",
+  "d": "<p>Un mode du terminal qui ouvre chaque écran dans un état connu pour les captures de démonstration, un script de captures du poste fixe (avec axe-core), et un certificat local pour servir l'API en HTTPS en démonstration.</p>",
+  "p": "« Outils de démonstration hors de l'interface normale » ; certificat « pour servir l'API en HTTPS en local et en démonstration » (c06541f).",
+  "r": "Absent du CDC.",
+  "t": "9338b12 (3 octobre), 93eafa3 (7 octobre), c06541f (9 octobre) · <code>mobile/lib/captures.dart</code>, <code>docs/maquettes/capture-web.mjs</code>, <code>backend/scripts/certificat_dev.py</code>",
+  "v": ["captures", "TLS", "HTTPS"]},
+ {"n": "Horloge unique de l'application", "o": ["serveur", "outil"], "s": "en-place", "c": "hors",
+  "d": "<p>L'instant présent, la date du jour à Paris et le <code>now()</code> de la base se lisent à un seul endroit (<code>app.horloge</code>) : « aujourd'hui » n'est plus la date du serveur ou d'UTC, et une démonstration posée à toute heure ne date rien dans le futur. <code>TABSANTE_HORLOGE</code> (« HH:MM », développement seulement, refusée ailleurs dès l'import) recale l'horloge, jetons, sessions et base compris, pour rejouer la suite de tests à 0 h 30, 7 h ou 23 h 45. Un test échoue dès qu'une lecture directe de l'heure apparaît ailleurs dans <code>app/</code>, hors trois exceptions déclarées.</p>",
+  "p": "Des tests et la démonstration échouaient selon l'heure : <code>date.today()</code> lisait la date du serveur, pas celle de Paris ; un passage imprévu daté de 8 h 30 était refusé avant 8 h 25 ; la tournée « en cours » partait la veille au soir peu après minuit (39febde, 7f16a01, a6384b7) ; l'instantané des lectures échouait la nuit sur <code>main</code> (0395cd5).",
+  "r": "Absent du CDC, qui ne traite pas de l'heure de l'application ; l'horodatage serveur conservé à côté de l'heure de saisie y est (§8.2, l. 958).",
+  "t": "39febde, a6384b7, 7f16a01, 469640b, 4ecbb7e, 263c539, 46c665a, 0395cd5, fusion 5201b5f (15 octobre) · <code>backend/app/horloge.py</code>, <code>backend/tests/test_horloge.py</code>",
+  "v": ["horloge", "heure", "TABSANTE_HORLOGE", "fuseau", "Paris", "tests"]},
+ {"n": "Reconfirmation des cotations en une seconde, sous garde-fou", "o": ["serveur", "outil"], "s": "en-place", "c": "precise",
+  "d": "<p>La reconfirmation des cotations du cabinet lit le moteur une fois pour tout le lot (patients et jours des actes), verrouille et tient les compteurs en copie, puis les écrit en une requête : environ 37 lectures et deux écritures par acte, une seconde, au lieu de 6 900 requêtes et 14 à 21 secondes pour les 189 actes d'une démonstration fraîche. La liste « à facturer », la création des FSE et la mise en lot ne relisent plus les séjours HAD acte par acte. Un test de garde plafonne les lectures (50 pour toute la reconfirmation, quelle que soit sa taille), les écritures par acte et le temps.</p>",
+  "p": "Après la cotation par passage, la reconfirmation dépassait le délai du terminal, 15 secondes (6e89298, <code>test_perf_confirmer.py</code>). Sorties identiques sur la démonstration.",
+  "r": "La reconfirmation est au CDC (EX-FA-05, l. 885) ; son temps complète la rubrique « temps de réponse » laissée à écrire (§12, l. 993).",
+  "t": "6e89298, b7e1042, 8a8924f, fusion 3d7a39a (15 octobre) · <code>backend/app/cotation/__init__.py</code> (<code>reconfirmation_groupee</code>), <code>backend/tests/test_perf_confirmer.py</code>",
+  "v": ["performance", "NFR-08", "requêtes", "reconfirmation", "à facturer"]},
+ {"n": "Vérification complète en une commande, crochet avant envoi, CI prête", "o": ["outil", "doc"], "s": "en-place", "c": "hors",
+  "d": "<p><code>scripts/verifier_tout.ps1</code> (jumeau <code>verifier_tout.sh</code>) : base jetable créée dans le conteneur et supprimée à la fin, même après un échec ; migrations à neuf, dernière défaite puis rejouée, une seule tête ; tests du serveur avec couverture, puis la suite rejouée horloge recalée à 0 h 30 (garde de l'horloge) ; poste fixe (types, lint, tests, build) ; terminal (analyze, tests, build web) ; couvertures et rapports JUnit dans <code>rapports/</code>. Toutes les étapes tournent ; tableau final en français, code 1 au moindre échec. <code>-Rapide</code> ne vérifie que les parties changées depuis <code>main</code> ; <code>-Integration</code> lance le terminal contre une API temporaire. <code>scripts/installer_hooks.ps1</code> pose un crochet <code>pre-push</code> qui lance <code>-Rapide</code>. Deux définitions de CI équivalentes (<code>.github/workflows/ci.yml</code>, <code>.gitlab-ci.yml</code>) : trois travaux (serveur avec postgres:17, web Node 24, terminal Flutter 3.47.6) et un passage nocturne à 0 h 30.</p>",
+  "p": "Feuille de route, « Intégration continue » : les fichiers de tests doivent tourner à chaque changement, « pour que les lots menés en parallèle cessent de se casser les uns les autres » (<code>docs/exploitation/integration-continue.md</code>). La garde de l'horloge attrape un test qui suppose la journée déjà entamée.",
+  "r": "Absent du CDC.",
+  "dec": "« Hébergement de l'intégration continue » (Q-70) : où héberger le code et l'exécuteur, GitHub ou GitLab ; en attendant, la vérification locale et le crochet.",
+  "t": "1e95cde, fusion 0d8ee6d (15 octobre) · <code>scripts/verifier_tout.ps1</code>, <code>scripts/verifier_tout.sh</code>, <code>scripts/installer_hooks.ps1</code>, <code>.github/workflows/ci.yml</code>, <code>.gitlab-ci.yml</code>, <code>docs/exploitation/integration-continue.md</code>",
+  "v": ["intégration continue", "CI", "verifier_tout", "pre-push", "crochet", "GitHub Actions", "GitLab CI", "00:30", "couverture"]},
+ {"n": "Synchronisation à nombre de requêtes constant, poste fixe allégé", "o": ["serveur", "poste", "outil"], "s": "en-place", "c": "precise",
+  "d": "<p><code>/sync</code> lit les actes d'un passage une fois par lot au lieu d'un par un, et n'émet qu'un avis de changement (<code>NOTIFY</code>) par transaction au lieu d'un par acte : mesure A/B du 15 octobre au volume de référence, 50 actes 533 → 383 requêtes, 12 actes 140 → 117 ; un test vérifie que le nombre de requêtes ne dépend plus de la longueur du passage. Au même lot, le paquet d'entrée du poste fixe passe de 2 256 à 661 Ko : les pages se chargent à leur première visite, MapLibre seulement à l'ouverture d'une carte.</p>",
+  "p": "NFR-08, mesure A/B au volume de référence : le passage recoté relisait ses actes un par un et chaque acte émettait son avis de changement (7740846, f3a506f, 5723b38).",
+  "r": "Complète un point laissé à préciser par le CDC : « temps de réponse hors connexion et en ligne · durée maximale de synchronisation d'une tournée » (§12, l. 993).",
+  "t": "7740846, f3a506f, 5723b38, 2b8b7c9 (15 octobre) · <code>backend/app/lot.py</code>, <code>backend/app/cotation/__init__.py</code>, <code>backend/app/evenements.py</code>, <code>backend/tests/test_perf_fumee.py</code> (<code>test_sync_constante_quand_le_passage_s_allonge</code>), <code>docs/exploitation/performance.md</code>",
+  "v": ["performance", "NFR-08", "/sync", "requêtes", "NOTIFY", "paquet", "découpage", "MapLibre"]}
+]}
+</script>
+<script type="application/json" data-theme="audit">
+{"titre": "Repris de l'audit Carea et Cirona", "intro": "L'audit du 14 octobre 2026 (<code>docs/guide/audit-carea-cirona.html</code>) compare TabSanté aux six dépôts de Carea et Cirona, l'ancienne application du fondateur : Carea a de l'avance sur la tournée, la géographie et le planning. Les idées retenues sont réécrites dans la pile de TabSanté, en lots fusionnés le 15 octobre ; la reprise directe est autorisée depuis (<code>docs/guide/carea-vs-tabsante.html</code>), et trois reprises directes ont suivi le même jour : le cahier CNDA au banc de cotation, la reprise d'un cabinet Carea, la préparation des passages. La tournée au terminal (lot E) est au thème suivant, avec la géolocalisation.", "entrees": [
+ {"n": "Indisponibilités, tournées à couvrir et « Répéter ce service »", "o": ["poste", "terminal", "serveur"], "s": "en-place", "c": "precise",
+  "d": "<p>Chacun déclare ses absences (congé, maladie, formation), ponctuelles ou récurrentes, pour la journée ou certains moments ; qui organise les tournées déclare celles de l'équipe. Le planning signale les tournées à couvrir (des soins dus, personne pour les servir) et propose jusqu'à quatre intervenants du même rôle, disponibles d'abord, titulaires avant remplaçants ; une attribution qui recouvre une absence est refusée, et l'aperçu des passages d'une nouvelle fréquence signale l'attribué absent. « Répéter ce service » reporte une attribution courte toutes les n semaines jusqu'à une date. Le motif d'une absence n'est lu que par l'intéressé et par l'organisation ; le journal garde la période, jamais le motif. Au terminal : « Mes absences », et un échange de tournée refusé quand on est indisponible.</p>",
+  "p": "Audit, lot A : Carea gère indisponibilités, fermetures, pauses et répétition d'une garde ; TabSanté n'avait rien. Elles « alimentent le refus avec proposition de réattribution (EX-TO-03) et l'alerte de tournée non couverte ». Garde-fou retenu : une présence planifiée ne prouve jamais qu'un soin a été fait.",
+  "r": "Complète un point laissé à préciser : le §6.5 se termine par « → Ordre de passage, géographie, durée estimée, tournée du lendemain, indisponibilité d'un intervenant » (l. 868). « Répéter ce service » va au-delà.",
+  "dec": "« Motif d'une indisponibilité » (liste des motifs, qui voit « maladie ») et « Attribution pendant une absence » (refus strict ou avertissement).",
+  "t": "49fa987, 1e7a593, 162d940, fusion 00a3d7b ; 197144e (aperçu, fusion 1e1387d) ; 9860526 (terminal, fusion 3ad281d), 15 octobre · <code>backend/app/domaines/indisponibilites.py</code>, migration 0039a, <code>web/src/pages/Planning.tsx</code>, <code>mobile/lib/ecrans/planning.dart</code>",
+  "v": ["absence", "congé", "réattribution", "remplaçant", "planning", "lot A"]},
+ {"n": "Heures fixes et fenêtres horaires dans l'ordre proposé", "o": ["poste", "terminal", "serveur"], "s": "provisoire", "c": "precise",
+  "d": "<p>Une heure fixe se pose pour un patient, un jour donné ou habituellement ; sans elle, la fenêtre vient des heures prescrites des soins dus, à plus ou moins 30 minutes. « Proposer un ordre » ne s'arrête plus au plus proche voisin : une amélioration locale (échange de segments, déplacement d'un arrêt) sur les trajets du plan sert d'abord la fenêtre encore tenable qui se ferme le plus tôt, et une heure fixe passe avant une heure prescrite (une minute de retard sur une heure fixe pèse vingt minutes hors fenêtre). L'ordre se règle aussi par glisser-déposer, flèches gardées ; rien n'est enregistré sans validation. Le plan dit l'heure fixe, la fenêtre, l'attente et le hors fenêtre.</p>",
+  "p": "Audit, lot A : Carea calcule l'ordre sur une matrice de trajets, avec fenêtres horaires, passages verrouillés et amélioration locale, et propose le glisser-déposer ; TabSanté en était « au plus proche voisin à vol d'oiseau et aux flèches ». Une heure prescrite manquée ne se rattrape pas un arrêt à la fois (ba02f01).",
+  "r": "Complète l'« ordre de passage » laissé à préciser au §6.5 (l. 868). Les horaires prescrits sont au CDC (composant C24) ; la marge autour d'eux et l'heure convenue avec le patient n'y sont pas.",
+  "dec": "« Fenêtre d'une heure prescrite, poids d'une heure fixe » : marge par soin, heure fixe impérative ou non (30 minutes provisoires, <code>fenetre_horaire_min</code>).",
+  "t": "1c661a0, 5f202f9, ba02f01, 162d940, fusion 00a3d7b (15 octobre) · <code>backend/app/ordonnancement.py</code>, <code>backend/app/domaines/itineraires.py</code> (<code>fenetre</code>, <code>PUT /tournees/{id}/heures-fixes</code>), <code>web/src/pages/Itineraire.tsx</code>",
+  "v": ["heure fixe", "fenêtre horaire", "2-opt", "optimisation", "glisser-déposer", "ordre proposé", "lot A"]},
+ {"n": "Indicateurs de tournée en tuiles cliquables", "o": ["poste", "terminal", "serveur"], "s": "simule", "c": "hors",
+  "d": "<p>Kilomètres, temps de trajet, temps de soins, remplissage de la journée, passages prévus, réalisés et non réalisés, par jour ou par semaine, pour le cabinet ou un intervenant ; au tableau de bord et dans Tournées, la tuile choisie pilote le graphique ; au terminal, « Mes indicateurs » sur 14 jours. Calculés sur les plans des tournées (trajets simulés, heures réelles comprises) ; le remplissage rapporte trajets et soins à une journée de référence de 7 heures. Depuis la préparation des passages, ils comptent aussi les passages non réalisés faute d'un prérequis et les prérequis non tenus. Rien de la cotation ni d'un montant : l'aide-soignant voit les siens.</p>",
+  "p": "Audit, lot A : Carea présente ses indicateurs de tournée en tuiles cliquables ; chez TabSanté, « les durées sont déjà tracées par l'itinéraire ».",
+  "r": "Absent du CDC, dont le tableau de bord suit « les patients, pas l'activité » (EX-TB-01, l. 935) : ces indicateurs servent l'organisation des tournées, à part du suivi des patients.",
+  "dec": "« Remplissage d'une journée » : journée de référence par intervenant, attente comprise ou non, indicateurs d'un collègue visibles ou non (7 heures provisoires, <code>journee_reference_min</code>).",
+  "t": "1e7a593, 162d940, fusion 00a3d7b ; 9860526 (terminal), 15 octobre · <code>backend/app/domaines/indicateurs_tournees.py</code>, <code>web/src/pages/IndicateursTournees.tsx</code>",
+  "v": ["indicateurs", "remplissage", "kilomètres", "tableau de bord", "lot A"]},
+ {"n": "Zone d'intervention et durées de soin du cabinet", "o": ["poste", "serveur"], "s": "en-place", "c": "precise",
+  "d": "<p>Réglages des tournées du cabinet : une zone d'intervention, cercle de 200 m à 50 km autour du point de départ, dessinée sur la carte ; un domicile hors zone est signalé (itinéraire, préparation du lendemain, aperçu des passages), sans rien bloquer. Par soin, trois durées côte à côte : la provisoire de l'application, la durée type que fixe le cabinet, la durée observée sur ses passages tracés, plus depuis la préparation des passages une durée suggérée à reprendre ; l'estimation retient les passages de l'intervenant, puis de l'équipe, du cabinet, puis la durée type, puis la provisoire.</p>",
+  "p": "Audit, lot A : Carea règle zone d'intervention, soins proposés et durée type par soin. TabSanté les ajoute à côté de la durée tirée des passages de chaque intervenant, qu'il garde « plutôt que corrigée à la main ».",
+  "r": "Complète « géographie, durée estimée », laissés à préciser au §6.5 (l. 868).",
+  "dec": "« Durées des soins par intervenant ».",
+  "t": "1c661a0, 162d940, fusion 00a3d7b (15 octobre) · <code>PUT /cabinet/zone</code>, <code>GET</code> et <code>PUT /cabinet/durees-soins</code> (<code>backend/app/domaines/itineraires.py</code>), <code>web/src/carte.tsx</code>",
+  "v": ["zone", "rayon", "hors zone", "durée type", "durées", "lot A"]},
+ {"n": "« Préparer demain », validé par l'infirmier", "o": ["poste", "terminal", "serveur"], "s": "en-place", "c": "precise",
+  "d": "<p>La veille, pour une tournée et un moment : l'ordre proposé face à l'ordre actuel, la durée et la fin estimées de chacun, et les alertes qui changent la tournée (météo annoncée, intervenant indisponible ou personne d'attribué, heure fixe ou prescrite intenable, domicile hors zone). Qui tient la tournée ce jour-là, ou qui l'organise, valide : l'ordre devient celui du jour, la validation est gardée avec sa durée et sa fin estimées, signalée périmée si l'ordre change ; depuis le confort quotidien, qui tiendra la tournée en est notifié (sans patient ni soin), et les prérequis à confirmer y figurent. Au poste fixe dans l'itinéraire, au terminal dans Planning.</p>",
+  "p": "Audit, lot A : Carea fait revoir et valider la tournée du lendemain ; « moins de prélèvements manqués faute de patient à jeun ». Les rappels qui s'y fieront sont hors CDC et non construits : cadrage à part (<code>docs/conception/rappels-whatsapp-et-planning.md</code>) et décision 5 de l'audit.",
+  "r": "Complète la « tournée du lendemain » laissée à préciser au §6.5 (l. 868).",
+  "dec": "« Validation de la tournée du lendemain » : obligatoire ou non, rappels qui s'y fient (canal, heure).",
+  "t": "49fa987, 1e7a593, 162d940, fusion 00a3d7b ; 9860526 (terminal, fusion 3ad281d), 15 octobre · <code>backend/app/domaines/preparation_tournee.py</code>, <code>web/src/pages/PreparationTournee.tsx</code>, <code>mobile/lib/ecrans/planning.dart</code>",
+  "v": ["préparer demain", "tournée du lendemain", "validation", "rappel", "lot A"]},
+ {"n": "Aperçu des passages avant de valider une fréquence", "o": ["poste", "serveur"], "s": "en-place", "c": "au-dela",
+  "d": "<p>Avant de créer une fréquence ou une matrice soin × moment : les passages qu'elle produira (dates, moments, tournée, intervenant attribué, heure prescrite) et ses conflits (personne d'attribué, attribué indisponible avec le remplacement proposé, même soin au même moment, heure fixe d'un autre patient déjà prise, retour d'établissement sur l'ancienne ordonnance), ou ses avertissements (domicile hors zone). « Valider quand même » exige un motif, réclamé par le serveur (409 sinon) et tracé au journal ; au terminal, un passage imprévu est servi par qui le crée, refusé seulement sur conflit.</p>",
+  "p": "Audit, lot C : Carea montre, avant de valider une ordonnance ou un rythme, les jours, moments et tournées des passages générés et leurs conflits. La surveillance retenue passe par le même aperçu (d06930b).",
+  "r": "Va au-delà d'EX-PF-07 (« le système propose, l'infirmier valide », l. 838) et d'EX-TO-03 (refus et proposition de réattribution à l'attribution, l. 862) : le CDC ne demande pas de prévisualiser les passages d'une fréquence.",
+  "t": "cfb79de, f1e93e3, fusion bdded8f ; 197144e, d06930b, fusion 1e1387d (15 octobre) · <code>POST /prescriptions/{id}/frequences?apercu=true</code> (<code>backend/app/domaines/prescriptions.py</code>), <code>web/src/pages/Frequence.tsx</code>",
+  "v": ["aperçu", "conflit", "Valider quand même", "motif de dérogation", "lot C"]},
+ {"n": "Lignes de cotation explicites et règles datées (moteur de démonstration)", "o": ["serveur", "poste", "terminal"], "s": "simule", "c": "au-dela",
+  "d": "<p>La doublure du moteur (référentiel <code>tabsante-ngap-demo</code>) cote le passage entier et rend chaque ligne avec son statut (retenue, taux réduit, incluse, écartée, plafonnée, à régulariser), son taux (1, 0,5 ou 0), sa quantité et les règles appliquées, chacune renvoyant à son article : cumul de l'art. 11 B et sa dérogation pour la ponction veineuse, majorations une fois par passage. Les règles sont versionnées par date d'effet (jalons de l'avenant 11 au 1er janvier 2028 et 2029, « à confirmer ») ; la cotation garde la version des règles et des tarifs. File de contrôle, FSE (taux, quantité), poste fixe et terminal lisent le statut au lieu de déduire d'un coefficient nul ; les règles s'expliquent à l'infirmier.</p>",
+  "p": "Audit, lot B, d'après le moteur NGAP de Carea : sans sortie explicite, le contrôle et la facturation déduisent d'un code ou d'un coefficient nul, et un acte à 50 % ne s'exprime pas dans la FSE. Le moteur de Carea n'est pas repris : licence, et 17 cas CNDA conformes sur 44.",
+  "r": "La cotation par passage est au CDC (EX-FA-01, l. 878 ; EX-FA-04, l. 884 : voir « Vérifiés puis écartés »). La sortie qu'il décrit (lignes, majorations, rôle propre, compteurs) ne demande ni statut, ni taux, ni règles citées, ni versions datées. Le moteur réel reste un actif de TABSANTE (l. 86).",
+  "t": "05dfd16, 52dfe16, 40938c3, fusion bb89766, 44711e7 ; 60effb8 (terminal, fusion 3ad281d), 15 octobre · <code>backend/app/cotation/demo.py</code>, <code>regles_demo.json</code>, <code>interface.py</code>, migration 0039b",
+  "v": ["cotation par passage", "11 B", "cumul", "taux", "statut", "date d'effet", "lot B"]},
+ {"n": "Calendrier des fériés, zones et déplacements", "o": ["serveur"], "s": "provisoire", "c": "precise",
+  "d": "<p>Un calendrier des jours fériés calculé sans réseau : onze fériés du Code du travail, Vendredi saint et 26 décembre en Alsace-Moselle, abolition de l'esclavage par DROM, Pâques calculé, territoire tiré du code postal ; une ordonnance « hors dimanches et fériés » ne produit plus de passage ces jours-là. Les faits de déplacement rejoignent ceux du passage : distance (port d'itinéraire, simulé), commune en zone de montagne et même agglomération (extrait de démonstration, régénéré depuis les fichiers ouverts de La Poste, data.gouv et l'INSEE par <code>scripts/zones_ik.py</code>), patients d'une même adresse, kilomètres du jour. Par défaut (règle provisoire « déplacements »), ils sont transmis et rien n'est coté ; réglée sur « cotées », la doublure cote une IFD par passage et des IK plaine ou montagne, avec franchise et abattement journalier.</p>",
+  "p": "Audit, lot B : Carea tient zone montagne, agglomération, territoire et un calendrier des fériés, même incomplets, et TabSanté n'avait aucun de ces faits ; mais ses IK sont fausses (distances chaînées, altitude inventée) : d'où des faits tirés des sources ouvertes, versionnés, et aucun montant d'IK avant le moteur réel. Le choix « dimanches et fériés » de l'ordonnance était saisi mais ignoré.",
+  "r": "Complète deux points à préciser des composants communs : « Majorations de dimanche et de jour férié : même composant, ou règle séparée du moteur » (C24, l. 560) et « frais de déplacement » (C23, l. 512). L'entrée du moteur au CDC ne cite pas le déplacement (EX-FA-01, l. 878).",
+  "dec": "Décision 4 de l'audit : jeux ouverts retenus pour les zones, leur licence et leur mise à jour, fournisseur réel du géocodage et des trajets (« Géocodage et calcul d'itinéraire », §7.1).",
+  "t": "b7f801b, ddb25f4, 05dfd16, fusion bb89766 (15 octobre) · <code>backend/app/calendrier.py</code>, <code>backend/app/cotation/zones.py</code>, <code>zones_demo.json</code>, <code>backend/scripts/zones_ik.py</code>",
+  "v": ["férié", "dimanche", "Alsace-Moselle", "DROM", "IK", "IFD", "montagne", "agglomération", "INSEE", "lot B"]},
+ {"n": "Banc de conformité « Cotation » sur le cahier CNDA (démonstration)", "o": ["outil"], "s": "simule", "c": "precise",
+  "d": "<p>Des cas (faits d'un passage, lignes et montant attendus au centime) rejoués contre le moteur branché sans base ni réseau, avec un rapport conformes, écarts et bloqués : A, moteur incorrect ou règle manquante ; B, fait inexprimable dans l'entrée (le fait manquant est nommé) ; C, impossible par construction. Deux recueils : les 44 cas du cahier CNDA « Cas de facturation infirmiers » (JE 1.40.14 CF-IF, 04/2026), repris des transcriptions Carea et traduits en faits de passage (<code>cas_cnda.json</code>), et 16 cas écrits depuis la NGAP (<code>cas_ngap.json</code>).</p><p>Avec la doublure demo-0.3 : cahier CNDA <strong>19 conformes au centime, 0 écart, 25 bloqués</strong> (17 B, 8 C) ; les 60 cas ensemble, 34 conformes, 0 écart, 26 bloqués. Un test échoue dès qu'un cas conforme régresse. C'est un banc d'essai de la doublure de démonstration, <strong>jamais un agrément CNDA</strong> : il mesurera le moteur réel de TABSANTE quand il sera branché.</p>",
+  "p": "Audit, lot B : le moteur de Carea n'est conforme qu'à 17 cas CNDA sur 44 ; TabSanté voulait un banc prêt à recevoir le cahier (d99c7bc). La reprise directe autorisée, les 44 cas transcrits par Carea ont été traduits en faits de passage (91cdf21) pour mesurer la doublure.",
+  "r": "Complète les « tests de conformité (INS, DMP, SESAM-Vitale, Ségur) », rubrique des exigences non fonctionnelles « → à écrire avec l'architecte » (§12, l. 993). Les tests officiels (CNDA, GIE SESAM-Vitale, Ségur) restent à passer.",
+  "dec": "Décision 3 de l'audit : obtenir le cahier CNDA en vigueur auprès du CNDA ou du GIE SESAM-Vitale ; l'agrément CNDA de TabSanté reste à obtenir.",
+  "t": "d99c7bc, fusion bb89766 ; 91cdf21, c4ba85b, fusion fe2eabe (15 octobre) · <code>backend/scripts/banc_cotation.py</code>, <code>backend/scripts/banc_cotation/cas_cnda.json</code>, <code>cas_ngap.json</code>, <code>backend/tests/test_banc_cotation.py</code>, <code>docs/exploitation/interfaces/moteur-ngap.md</code> ; lancer : <code>cd backend &amp;&amp; uv run python -m scripts.banc_cotation</code>",
+  "v": ["banc", "CNDA", "conformité", "cas de facturation", "19 sur 44", "bloqué", "écart", "lot B"]},
+ {"n": "Doublure de cotation alignée sur le cahier CNDA", "o": ["serveur", "outil"], "s": "simule", "c": "hors",
+  "d": "<p>La doublure de démonstration du moteur (demo-0.3) gagne les règles qui faisaient échouer le cahier : <strong>MAU</strong>, majoration d'acte unique (un seul acte AMI de coefficient 1,5 au plus au passage, jamais sous forfait BSI) ; <strong>AMX</strong> pour l'acte technique facturé en sus d'un forfait BSI et <strong>IFI</strong>, indemnité de déplacement du patient sous forfait BSI ; tranche d'âge du bilan de prévention (RDI) ; <strong>barème IK 299/399</strong> (de 300 à 399 km dans la journée à 50 %, au-delà rien) ; BSI coté en DI. Avant l'alignement : 2 cas conformes et 17 écarts ; après : 19 conformes, aucun écart. Valeurs du cahier « à confirmer » ; rien n'est facturable.</p>",
+  "p": "Les 17 écarts du cahier relevaient de règles manquantes de la doublure (catégorie A) : « doublure de cotation (démonstration) alignée sur le cahier CNDA » (33ec453).",
+  "r": "Absent du CDC : le moteur est un actif de TABSANTE fourni à part (l. 86) ; le CDC ne prévoit pas de doublure.",
+  "t": "33ec453, 336c436, 151296d, fusion fe2eabe (15 octobre) · <code>backend/app/cotation/demo.py</code>, <code>regles_demo.json</code>, <code>tarifs_demo.json</code>",
+  "v": ["MAU", "IFI", "AMX", "barème IK", "299/399", "RDI", "BSI", "doublure", "moteur de démonstration"]},
+ {"n": "Reprise d'un cabinet Carea, à blanc puis entité par entité", "o": ["serveur", "poste", "doc"], "s": "en-place", "c": "au-dela",
+  "d": "<p>Une extraction <strong>en lecture seule</strong> de la base Carea (transaction READ ONLY ; Carea n'est jamais modifié) convertit un cabinet au format pivot (<code>export-carea.json</code>). Paramètres › Reprise de dossiers reconnaît la source « Export Carea » : aperçu à blanc par entité (cabinet, équipe, tournées, prescriptions, ordonnances numérisées, fréquences, historiques et transmissions), ce qui sera repris, ce qui l'est déjà, ce qui est en erreur et ce qui n'est pas repris, chacun avec sa raison ; puis reprise en une transaction, journalisée, rejouable entité par entité (elle ne crée que ce qui manque). Identités provisoires jusqu'à l'INSi, aucun mot de passe ni habilitation repris, historique et transmissions rangés au registre en document, jamais rejoués comme des actes. Un guide décrit prérequis, étapes, correspondances, écarts, risques et retour arrière.</p>",
+  "p": "Carea est le produit que TabSanté remplace, et la reprise directe est autorisée : un cabinet doit pouvoir passer de l'un à l'autre sans ressaisie, Carea intact, avec une sauvegarde de TabSanté pour retour arrière (<code>docs/exploitation/migration-carea.md</code>).",
+  "r": "EX-ID-07 (l. 198) exige l'import des patients et, selon la source, de leur historique (voir « Vérifiés puis écartés ») ; reprendre aussi le cabinet, l'équipe, les tournées et les fréquences, entité par entité, va au-delà. Les formats des autres logiciels restent à décider (D-13).",
+  "t": "f746f3b, 5d3850b, 7ddc0d8, 9800cbc, 1377644, 0777cae, fusion 333b1c5 (15 octobre) · <code>backend/app/reprise_carea.py</code>, <code>backend/app/domaines/reprise.py</code>, <code>web/src/simulation.tsx</code> (<code>PageReprise</code>), <code>backend/tests/test_reprise_carea.py</code> sur une base Carea synthétique et fictive (<code>carea_fixture.sql</code>), <code>docs/exploitation/migration-carea.md</code>",
+  "v": ["Carea", "Export Carea", "migration", "reprise", "import", "lecture seule", "retour arrière"]},
+ {"n": "Préparation des passages : prérequis par soin et « À préparer »", "o": ["poste", "terminal", "serveur"], "s": "provisoire", "c": "hors",
+  "d": "<p>Un référentiel dit, par soin, ce que le patient prépare et quand le confirmer : à jeun, traitement ou matériel à récupérer en pharmacie, ordonnance et carte Vitale, résultats, présence d'un aidant ; échéance « la veille » ou « le matin même ». Le cabinet active, retire ou décale chaque prérequis (Paramètres) ; le jeûne est imposé par les analyses du prélèvement ; traitement, matériel et ordonnance ne valent qu'au premier passage d'une fréquence. Par passage : à confirmer, puis confirmé, non tenu, retiré ou ajouté, et « patient prévenu » (l'infirmier appelle, TabSanté n'envoie rien). « À préparer » sur Aujourd'hui, dans « Avant d'arriver » et « Préparer demain » ; prérequis du passage dans la précharge du terminal. Le motif « non à jeun » d'un prélèvement non réalisé marque le prérequis non tenu, compté dans les indicateurs de tournée. L'aide-soignant voit les prérequis de ses soins, jamais la cotation.</p><p>Au même lot, des <strong>durées suggérées</strong> : la médiane des actes du catalogue repris, arrondie à 5 minutes, proposée à côté de la durée type du cabinet, à valider par lui.</p>",
+  "p": "Audit, lot A : « moins de prélèvements manqués faute de patient à jeun ». Reprise directe d'un catalogue de prérequis par acte et des durées par acte de l'ancienne application, revus pour les soins de TabSanté (<code>prerequis_passage.json</code>, 5a91c92).",
+  "r": "Absent du CDC, qui ne prévoit ni prérequis ni consigne au patient. Les durées suggérées complètent la « durée estimée » laissée à préciser au §6.5 (l. 868).",
+  "dec": "« Référentiel des prérequis de passage » (Q-69) : contenu et validation par un référent IDE ; branché : version 2026.10-1 « à valider », réglée par soin par le cabinet.",
+  "t": "49de58a, 5a91c92, aeb65e8, 2ed3500, e17af6a, d7519eb, fusion f306d7d (15 octobre) · migration 0040d, <code>backend/app/domaines/prerequis.py</code>, <code>backend/app/referentiels/prerequis_passage.json</code>, <code>web/src/prerequis.tsx</code>, <code>backend/tests/test_preparation_passage.py</code>, <code>web/src/test/Prerequis.test.tsx</code>",
+  "v": ["prérequis", "à jeun", "non à jeun", "À préparer", "patient prévenu", "durées suggérées", "Q-69"]},
+ {"n": "Demandes de renouvellement d'ordonnance tracées de bout en bout", "o": ["poste", "serveur"], "s": "simule", "c": "au-dela",
+  "d": "<p>L'échéance d'une ordonnance (ou le dossier) devient une demande au prescripteur : courrier pré-rempli par le moteur des bilans, relu comme tout courrier, signé et acheminé par la messagerie sécurisée (port MSSanté, simulé) ; refusée par le canal, elle reste « à envoyer ». Envoyée, la nouvelle ordonnance du même prescripteur la clôt « reçue », quel qu'en soit le chemin ; sans réponse au terme du délai, elle remonte aux échéances et se relance ; une annulation est motivée. Page Renouvellements d'ordonnance, dossier patient, échéances.</p>",
+  "p": "Audit, lot C : Carea suit ses demandes d'ordonnance de bout en bout, avec relances. TabSanté garde le canal du CDC, le prescripteur par MSSanté, car « sans ordonnance, rien n'est facturable (D-11) ». Le lien de dépôt adressé au patient n'est pas construit.",
+  "r": "Va au-delà d'EX-PF-04 (l. 827), qui demande de signaler le « renouvellement à demander » parmi les échéances, sans suivre la demande.",
+  "dec": "Délai de relance (règle provisoire « relance d'une demande de renouvellement », 7 jours) ; décision 5 de l'audit : rien n'est envoyé au patient.",
+  "t": "35eba6b, 37da5bf, f1e93e3, 8623af9, fusion bdded8f (15 octobre) · <code>backend/app/domaines/renouvellements.py</code>, <code>web/src/pages/Renouvellements.tsx</code>",
+  "v": ["renouvellement", "relance", "prescripteur", "MSSanté", "ordonnance", "lot C"]},
+ {"n": "Référentiels versionnés en base", "o": ["serveur", "outil"], "s": "en-place", "c": "au-dela",
+  "d": "<p>Les référentiels livrés en fichiers passent en base, repris en versions initiales (migration 0039c). Une version nouvelle se prépare en brouillon, hors de portée de l'API, contrôlé (forme, version nouvelle, date d'effet jamais passée et strictement postérieure à la dernière publiée), puis se publie : immuable, elle clôt la précédente la veille de sa date d'effet, et chaque étape entre à la chaîne d'audit avec son empreinte. Les cabinets lisent la version en vigueur, celles à venir et l'historique, à une date donnée ; la nomenclature et les tarifs restent au moteur.</p>",
+  "p": "Audit, lot C : Carea tient ses tables tarifaires versionnées en base. TabSanté y met ses référentiels avec un cycle de vie complet, « l'empreinte entre dans la chaîne d'audit », sans rien rendre éditable de la NGAP.",
+  "r": "Le CDC reçoit les référentiels « sous forme de fichiers » (§0 bis.3, l. 87) ; la source et la mise à jour du prescriptible sont une décision (D-14). La base, le brouillon contrôlé et la publication datée vont au-delà.",
+  "t": "ea9ca7c, f1e93e3, 8623af9, fusion bdded8f (15 octobre) · <code>backend/app/domaines/referentiels.py</code>, <code>backend/scripts/referentiels.py</code>, migration 0039c",
+  "v": ["référentiel", "version", "brouillon", "date d'effet", "publication", "lot C"]},
+ {"n": "Poste fixe mis à jour en direct", "o": ["poste", "serveur"], "s": "en-place", "c": "hors",
+  "d": "<p>Un flux d'événements serveur par cabinet (<code>GET /evenements</code>) : une écriture validée émet, dans sa transaction, un <code>NOTIFY</code> PostgreSQL qui ne porte que le cabinet et des clés (actes, cotations, occurrences, transmissions, notifications, échéances), jamais une donnée de patient ni un identifiant ; une transaction défaite n'émet rien. Le flux s'ouvre avec le jeton dans l'en-tête, jamais dans l'adresse, relit sa session chaque minute et se ferme à la révocation ; la clé des cotations ne va jamais à l'aide-soignant. Le poste fixe invalide ses requêtes, se reconnecte progressivement et relit périodiquement par sécurité.</p>",
+  "p": "Audit, lot C : Carea rafraîchit son poste fixe en direct, mais plusieurs de ses routes, flux temps réel compris, ne demandent qu'une clé publique partagée. TabSanté reprend l'idée avec le cabinet tiré du jeton et « aucun événement de cotation vers une aide-soignante ».",
+  "r": "Absent du CDC, qui demande des notifications (EX-TR-07, l. 920, canal à préciser) mais pas la mise à jour en direct des écrans.",
+  "t": "5e8c635, 39b85ae, f1e93e3, fusion bdded8f (15 octobre) · <code>backend/app/evenements.py</code>, <code>backend/tests/test_lot_c_evenements.py</code>",
+  "v": ["SSE", "temps réel", "en direct", "NOTIFY", "événements", "lot C"]},
+ {"n": "Agent de poste pour les cartes et SESAM-Vitale", "o": ["serveur", "poste", "doc"], "s": "simule", "c": "hors",
+  "d": "<p>Un petit programme installé sur le poste fixe fera le pont entre TabSanté (web), les lecteurs de cartes et le composant SESAM-Vitale homologué. Spécifié avant tout code : il s'enrôle comme un terminal (code à usage unique, secret d'appareil, révocation), tire ses travaux en HTTPS sortant vers un seul serveur (aucun port entrant, aucun serveur local qu'une page web pourrait joindre), ne garde rien de nominatif, et le code porteur se saisit au seul clavier du lecteur. Côté serveur : file des travaux tirés (prise sous bail, fin idempotente, expiration), capacités et blocages du poste lisibles à l'écran, adaptateur SESAM-Vitale par le poste ; un agent simulé (en ligne, hors ligne, lecteur absent, composant obsolète) fait passer le test de contrat SESAM. AreaFSE est versée au dossier D-07 comme composant candidat, avec sa correspondance aux ports.</p>",
+  "p": "Audit, lot D : un agent de bureau existant a été étudié (détail non publié). TabSanté reprend le principe, jamais le code, et écrit d'abord les exigences de sécurité de son propre agent.",
+  "r": "Absent du CDC : il met la lecture des cartes, la mise en lot et la télétransmission au poste fixe (EX-FA-07, l. 887) et laisse le SDK à décider (EX-FA-10, D-07, l. 890), sans dire comment le navigateur joint lecteurs et composant.",
+  "dec": "« Composant SESAM-Vitale (D-07) et agent de poste » : composant (AreaFSE candidat ou autre), contrat éditeur, agrément CNDA de TabSanté, installation chez le cabinet ; aucun agent réel avant cette décision.",
+  "t": "2246f7d, 8307c24, 3ef78e1, 4901c51, 1756cbb, fusion b64201d (15 octobre) · <code>backend/app/postes.py</code>, <code>backend/app/domaines/postes.py</code>, <code>backend/app/sesam/poste.py</code>, <code>agent_simule.py</code>, migration 0039d, <code>docs/exploitation/agent-de-poste.md</code>, <code>docs/exploitation/interfaces/sesam-vitale.md</code>",
+  "v": ["agent", "poste de travail", "lecteur", "SESAM-Vitale", "AreaFSE", "D-07", "lot D"]},
+ {"n": "Appli carte Vitale, lecture par fente et extensions du port SESAM", "o": ["serveur", "poste"], "s": "simule", "c": "hors",
+  "d": "<p>En démonstration : l'appli carte Vitale du patient (jeton de code QR) rend la même lecture scellée qu'une carte, sans lecteur ; cartes lues par emplacement quand le poste a plusieurs lecteurs ; capacités du composant négociées, le serveur n'appelant jamais une fonction non annoncée ; annulation de la DRE ; NIR fictifs jamais versés au dossier. Tout est branché sur les interrupteurs du registre des simulations.</p>",
+  "p": "Audit, lot D : extensions vues chez Cirona ; l'appli carte Vitale est une « piste pour le domicile sans terminal double fente ».",
+  "r": "Le CDC prévoit la carte Vitale lue par un lecteur ISO 7816 (§11, l. 990 ; l. 1374), ni appli, ni plusieurs lecteurs. L'annulation d'une DRE prolonge EX-FA-07 (l. 887).",
+  "t": "4cb2f68, 4901c51, fusion b64201d (15 octobre) · <code>backend/app/cartes.py</code> (<code>lire_apcv</code>), <code>backend/app/sesam/interface.py</code> (<code>capacites</code>, <code>annuler_dre</code>, <code>est_nir_fictif</code>), <code>POST /simulation/lecteur/apcv</code>",
+  "v": ["ApCV", "appli carte Vitale", "QR", "DRE", "NIR fictif", "lot D"]},
+ {"n": "Précharge du terminal rafraîchie", "o": ["terminal"], "s": "en-place", "c": "precise",
+  "d": "<p>Le terminal compare sa précharge au serveur toutes les 5 minutes, avec le contrôle de session, et au retour de l'application au premier plan ; il ne la retélécharge que si elle a changé.</p>",
+  "p": "Audit, lot E : suivre les changements du cabinet au terminal sans « flux permanent à maintenir ».",
+  "r": "Complète la « règle de préchargement » laissée à préciser (§8.1, l. 954).",
+  "t": "84d4795, fusion 3ad281d (15 octobre) · <code>mobile/lib/terminal.dart</code>",
+  "v": ["précharge", "fraîcheur", "lot E"]},
+ {"n": "Photos du terminal en fichiers chiffrés", "o": ["terminal"], "s": "en-place", "c": "au-dela",
+  "d": "<p>Chaque photo devient un fichier chiffré AES-GCM, avec la même clé que la base locale, qui ne garde que sa référence ; les photos existantes migrent sans perte au premier lancement.</p>",
+  "p": "Audit, lot E : la base locale, chargée en mémoire, portait chaque cliché ; « gain de mémoire et de démarrage sur un terminal d'entrée de gamme ». Le chiffrement ne change pas.",
+  "r": "EX-SE-03 demande une base locale chiffrée (l. 985) ; sortir les photos de la base, chiffrées fichier par fichier, va au-delà.",
+  "t": "d253044, fusion 3ad281d (15 octobre) · <code>mobile/lib/coffre.dart</code>, <code>mobile/lib/depot.dart</code>, <code>mobile/test/lot_e_photos_test.dart</code>",
+  "v": ["photo", "chiffrement", "AES", "coffre", "lot E"]}
+]}
+</script>
+<script type="application/json" data-theme="geolocalisation">
+{"titre": "Tournée géolocalisée et vie privée", "intro": "Demandée par le fondateur, fusionnée le 10 octobre (poste fixe, serveur), puis portée au terminal par le lot E de l'audit Carea et Cirona le 15 octobre. Tout service géographique est simulé ; voici les choix qui protègent la position des soignants et les domiciles des patients, avec leur raison. Référence : <code>docs/exploitation/geolocalisation.md</code>.", "entrees": [
+ {"n": "Ports géographiques simulés : géocodage, itinéraire, trafic, météo, GPS", "o": ["serveur"], "s": "simule", "c": "hors",
+  "d": "<p>Cinq ports, chacun servi par un adaptateur simulé déclaré au registre des simulations, avec ses pannes : géocodage (coordonnées fictives, stables pour une même adresse, à moins de quatre kilomètres du centre d'une ville de démonstration ; adresse introuvable) ; itinéraire (vol d'oiseau × 1,3 à 25 km/h, constantes provisoires) ; trafic (heures de pointe des jours ouvrés, embouteillages) ; météo (fictive pour un lieu et une heure, alertes forçables partout ou un seul jour) ; position GPS du poste fixe. Aucun appel externe : aucune adresse, aucune coordonnée de patient, aucune position de soignant ne quitte la plateforme. Chaque heure estimée est dite approximative, avec sa base.</p>",
+  "p": "« Les coordonnées des patients ne quittent jamais la plateforme ; le choix d'un fournisseur réel […] est une décision du fondateur » (<code>backend/app/geo.py</code>). L'audit Carea et Cirona relève à l'inverse des adresses complètes envoyées au géocodeur public et des coordonnées au serveur de démonstration d'itinéraires.",
+  "r": "Le CDC ne prévoit aucun service géographique ; il laisse « géographie, durée estimée » à préciser (§6.5, l. 868).",
+  "dec": "« Géocodage et calcul d'itinéraire » et « Météo et trafic » : fournisseurs auto-hébergés ou sous contrat, et mise à jour de l'AIPD avant production.",
+  "t": "20648e4, 0663ce8, 7154e6e, fusion db1d951 (10 octobre) · <code>backend/app/geo.py</code>, <code>backend/app/simulation.py</code> (domaine « Tournée et géographie »)",
+  "v": ["géocodage", "itinéraire", "trafic", "météo", "GPS", "simulé", "Nominatim", "OSRM"]},
+ {"n": "Position du soignant : consentement, arrondi au kilomètre, effacée à l'arrivée", "o": ["serveur", "terminal", "poste"], "s": "provisoire", "c": "hors",
+  "d": "<p>La position n'est envoyée que si l'intervenant l'a lui-même acceptée (désactivé par défaut, personne d'autre ne peut l'activer, accord daté et journalisé ; le retirer efface les positions gardées), au seul départ qu'il signale, pendant une tournée qu'il tient ; le serveur ignore une position plus ancienne que la rétention. Elle est arrondie au centième de degré (environ un kilomètre) par le téléphone et à la réception, sert au seul calcul de l'heure d'arrivée, n'est rendue par aucune lecture de l'API (ni au soignant, ni à l'IDE, ni à l'aide-soignant, ni à l'administration) et s'efface à l'arrivée, au plus tard après 12 heures, à chaque départ et par la tâche de nuit. Le journal d'audit note seulement si une position a été retenue. La carte du poste fixe montre un soignant simulé qui avance sur le trajet prévu, pas une position reçue.</p>",
+  "p": "Vie privée dès la conception : la géolocalisation d'un professionnel est encadrée (finalité déterminée, information, pas de suivi permanent, pas de contrôle des temps hors finalité) ; références juridiques à valider par le DPO (<code>docs/exploitation/geolocalisation.md</code>).",
+  "r": "Absent du CDC. Les durées de conservation par type de donnée restent à préciser (§10, l. 988 ; D-06).",
+  "dec": "« Conservation des heures de départ et d'arrivée, des positions » : durée des horaires, usage interdit ou non au contrôle du temps de travail, information des intervenants (12 heures provisoires, <code>TABSANTE_POSITION_RETENTION_HEURES</code>).",
+  "t": "20648e4, 0663ce8, 0597737, ae0d733, fusion db1d951 (10 octobre) ; 899c650 (terminal, fusion 3ad281d) · <code>PUT /moi/geolocalisation</code>, <code>backend/app/domaines/itineraires.py</code>, <code>backend/app/config.py</code> (<code>position_retention_heures</code>), tests <code>test_depart_arrivee_retard_et_vie_privee</code>, <code>test_aide_soignant_voit_les_heures_jamais_les_positions</code>",
+  "v": ["position", "consentement", "rétention", "arrondi", "CNIL", "vie privée", "GPS"]},
+ {"n": "Fond de carte libre en démonstration, réglable", "o": ["poste", "terminal"], "s": "provisoire", "c": "hors",
+  "d": "<p>Au poste fixe, une carte MapLibre (globe vu de loin, rues de près) sur le style vectoriel libre d'OpenFreeMap, sans clé, réglable (<code>VITE_CARTE_STYLE</code> : un autre style, un gabarit de tuiles raster, ou « aucune » pour le schéma hors ligne). Au terminal, des tuiles OpenStreetMap par défaut, réglables à la construction (<code>TUILES_URL</code> ; vide : schéma seul). Sans WebGL, sans tuiles ou sans réseau, un schéma prend le relais ; la liste ordonnée porte de toute façon toute l'information.</p>",
+  "p": "Montrer la tournée sans clé ni contrat pendant la démonstration. Mais les tuiles demandées révèlent au fournisseur la zone affichée, donc en creux le quartier des patients, et la politique d'usage d'OpenStreetMap interdit l'usage intensif de ses serveurs : d'où le réglage, et un serveur de tuiles du cabinet, de l'hébergeur HDS ou sous contrat avant production.",
+  "r": "Absent du CDC. La feuille de route prévoyait une « tournée sur carte » (étape 6).",
+  "dec": "« Fond de carte en production ».",
+  "t": "0597737, fusion db1d951 (10 octobre) ; 899c650 (terminal, fusion 3ad281d) · <code>web/src/carte.tsx</code>, <code>mobile/lib/ecrans/itineraire.dart</code>",
+  "v": ["carte", "tuiles", "OpenFreeMap", "OpenStreetMap", "MapLibre", "globe"]},
+ {"n": "Tournée géolocalisée au terminal, hors connexion", "o": ["terminal", "serveur"], "s": "simule", "c": "precise",
+  "d": "<p>Le terminal lit les itinéraires de la précharge : ordre de passage, heure prévue et arrivée estimée, retard en ambre avec l'heure promise barrée, carte, « Avant d'arriver ». « Y aller » note le départ et « Commencer le passage » vaut arrivée : deux opérations mises en file, rejouables, qui partent par <code>/sync</code>. Hors connexion, le téléphone recalcule les heures des arrêts suivants : l'arrivée d'un trajet commencé est l'heure du départ plus la durée du trajet, figée (jamais « maintenant plus la durée », qui reculerait à mesure qu'on roule) ; le serveur refait le calcul à la remontée, avec le trafic et la météo de l'heure réelle. Au même lot : Planning (préparer demain, mes absences, mes indicateurs).</p>",
+  "p": "Audit, lot E : Carea offre au terminal « un geste de trajet complet (départ en un appui, retard visible, appel du patient) ». TabSanté le reprend sur ses itinéraires déjà livrés dans la précharge, GPS facultatif.",
+  "r": "Complète « ordre de passage, géographie, durée estimée », laissés à préciser au §6.5 (l. 868) ; le hors connexion du terminal est au CDC (§8.1, l. 952).",
+  "t": "899c650, 9860526, f2ed12c, 3e55514, fusion 3ad281d (15 octobre) · <code>mobile/lib/itineraire.dart</code>, <code>mobile/lib/ecrans/itineraire.dart</code>, <code>mobile/lib/ecrans/planning.dart</code>",
+  "v": ["tournée", "terminal", "hors connexion", "Y aller", "arrivée estimée", "retard", "lot E"]},
+ {"n": "Navigation vers Waze, Google Maps ou Plans par coordonnées seules", "o": ["terminal"], "s": "en-place", "c": "hors",
+  "d": "<p>« Y aller » ouvre l'application de navigation choisie dans « Moi » (Google Maps par défaut, Waze, Plans d'Apple) par un lien universel https qui ne porte que la latitude et la longitude du domicile : jamais le nom du patient, jamais son adresse. Si l'application ne s'ouvre pas, le départ reste noté et le terminal propose d'en choisir une autre. En démonstration, les repères sont fictifs.</p>",
+  "p": "Audit, lot E : « jamais le nom du patient ». L'application de navigation est un tiers hors de tout contrat ; un nom ou une adresse lui révéleraient une prise en charge, des coordonnées suffisent à guider.",
+  "r": "Absent du CDC.",
+  "t": "899c650, fusion 3ad281d (15 octobre) · <code>mobile/lib/itineraire.dart</code> (<code>lienNavigation</code>)",
+  "v": ["Waze", "Google Maps", "Plans", "navigation", "coordonnées", "lot E"]},
+ {"n": "« Prévenir le patient » d'un retard, par l'appel ou le SMS du téléphone", "o": ["terminal"], "s": "provisoire", "c": "hors",
+  "d": "<p>Au-delà de 10 minutes de retard, ou quand une heure fixe ou prescrite ne peut plus être tenue, la carte du prochain passage passe en ambre, l'heure promise barrée, et propose « Prévenir le patient » : les numéros du dossier (le patient, sa personne de confiance, son entourage), puis l'appel ou un SMS pré-rempli dans l'application du téléphone, au texte neutre : « Bonjour, votre infirmier(ère) aura environ 15 min de retard. » (retard arrondi aux 5 minutes). L'infirmier envoie lui-même ; TabSanté n'envoie rien.</p>",
+  "p": "Audit, lot E : chez Carea, nom du patient et acte prévu partent dans des e-mails d'un prestataire tiers. Ici « aucun prestataire SMS, pas de WhatsApp », et un texte sans nom, sans soin, sans donnée de santé : dire qu'une infirmière passe chez quelqu'un révèle déjà une prise en charge.",
+  "r": "Absent du CDC.",
+  "dec": "« Avis d'arrivée au patient » : un avis envoyé par la plateforme, avec quel consentement et quel canal (aujourd'hui rien n'est envoyé) ; seuil de 10 minutes provisoire (<code>seuilRetardMin</code>). Les rappels automatiques sont cadrés, non engagés : <code>docs/conception/rappels-whatsapp-et-planning.md</code>.",
+  "t": "899c650, f2ed12c, fusion 3ad281d (15 octobre) · <code>mobile/lib/itineraire.dart</code> (<code>texteRetard</code>, <code>telephonesDe</code>), <code>mobile/lib/ecrans/itineraire.dart</code>",
+  "v": ["prévenir", "retard", "SMS", "appel", "texte neutre", "WhatsApp", "lot E"]}
+]}
+</script>
+<!-- DONNEES-FIN -->
+
+<script>
+// Rendu des ajouts depuis les blocs de données ; synthèse, sommaire et comptes calculés.
+(() => {
+  const ETATS = { 'en-place': ['fait', 'En place'], simule: ['simule', 'Simulé'], provisoire: ['provisoire', 'Provisoire'], 'en-cours': ['bleu', 'En cours'] }
+  const RELATIONS = { hors: 'Absent du CDC', 'au-dela': 'Au-delà du CDC', precise: 'Complète un point à préciser' }
+  const LIEUX = { poste: 'Poste fixe', terminal: 'Terminal', serveur: 'Serveur', site: 'Site public', doc: 'Documentation', outil: 'Outillage' }
+  const slug = (s) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/<[^>]+>/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 60)
+  const vus = new Set()
+  const ident = (base) => { let id = base, i = 2; while (vus.has(id)) id = `${base}-${i++}`; vus.add(id); return id }
+  const nombre = (n, un, plusieurs) => `${n} ${n > 1 ? plusieurs : un}`
+  const blocs = [...document.querySelectorAll('script[data-theme]')].map((b) => {
+    try { return [b, JSON.parse(b.textContent)] } catch (e) { console.error('Bloc de données illisible', b.dataset, e); return null }
+  }).filter(Boolean)
+
+  const zone = document.getElementById('zone-ajouts')
+  const lignes = []
+  const totaux = { n: 0, 'en-place': 0, simule: 0, provisoire: 0, 'en-cours': 0, precise: 0, dec: 0 }
+  const parLieu = Object.fromEntries(Object.keys(LIEUX).map((k) => [k, 0]))
+  blocs.forEach(([b, th], i) => {
+    const id = 't-' + b.dataset.theme
+    const c = { n: th.entrees.length, 'en-place': 0, simule: 0, provisoire: 0, 'en-cours': 0, precise: 0, dec: 0 }
+    const cartes = th.entrees.map((e) => {
+      if (!ETATS[e.s] || !RELATIONS[e.c]) console.error('Entrée mal formée', e.n)
+      c[e.s]++; if (e.c === 'precise') c.precise++; if (e.dec) c.dec++
+      for (const o of e.o) { if (LIEUX[o]) parLieu[o]++; else console.error('Lieu inconnu', o, e.n) }
+      const [cl, lib] = ETATS[e.s] || ['', e.s]
+      const puces = `<span class="puce ${cl}">${lib}</span><span class="puce cdc">${RELATIONS[e.c] || e.c}</span>` +
+        e.o.map((o) => `<span class="puce lieu">${LIEUX[o] || o}</span>`).join('') + (e.dec ? '<span class="puce decision">Décision attendue</span>' : '')
+      return `<article class="carte" id="${ident('a-' + slug(e.n))}" data-cherche><h3>${e.n}</h3><div class="puces">${puces}</div>` +
+        `<dl class="champs"><dt>Ce que ça fait</dt><dd>${e.d}</dd><dt>Pourquoi</dt><dd>${e.p}</dd><dt>Par rapport au CDC</dt><dd>${e.r}</dd>` +
+        `${e.dec ? `<dt>Décision du fondateur</dt><dd>${e.dec}</dd>` : ''}</dl>` +
+        `${e.t ? `<p class="traces"><strong>Traces</strong> · ${e.t}</p>` : ''}${e.v ? `<p class="mots">${e.v.join(' ')}</p>` : ''}</article>`
+    }).join('')
+    zone.insertAdjacentHTML('beforeend', `<section class="chapitre" id="${id}" aria-labelledby="h-${id}"><h2 id="h-${id}"><span class="num">${i + 1}</span>${th.titre}</h2>` +
+      `${th.intro ? `<p class="public-intro">${th.intro}</p>` : ''}${cartes}</section>`)
+    for (const k in totaux) totaux[k] += c[k]
+    lignes.push([id, th.titre, c])
+  })
+
+  const cellules = (c) => ['n', 'en-place', 'simule', 'provisoire', 'en-cours', 'precise', 'dec'].map((k) => `<td class="n">${c[k] || '—'}</td>`).join('')
+  const table = document.getElementById('synthese')
+  table.tBodies[0].innerHTML = lignes.map(([id, t, c]) => `<tr><th scope="row"><a href="#${id}">${t}</a></th>${cellules(c)}</tr>`).join('')
+  table.tFoot.innerHTML = `<tr><td>Total</td>${cellules(totaux)}</tr>`
+  document.getElementById('lieux').innerHTML = '<span class="puce">Où ils se trouvent</span>' +
+    Object.entries(LIEUX).map(([k, l]) => `<span class="puce lieu">${l} · ${parLieu[k]}</span>`).join('')
+  document.getElementById('sommaire').innerHTML = `<ol><li><a href="#bref">En bref</a></li><li><a href="#lire">Comment lire cette page</a></li></ol>` +
+    `<p class="toc-titre">Ajouts · ${nombre(totaux.n, 'entrée', 'entrées')}</p><ol>${lignes.map(([id, t, c]) =>
+      `<li><a href="#${id}"><span>${t}</span><span class="n" aria-label="${nombre(c.n, 'ajout', 'ajouts')}">${c.n}</span></a></li>`).join('')}</ol>` +
+    `<ol><li><a href="#ecartes">Vérifiés puis écartés</a></li><li><a href="#a-completer">À compléter</a></li></ol>`
+  document.getElementById('compte-ajouts').textContent = nombre(totaux.n, 'ajout', 'ajouts')
+  document.documentElement.dataset.ajouts = totaux.n
+  if (location.hash) document.getElementById(location.hash.slice(1))?.scrollIntoView()
+})()
+</script>
+<script>
+// Recherche instantanée, sommaire actif, raccourcis, impression. Aucune dépendance, aucun appel réseau.
+(() => {
+  const PLIS = { a: 'aàâä', e: 'eéèêë', i: 'iîï', o: 'oôö', u: 'uùûü', c: 'cç', y: 'yÿ' }
+  const norm = (s) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase()
+  const motif = (mot) => [...mot].map((ch) => PLIS[ch] ? `[${PLIS[ch]}]` : ch.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('')
+  const champ = document.getElementById('recherche')
+  const etat = document.getElementById('recherche-etat')
+  const liens = [...document.querySelectorAll('.toc a[href^="#"]')]
+  const blocs = [...document.querySelectorAll('[data-cherche]')]
+  const surligne = window.CSS && CSS.highlights && window.Highlight ? new Highlight() : null
+  if (surligne) CSS.highlights.set('recherche', surligne)
+
+  const visible = (el) => !el.classList.contains('cache') && !el.closest('.cache')
+  function filtrer () {
+    const mots = norm(champ.value.trim()).split(/\s+/).filter(Boolean)
+    let n = 0
+    for (const b of blocs) {
+      if (b._txt === undefined) b._txt = norm(b.textContent)
+      const ok = mots.every((m) => b._txt.includes(m))
+      b.classList.toggle('cache', !ok)
+      if (ok) n++
+      if (b.tagName === 'DETAILS') b.open = mots.length > 0 && ok ? true : (mots.length ? false : b.hasAttribute('data-ouvert'))
+    }
+    for (const c of document.querySelectorAll('section.chapitre, .groupe')) {
+      const dedans = c.querySelectorAll('[data-cherche]')
+      c.classList.toggle('cache', dedans.length > 0 && ![...dedans].some((b) => !b.classList.contains('cache')))
+    }
+    for (const a of liens) {
+      const cible = document.getElementById(a.hash.slice(1))
+      a.classList.toggle('vide', !!cible && !visible(cible))
+    }
+    if (surligne) {
+      surligne.clear()
+      if (mots.length) {
+        const re = new RegExp(mots.map(motif).join('|'), 'gi')
+        let total = 0
+        for (const b of blocs) {
+          if (!visible(b) || total > 3000) continue
+          const tw = document.createTreeWalker(b, NodeFilter.SHOW_TEXT)
+          for (let t = tw.nextNode(); t; t = tw.nextNode()) {
+            for (const m of t.data.matchAll(re)) {
+              const r = new Range(); r.setStart(t, m.index); r.setEnd(t, m.index + m[0].length)
+              surligne.add(r); total++
+            }
+          }
+        }
+      }
+    }
+    etat.textContent = !mots.length ? '' : n === 0 ? 'Aucun résultat' : n === 1 ? '1 résultat' : `${n} résultats`
+  }
+  let minuterie
+  champ.addEventListener('input', () => { clearTimeout(minuterie); minuterie = setTimeout(filtrer, 80) })
+  champ.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') { champ.value = ''; filtrer() }
+    if (e.key === 'Enter') { const premier = blocs.find(visible); if (premier) premier.scrollIntoView({ block: 'start' }) }
+  })
+  document.addEventListener('keydown', (e) => {
+    const saisie = /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement?.tagName || '')
+    if ((e.key === '/' && !saisie) || (e.key.toLowerCase() === 'k' && (e.ctrlKey || e.metaKey))) {
+      e.preventDefault(); champ.focus(); champ.select()
+    }
+  })
+  const q = new URLSearchParams(location.search).get('q')
+  if (q) { champ.value = q; filtrer() }
+
+  // Téléphone : le sommaire se replie pour laisser voir le contenu.
+  if (matchMedia('(max-width: 900px)').matches) document.querySelector('.toc details')?.removeAttribute('open')
+
+  // Sommaire : l'entrée de la section lue est marquée (aria-current).
+  const cibles = liens.map((a) => [a, document.getElementById(a.hash.slice(1))]).filter(([, c]) => c)
+  let attente = false
+  const marquer = () => {
+    attente = false
+    let courant = null
+    for (const [a, c] of cibles) if (visible(c) && c.getBoundingClientRect().top < 140) courant = a
+    for (const [a] of cibles) a.setAttribute('aria-current', a === courant ? 'true' : 'false')
+  }
+  addEventListener('scroll', () => { if (!attente) { attente = true; requestAnimationFrame(marquer) } }, { passive: true })
+  marquer()
+
+  // Impression : tout est déplié et rien n'est filtré.
+  let ouverts = []
+  addEventListener('beforeprint', () => {
+    ouverts = [...document.querySelectorAll('details')].map((d) => [d, d.open])
+    for (const [d] of ouverts) d.open = true
+  })
+  addEventListener('afterprint', () => { for (const [d, o] of ouverts) d.open = o })
+})()
+</script>
+</body>
+</html>

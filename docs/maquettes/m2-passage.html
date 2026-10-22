@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><title>Terminal — Passage, plaie</title>
+<link rel="stylesheet" href="carnet.css">
+<style>
+  body { background: #d9d2c4; }
+  .patient { background: var(--papier-fonce); border-bottom: 1px solid var(--filet); padding: 4px 16px 12px; display: flex; align-items: center; gap: 12px; }
+  .patient .retour { font-size: 24px; width: 40px; height: 48px; display: grid; place-items: center; margin-left: -10px; }
+  .patient h1 { font-family: var(--f-titre); font-size: 22px; line-height: 26px; font-weight: 600; }
+  .patient .meta { font-size: 14px; }
+  .patient .etape { margin-left: auto; font-size: 14px; color: var(--encre-douce); text-align: right; }
+  .etiquette { margin: 14px 0 0; background: var(--carte); border: 1px solid var(--filet-fort); border-radius: 12px; padding: 14px 14px 12px; position: relative; }
+  .etiquette::before { content: ""; position: absolute; inset: 4px; border: 1px solid var(--filet); border-radius: 9px; pointer-events: none; }
+  .num { font-size: 14px; font-weight: 600; color: var(--encre-douce); display: flex; justify-content: space-between; }
+  .etiquette h2 { font-family: var(--f-titre); font-size: 24px; line-height: 28px; font-weight: 600; margin-top: 4px; }
+  .etiquette .meta { margin-top: 2px; }
+  .frise { display: grid; grid-template-columns: repeat(24, 1fr); gap: 2px; margin-top: 12px; }
+  .frise i { height: 14px; border-radius: 2px; }
+  .det { background: repeating-linear-gradient(135deg, #C99A3B 0 2px, #F6E6C4 2px 4px); }
+  .bou { background: #9DB59F; }
+  .epi { background: var(--sauge); }
+  .auj { outline: 2px solid var(--moka); outline-offset: 1px; }
+  .legende { display: flex; gap: 12px; margin-top: 6px; font-size: 13px; color: var(--encre-douce); flex-wrap: wrap; }
+  .legende span { display: inline-flex; gap: 5px; align-items: center; }
+  .legende b { width: 14px; height: 10px; border-radius: 2px; display: inline-block; }
+  .evolution { display: flex; align-items: center; gap: 12px; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--filet); }
+  .evolution .grand { font-family: var(--f-titre); font-size: 30px; font-weight: 600; line-height: 1; }
+  .section { margin-top: 18px; }
+  .section h3 { font-family: var(--f-titre); font-size: 20px; font-weight: 600; display: flex; justify-content: space-between; align-items: baseline; }
+  .rappel { font-size: 14px; color: var(--encre-douce); margin-top: 4px; }
+  .mesure { display: grid; grid-template-columns: 1fr auto; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--filet); }
+  .mesure label { font-size: 16px; }
+  .stepper { display: flex; align-items: center; gap: 6px; }
+  .stepper button { width: 56px; height: 56px; border-radius: 12px; border: 1.5px solid var(--filet-fort); background: var(--carte); font-size: 24px; display: grid; place-items: center; color: var(--encre); }
+  .stepper output { width: 92px; text-align: center; font: 600 28px/1 var(--f-ui); font-variant-numeric: tabular-nums; }
+  .stepper output small { font-size: 15px; font-weight: 400; color: var(--encre-douce); margin-left: 3px; }
+  .inchange { margin-top: 10px; display: inline-flex; align-items: center; gap: 8px; height: 48px; padding: 0 16px; border-radius: 12px; border: 1.5px solid var(--sauge); color: #2E4434; font-weight: 700; background: var(--sauge-clair); }
+  .crans { display: grid; grid-template-columns: 1.4fr repeat(4, 1fr); gap: 6px; margin-top: 8px; }
+  .cran { height: 56px; border-radius: 10px; border: 1.5px solid var(--filet-fort); background: var(--carte); display: grid; place-items: center; font-size: 18px; font-weight: 700; }
+  .cran.choisi { background: var(--moka); color: #fff; border-color: var(--moka); }
+  .manque { font-size: 15px; color: var(--encre); margin-bottom: 8px; display: flex; gap: 8px; align-items: center; }
+  .manque .ph { color: #7A5A12; font-size: 18px; }
+</style></head>
+<body>
+<div class="telephone">
+  <div class="barre-etat" style="background:var(--papier-fonce)"><span>9:43</span><span><i class="ph ph-cell-signal-slash"></i><i class="ph ph-battery-high"></i> 82 %</span></div>
+  <div class="patient">
+    <span class="retour"><i class="ph ph-arrow-left"></i></span>
+    <div><h1>Dupuis Roger</h1><div class="meta"><span class="n" style="font-weight:500">88</span> ans · passage du matin</div></div>
+    <div class="etape">Étape <span class="n">1</span> sur <span class="n">3</span><br>Évaluation</div>
+  </div>
+  <div class="contenu">
+    <div class="etiquette">
+      <div class="num"><span>Plaie <span class="mono">P-01</span></span><span>ouverte le 8 sept.</span></div>
+      <h2>Escarre sacrée · stade 3</h2>
+      <div class="meta">Prescription du Dr Marchand · volume suivi</div>
+      <div class="frise" aria-label="Phases de cicatrisation, jour 1 à jour 24">
+        <i class="det"></i><i class="det"></i><i class="det"></i><i class="det"></i><i class="det"></i><i class="det"></i><i class="det"></i><i class="det"></i>
+        <i class="bou"></i><i class="bou"></i><i class="bou"></i><i class="bou"></i><i class="bou"></i><i class="bou"></i><i class="bou"></i><i class="bou"></i><i class="bou"></i><i class="bou"></i>
+        <i class="epi"></i><i class="epi"></i><i class="epi"></i><i class="epi"></i><i class="epi"></i><i class="epi auj"></i>
+      </div>
+      <div class="legende"><span><b class="det"></b>Détersion</span><span><b class="bou"></b>Bourgeonnement</span><span><b class="epi"></b>Épidermisation</span><span style="margin-left:auto"><span class="n">J+24</span></span></div>
+      <div class="evolution">
+        <svg width="96" height="40" viewBox="0 0 96 40" aria-hidden="true"><path d="M2 6 L18 9 L34 12 L50 17 L66 22 L80 26 L94 30" stroke="#2A2420" stroke-width="2" fill="none"/><line x1="2" y1="6" x2="94" y2="6" stroke="#A89A84" stroke-dasharray="3 3"/><circle cx="94" cy="30" r="3.5" fill="#2A2420"/></svg>
+        <div><div class="grand">−39 %</div><div class="meta">volume depuis <span class="n" style="font-weight:500">J0</span> · <span class="n" style="font-weight:500">9</span> → <span class="n" style="font-weight:500">5,5</span> cm³</div></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>Mesures du jour</h3>
+      <div class="rappel">Dernier passage, 1<sup>er</sup> oct. : <span class="n" style="font-weight:500">3,0 × 2,0 × 0,4</span> cm · <span class="n" style="font-weight:500">5,5</span> cm³</div>
+      <div class="mesure"><label>Longueur</label><div class="stepper"><button aria-label="moins">−</button><output>2,8<small>cm</small></output><button aria-label="plus">+</button></div></div>
+      <div class="mesure"><label>Largeur</label><div class="stepper"><button aria-label="moins">−</button><output>2,0<small>cm</small></output><button aria-label="plus">+</button></div></div>
+      <button class="inchange"><i class="ph-fill ph-check-circle"></i>Profondeur et volume inchangés</button>
+    </div>
+
+    <div class="section">
+      <h3>Saignement</h3>
+      <div class="crans"><div class="cran choisi">Absent</div><div class="cran">+</div><div class="cran">++</div><div class="cran">+++</div><div class="cran">++++</div></div>
+    </div>
+  </div>
+  <div class="bas">
+    <div class="manque"><i class="ph ph-warning-circle"></i>Il reste : douleur, signes infectieux</div>
+    <button class="bouton-plein" style="background:#B7A595">Continuer vers les gestes</button>
+  </div>
+</div>
+</body></html>
