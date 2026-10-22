@@ -11746,6 +11746,69 @@
     }
    }
   },
+  "/facturation/lots/verification": {
+   "get": {
+    "tags": [
+     "facturation"
+    ],
+    "summary": "Get Verification Lot",
+    "description": "« Vérifier puis télétransmettre » : le contrôle de cohérence des FSE choisies, sans rien constituer ni écrire.\nLe même contrôle est recalculé à la mise en lot, qui seule décide.",
+    "operationId": "get_verification_lot_facturation_lots_verification_get",
+    "parameters": [
+     {
+      "name": "fse",
+      "in": "query",
+      "required": true,
+      "schema": {
+       "type": "array",
+       "items": {
+        "type": "string",
+        "format": "uuid"
+       },
+       "minItems": 1,
+       "maxItems": 500,
+       "title": "Fse"
+      }
+     },
+     {
+      "name": "authorization",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Authorization"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
   "/facturation/lots": {
    "post": {
     "tags": [
@@ -26623,6 +26686,656 @@
     }
    }
   },
+  "/photos/{photo_id}/mesures": {
+   "post": {
+    "tags": [
+     "plaies"
+    ],
+    "summary": "Mesurer",
+    "description": "PAN-E13 : mesure calibrée d'une photo de plaie. Rejouée avec le même `id`, rend la mesure déjà faite.",
+    "operationId": "mesurer_photos__photo_id__mesures_post",
+    "parameters": [
+     {
+      "name": "photo_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "format": "uuid",
+       "title": "Photo Id"
+      }
+     },
+     {
+      "name": "authorization",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Authorization"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/MesurePhotoIn"
+       }
+      }
+     }
+    },
+    "responses": {
+     "201": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/plaies/{objet_id}/mesures-photo": {
+   "get": {
+    "tags": [
+     "plaies"
+    ],
+    "summary": "Lire Mesures",
+    "description": "Mesures calibrées en vigueur d'une plaie, et l'évolution de la surface mesurée de la première à la dernière.",
+    "operationId": "lire_mesures_plaies__objet_id__mesures_photo_get",
+    "parameters": [
+     {
+      "name": "objet_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "format": "uuid",
+       "title": "Objet Id"
+      }
+     },
+     {
+      "name": "authorization",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Authorization"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/patients/{patient_id}/preuve.pdf": {
+   "get": {
+    "tags": [
+     "preuve"
+    ],
+    "summary": "Preuve Pdf",
+    "description": "« Préparer un contrôle » : le dossier de preuve de la période en un PDF scellé, inscrit à la chaîne d'audit.",
+    "operationId": "preuve_pdf_patients__patient_id__preuve_pdf_get",
+    "parameters": [
+     {
+      "name": "patient_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "format": "uuid",
+       "title": "Patient Id"
+      }
+     },
+     {
+      "name": "du",
+      "in": "query",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "format": "date",
+       "title": "Du"
+      }
+     },
+     {
+      "name": "au",
+      "in": "query",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "format": "date",
+       "title": "Au"
+      }
+     },
+     {
+      "name": "objet_suivi_id",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string",
+         "format": "uuid"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Objet Suivi Id"
+      }
+     },
+     {
+      "name": "authorization",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Authorization"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/preuves/documents/{sha256}": {
+   "get": {
+    "tags": [
+     "preuve"
+    ],
+    "summary": "Verifier Document",
+    "description": "Authenticité d'un dossier de preuve remis : son empreinte est-elle inscrite à la chaîne d'audit du cabinet ?\nLe poste fixe calcule l'empreinte du fichier déposé ; seule l'empreinte voyage.",
+    "operationId": "verifier_document_preuves_documents__sha256__get",
+    "parameters": [
+     {
+      "name": "sha256",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Sha256"
+      }
+     },
+     {
+      "name": "authorization",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Authorization"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/journee": {
+   "get": {
+    "tags": [
+     "tournees"
+    ],
+    "summary": "Ma Journee",
+    "description": "Le bilan de ma journée : signés, à venir, non tracés, non réalisés ; cotations du jour (qui voit la cotation).",
+    "operationId": "ma_journee_journee_get",
+    "parameters": [
+     {
+      "name": "date",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string",
+         "format": "date"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Date"
+      }
+     },
+     {
+      "name": "authorization",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Authorization"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/transmissions/structuration": {
+   "post": {
+    "tags": [
+     "transmissions"
+    ],
+    "summary": "Structuration",
+    "description": "Proposition de rangement d'un texte dicté en transmission ciblée (cible, données, actions, résultat), à relire.",
+    "operationId": "structuration_transmissions_structuration_post",
+    "parameters": [
+     {
+      "name": "authorization",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Authorization"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/DicteeIn"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/patients/{patient_id}/acces-controle": {
+   "post": {
+    "tags": [
+     "contrôle CPAM"
+    ],
+    "summary": "Creer",
+    "description": "Le jeton n'est rendu qu'ici, une fois : le cabinet le remet au contrôleur (lien ou QR). Un nouvel accès pour le\nmême patient et le même contrôleur révoque le précédent encore actif.",
+    "operationId": "creer_patients__patient_id__acces_controle_post",
+    "parameters": [
+     {
+      "name": "patient_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "format": "uuid",
+       "title": "Patient Id"
+      }
+     },
+     {
+      "name": "authorization",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Authorization"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/AccesControleIn"
+       }
+      }
+     }
+    },
+    "responses": {
+     "201": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/acces-controle": {
+   "get": {
+    "tags": [
+     "contrôle CPAM"
+    ],
+    "summary": "Lister",
+    "description": "Les accès de contrôle remis par le cabinet (d'un patient, s'il est nommé), du plus récent au plus ancien.",
+    "operationId": "lister_acces_controle_get",
+    "parameters": [
+     {
+      "name": "patient_id",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string",
+         "format": "uuid"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Patient Id"
+      }
+     },
+     {
+      "name": "authorization",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Authorization"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/acces-controle/{acces_id}/revocation": {
+   "post": {
+    "tags": [
+     "contrôle CPAM"
+    ],
+    "summary": "Revoquer",
+    "operationId": "revoquer_acces_controle__acces_id__revocation_post",
+    "parameters": [
+     {
+      "name": "acces_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "format": "uuid",
+       "title": "Acces Id"
+      }
+     },
+     {
+      "name": "authorization",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Authorization"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/RevocationControleIn"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/controle/dossier": {
+   "get": {
+    "tags": [
+     "contrôle CPAM"
+    ],
+    "summary": "Dossier",
+    "description": "Le dossier de contrôle : actes signés du patient sur la période, chacun avec sa cotation et sa preuve, et\nl'intégrité (empreinte de chaque acte, chaîne du journal d'audit). Horodaté et tracé ; rien ne s'écrit.",
+    "operationId": "dossier_controle_dossier_get",
+    "parameters": [
+     {
+      "name": "x-acces-controle",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string",
+         "maxLength": 200
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "X-Acces-Controle"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
   "/dev/demarrage": {
    "post": {
     "tags": [
@@ -26820,6 +27533,59 @@
     },
     "type": "object",
     "title": "Ablation"
+   },
+   "AccesControleIn": {
+    "properties": {
+     "du": {
+      "type": "string",
+      "format": "date",
+      "title": "Du"
+     },
+     "au": {
+      "type": "string",
+      "format": "date",
+      "title": "Au"
+     },
+     "controleur": {
+      "type": "string",
+      "maxLength": 200,
+      "minLength": 2,
+      "title": "Controleur"
+     },
+     "organisme": {
+      "type": "string",
+      "maxLength": 200,
+      "minLength": 2,
+      "title": "Organisme"
+     },
+     "reference": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 200
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Reference"
+     },
+     "duree_heures": {
+      "type": "integer",
+      "maximum": 168.0,
+      "minimum": 1.0,
+      "title": "Duree Heures",
+      "default": 72
+     }
+    },
+    "type": "object",
+    "required": [
+     "du",
+     "au",
+     "controleur",
+     "organisme"
+    ],
+    "title": "AccesControleIn"
    },
    "AccesDomicileIn": {
     "properties": {
@@ -35769,6 +36535,21 @@
     "title": "Dialysat",
     "description": "DIP-E07 à E09 : scan de préférence, saisie manuelle si code inconnu ; lot obligatoire (DIP-RG-18)."
    },
+   "DicteeIn": {
+    "properties": {
+     "texte": {
+      "type": "string",
+      "maxLength": 4000,
+      "minLength": 3,
+      "title": "Texte"
+     }
+    },
+    "type": "object",
+    "required": [
+     "texte"
+    ],
+    "title": "DicteeIn"
+   },
    "Dimensions": {
     "properties": {
      "longueur": {
@@ -40592,6 +41373,51 @@
     ],
     "title": "EpreuveLever",
     "description": "VIT-RG-06 bis : geste ponctuel déclenché au passage, sans fréquence propre — trois mesures sur le même bras,\ncontention obligatoire pour toute l'épreuve, écarts calculés sans aucun seuil (VIT-T07). Un lever impossible se\ndéclare avec son motif : l'épreuve reste tracée, non réalisée (VIT-T10)."
+   },
+   "EtalonIn": {
+    "properties": {
+     "a": {
+      "prefixItems": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "number"
+       }
+      ],
+      "type": "array",
+      "maxItems": 2,
+      "minItems": 2,
+      "title": "A"
+     },
+     "b": {
+      "prefixItems": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "number"
+       }
+      ],
+      "type": "array",
+      "maxItems": 2,
+      "minItems": 2,
+      "title": "B"
+     },
+     "longueur_cm": {
+      "type": "number",
+      "maximum": 30.0,
+      "exclusiveMinimum": 0.4,
+      "title": "Longueur Cm"
+     }
+    },
+    "type": "object",
+    "required": [
+     "a",
+     "b",
+     "longueur_cm"
+    ],
+    "title": "EtalonIn"
    },
    "EtuiPenien": {
     "properties": {
@@ -45876,6 +46702,11 @@
        }
       ],
       "title": "Motif Forcage"
+     },
+     "forcer_integrite": {
+      "type": "boolean",
+      "title": "Forcer Integrite",
+      "default": false
      }
     },
     "type": "object",
@@ -46361,6 +47192,65 @@
     ],
     "title": "MesureLever",
     "description": "VIT-T01, T04, T05 : une mesure de l'épreuve, à son heure réelle — le minuteur affiché ne la remplace pas."
+   },
+   "MesurePhotoIn": {
+    "properties": {
+     "id": {
+      "type": "string",
+      "format": "uuid",
+      "title": "Id"
+     },
+     "etalon": {
+      "$ref": "#/components/schemas/EtalonIn"
+     },
+     "contour": {
+      "items": {
+       "prefixItems": [
+        {
+         "type": "number"
+        },
+        {
+         "type": "number"
+        }
+       ],
+       "type": "array",
+       "maxItems": 2,
+       "minItems": 2
+      },
+      "type": "array",
+      "maxItems": 400,
+      "minItems": 3,
+      "title": "Contour"
+     },
+     "methode": {
+      "type": "string",
+      "enum": [
+       "manuel",
+       "assiste"
+      ],
+      "title": "Methode",
+      "default": "manuel"
+     },
+     "remplace_id": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "uuid"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Remplace Id"
+     }
+    },
+    "type": "object",
+    "required": [
+     "id",
+     "etalon",
+     "contour"
+    ],
+    "title": "MesurePhotoIn"
    },
    "Mesures": {
     "properties": {
@@ -51837,6 +52727,24 @@
      "motif"
     ],
     "title": "RetraitVoie"
+   },
+   "RevocationControleIn": {
+    "properties": {
+     "motif": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 500
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Motif"
+     }
+    },
+    "type": "object",
+    "title": "RevocationControleIn"
    },
    "RevocationIn": {
     "properties": {

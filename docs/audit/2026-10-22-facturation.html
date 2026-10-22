@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Refonte de la facturation au poste fixe — 22 octobre 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{--bg:#F4F6FA;--surface:#FFFFFF;--surface-2:#EEF2FB;--fg:#141A2E;--fg-2:#4A5372;--ligne:#DDE3EF;
+--accent:#2F5BEA;--accent-fg:#FFFFFF;--accent-doux:#E6ECFD;--attention:#8A5A00;--attention-fond:#FFF4DC;
+--code-fond:#F1F3F8;--police:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+--police-code:"JetBrains Mono",ui-monospace,"Cascadia Code",Consolas,monospace;--rayon:10px;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0E1220;--surface:#151A2B;--surface-2:#1C2338;
+--fg:#E8ECF7;--fg-2:#A3ACC6;--ligne:#2A3250;--accent:#7C9BFF;--accent-fg:#0E1220;--accent-doux:#1E2950;
+--attention:#F2C25B;--attention-fond:#33290F;--code-fond:#10152A;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0E1220;--surface:#151A2B;--surface-2:#1C2338;--fg:#E8ECF7;--fg-2:#A3ACC6;--ligne:#2A3250;
+--accent:#7C9BFF;--accent-fg:#0E1220;--accent-doux:#1E2950;--attention:#F2C25B;--attention-fond:#33290F;--code-fond:#10152A;color-scheme:dark}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--police);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}
+.entete{background:var(--surface);border-bottom:1px solid var(--ligne)}
+.entete div{max-width:calc(80ch + 32px);margin:0 auto;padding:12px 16px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.entete b{font-weight:600}
+.entete a{color:var(--accent);text-decoration:none;font-weight:500}
+.entete a:hover{text-decoration:underline}
+main{max-width:calc(80ch + 32px);margin:0 auto;padding:24px 16px 64px;overflow-wrap:break-word}
+.chemin{font-family:var(--police-code);font-size:12px;color:var(--fg-2);margin:0 0 8px}
+h1{font-size:28px;line-height:1.25;margin:0 0 16px}
+h2{font-size:21px;line-height:1.3;margin:36px 0 12px;padding-top:12px;border-top:1px solid var(--ligne)}
+h3{font-size:17px;margin:28px 0 8px}h4,h5,h6{font-size:15px;margin:20px 0 6px}
+a{color:var(--accent)}
+p,li{max-width:80ch}
+code{font-family:var(--police-code);font-size:.88em;background:var(--code-fond);border:1px solid var(--ligne);border-radius:5px;padding:0 4px;overflow-wrap:anywhere}
+pre{background:var(--code-fond);border:1px solid var(--ligne);border-radius:var(--rayon);padding:14px 16px;overflow-x:auto;font-size:13px;line-height:1.55}
+pre code{background:none;border:0;padding:0;font-size:inherit;overflow-wrap:normal}
+.tableau{overflow-x:auto;margin:16px 0;border:1px solid var(--ligne);border-radius:var(--rayon);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:13.5px;line-height:1.5}
+th,td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--ligne);min-width:8ch}
+th{background:var(--surface-2);font-weight:600}
+tr:last-child td{border-bottom:0}
+blockquote{margin:16px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-doux);border-radius:0 var(--rayon) var(--rayon) 0}
+hr{border:0;border-top:1px solid var(--ligne);margin:28px 0}
+img{max-width:100%}
+.non-publie{font-size:13px;color:var(--attention);background:var(--attention-fond);padding:1px 6px;border-radius:5px}
+details.sommaire{background:var(--surface);border:1px solid var(--ligne);border-radius:var(--rayon);padding:10px 16px;margin:0 0 24px}
+details.sommaire summary{cursor:pointer;font-weight:600}
+details.sommaire ul{padding-left:20px;margin:8px 0 0}
+.admonition{border:1px solid var(--ligne);border-radius:var(--rayon);padding:8px 16px;background:var(--surface)}
+.admonition-title{font-weight:600}
+</style>
+</head>
+<body>
+<header class="entete"><div><b>TabSanté — documents</b><a href="../../">← Retour au portail</a></div></header>
+<main>
+<p class="chemin">docs/audit/2026-10-22-facturation.html</p>
+<h1 id="refonte-de-la-facturation-au-poste-fixe--22-octobre-2026">Refonte de la facturation au poste fixe — 22 octobre 2026</h1>
+<details class="sommaire"><summary>Sommaire</summary><ul><li><a href="#ce-qui-a-été-vu">Ce qui a été vu</a></li><li><a href="#ce-qui-a-changé-page-par-page">Ce qui a changé, page par page</a></li><li><a href="#côté-serveur">Côté serveur</a></li><li><a href="#documentation-corrigée">Documentation corrigée</a></li><li><a href="#vérifications">Vérifications</a></li><li><a href="#ce-qui-reste">Ce qui reste</a></li></ul></details>
+<p><strong>Branche</strong> <code>evol-facturation-ecrans</code>, partie de <code>main</code> (<code>17d4cdf1</code>). <strong>Périmètre</strong> : les pages de facturation du poste fixe, le reçu de cotation, le banc de cotation ; le mode contrôle CPAM ; le forçage d'une chaîne d'audit rompue à la mise en lot ; trois incohérences documentaires. Tout reste <strong>simulé</strong> : moteur de cotation de démonstration, SESAM-Vitale factice ; l'agrément CNDA et le composant SESAM-Vitale restent à obtenir.</p>
+<p><strong>Méthode.</strong>
+- Base de démonstration <code>tabsante_fact</code> (<code>POST /dev/demo</code>, puis un circuit complet semé par l'API : reconfirmation, 7 FSE, un lot télétransmis, 5 rejets), API sur le port 8792, Vite sur le port 5292, Paul Durand (IDE titulaire).
+- Chrome sans interface piloté par Playwright ; captures pleine page à 1440 et 390 px, rognées à 3 200 px de haut ; débordement horizontal mesuré sur chaque page.
+- Grille de lecture : skill <code>impeccable</code> (registre product : critique, puis layout, clarify, typeset, animate, polish ; détecteur passé sur les fichiers changés : rien). Critique en contexte unique, sans sous-agent ; aucune question n'a pu être posée à l'utilisateur : les choix sont tranchés ici et notés.</p>
+<p>Captures : <code>docs/audit/captures-ux/2026-10-22-facturation/</code>, <code>avant-*</code> (état de départ) et <code>apres-*</code>, pour <code>tableau</code> (la file, <code>/facturation</code>), <code>a-facturer</code>, <code>fse</code>, <code>fse-detail</code> (une FSE rejetée), <code>fse-creee</code>, <code>lots</code>, <code>rejets</code>, <code>had</code>, <code>had-detail</code>, <code>reglages</code>, <code>simuler</code>, <code>banc</code>, <code>recu</code>, et après seulement <code>controle-cpam</code> (côté cabinet) et <code>controleur</code> (page du contrôleur).</p>
+<h2 id="ce-qui-a-été-vu">Ce qui a été vu</h2>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Constat</th>
+<th>Page</th>
+<th>Gravité</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Aucune vue du circuit : huit onglets de même poids, rien ne dit où l'on en est ni ce qui attend à chaque étape</td>
+<td>Toutes</td>
+<td>P1</td>
+</tr>
+<tr>
+<td>2</td>
+<td>La file de contrôle se chevauche : « Voir la preuve » passe sur les codes, les lignes provisoires et confirmées se mêlent ; à 390 px, « À la signature » s'écrit un mot par ligne</td>
+<td>File</td>
+<td>P1</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Aucun montant en dehors du reçu et du panneau de règlement d'une FSE : ni ligne, ni total, ni lot</td>
+<td>À facturer, FSE, lots</td>
+<td>P1</td>
+</tr>
+<tr>
+<td>4</td>
+<td>La règle d'une ligne reste derrière « Pourquoi ? » : le code seul se lit</td>
+<td>Toutes</td>
+<td>P1</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Les rejets sont une liste, sans regroupement ni geste groupé, sans dire quoi faire</td>
+<td>Rejets</td>
+<td>P2</td>
+</tr>
+<tr>
+<td>6</td>
+<td>La mise en lot ne se vérifie qu'en tentant de la faire ; télétransmettre est un second geste ailleurs</td>
+<td>Lots</td>
+<td>P2</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Double bandeau ambre (cadre, puis section) ; le second, collant, prend la hauteur d'un panneau</td>
+<td>Toutes</td>
+<td>P2</td>
+</tr>
+<tr>
+<td>8</td>
+<td>La page du banc déborde de 164 px à 390 px (noms de recueils et d'identifiants insécables)</td>
+<td>Banc</td>
+<td>P2</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Aucune action groupée : arbitrer, sécuriser, traiter un rejet se fait un par un</td>
+<td>File, FSE, rejets</td>
+<td>P2</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="ce-qui-a-changé-page-par-page">Ce qui a changé, page par page</h2>
+<p><strong>Cadre de la section.</strong> Une ligne « Facturation simulée » remplace le bandeau collant ; le circuit en cinq étapes (« Vérifier », « Facturer », « Sécuriser », « Télétransmettre », « Retours ») dit ce qui attend et le montant de démonstration ; les pages annexes suivent en liens discrets, dont « Contrôle CPAM ».</p>
+<p><strong>Vérifier (<code>/facturation</code>, la file de contrôle).</strong> Lignes refaites : case, pictogramme, patient et soin, motifs, échéance ; les lignes à la signature en codes, en regard de celles du moteur avec leur règle ; « Voir la preuve », « Reçu de cotation », « Arbitrer ». « Pourquoi en file » compte les motifs et filtre. Arbitrage groupé : une décision et un motif communs, une requête et une trace par cotation.</p>
+<p><strong>Facturer (<code>/facturation/a-facturer</code>).</strong> Synthèse (actes, patients, montant), « Mes actes » par défaut, « Tout le cabinet » à côté ; chaque groupe dit qui crée la FSE ; colonnes « Lignes et règle NGAP » et « Montant » ; « Créer la FSE » donne le nombre d'actes et le montant retenus.</p>
+<p><strong>Sécuriser (<code>/facturation/fse</code>, <code>/facturation/fse/:id</code>).</strong> Filtres par état avec leurs comptes, colonne et total des montants, sécurisation groupée (par la session, quand les cartes simulées ne sont pas en jeu). Une FSE : frise d'état, lignes avec règle, empreinte, montant et preuve, total ; « Vérifier et télétransmettre » quand elle est prête ; l'annulation se déplie au lieu d'occuper le panneau.</p>
+<p><strong>Télétransmettre (<code>/facturation/lots</code>).</strong> « Vérifier puis télétransmettre » en une page : les FSE et leur total, « Vérifier » (contrôle lu sans rien écrire), puis « Mettre en lot et télétransmettre » d'un geste (case pour ne faire que la mise en lot). Forçage motivé ; chaîne d'audit rompue : accord à part, réservé à qui gère le cabinet, sinon un avis dit qui peut. Lots télétransmis : montant, retours comptés, FSE dépliables, « Intégrité forcée » le cas échéant.</p>
+<p><strong>Retours (<code>/facturation/rejets</code>).</strong> Un groupe par motif, ce qu'il faut faire (NIR, droits ADRi…), le compte et le montant en jeu ; décision groupée avec un commentaire ; lignes et preuves dépliables.</p>
+<p><strong>Relevés HAD (<code>/facturation/had</code>, <code>/had/:id</code>).</strong> Lignes expliquées, état vide qui dit où déclarer un séjour. <strong>Réglages.</strong> Textes précisés (article 11 B, coordination). <strong>Simuler, reçu de cotation, banc.</strong> Gardés : ils expliquaient déjà chaque ligne et son calcul ; le banc ne déborde plus à 390 px.</p>
+<p><strong>Contrôle CPAM (nouveau).</strong> <code>/facturation/controle-cpam</code> : remettre un accès (patient, période, contrôleur, organisme, référence, durée), lien et QR montrés une fois, liste des accès avec statut, lectures et révocation. <code>/controle#acces=…</code> : le dossier de contrôle, hors du cadre, en lecture seule (verdicts d'intégrité, sommaire, chaque acte avec horodatages, prescription, cotation expliquée, photos, journal), imprimable.</p>
+<h2 id="côté-serveur">Côté serveur</h2>
+<ul>
+<li><strong>Forçage d'une chaîne d'audit rompue</strong> (faiblesse connue) : refusé même avec « forcer » ; il faut <code>forcer_integrite</code>, le droit de gérer le cabinet (HAB-33) et un motif. Journalisé à part (<code>lot_integrite_forcee</code>, avec le rang de la rupture) et marqué sur le lot (<code>integrite_forcee</code> : qui, quand, motif, dans le contrôle figé). Choix : le « rôle qui gère le cabinet » est le droit <code>gerer_habilitations</code> de la matrice, le même qui gère l'équipe et les accès.</li>
+<li><code>GET /facturation/lots/verification</code> : le contrôle de cohérence lu avant la mise en lot, sans rien écrire.</li>
+<li>Montants de démonstration et règle des lignes : chaque ligne d'« À facturer » et de FSE porte son montant à la date du soin et son total ; une ligne de FSE porte la règle de la ligne de cotation dont elle vient.</li>
+<li>Mode contrôle CPAM : <code>app/domaines/controle_cpam.py</code>, migration <code>0047f</code> (table <code>acces_controle</code>) ; jeton haché, en-tête <code>X-Acces-Controle</code>, création, lecture, refus et révocation à la chaîne d'audit, lectures au journal des accès du patient (rubrique « controle »). Identité du contrôleur déclarée, non attestée : Q-140.</li>
+</ul>
+<h2 id="documentation-corrigée">Documentation corrigée</h2>
+<ul>
+<li>Portail : le titre de Q-03 disait l'acte C « accompagnement » ; dans le code c'est l'acte D. Titre : « Acte C (surveillance après changement de traitement) ».</li>
+<li>Registre §7.1 (<code>docs/couverture_cdc.md</code>) : l'en-tête annonçait 101 questions et « Restent ouvertes » s'arrêtait à Q-101. Il compte Q-105 à Q-107 et Q-140 (105 questions) et dit que Q-102 à Q-104 n'ont jamais été attribués ; les numéros cités par le code ne changent pas.</li>
+<li>Portail et aide en ligne de la facturation alignés sur les écrans ; Q-140 posée.</li>
+</ul>
+<h2 id="vérifications">Vérifications</h2>
+<ul>
+<li>Web : <code>npx tsc --noEmit</code> sans erreur ; <code>npx vitest run</code> : 68 fichiers, 634 tests verts, dont <code>FacturationRefonte.test.tsx</code> (11) ; <code>Lot9</code>, <code>Lot14</code>, <code>Aide</code> adaptés aux libellés et gestes nouveaux.</li>
+<li>Serveur : 268 tests verts sur les suites facturation, lots, cotation, banc, SESAM, accès externes, journal des accès, sécurité, habilitations, perf (<code>test_perf_fumee</code>, <code>test_perf_confirmer</code>), tableau de bord, finitions ; plus <code>test_controle_cpam</code> (6) et 4 tests du forçage et de la vérification dans <code>test_facturation</code>.</li>
+<li>OpenAPI régénéré, <code>npm run types</code> ; captures relues : aucun débordement horizontal à 1440 ni à 390 px sur les 15 vues.</li>
+</ul>
+<h2 id="ce-qui-reste">Ce qui reste</h2>
+<ul>
+<li><strong>Identité du contrôleur CPAM</strong> : déclarée par le cabinet ; l'attester (carte d'agent, Pro Santé Connect) suppose une démarche avec l'Assurance maladie (Q-140).</li>
+<li><strong>Sécurisation groupée par les cartes simulées</strong> : en mode cartes, chaque FSE se sécurise encore une à une (lecture Vitale par patient).</li>
+<li><strong>Simulateur et reçu</strong> : non refondus ; leurs lignes s'expliquaient déjà (calcul, règle, « Et si… »).</li>
+</ul>
+</main>
+</body>
+</html>

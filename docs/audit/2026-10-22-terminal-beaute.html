@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Terminal : passe « beauté » et propositions de terrain (2026-10-22)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{--bg:#F4F6FA;--surface:#FFFFFF;--surface-2:#EEF2FB;--fg:#141A2E;--fg-2:#4A5372;--ligne:#DDE3EF;
+--accent:#2F5BEA;--accent-fg:#FFFFFF;--accent-doux:#E6ECFD;--attention:#8A5A00;--attention-fond:#FFF4DC;
+--code-fond:#F1F3F8;--police:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+--police-code:"JetBrains Mono",ui-monospace,"Cascadia Code",Consolas,monospace;--rayon:10px;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0E1220;--surface:#151A2B;--surface-2:#1C2338;
+--fg:#E8ECF7;--fg-2:#A3ACC6;--ligne:#2A3250;--accent:#7C9BFF;--accent-fg:#0E1220;--accent-doux:#1E2950;
+--attention:#F2C25B;--attention-fond:#33290F;--code-fond:#10152A;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0E1220;--surface:#151A2B;--surface-2:#1C2338;--fg:#E8ECF7;--fg-2:#A3ACC6;--ligne:#2A3250;
+--accent:#7C9BFF;--accent-fg:#0E1220;--accent-doux:#1E2950;--attention:#F2C25B;--attention-fond:#33290F;--code-fond:#10152A;color-scheme:dark}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--police);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}
+.entete{background:var(--surface);border-bottom:1px solid var(--ligne)}
+.entete div{max-width:calc(80ch + 32px);margin:0 auto;padding:12px 16px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.entete b{font-weight:600}
+.entete a{color:var(--accent);text-decoration:none;font-weight:500}
+.entete a:hover{text-decoration:underline}
+main{max-width:calc(80ch + 32px);margin:0 auto;padding:24px 16px 64px;overflow-wrap:break-word}
+.chemin{font-family:var(--police-code);font-size:12px;color:var(--fg-2);margin:0 0 8px}
+h1{font-size:28px;line-height:1.25;margin:0 0 16px}
+h2{font-size:21px;line-height:1.3;margin:36px 0 12px;padding-top:12px;border-top:1px solid var(--ligne)}
+h3{font-size:17px;margin:28px 0 8px}h4,h5,h6{font-size:15px;margin:20px 0 6px}
+a{color:var(--accent)}
+p,li{max-width:80ch}
+code{font-family:var(--police-code);font-size:.88em;background:var(--code-fond);border:1px solid var(--ligne);border-radius:5px;padding:0 4px;overflow-wrap:anywhere}
+pre{background:var(--code-fond);border:1px solid var(--ligne);border-radius:var(--rayon);padding:14px 16px;overflow-x:auto;font-size:13px;line-height:1.55}
+pre code{background:none;border:0;padding:0;font-size:inherit;overflow-wrap:normal}
+.tableau{overflow-x:auto;margin:16px 0;border:1px solid var(--ligne);border-radius:var(--rayon);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:13.5px;line-height:1.5}
+th,td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--ligne);min-width:8ch}
+th{background:var(--surface-2);font-weight:600}
+tr:last-child td{border-bottom:0}
+blockquote{margin:16px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-doux);border-radius:0 var(--rayon) var(--rayon) 0}
+hr{border:0;border-top:1px solid var(--ligne);margin:28px 0}
+img{max-width:100%}
+.non-publie{font-size:13px;color:var(--attention);background:var(--attention-fond);padding:1px 6px;border-radius:5px}
+details.sommaire{background:var(--surface);border:1px solid var(--ligne);border-radius:var(--rayon);padding:10px 16px;margin:0 0 24px}
+details.sommaire summary{cursor:pointer;font-weight:600}
+details.sommaire ul{padding-left:20px;margin:8px 0 0}
+.admonition{border:1px solid var(--ligne);border-radius:var(--rayon);padding:8px 16px;background:var(--surface)}
+.admonition-title{font-weight:600}
+</style>
+</head>
+<body>
+<header class="entete"><div><b>TabSanté — documents</b><a href="../../">← Retour au portail</a></div></header>
+<main>
+<p class="chemin">docs/audit/2026-10-22-terminal-beaute.html</p>
+<h1 id="terminal--passe--beauté--et-propositions-de-terrain-2026-10-22">Terminal : passe « beauté » et propositions de terrain (2026-10-22)</h1>
+<details class="sommaire"><summary>Sommaire</summary><ul><li><a href="#captures">Captures</a></li><li><a href="#critique-avant">Critique (avant)</a></li><li><a href="#changements-écran-par-écran">Changements, écran par écran</a></li><li><a href="#nouvelles-fonctions">Nouvelles fonctions</a></li><li><a href="#vérifications">Vérifications</a></li><li><a href="#ce-qui-reste">Ce qui reste</a></li></ul></details>
+<p>Branche <code>evol-terminal-beaute</code> (depuis <code>main</code> 17d4cdf1). Suite de <code>2026-10-22-ux-terminal.md</code> (aide contextuelle,
+zéro pointé, fiches qui s'ouvrent sur leur premier champ) : cette passe ne change aucune règle ni aucun contenu
+clinique ; elle travaille le rendu, le mouvement, les états (vide, attente, confirmation) et ajoute trois fonctions de
+terrain. Méthode Impeccable, registre « product », mode « Operate », direction « Terrain jour/nuit » enrichie, pas
+reniée (DESIGN.md mis à jour : « Surfaces », « États vides, attente, confirmation », « Fin de journée et dictée »,
+« Mouvement »).</p>
+<p>Banc : API de démonstration sur le port 8791 (base <code>tabsante_term</code>, <code>TABSANTE_DEV_AUTH=true</code>,
+<code>TABSANTE_LECTEUR_ORDONNANCE=factice</code>, <code>POST /dev/demo</code>), terminal construit pour le navigateur
+(<code>--dart-define=CAPTURES=true --dart-define=API_URL=http://127.0.0.1:8791</code>) et servi sur le port 5291.</p>
+<h2 id="captures">Captures</h2>
+<p><code>docs/audit/captures-ux/2026-10-22-terminal-beaute/</code> : <code>avant-&lt;écran&gt;.png</code> et <code>apres-&lt;écran&gt;.png</code> (jour),
+<code>avant-nuit-…</code> et <code>apres-nuit-…</code> (nuit), 390 × 844 à 2×, chaque écran sur un stockage vidé. Outil :
+<code>mobile/tool/captures_terminal.mjs</code> (CDP, sans dépendance ; <code>NAVIGATEUR</code> = un Chromium sans extensions : celles que
+Windows installe d'office dans Chrome posaient une pastille bleue sur chaque page, visible aussi dans les captures de
+la passe précédente). Les écrans 14, 15, 42, 43 et 45 n'existaient pas avant (pas de capture « avant »). <code>apres-60-…</code>
+et <code>apres-61-…</code> : le build de la démonstration hébergée (<code>DEMONSTRATION=true</code>, <code>OIDC_ISSUER</code> posé, API sans <code>/dev</code>).</p>
+<h2 id="critique-avant">Critique (avant)</h2>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Constat</th>
+<th>Gravité</th>
+<th>Suite</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Cartes plates : contour 2 dp <code>#E3E5E9</code> sur un fond <code>#FAFAFA</code> presque blanc ; au soleil, la carte se confond avec la page.</td>
+<td>P1</td>
+<td>Fond <code>#F3F4F7</code>, contour 1 dp et ombre ambiante de jour ; de nuit contour seul.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Le bandeau de notification (« Rappel ») couvre l'en-tête de chaque écran à l'ouverture, nom du patient compris, sans entrée ni geste de fermeture.</td>
+<td>P1</td>
+<td>Il descend en 260 ms, se ferme d'un glissement vers le haut ; masqué en mode captures (<code>&amp;notif=1</code> pour le voir).</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Carte du prochain passage : étiquettes coupées (« 2 prérequis à … », « Séance de pe… »), elles ne disaient plus rien.</td>
+<td>P1</td>
+<td>Étiquettes entières, sur deux lignes au plus, qui passent à la ligne.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Aucun mouvement hors la feuille et la page : changement d'onglet sec, listes qui apparaissent d'un bloc, anneau d'avancement figé.</td>
+<td>P2</td>
+<td>Onglets en fondu enchaîné, pilule de l'onglet actif, listes qui se posent dans l'ordre de lecture, anneau qui avance.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>La signature réussie ne se sent ni ne se voit avant le reçu ; le reçu pose un sceau immobile.</td>
+<td>P2</td>
+<td>Crans haptiques pendant le maintien, bouton vert « Signé », sceau qui se pose et dont l'anneau se trace.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>États vides en bandeaux gris (« Tout est transmis · Hors ligne », « Aucune transmission… ») : un vide heureux se lit comme une alerte.</td>
+<td>P2</td>
+<td>États vides illustrés (médaillon, titre, phrase utile).</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Enrôlement : l'action principale au milieu de l'écran, loin du pouce ; sous elle, 40 % de vide.</td>
+<td>P2</td>
+<td>« Enrôler ce téléphone » dans la barre du bas, avec son chargement.</td>
+</tr>
+<tr>
+<td>8</td>
+<td>« Reçu au cabinet » posé à nu sur le fond, entre deux cartes.</td>
+<td>P3</td>
+<td>Dans une carte, icône de maison.</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Choix du profil : un indicateur tournant pendant le chargement de la liste.</td>
+<td>P3</td>
+<td>Squelette de quatre lignes.</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Retour des en-têtes : un chevron nu.</td>
+<td>P3</td>
+<td>Pastille ronde 40 dp teintée, cible 48.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="changements-écran-par-écran">Changements, écran par écran</h2>
+<ul>
+<li><strong>Partout</strong> : fond de jour <code>#F3F4F7</code> ; cartes à contour fin et ombre douce de jour (aucune de nuit) ; barres du bas
+  (dock, signature, actions) qui flottent d'une ombre portée vers le haut ; transitions de page (la page d'en dessous
+  recule d'un pas) ; mouvement réduit respecté partout (tout instantané).</li>
+<li><strong>Enrôlement</strong> : l'action sous le pouce, son état (« Il manque 10 caractères », « Enrôlement… ») dans le bouton.
+  Démonstration hébergée : plus de « Démonstration : enrôler sans code » (<code>apres-61-demo-enrolement</code>).</li>
+<li><strong>Profil (connexion)</strong> : squelette pendant le chargement. Démonstration hébergée : « Connexion · Avec un compte
+  fictif de la démonstration », un seul bouton « Se connecter avec TabSanté », plus de carte CPS ni de Pro Santé
+  Connect ni de code de service (<code>apres-60-demo-connexion</code>).</li>
+<li><strong>Code, verrou</strong> : inchangés hors système (fond, cartes).</li>
+<li><strong>Tournée</strong> : étiquettes entières sur la carte du prochain passage, carte un cran plus haute ; anneau animé ; lignes
+  « Ensuite » qui se posent ; ligne « Fin de journée » sous la tournée ; tournée finie : « Voir la fin de journée »
+  sous le pouce et sceau dans « Tournée terminée ».</li>
+<li><strong>Fin de journée</strong> (nouveau, <code>apres-14</code>, <code>apres-15</code>).</li>
+<li><strong>Carte et itinéraire, planning</strong> : système seulement.</li>
+<li><strong>Patients</strong> : lignes qui se posent ; états vides illustrés (aucun patient, recherche sans résultat qui reprend la
+  recherche).</li>
+<li><strong>Fiche patient</strong> : « Prescription modifiée » listée sous les alertes tant qu'un signal est actif (<code>apres-22</code>) ;
+  « Reçu au cabinet » dans une carte.</li>
+<li><strong>Passage et fiches de soin</strong> : en-tête à pastille de retour, cartes et barre de signature du système. <strong>Signature
+  maintenue</strong> : crans haptiques au tiers et aux deux tiers, impact à la validation, bouton vert « Signé » 900 ms.</li>
+<li><strong>Reçu</strong> : sceau animé, titre et cadre qui se posent ; dernier passage du jour : « Voir la fin de journée » plein,
+  « Retour à la tournée » contouré.</li>
+<li><strong>Liaisons</strong> : lignes qui se posent ; états vides illustrés (transmissions, notifications). <strong>Transmission</strong> : dictée
+  (nouveau, <code>apres-42</code>, <code>apres-43</code>).</li>
+<li><strong>Envois</strong> : « Tout est transmis » en état vide heureux, avec la dernière synchronisation ou ce qui se passera hors
+  ligne.</li>
+<li><strong>Moi, aide</strong> : système seulement ; deux aides ajoutées (fin de journée, cotations du jour) et l'aide de la
+  transmission décrit la dictée.</li>
+</ul>
+<h2 id="nouvelles-fonctions">Nouvelles fonctions</h2>
+<ol>
+<li><strong>Fin de journée</strong> (<code>mobile/lib/ecrans/fin_journee.dart</code>) : « Tournée terminée · n passages signés · n en attente »,
+   le sceau, une carte de lignes (passages et soins signés, à faire, non réalisés, envois, transmissions écrites), le
+   bandeau d'envoi, les passages du jour avec leur statut ; en ligne, « Envoyer ». Pour l'<strong>infirmier seulement</strong>,
+   « Cotations provisoires de vos patients » : lettres-clés et coefficients du moteur de démonstration (retenues sur le
+   téléphone ou reprises de la précharge), pastille « Démonstration », jamais un montant. L'aide-soignante ne voit ni
+   la carte ni aucun code (<code>cotationsDuJour</code> rend une liste vide ; testé).</li>
+<li><strong>Transmission dictée</strong> (<code>mobile/lib/dictee.dart</code>, panneau dans <code>ecrans/transmissions.dart</code>), <strong>démonstration</strong> :
+   aucune reconnaissance vocale locale fiable n'existe dans le navigateur (celle de Chrome envoie le son à Google) ;
+   l'application n'ouvre donc aucun micro et la dictée est celle du clavier du téléphone. « Structurer le texte » range
+   le texte sur le téléphone, sans réseau, en cible / données / actions / résultat : parties nommées à la voix
+   (« cible… données… »), sinon phrase par phrase (gestes → actions, « après… », « soulagé » → résultat, le reste →
+   données ; cible = première phrase courte, sinon le premier motif connu). Bandeau « À relire », interrupteur
+   « Transmission relue » exigé avant l'envoi (« Il manque : relecture de la transmission rangée »).</li>
+<li><strong>Signal de changement de prescription</strong> : déjà livré (C3) — bandeau dans la fiche de soin jusqu'au premier acte
+   signé sous la nouvelle valeur (levée locale <code>leveParActe</code>), étiquette « Prescription modifiée » sur la carte du
+   prochain passage. Ajouté : la liste des signaux actifs sur la fiche du patient (<code>SignauxDuPatient</code>).</li>
+<li><strong>Démonstration hébergée</strong> (<code>config.dart</code>, <code>demonstration</code>) : voir « Profil » et « Enrôlement » ci-dessus.</li>
+</ol>
+<p>Choix tranchés : le fond de jour passe de <code>#FAFAFA</code> à <code>#F3F4F7</code> (contrastes revérifiés : discret 7,7:1, ambre 5,6:1,
+accent 7,2:1) ; les cartes passent de 2 dp sans ombre à 1 dp + ombre de jour (DESIGN.md le disait « sans ombre » :
+enrichi, la nuit garde le contour seul) ; la « Fin de journée » est un écran plein (pas un onglet : elle sert une fois
+par jour, comme « Moi ») ; les cotations du jour sont limitées aux patients de la tournée de l'intervenant connecté
+(la précharge ne dit pas qui a signé un acte coté) ; le code de service de secours est masqué en démonstration
+hébergée (aucune exploitation n'y émet de code).</p>
+<h2 id="vérifications">Vérifications</h2>
+<ul>
+<li><code>flutter analyze</code> : aucune remarque. <code>flutter test</code> : <strong>952 tests verts</strong> (51 ignorés, comme avant ; 927 au départ de
+  la passe précédente, 950 à <code>main</code>). Ajoutés : <code>test/dictee_test.dart</code> (3 : parties nommées, texte libre, motif connu)
+  et <code>test/terminal_beaute_test.dart</code> (10 : fin de journée infirmier avec cotations, aide-soignante sans cotation ni
+  code, fin de journée en cours de tournée, dictée rangée puis relue avant l'envoi, démonstration hébergée à
+  l'enrôlement et à la connexion, prescription modifiée sur la fiche du patient, signature confirmée, état vide des
+  envois, mouvement réduit).</li>
+<li>Un test adapté : <code>widgets_test.dart</code> (reçu du dernier passage : « Voir la fin de journée » plein, « Retour à la
+  tournée » contouré). Les autres passent tels quels : les apparitions gardent leur sémantique pendant le fondu
+  (<code>alwaysIncludeSemantics</code>), le bandeau de notification aussi.</li>
+<li>Contrastes des nouvelles paires (WCAG 2) : jour — discret sur fond 7,7:1, accent sur fond 7,2:1, ambre sur fond
+  5,6:1, accent sur pilule d'onglet 6,7:1, « Signé » blanc sur vert 7,1:1 ; nuit — accent sur pilule 6,5:1, vert sur
+  teinte 7,6:1, « Signé » 8,5:1.</li>
+<li>Aucun changement serveur : ni migration, ni OpenAPI, ni types du poste fixe. Le détecteur automatique d'Impeccable
+  ne lit que du HTML et du CSS : sans objet pour un canevas Flutter, la revue s'est faite sur les captures.</li>
+</ul>
+<h2 id="ce-qui-reste">Ce qui reste</h2>
+<ol>
+<li><strong>Dictée</strong> : la structuration est faite de règles (marqueurs dits, verbes de geste, mots de résultat) — honnête,
+   étiquetée « Démonstration », relue avant l'envoi. Un modèle de langue local au téléphone ferait mieux ; aucun service
+   distant n'est envisageable (données de santé, pas d'hébergeur HDS pour le son).</li>
+<li><strong>Haptique</strong> : écrite (crans, impact) mais non vérifiée sur un téléphone : le navigateur ne la rend pas et aucun
+   Android n'est branché sur ce poste (pas de SDK).</li>
+<li><strong>Keycloak</strong> : seul l'écran de connexion du build de démonstration hébergée est capturé ; le parcours dans le realm
+   demande un Keycloak configuré pour cette API (hors du périmètre de ce banc).</li>
+<li><strong>Captures à « signes= »</strong> : la route des captures qui signe des passages de routine (<code>&amp;signes=n</code>) échoue sur la
+   démonstration d'aujourd'hui (aucun pansement que les trois réponses suffisent à compléter) ; les captures de la fin
+   de journée et des envois en attente signent donc les constantes (<code>&amp;fiches=PARAMETRES_VITAUX</code>). Antérieur à cette
+   passe, laissé tel quel.</li>
+<li><strong>Fin de journée, cotations</strong> : la précharge ne dit pas qui a signé un acte coté ; la carte montre donc les actes
+   cotés du jour des patients de la tournée de l'intervenant connecté, pas seulement les siens.</li>
+<li>Le contenu clinique des fiches n'a pas été touché (à valider par l'IDE référente, comme avant).</li>
+</ol>
+</main>
+</body>
+</html>

@@ -238,8 +238,14 @@ details.sommaire ul{padding-left:20px;margin:8px 0 0}
 </ul>
 <p>Lots de l'audit de couverture du 16/10 (<code>docs/audit/2026-10-16-couverture-cdc.md</code>), chacun reprenant ses lignes sans recompter le §1 :</p>
 <ul>
-<li><strong>L18, courtier d'identité Keycloak</strong> (branche <code>evol-cdc-l18</code>, migration 0046a provisoire après 0045e : <code>intervenant.idp_sub</code> ; contrat : <code>POST /auth/connexion/oidc</code>, <code>docs/api/openapi.json</code> régénéré ; paquet pub <code>flutter_appauth</code>) : P1-21 — Keycloak 26.8.1 en conteneur (<code>docker compose up -d keycloak</code>, port 8180, <code>start-dev</code>, sans toucher au service <code>db</code>), realm <code>tabsante</code> importé au démarrage (clients <code>tabsante-poste</code> et <code>tabsante-terminal</code> publics + PKCE S256, <code>tabsante-api</code> en audience, client <code>tabsante-tests</code> de développement, rôles IDE, AS, administrateur, remplacant, attribut <code>rpps</code> au profil, comptes FICTIFS de Paul Durand, Claire Martin, Lucie Vidal et Inès Petit, mots de passe de démonstration dans <code>infra/keycloak/demo.env.example</code>), page de connexion en français aux couleurs de TabSanté (thème <code>infra/keycloak/themes/tabsante</code> : #2F5BEA, Inter embarquée, logo texte) ; l'API vérifie les jetons du realm (JWKS en cache, iss, aud, exp, RS256/PS256/ES256 seuls) et reconnaît l'intervenant par son compte rattaché (<code>sub</code>, posé par <code>POST /dev/demo</code> ou <code>connexion_service rattacher</code>) ou son RPPS, rôle du realm exigé ; le jeton s'échange contre la session TabSanté (terminal enrôlé et secret d'appareil, rotation, révocation inchangés), le mode actuel restant entier sans <code>TABSANTE_OIDC_ISSUER</code> (Q-99, Q-100) ; Pro Santé Connect SIMULÉ en fournisseur amont du courtier (carte du tiroir et code porteur, puis jeton au format PSC ; Q-101) ; poste fixe et terminal : « Se connecter avec TabSanté (Keycloak) » par redirection + PKCE, profils de démonstration gardés en développement, session Keycloak refermée aussitôt l'échange fait. NFR-04 Partiel → <strong>Simulé</strong> (seule la CPS réelle manque) ; SEC-04 reste Partiel (manque écrit sur la ligne) ; INT-05 et INT-06 gardent Simulé avec le courtier. Preuves : <code>t/test_oidc</code> (20, dont le test d'intégration qui obtient un vrai jeton du conteneur ; rouges avant : la route, la colonne et le fournisseur simulé n'existaient pas), <code>w/test/Oidc.test.tsx</code> (7), <code>m/test/cdc_l18_test.dart</code> (8) ; vérifié dans le navigateur : connexion de Claire par mot de passe au poste fixe, de Paul par la carte CPS simulée (Keycloak → PSC simulé → Keycloak → poste fixe, reconnu par son RPPS), d'Inès au terminal web jusqu'au code à 6 chiffres puis à sa tournée.</li>
+<li>
+<p><strong>Propositions du 22/10</strong> (branche <code>evol-propositions</code>, sur <code>main</code> <code>17d4cdf1</code> ; migration 0047p_a : <code>mesure_photo</code> ; contrat régénéré ; inventaire <code>docs/audit/2026-10-22-propositions.md</code>) : mesure de plaie calibrée sur photo (PAN-E13 : réglette, contour tracé ou proposé, surface recalculée au serveur, contours superposés à l'échelle) ; dossier de preuve par période en PDF scellé et vérifiable par son empreinte (<code>GET /patients/{id}/preuve.pdf</code>, <code>GET /preuves/documents/{sha256}</code>) ; planning de la semaine en glisser-déposer avec charge, aperçu de formation et notification de qui reçoit ou perd un moment (J5-1 à J5-3) ; fin de journée (<code>GET /journee</code>) ; transmission dictée rangée en cible, données, actions, résultat (<code>POST /transmissions/structuration</code>, à relire) ; sécurité : EXIF retiré des images (M-06), plafond des corps (F-02), flux SSE plafonnés (F-09), fermeture d'inactivité du poste fixe (M-04), CSV sans formule (F-05), YouTube au clic (F-15), portail externe sans téléchargement forcé (M-16) ; robustesse : P1-1, P2-1, P2-3, P2-14 (preuves xfail devenues tests), P2-16 ; parcours : J2-7, J2-9, J4-5, J6-1, J1-7 ; test intermittent des compteurs de l'anticoagulant corrigé (ordre total des occurrences du jour). Aucun statut de la matrice ne change : ces éléments étaient Faits ou hors matrice ; le §6 est remis à jour (lots 3, 10, 16). Questions Q-160 à Q-164.</p>
+</li>
+<li>
+<p><strong>L18, courtier d'identité Keycloak</strong> (branche <code>evol-cdc-l18</code>, migration 0046a provisoire après 0045e : <code>intervenant.idp_sub</code> ; contrat : <code>POST /auth/connexion/oidc</code>, <code>docs/api/openapi.json</code> régénéré ; paquet pub <code>flutter_appauth</code>) : P1-21 — Keycloak 26.8.1 en conteneur (<code>docker compose up -d keycloak</code>, port 8180, <code>start-dev</code>, sans toucher au service <code>db</code>), realm <code>tabsante</code> importé au démarrage (clients <code>tabsante-poste</code> et <code>tabsante-terminal</code> publics + PKCE S256, <code>tabsante-api</code> en audience, client <code>tabsante-tests</code> de développement, rôles IDE, AS, administrateur, remplacant, attribut <code>rpps</code> au profil, comptes FICTIFS de Paul Durand, Claire Martin, Lucie Vidal et Inès Petit, mots de passe de démonstration dans <code>infra/keycloak/demo.env.example</code>), page de connexion en français aux couleurs de TabSanté (thème <code>infra/keycloak/themes/tabsante</code> : #2F5BEA, Inter embarquée, logo texte) ; l'API vérifie les jetons du realm (JWKS en cache, iss, aud, exp, RS256/PS256/ES256 seuls) et reconnaît l'intervenant par son compte rattaché (<code>sub</code>, posé par <code>POST /dev/demo</code> ou <code>connexion_service rattacher</code>) ou son RPPS, rôle du realm exigé ; le jeton s'échange contre la session TabSanté (terminal enrôlé et secret d'appareil, rotation, révocation inchangés), le mode actuel restant entier sans <code>TABSANTE_OIDC_ISSUER</code> (Q-99, Q-100) ; Pro Santé Connect SIMULÉ en fournisseur amont du courtier (carte du tiroir et code porteur, puis jeton au format PSC ; Q-101) ; poste fixe et terminal : « Se connecter avec TabSanté (Keycloak) » par redirection + PKCE, profils de démonstration gardés en développement, session Keycloak refermée aussitôt l'échange fait. NFR-04 Partiel → <strong>Simulé</strong> (seule la CPS réelle manque) ; SEC-04 reste Partiel (manque écrit sur la ligne) ; INT-05 et INT-06 gardent Simulé avec le courtier. Preuves : <code>t/test_oidc</code> (20, dont le test d'intégration qui obtient un vrai jeton du conteneur ; rouges avant : la route, la colonne et le fournisseur simulé n'existaient pas), <code>w/test/Oidc.test.tsx</code> (7), <code>m/test/cdc_l18_test.dart</code> (8) ; vérifié dans le navigateur : connexion de Claire par mot de passe au poste fixe, de Paul par la carte CPS simulée (Keycloak → PSC simulé → Keycloak → poste fixe, reconnu par son RPPS), d'Inès au terminal web jusqu'au code à 6 chiffres puis à sa tournée.</p>
+</li>
 <li><strong>Finitions</strong> (branche <code>evol-finitions</code>, sur <code>main</code> <code>a76cd53</code> ; sans migration ; contrat changé : <code>GET /ordonnances/{id}/apercu</code>, acte <code>ANTICOAGULANT_ORAL</code>, <code>docs/api/openapi.json</code> régénéré ; dépendance serveur <code>pypdfium2</code>) : tout ce qui restait Partiel ou Bloqué sans partenaire ni décision du fondateur, repris preuve à l'appui, chaque point rouge sur <code>a76cd53</code> puis vert. <strong>Faits</strong> : F7-05 (ordonnance en PDF lue au terminal hors connexion par son aperçu image rendu au serveur), F7-08 (ligne « anticoagulants oraux » au catalogue des soins : sa fréquence déclare le patient sous AVK et ouvre le bloc sur les deux clients), « §4.8 → événements » (liste des événements journalisés tenue par un test contre le code ; <code>signature_carte</code> y manquait), « §8.1 → préchargement » (horizon, taille mesurée, rétention écrits, Q-105, Q-106 ; le patient créé au domicile hors tournée ne survit plus au jour de sa création) ; PSE-RG-11 quinquies Bloqué → Simulé (la doublure applique la minoration à 50 %, dite par sa règle). <strong>Avancés, restent Partiel</strong> : SEC-04 (saisie du code de connexion de service au poste fixe et au terminal — après la fusion de L18, secours sous le bouton Keycloak quand il est configuré, seul moyen sans lui hors démonstration ; restent la CPS réelle et l'empreinte par intervenant, que l'API d'Android ne permet pas), NFR-11 (audit automatique d'accessibilité du terminal, cibles portées à 48 px ; reste TalkBack sur l'appareil ; Q-107). <strong>Restent, raison écrite sur la ligne</strong> : (b) EX-SE-03, TER-05, TER-06 (appareil, SDK Android), SEC-06, EX-SE-05 (DPO), P2-07, NFR-08, NFR-09 (hébergeur, machine de recette), NFR-07 (correspondants d'échange, validateur de l'ANS, C16), C16 (validation des codes par TABSANTE) ; (c) ACT-07 (Q-33), NUR-RG-16 (Q-30), C17 (Q-91), D-09 ; NFR-04 traité par L18 (Simulé : la CPS réelle manque). Preuves : <code>t/test_finitions</code> (4), <code>w/test/Finitions.test.tsx</code> (4), <code>m/test/finitions_test</code>, <code>finitions_widgets_test</code>, <code>finitions_connexion_test</code>, <code>finitions_accessibilite_test</code>, <code>m/test/integration/finitions_integration_test</code> (API réelle) ; parcours réels au poste fixe (ordonnance et fréquence saisies, bloc ouvert ; code refusé puis accepté) et au terminal (connexion par code, bloc AVK, ordonnance PDF hors connexion), captures <code>docs/maquettes/captures/finitions-*.jpg</code>.</li>
+<li><strong>Refonte de la facturation au poste fixe</strong> (branche <code>evol-facturation-ecrans</code>, migration 0047f après 0046a : table <code>acces_controle</code> ; contrat : <code>GET /facturation/lots/verification</code>, <code>LotIn.forcer_integrite</code>, <code>Lot.integrite_forcee</code>, montants et règles des lignes d'« À facturer » et des FSE, <code>POST /patients/{id}/acces-controle</code>, <code>GET /acces-controle</code>, <code>POST /acces-controle/{id}/revocation</code>, <code>GET /controle/dossier</code> ; <code>docs/api/openapi.json</code> régénéré) : pages de facturation refaites (circuit, règle NGAP de chaque ligne, montants, envoi en une page, rejets par motif, actions groupées), mode contrôle CPAM simulé (accès en lecture seule à un patient sur une période, tracé, révocable ; Q-140), forçage d'une chaîne d'audit rompue réservé à qui gère le cabinet, journalisé et marqué sur le lot. Aucun statut ne change : EX-TB-07 et PR-2 restent Fait, W-18 reste Simulé. Note : <code>docs/audit/2026-10-22-facturation.md</code> ; captures <code>docs/audit/captures-ux/2026-10-22-facturation/</code>.</li>
 <li>
 <p><strong>L17, matrice, décisions, documentation</strong> (branche <code>evol-cdc-l17</code>, sans migration ni changement de contrat ; dernier lot) : recompte du §1 par <code>scripts/recompter_matrice.py</code> (§1.1 à §1.3, en-têtes des fiches, §3.1, §3.3, §4, §5) ; reclassements du §5.1 de l'audit, chacun vérifié contre le code de <code>3ce6f97b</code> et sa preuve (doctrine écrite dans la légende) : 52 éléments Simulés passent Faits (part de la plateforme faite : faits transmis au moteur, documents dont seul l'acheminement est simulé, droits et règles de facturation sur FSE simulée, mécanisme de saisie différée sur valeur D-04 ouverte, décisions déjà tranchées par le texte), 27 règles de fiche aussi, C6 et W-07 ; restent Simulés, raison écrite sur la ligne : EX-ACI-10, DIA-RG-21, ACI-RG-13 (« déclenche la facturation »), HAB-21, HAB-23, EX-PV-02 quater, EX-PV-03, D-18, MOD-13 ; NFR-04 passe Partiel (Keycloak absent, lot L18) ; ACT-07 redescend Partiel (référentiels du tableau 2, Q-33). Les « Fait » que l'audit disait faux (HAB-16, PSC-RG-04, C17 et les onze de son §2) ont tous été repris par les lots L1, L3, L6, L8, L10, L12 à L16 : vérifiés sur leurs preuves, aucun ne reste faux (C17 est Partiel depuis L15, Q-91) ; MOD-47 reçoit le schéma des liens (<code>docs/conception/schema-des-liens.md</code>, §4.9). Lignes manquantes P2-01 à P2-11 et « §4.8 → événements » (P2-43) ajoutées au §2, P2-12 et les règles PSE-RG-11 bis à quinquies au §3.2 ; notes périmées P2-29 à P2-42 corrigées ; P2-43 : liste des événements journalisés écrite (<code>docs/exploitation/journal-audit.md</code>), inventaire des écrans tracé au §5. Registre §7.1 nettoyé en place (doublons, hors CDC, tranchées, textes publics ; Q-97 et Q-98 ajoutées). P2-13 : déclencheur d'immuabilité de <code>commentaire</code> testé (<code>t/test_immuabilite::test_commentaire_non_modifiable_ni_supprimable</code>, rouge sans le déclencheur). Preuves : les 188 tests serveur cités par les lignes reprises, lancés et verts ; les 24 fichiers de tests du poste fixe cités, verts ; les tests du terminal cités existent (non lancés : pas de SDK Flutter dans le worktree).</p>
 </li>
@@ -959,7 +965,7 @@ details.sommaire ul{padding-left:20px;margin:8px 0 0}
 <td>T</td>
 <td><strong>Fait</strong></td>
 <td>serveur · web · mobile</td>
-<td>Comparaison côte à côte de la plaie et de tout dispositif, clichés au choix sur la bande (w/pages/VuePlaie.tsx:Comparaison réemployée par w/pages/Dispositif.tsx:Galerie, une série par voie de PSE ou de PCA) — w/test/Restitution20.test.tsx « Comparaison photographique d’un dispositif » ; au terminal, comparaison rapide de la photo du jour et deux clichés côte à côte par objet et par voie (m/ecrans/restitution.dart:ComparaisonRapide, EcranPhotosObjet ; voir T-07) — m/test/mobile24_widgets_test</td>
+<td>Comparaison côte à côte de la plaie et de tout dispositif, clichés au choix sur la bande (w/pages/VuePlaie.tsx:Comparaison réemployée par w/pages/Dispositif.tsx:Galerie, une série par voie de PSE ou de PCA) — w/test/Restitution20.test.tsx « Comparaison photographique d’un dispositif » ; au terminal, comparaison rapide de la photo du jour et deux clichés côte à côte par objet et par voie (m/ecrans/restitution.dart:ComparaisonRapide, EcranPhotosObjet ; voir T-07) — m/test/mobile24_widgets_test ; <strong>Propositions 22/10</strong> : mesure calibrée sur photo (PAN-E13, planimétrie avec étalon) au poste fixe — réglette posée en deux points, contour tracé ou proposé depuis un point puis ajusté, surface, longueur et largeur recalculées par le serveur, mesure immuable remplacée par une nouvelle (b/domaines/planimetrie.py, migration 0047p_a, w/pages/MesurePlaie.tsx, contours de la première et de la dernière mesure superposés à l'échelle sur la fiche plaie) — t/test_planimetrie, w/test/Planimetrie.test.tsx ; gabarit de cadrage à la prise de vue : terminal</td>
 </tr>
 <tr>
 <td>EX-DS-06</td>
@@ -7035,7 +7041,7 @@ details.sommaire ul{padding-left:20px;margin:8px 0 0}
 <td>W-09</td>
 <td>Comparaison photographique</td>
 <td><strong>Fait</strong></td>
-<td>comparaison photographique côte à côte des plaies et de tout dispositif, une série par voie de PSE ou de PCA (w/pages/Dispositif.tsx:Galerie, w/pages/VuePlaie.tsx:Comparaison) — w/test/Restitution20.test.tsx « Comparaison photographique d'un dispositif »</td>
+<td>comparaison photographique côte à côte des plaies et de tout dispositif, une série par voie de PSE ou de PCA (w/pages/Dispositif.tsx:Galerie, w/pages/VuePlaie.tsx:Comparaison) — w/test/Restitution20.test.tsx « Comparaison photographique d'un dispositif » ; <strong>Propositions 22/10</strong> : mesure calibrée sur photo (w/pages/MesurePlaie.tsx) — w/test/Planimetrie.test.tsx</td>
 <td>7</td>
 </tr>
 <tr>
@@ -7063,7 +7069,7 @@ details.sommaire ul{padding-left:20px;margin:8px 0 0}
 <td>W-13</td>
 <td>Plannings par rôle</td>
 <td><strong>Fait</strong></td>
-<td>w/pages/Planning.tsx:PlanningSemaine consomme /planning?role= — w/test/Lot8 « Planning par rôle »</td>
+<td>w/pages/Planning.tsx:PlanningSemaine consomme /planning?role= — w/test/Lot8 « Planning par rôle » ; <strong>Propositions 22/10</strong> : glisser-déposer des attributions sur la semaine (équipe et charge de la semaine au-dessus de la grille, fenêtre « Confier » avec période, aperçu de formation et autre tournée au même moment ; J5-1, J5-2), personne qui reçoit ou perd un moment prévenue (J5-3, b/domaines/tournees.py:prevenir) — w/test/Propositions.test.tsx, t/test_propositions_planning</td>
 <td>6</td>
 </tr>
 <tr>
@@ -7098,7 +7104,7 @@ details.sommaire ul{padding-left:20px;margin:8px 0 0}
 <td>W-18</td>
 <td>Facturation (FSE, lots, retours, rejets, file de contrôle)</td>
 <td><strong>Simulé</strong></td>
-<td>w/pages/Facturation.tsx (à facturer, FSE, lots, rejets, file de contrôle, relevé HAD, à régulariser) — w/test/Lot9.test.tsx, w/test/Lot14.test.tsx (anomalie a_regulariser au lot) ; t/test_facturation ; tout passe par le port factice</td>
+<td>w/pages/Facturation.tsx (à facturer, FSE, lots, rejets, file de contrôle, relevé HAD, à régulariser) — w/test/Lot9.test.tsx, w/test/Lot14.test.tsx (anomalie a_regulariser au lot) ; t/test_facturation ; tout passe par le port factice ; <strong>refonte du 22/10</strong> : circuit en cinq étapes, règle NGAP et montant de démonstration de chaque ligne, « vérifier puis télétransmettre » en une page, rejets en file de travail, actions groupées, mode contrôle CPAM (w/pages/ControleCpam.tsx, b/domaines/controle_cpam.py, migration 0047f, Q-140) — w/test/FacturationRefonte.test.tsx (11), t/test_controle_cpam (6)</td>
 <td>8</td>
 </tr>
 <tr>
@@ -7126,7 +7132,7 @@ details.sommaire ul{padding-left:20px;margin:8px 0 0}
 <td>W-22</td>
 <td>Audit</td>
 <td><strong>Fait</strong></td>
-<td>« Journal d'audit intact » (w/pages/Preuves.tsx), relecture complète (/audit/verification), tête de chaîne et ancre posée par l'administration (/audit/ancre, HAB-33) — w/pages/Preuves.tsx:AncrageAudit — w/test/PartielC1.test.tsx ; journal des accès (w/pages/Conformite.tsx) — w/test/Lot21.test.tsx</td>
+<td>« Journal d'audit intact » (w/pages/Preuves.tsx), relecture complète (/audit/verification), tête de chaîne et ancre posée par l'administration (/audit/ancre, HAB-33) — w/pages/Preuves.tsx:AncrageAudit — w/test/PartielC1.test.tsx ; journal des accès (w/pages/Conformite.tsx) — w/test/Lot21.test.tsx ; <strong>Propositions 22/10</strong> : dossier de preuve par période en PDF produit et scellé au serveur (sceau de la période, empreinte du document inscrite à la chaîne, b/domaines/preuve_periode.py, w/pages/DossierPreuve.tsx « PDF scellé ») et vérification d'un exemplaire remis par son empreinte calculée au poste (w/pages/Preuves.tsx:VerifierDocument, GET /preuves/documents/{sha256}) — t/test_preuve_periode, w/test/Propositions.test.tsx</td>
 <td>21</td>
 </tr>
 <tr>
@@ -7160,10 +7166,10 @@ details.sommaire ul{padding-left:20px;margin:8px 0 0}
 <td>3</td>
 <td>Socle transverse des fiches</td>
 <td>—</td>
-<td><strong>Partiel</strong></td>
+<td><strong>Fait</strong></td>
 <td style="text-align: right;">1 → 0</td>
 <td style="text-align: right;">1 → 0</td>
-<td>PR-8ter fait (signal C3 à toute nouvelle prescription), rappels C4 notifiés par la tâche de nuit (423257c), C9 et C22 faits, C2 fait (test web, évolution « qualité ») ; reste le composant C18 (filtre produit au terminal ; fait au serveur et au poste fixe) ; C6 simulé (messagerie)</td>
+<td>PR-8ter fait (signal C3 à toute nouvelle prescription), rappels C4 notifiés par la tâche de nuit (423257c), C9 et C22 faits, C2 fait (test web, évolution « qualité ») ; C18 fait au terminal au lot L15 ; C6 simulé (messagerie)</td>
 </tr>
 <tr>
 <td>4</td>
@@ -7223,10 +7229,10 @@ details.sommaire ul{padding-left:20px;margin:8px 0 0}
 <td>10</td>
 <td>Nutrition entérale (8) et Uro-génito-digestif (20)</td>
 <td>7</td>
-<td><strong>Partiel</strong></td>
+<td><strong>Fait</strong></td>
 <td style="text-align: right;">1 → 0</td>
 <td style="text-align: right;">3 → 1</td>
-<td>Médicaments par la voie, poids et tension au terminal (24, 25), remontée « autre » (partiel c1) ; reste un test du terminal pour NUT-RG-16</td>
+<td>Médicaments par la voie, poids et tension au terminal (24, 25), remontée « autre » (partiel c1) ; NUT-RG-16 fait au lot L8</td>
 </tr>
 <tr>
 <td>11</td>
@@ -7277,10 +7283,10 @@ details.sommaire ul{padding-left:20px;margin:8px 0 0}
 <td>16</td>
 <td>PCA morphine / benzodiazépine (13-14) et PSE (16)</td>
 <td>7</td>
-<td><strong>Partiel</strong></td>
+<td><strong>Fait</strong></td>
 <td style="text-align: right;">2 → 0</td>
 <td style="text-align: right;">3 → 1</td>
-<td>« Non payable en l'état » au terminal (25) ; reste le payeur F09-F10 au terminal (PCA-RG-12) ; Simulé : PSE-RG-11, PCA-RG-11, 13, 14 (moteur)</td>
+<td>« Non payable en l'état » au terminal (25) ; payeur F09-F10 au terminal fait au lot L9 (PCA-RG-12) ; Simulé : PSE-RG-11, PCA-RG-11, 13, 14 (moteur)</td>
 </tr>
 <tr>
 <td>17</td>
@@ -7623,7 +7629,7 @@ details.sommaire ul{padding-left:20px;margin:8px 0 0}
 </table></div>
 <p>Remarques sur le registre des décisions : le CDC numérote D-01 à D-21 mais <strong>D-15 n'existe pas</strong> dans le texte (20 décisions ; D-19 est tranchée, D-20 en partie). Aux commits <code>3d7a39a</code> et <code>ff74608</code>, 18 décisions ont une valeur ou un contenu provisoire branché (toutes sauf D-09, Bloquée, et D-19, Faite ; à l'audit : 11) : elles restent Simulées tant que la décision n'est pas prise ; leurs réglages et ceux des lots sont au §7.1.</p>
 <h3 id="71-questions-ouvertes-au-fondateur">7.1 Questions ouvertes au fondateur</h3>
-<p>Décisions attendues de TABSANTE, réunies au commit <code>3d7a39a</code> puis complétées au commit <code>ff74608</code> : celles relevées à l'audit <code>d004f34</code> et toutes les valeurs ou comportements provisoires branchés depuis par les lots (règles provisoires du registre des simulations, réglages provisoires de <code>b/config.py</code>, constantes « ponytail » et « à confirmer » du code, cadrage des rappels automatiques). En attendant, le code branche une valeur ou un comportement prudent, remplaçable sans migration (la plupart réglables dans Paramètres › Simulations) ; les éléments concernés restent <strong>Simulés</strong> ou <strong>Partiels</strong>. Questions numérotées sans doublon ni trou pour être citées (l'en-tête en annonçait 71 quand le registre en comptait 80 ; recompte L17 ci-dessous) : Q-01 à Q-60 réunies à <code>3d7a39a</code> (33 de l'audit, dont dix mises à jour, et 27 nouvelles) ; Q-61 à Q-66, branchées par l'évolution « qualité » ; Q-67, le site public (feuille de route 15 ; numéroté Q-61 sur sa branche, renuméroté à la fusion) ; Q-68 à Q-70, branchées par le confort quotidien, la préparation des passages et l'intégration continue ; Q-71, le terminal muet de la régulation (16 octobre) ; Q-72 à Q-80, branchées par les règles NGAP de la doublure (16 octobre) ; Q-81 à Q-84, décisions par défaut de la correction des P0 de l'audit UX (16 octobre, docs/audit/2026-10-16-ux-parcours.md). Puis Q-85 (HAB-34), Q-86 (lot L6), Q-87 à Q-89 (lot L1), Q-90 (lot L12), Q-91 à Q-96 (lot L15), Q-97 et Q-98 (lot L17), Q-99 à Q-101 (lot L18) : <strong>101 questions</strong>.</p>
+<p>Décisions attendues de TABSANTE, réunies au commit <code>3d7a39a</code> puis complétées au commit <code>ff74608</code> : celles relevées à l'audit <code>d004f34</code> et toutes les valeurs ou comportements provisoires branchés depuis par les lots (règles provisoires du registre des simulations, réglages provisoires de <code>b/config.py</code>, constantes « ponytail » et « à confirmer » du code, cadrage des rappels automatiques). En attendant, le code branche une valeur ou un comportement prudent, remplaçable sans migration (la plupart réglables dans Paramètres › Simulations) ; les éléments concernés restent <strong>Simulés</strong> ou <strong>Partiels</strong>. Questions numérotées sans doublon ni trou pour être citées (l'en-tête en annonçait 71 quand le registre en comptait 80 ; recompte L17 ci-dessous) : Q-01 à Q-60 réunies à <code>3d7a39a</code> (33 de l'audit, dont dix mises à jour, et 27 nouvelles) ; Q-61 à Q-66, branchées par l'évolution « qualité » ; Q-67, le site public (feuille de route 15 ; numéroté Q-61 sur sa branche, renuméroté à la fusion) ; Q-68 à Q-70, branchées par le confort quotidien, la préparation des passages et l'intégration continue ; Q-71, le terminal muet de la régulation (16 octobre) ; Q-72 à Q-80, branchées par les règles NGAP de la doublure (16 octobre) ; Q-81 à Q-84, décisions par défaut de la correction des P0 de l'audit UX (16 octobre, docs/audit/2026-10-16-ux-parcours.md). Puis Q-85 (HAB-34), Q-86 (lot L6), Q-87 à Q-89 (lot L1), Q-90 (lot L12), Q-91 à Q-96 (lot L15), Q-97 et Q-98 (lot L17), Q-99 à Q-101 (lot L18), Q-105 à Q-107 (lot Finitions), Q-140 (refonte de la facturation, 22 octobre 2026) : <strong>105 questions</strong>. Les numéros Q-102 à Q-104 n'ont jamais été attribués ; les numéros Q-108 à Q-139 ne sont pas inscrits à ce registre à la date de ce recompte. Recompte du 22 octobre 2026 : l'en-tête annonçait 101 questions et la liste ci-dessous s'arrêtait à Q-101.</p>
 <p><strong>Nettoyage du lot L17</strong> (audit du 16/10/2026, §7), en place et sans renuméroter (les numéros sont cités par le code et les entrées de lots) ; l'état est écrit en tête du sujet :
 - <strong>doublons du registre du CDC</strong> (la décision se prend sous la D-nn) : Q-02 (D-10), Q-10 (D-01), Q-11 (D-11), Q-12 (D-17), Q-14 (D-07), Q-23 (D-21), Q-75 (D-18) ; parties de D-06 : Q-37, Q-43, Q-45, Q-58 ; Q-36 partie de D-04 et D-10 ;
 - <strong>doublons internes</strong> : Q-77 (de Q-08), Q-32 (de Q-33), Q-40 et Q-41 (de Q-39), Q-47 et Q-48 (de Q-46), Q-42 (de Q-53), Q-38 (de la ligne « Solution vidéo » du §7), la seconde moitié de Q-17 (de Q-18) ;
@@ -7631,7 +7637,7 @@ details.sommaire ul{padding-left:20px;margin:8px 0 0}
 - <strong>tranchées par le texte</strong>, citation sur la ligne : Q-62 et Q-64 (closes), Q-13 et Q-30 (en partie), Q-80 (tranchée par la fiche 04, que la doublure contredit), Q-26 (réduite au seuil), Q-29 (structure indiquée par C18), Q-61, Q-03 et Q-25 (conformes, une question résiduelle) ;
 - <strong>closes pour le fondateur, réponse dans un texte public</strong> que TABSANTE confirme : Q-05, Q-06, Q-07, Q-09, Q-19, Q-21, Q-22, Q-76, Q-79 ;
 - <strong>ajoutées</strong> (audit §7.6) : Q-97 (une fréquence, un ou plusieurs objets), Q-98 (voie inhalée) ; les autres points du §7.6 y étaient déjà : Q-90 (pulvérisation), Q-88 (ciblée de l'aide-soignant), Q-91 (C17), Q-92 (C7), Q-33 (référentiels de l'administrateur, ACT-07 Partiel), Q-86 (acte partiel) ; Q-01 n'est plus rattachée à D-17 au §3.1 (fiche 23).</p>
-<p>Restent ouvertes au fondateur (hors doublons D-nn, qui se tranchent au registre du CDC) : Q-01, Q-04, Q-08, Q-15 à Q-18, Q-20, Q-24, Q-27, Q-28, Q-31, Q-33 à Q-35, Q-39, Q-44, Q-46, Q-49 à Q-52, Q-63, Q-65, Q-66, Q-68, Q-69, Q-71 à Q-74, Q-78, Q-81 à Q-101 (décisions par défaut branchées, à confirmer), et les questions résiduelles de Q-03, Q-13, Q-25, Q-26, Q-29, Q-30, Q-61, Q-80.</p>
+<p>Restent ouvertes au fondateur (hors doublons D-nn, qui se tranchent au registre du CDC) : Q-01, Q-04, Q-08, Q-15 à Q-18, Q-20, Q-24, Q-27, Q-28, Q-31, Q-33 à Q-35, Q-39, Q-44, Q-46, Q-49 à Q-52, Q-63, Q-65, Q-66, Q-68, Q-69, Q-71 à Q-74, Q-78, Q-81 à Q-101, Q-105 à Q-107, Q-140, Q-160 à Q-164 (décisions par défaut branchées, à confirmer), et les questions résiduelles de Q-03, Q-13, Q-25, Q-26, Q-29, Q-30, Q-61, Q-80.</p>
 <div class="tableau"><table>
 <thead>
 <tr>
@@ -8482,6 +8488,55 @@ details.sommaire ul{padding-left:20px;margin:8px 0 0}
 <td>NFR-11 (§12 « langues »)</td>
 <td>Décision par défaut du 22/10/2026, réversible : français seul en V2 (libellés, documents, messages)</td>
 <td>Langues à prévoir (anglais, langues régionales, DROM) et calendrier</td>
+</tr>
+<tr>
+<td>Q-140</td>
+<td>Mode contrôle CPAM : identité du contrôleur et durée de l'accès</td>
+<td>feuille de route (mode contrôle CPAM), §4.8, PR-2</td>
+<td>Décision par défaut du 22/10/2026 (refonte de la facturation), réversible : identité du contrôleur déclarée par le cabinet, non attestée ; accès en lecture seule à un patient sur une période d'un an au plus, 72 h par défaut (24 h à 7 jours), révocable ; lectures tracées à la chaîne d'audit et au journal des accès du patient (b/domaines/controle_cpam.py)</td>
+<td>Identité attestée (carte d'agent, Pro Santé Connect) ; durée ; ou export PDF remis en main propre plutôt qu'un accès en ligne</td>
+</tr>
+<tr>
+<td><strong>Propositions du 22 octobre</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Q-160</td>
+<td>Grandeur de la courbe d'une plaie mesurée sur photo</td>
+<td>PAN-E13 [P], fiche 01 l.321 ; feuille de route 5</td>
+<td>La surface L × l du passage reste la grandeur de la courbe ; la surface détourée sur photo s'affiche à côté (panneau « Mesures sur photo »), avec son écart au rectangle</td>
+<td>La surface planimétrique doit-elle devenir la grandeur de référence (courbe, bilans, « sans progrès ») quand elle existe ? Faut-il un gabarit de prise de vue imposé au terminal ?</td>
+</tr>
+<tr>
+<td>Q-161</td>
+<td>Fermeture d'une session inactive au poste fixe</td>
+<td>Audit sécurité M-04 ; §10 (sessions)</td>
+<td>15 minutes sans clic, frappe ni toucher ferment la session (révoquée, cache vidé, brouillons de l'onglet oubliés)</td>
+<td>Durée retenue par le cabinet (10, 15, 30 min) ; verrou à code au lieu d'une fermeture ?</td>
+</tr>
+<tr>
+<td>Q-162</td>
+<td>Dictée des transmissions</td>
+<td>Idées différenciantes (feuille de route) ; RGPD, HDS</td>
+<td>Dictée par le micro du clavier du système ; rangement en champs par règles locales, sans service extérieur ; reconnaissance vocale du navigateur écartée (son envoyé hors HDS)</td>
+<td>Un service de reconnaissance vocale hébergé HDS est-il souhaité, et lequel ?</td>
+</tr>
+<tr>
+<td>Q-163</td>
+<td>Valeur du dossier de preuve scellé</td>
+<td>Feuille de route 3 ; EX-SE-04</td>
+<td>PDF produit au serveur, sceau de la période et empreinte du document inscrits à la chaîne d'audit, vérifiables au poste fixe ; pas de signature électronique</td>
+<td>Faut-il une signature ou un horodatage qualifiés (eIDAS) du PDF remis au contrôleur, et un accès de vérification pour la CPAM ?</td>
+</tr>
+<tr>
+<td>Q-164</td>
+<td>Plafonds techniques des requêtes</td>
+<td>Audit sécurité F-02, F-09</td>
+<td>25 Mo par requête (160 Mo pour une file /sync), deux flux d'événements par session</td>
+<td>Valeurs à confirmer avec l'hébergeur (proxy <code>client_max_body_size</code>)</td>
 </tr>
 </tbody>
 </table></div>
