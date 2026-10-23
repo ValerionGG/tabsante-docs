@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Finitions du poste fixe — 23 octobre 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{--bg:#F4F6FA;--surface:#FFFFFF;--surface-2:#EEF2FB;--fg:#141A2E;--fg-2:#4A5372;--ligne:#DDE3EF;
+--accent:#2F5BEA;--accent-fg:#FFFFFF;--accent-doux:#E6ECFD;--attention:#8A5A00;--attention-fond:#FFF4DC;
+--code-fond:#F1F3F8;--police:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+--police-code:"JetBrains Mono",ui-monospace,"Cascadia Code",Consolas,monospace;--rayon:10px;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0E1220;--surface:#151A2B;--surface-2:#1C2338;
+--fg:#E8ECF7;--fg-2:#A3ACC6;--ligne:#2A3250;--accent:#7C9BFF;--accent-fg:#0E1220;--accent-doux:#1E2950;
+--attention:#F2C25B;--attention-fond:#33290F;--code-fond:#10152A;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0E1220;--surface:#151A2B;--surface-2:#1C2338;--fg:#E8ECF7;--fg-2:#A3ACC6;--ligne:#2A3250;
+--accent:#7C9BFF;--accent-fg:#0E1220;--accent-doux:#1E2950;--attention:#F2C25B;--attention-fond:#33290F;--code-fond:#10152A;color-scheme:dark}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--police);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}
+.entete{background:var(--surface);border-bottom:1px solid var(--ligne)}
+.entete div{max-width:calc(80ch + 32px);margin:0 auto;padding:12px 16px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.entete b{font-weight:600}
+.entete a{color:var(--accent);text-decoration:none;font-weight:500}
+.entete a:hover{text-decoration:underline}
+main{max-width:calc(80ch + 32px);margin:0 auto;padding:24px 16px 64px;overflow-wrap:break-word}
+.chemin{font-family:var(--police-code);font-size:12px;color:var(--fg-2);margin:0 0 8px}
+h1{font-size:28px;line-height:1.25;margin:0 0 16px}
+h2{font-size:21px;line-height:1.3;margin:36px 0 12px;padding-top:12px;border-top:1px solid var(--ligne)}
+h3{font-size:17px;margin:28px 0 8px}h4,h5,h6{font-size:15px;margin:20px 0 6px}
+a{color:var(--accent)}
+p,li{max-width:80ch}
+code{font-family:var(--police-code);font-size:.88em;background:var(--code-fond);border:1px solid var(--ligne);border-radius:5px;padding:0 4px;overflow-wrap:anywhere}
+pre{background:var(--code-fond);border:1px solid var(--ligne);border-radius:var(--rayon);padding:14px 16px;overflow-x:auto;font-size:13px;line-height:1.55}
+pre code{background:none;border:0;padding:0;font-size:inherit;overflow-wrap:normal}
+.tableau{overflow-x:auto;margin:16px 0;border:1px solid var(--ligne);border-radius:var(--rayon);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:13.5px;line-height:1.5}
+th,td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--ligne);min-width:8ch}
+th{background:var(--surface-2);font-weight:600}
+tr:last-child td{border-bottom:0}
+blockquote{margin:16px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-doux);border-radius:0 var(--rayon) var(--rayon) 0}
+hr{border:0;border-top:1px solid var(--ligne);margin:28px 0}
+img{max-width:100%}
+.non-publie{font-size:13px;color:var(--attention);background:var(--attention-fond);padding:1px 6px;border-radius:5px}
+details.sommaire{background:var(--surface);border:1px solid var(--ligne);border-radius:var(--rayon);padding:10px 16px;margin:0 0 24px}
+details.sommaire summary{cursor:pointer;font-weight:600}
+details.sommaire ul{padding-left:20px;margin:8px 0 0}
+.admonition{border:1px solid var(--ligne);border-radius:var(--rayon);padding:8px 16px;background:var(--surface)}
+.admonition-title{font-weight:600}
+</style>
+</head>
+<body>
+<header class="entete"><div><b>TabSanté — documents</b><a href="../../">← Retour au portail</a></div></header>
+<main>
+<p class="chemin">docs/audit/2026-10-23-finitions-poste.html</p>
+<h1 id="finitions-du-poste-fixe--23-octobre-2026">Finitions du poste fixe — 23 octobre 2026</h1>
+<details class="sommaire"><summary>Sommaire</summary><ul><li><a href="#ce-qui-a-été-fait">Ce qui a été fait</a></li><li><a href="#choix-tranchés-ici">Choix tranchés ici</a></li><li><a href="#vérifications">Vérifications</a></li><li><a href="#ce-qui-reste">Ce qui reste</a></li></ul></details>
+<p><strong>Branche</strong> <code>evol-finitions-poste</code>, partie de <code>main</code> (<code>dd8827ef</code>). <strong>But</strong> : finir ce qui restait au poste fixe pour que des testeurs puissent faire leurs retours, en données fictives. Le terminal est traité à part, par un autre agent (rien n'a changé dans <code>mobile/</code>).</p>
+<p><strong>Méthode.</strong> Base <code>tabsante_fposte</code>, API sur le port 8801 (<code>TABSANTE_DEV_AUTH=true</code>, lecteur d'ordonnance factice), <code>POST /dev/demo</code> puis <code>scripts/agregats.py --reconstruire</code>, Vite sur le port 5301. Chromium isolé (Playwright, profil neuf à chaque capture), 1440 et 390 px, débordement horizontal mesuré sur chaque écran. Charte : <code>DESIGN.md</code> et la passe du 23/10 (<code>2026-10-23-design-poste.md</code>).</p>
+<p>Captures : <code>docs/audit/captures-ux/2026-10-23-finitions-poste/</code>, <code>avant-*</code> (état de départ) et <code>apres-*</code>.</p>
+<h2 id="ce-qui-a-été-fait">Ce qui a été fait</h2>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Demande</th>
+<th>Ce qui a changé</th>
+<th>Fichiers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Menu « ⋯ » sur toutes les listes</td>
+<td>Plaies (ouvrir, dossier, transmissions, dossier de preuve) ; bilans (relire ou voir, documents ou Bilans/Consultation du patient, dossier) ; transmissions (marquer comme lue, requalifier, dossier, transmissions du patient, soin lié) ; signalements (passage signé, dossier, transmissions, et pour l'infirmier « Surveillance renforcée » et « Classer sans suite », la même requête que le formulaire) ; renouvellements (courrier, ordonnances, dossier, annuler la demande) ; preuves (reçu de cotation, dossier, dossier de preuve du mois) ; FSE (sécuriser, ajouter au lot du jour, traiter le rejet, voir le lot, dossier) ; lots (télétransmettre, lire les retours, traiter les rejets) ; rejets (choisir pour la décision groupée, ouvrir la FSE…). Toujours le composant <code>Menu</code> ; chaque entrée suit les droits déjà lus par l'écran.</td>
+<td><code>Plaies.tsx</code>, <code>Bilans.tsx</code>, <code>Transmissions.tsx</code>, <code>Signalements.tsx</code>, <code>Renouvellements.tsx</code>, <code>Preuves.tsx</code>, <code>Facturation.tsx</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td>Preuves et cotations à 1440 px</td>
+<td>Le tableau prend toute la largeur ; intégrité, ancrage, dossier par période et vérification passent dessous, en cartes. 25 actes par page, puis « Afficher 25 actes de plus » (211 actes en démonstration). Plus aucun défilement de côté à 1440 px.</td>
+<td><code>Preuves.tsx</code>, <code>design-poste.css</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td>Lien « …/soins/ » vide</td>
+<td><strong>Cause</strong> : le bilan programmé (code <code>BILAN</code>) n'est pas une fiche de soin ; <code>soin('BILAN')</code> rendait <code>null</code> et deux écrans construisaient <code>/patients/:id/soins/</code> (journée des tournées, retour du dossier de preuve). <strong>Correction à la racine</strong> : une seule fonction <code>versSoin(patient, code)</code> pour tous les liens de soin (bilan → « Bilans/Consultation », consultation et parcours → leur vue, code inconnu → onglet Soins), utilisée par la palette, la synthèse, la page Soins, les tournées et le dossier de preuve. L'ancienne adresse sans soin renvoie aux soins du patient au lieu de « Cette page n'existe pas ».</td>
+<td><code>actes.tsx</code>, <code>Cadre.tsx</code>, <code>Synthese.tsx</code>, <code>Soins.tsx</code>, <code>Tournees.tsx</code>, <code>DossierPreuve.tsx</code>, <code>main.tsx</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td>« Passage fait » sans soin signé</td>
+<td><strong>Cause : les deux.</strong> Le semis (<code>geo_demo._ce_matin</code>) faisait repartir Claire de deux domiciles sans rien signer ; et le calcul tenait tout domicile quitté pour « terminé », sans regarder ses soins. <strong>Règle corrigée au serveur</strong> : un domicile quitté reste <code>termine</code> pour la position et les heures (l'intervenante est bien repartie), mais porte <code>soins_a_signer: true</code> tant qu'un de ses soins est dû ; il ne se dit alors jamais « fait » — poste fixe et terminal écrivent « Reparti · soins à signer », en ambre. Ce champ est celui que le terminal lit déjà (branche <code>evol-finitions-terminal</code>) ; un nouveau statut aurait cassé ses tests et ses écrans. <strong>Semis</strong> : la scène montre maintenant Claire arrivée au premier domicile, soins en cours (« Sur place »), la carte « Prochain domicile » annonce le suivant.</td>
+<td><code>backend/app/domaines/itineraires.py</code>, <code>geo_demo.py</code>, <code>tests/test_itineraires.py</code>, <code>web/src/api/itineraire.ts</code>, <code>Itineraire.tsx</code>, <code>carte.tsx</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td>Suites de la facturation</td>
+<td><strong>J4-10</strong> : le dossier de preuve ouvert depuis une FSE (ou la file, à facturer, les lots, les rejets, un relevé HAD, Preuves et cotations) ramène à cet écran (<code>?depuis=</code>, seules ces origines sont reprises). <strong>J4-6</strong> : arbitrage sans choix par défaut ; l'écart dit en une phrase (« Écart : AMI 2 à 50 % — plusieurs actes au même passage : celui-ci à 50 % (NGAP, art. 11 B) »). <strong>J4-7</strong> : récapitulatif avant de créer la FSE (patient, actes, lignes, période, montant, étape suivante), puis « Ajouter au lot du jour » sur la FSE sécurisée. <strong>J4-8</strong> : file de contrôle regroupée par patient puis par jour, un patient sans rien à arbitrer replié ; un seul libellé d'état (« À arbitrer ») ; liens à 44 px d'appui. La page passe de 11 900 à 5 500 px de haut à 1440 px.</td>
+<td><code>Facturation.tsx</code>, <code>cotation.tsx</code>, <code>actes.tsx</code>, <code>facturation.css</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td>Points « Moi » de priorité basse</td>
+<td><strong>J1-2</strong> : refusée, la déclaration d'un passage non réalisé nomme qui la fait (« Claire Martin, qui tient le matin de cette tournée, ou l'infirmier responsable ») et offre « Prévenir par un message au cabinet ». <strong>J2-4</strong> : au domicile, l'adresse se saisit à côté du lieu de résidence ; sans elle, un avis dit que le patient n'entrera pas dans l'itinéraire (non bloquant : voir choix). <strong>J2-5</strong> : « Ajouter » met le focus sur le premier champ, l'annulation le rend au bouton. <strong>J2-6</strong> : OID de l'INS, code SNOMED des suggestions et empreinte de l'ordonnance passent en info-bulle. <strong>J2-8</strong> : la confiance de lecture ne s'affiche que sous le seuil. <strong>J4-9</strong> : l'événement critique proposé en tête, en rouge, et des libellés rédigés (« humeur : absent, désormais modéré », « 3 jours consécutifs, au 13/10/2026 »). <strong>J5-4</strong> : la conséquence d'une absence s'écrit sous « Déclarer » (« 2 matinées à couvrir, du 17 oct. au 18 oct. ») ; un échange proposé dont l'un des deux est absent est signalé « devenu sans objet ». <strong>J7-1</strong> : les navigateurs du poste fixe ne sont plus listés comme terminaux ; un terminal enrôlé d'office porte un nom lisible ; une seule ligne d'activité lue à la même source que la régulation ; « Émettre un code » passe en tête.</td>
+<td><code>organisation.tsx</code>, <code>Transmissions.tsx</code>, <code>Identite.tsx</code>, <code>dossier.tsx</code>, <code>Ordonnance.tsx</code>, <code>Propositions.tsx</code>, <code>Planning.tsx</code>, <code>Terminaux.tsx</code> ; serveur : <code>echanges.py</code>, <code>socle.py</code>, <code>fiches/neuropsy.py</code>, <code>securite.py</code>, <code>auth.py</code></td>
+</tr>
+<tr>
+<td>6</td>
+<td>Liens d'aide publics</td>
+<td><code>PORTAIL_URL</code> = <code>https://valeriongg.github.io/tabsante-docs/</code> (mêmes ancres <code>#id</code>) ; test mis à jour.</td>
+<td><code>aide/config.ts</code>, <code>test/Aide.test.tsx</code></td>
+</tr>
+<tr>
+<td>7</td>
+<td>« Donner mon avis »</td>
+<td>Le formulaire <code>retour.yml</code> du dépôt <code>tabsante-docs</code> porte bien les champs <code>application</code>, <code>ecran</code> et <code>profil</code> que le lien remplit. Dans la barre du haut (libellé à partir de 1280 px, bulle seule en dessous, le libellé reste le nom accessible) et dans le menu du profil ; info-bulle « Ouvre un formulaire GitHub (compte GitHub requis) » ; nouvel onglet vers <code>issues/new?template=retour.yml&amp;application=Poste%20fixe&amp;ecran=…&amp;profil=…&amp;title=…</code>. <code>motifEcran</code> (fonction pure, <code>web/src/retour.ts</code>) ramène le chemin à son motif : seuls les segments-mots restent, tout le reste devient <code>:id</code>, et une garde finale rend « / » si un UUID ou un nombre de plus de 3 chiffres passait. Profil : IDE, IDE remplaçante, Aide-soignante ou Administration, jamais le nom. Visible dans tous les modes (le motif se lit dans le routeur, <code>HashRouter</code> compris). Entrée d'aide <code>poste-avis</code>.</td>
+<td><code>retour.ts</code>, <code>Cadre.tsx</code>, <code>composants.tsx</code>, <code>design-poste.css</code>, <code>aide/contenu.ts</code></td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Vu aux captures et corrigé en route.</strong>
+- La règle de la passe du 23/10 estompait toute rangée <code>.actions-ligne</code> (boutons de panneaux compris : « Relire toute la chaîne », « Reçu », « Preuve »). Seul le déclencheur « ⋯ » s'estompe désormais.
+- Dossier de preuve à 390 px : la page débordait de 119 px (journal d'audit, lien du reçu, en-tête). En-tête en colonne, journal qui défile dans son cadre : plus de débordement.
+- Écart d'arbitrage : un taux réduit se dit par sa cause (cumul), pas par le libellé de l'acte.</p>
+<h2 id="choix-tranchés-ici">Choix tranchés ici</h2>
+<ul>
+<li><strong>« Passage fait »</strong> : règle propre plutôt que semis seul, mais par un champ (<code>soins_a_signer</code>) et non par un statut nouveau : le statut <code>termine</code> règle la position, l'heure estimée et la météo dans les deux clients ; un statut « reparti » les aurait tous fait changer, terminal compris. Le plan n'est pas typé dans le contrat OpenAPI : rien à régénérer.</li>
+<li><strong>Adresse au domicile</strong> : avertissement, pas obligation. À la création, l'adresse n'est pas toujours connue (appel de sortie d'hôpital) ; bloquer aurait empêché d'ouvrir le dossier.</li>
+<li><strong>Décisions rapides d'un signalement</strong> dans le menu : seulement celles sans objet ni commentaire (« Surveillance renforcée », « Sans suite ») ; « Objet suivi ouvert » garde son formulaire.</li>
+<li><strong>Terminaux</strong> : le filtre retire les identifiants <code>poste-fixe-…</code> enrôlés d'office sans secret (développement) ; un vrai poste enrôlé avec un secret reste listé.</li>
+<li><strong>Lot du jour</strong> : il n'existe pas de lot « ouvert » auquel ajouter une FSE ; « Ajouter au lot du jour » mène à « Vérifier puis télétransmettre », qui retient par défaut toutes les FSE sécurisées de l'émetteur.</li>
+</ul>
+<h2 id="vérifications">Vérifications</h2>
+<ul>
+<li>Web : <code>npx tsc --noEmit</code> sans erreur ; <code>npx vitest run</code> : 75 fichiers, 676 tests, verts (dont <code>FinitionsPoste.test.tsx</code> : avis, motif d'écran, liens de soin, absence ; <code>Retour.test.ts</code> : motif sans UUID ni nombre long). Tests adaptés : <code>Aide</code>, <code>Lot9</code> (arbitrage sans défaut, confiance), <code>Lot14</code> (activité d'un terminal).</li>
+<li>Constructions <code>VITE_DEMO_STATIQUE=true</code> et <code>VITE_DEMO_HEBERGEE=true</code> (base <code>/poste/</code>) : réussies. Les lectures nouvelles (<code>/indisponibilites</code> dans les échanges, référentiel des règles à l'arbitrage) se replient sans erreur si l'enregistrement statique ne les a pas.</li>
+<li>Serveur : suite complète verte avant le dernier changement (1 612 réussis, 2 sautés), puis les suites de l'itinéraire, de l'ordre, de la carte, de l'aperçu et de la cotation par passage relancées après l'ajout de <code>soins_a_signer</code> (47 réussis) ; tests ajoutés : <code>test_refus_de_la_non_realisation_dit_qui_peut</code>, <code>test_navigateur_du_poste_fixe_hors_des_terminaux</code> ; <code>test_demo_tournee_sur_la_carte</code> réécrit pour la scène sans domicile terminé. Aucun schéma d'API changé : OpenAPI et <code>npm run types</code> inchangés ; aucune migration.</li>
+<li>Captures : aucun débordement horizontal de page à 1440 ni à 390 px sur les 28 vues « après ».</li>
+</ul>
+<h2 id="ce-qui-reste">Ce qui reste</h2>
+<ul>
+<li><strong>J3-9</strong> (fiche patient au terminal : cotation et couleur de l'allergie) : c'est le terminal, traité par l'autre agent.</li>
+<li><strong>Avant de la carte « Prochain domicile »</strong> : la base de démonstration a rejoué la scène dès le redémarrage de l'API ; l'état d'avant se lit dans le relevé du plan (Roussel et Garnier « termine », tous leurs soins « due ») plutôt qu'en capture.</li>
+<li><strong>Portail public</strong> : l'ancre <code>#poste-avis</code> (nouvelle entrée d'aide) est à ajouter au portail <code>tabsante-docs</code> ; sans elle, « En savoir plus » ouvre le portail en tête.</li>
+<li><strong>« 0 signé » et « 2 passages signés »</strong> sur Aujourd'hui (Claire) : le sous-titre compte les passages prévus signés, « Ma journée » compte aussi deux actes hors tournée semés par la démonstration. Cohérent mais à dire mieux (« 0 passage prévu signé, 2 hors tournée »).</li>
+</ul>
+</main>
+</body>
+</html>

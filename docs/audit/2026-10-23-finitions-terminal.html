@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Terminal : finitions pour les retours des testeurs (2026-10-23)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{--bg:#F4F6FA;--surface:#FFFFFF;--surface-2:#EEF2FB;--fg:#141A2E;--fg-2:#4A5372;--ligne:#DDE3EF;
+--accent:#2F5BEA;--accent-fg:#FFFFFF;--accent-doux:#E6ECFD;--attention:#8A5A00;--attention-fond:#FFF4DC;
+--code-fond:#F1F3F8;--police:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+--police-code:"JetBrains Mono",ui-monospace,"Cascadia Code",Consolas,monospace;--rayon:10px;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0E1220;--surface:#151A2B;--surface-2:#1C2338;
+--fg:#E8ECF7;--fg-2:#A3ACC6;--ligne:#2A3250;--accent:#7C9BFF;--accent-fg:#0E1220;--accent-doux:#1E2950;
+--attention:#F2C25B;--attention-fond:#33290F;--code-fond:#10152A;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0E1220;--surface:#151A2B;--surface-2:#1C2338;--fg:#E8ECF7;--fg-2:#A3ACC6;--ligne:#2A3250;
+--accent:#7C9BFF;--accent-fg:#0E1220;--accent-doux:#1E2950;--attention:#F2C25B;--attention-fond:#33290F;--code-fond:#10152A;color-scheme:dark}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--police);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}
+.entete{background:var(--surface);border-bottom:1px solid var(--ligne)}
+.entete div{max-width:calc(80ch + 32px);margin:0 auto;padding:12px 16px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.entete b{font-weight:600}
+.entete a{color:var(--accent);text-decoration:none;font-weight:500}
+.entete a:hover{text-decoration:underline}
+main{max-width:calc(80ch + 32px);margin:0 auto;padding:24px 16px 64px;overflow-wrap:break-word}
+.chemin{font-family:var(--police-code);font-size:12px;color:var(--fg-2);margin:0 0 8px}
+h1{font-size:28px;line-height:1.25;margin:0 0 16px}
+h2{font-size:21px;line-height:1.3;margin:36px 0 12px;padding-top:12px;border-top:1px solid var(--ligne)}
+h3{font-size:17px;margin:28px 0 8px}h4,h5,h6{font-size:15px;margin:20px 0 6px}
+a{color:var(--accent)}
+p,li{max-width:80ch}
+code{font-family:var(--police-code);font-size:.88em;background:var(--code-fond);border:1px solid var(--ligne);border-radius:5px;padding:0 4px;overflow-wrap:anywhere}
+pre{background:var(--code-fond);border:1px solid var(--ligne);border-radius:var(--rayon);padding:14px 16px;overflow-x:auto;font-size:13px;line-height:1.55}
+pre code{background:none;border:0;padding:0;font-size:inherit;overflow-wrap:normal}
+.tableau{overflow-x:auto;margin:16px 0;border:1px solid var(--ligne);border-radius:var(--rayon);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:13.5px;line-height:1.5}
+th,td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--ligne);min-width:8ch}
+th{background:var(--surface-2);font-weight:600}
+tr:last-child td{border-bottom:0}
+blockquote{margin:16px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-doux);border-radius:0 var(--rayon) var(--rayon) 0}
+hr{border:0;border-top:1px solid var(--ligne);margin:28px 0}
+img{max-width:100%}
+.non-publie{font-size:13px;color:var(--attention);background:var(--attention-fond);padding:1px 6px;border-radius:5px}
+details.sommaire{background:var(--surface);border:1px solid var(--ligne);border-radius:var(--rayon);padding:10px 16px;margin:0 0 24px}
+details.sommaire summary{cursor:pointer;font-weight:600}
+details.sommaire ul{padding-left:20px;margin:8px 0 0}
+.admonition{border:1px solid var(--ligne);border-radius:var(--rayon);padding:8px 16px;background:var(--surface)}
+.admonition-title{font-weight:600}
+</style>
+</head>
+<body>
+<header class="entete"><div><b>TabSanté — documents</b><a href="../../">← Retour au portail</a></div></header>
+<main>
+<p class="chemin">docs/audit/2026-10-23-finitions-terminal.html</p>
+<h1 id="terminal--finitions-pour-les-retours-des-testeurs-2026-10-23">Terminal : finitions pour les retours des testeurs (2026-10-23)</h1>
+<details class="sommaire"><summary>Sommaire</summary><ul><li><a href="#captures">Captures</a></li><li><a href="#ce-qui-est-fait">Ce qui est fait</a></li><li><a href="#choix-tranchés">Choix tranchés</a></li><li><a href="#vérifications">Vérifications</a></li><li><a href="#ce-qui-reste">Ce qui reste</a></li></ul></details>
+<p>Branche <code>evol-finitions-terminal</code> (depuis <code>main</code> dd8827ef). Suite de <code>2026-10-23-design-terminal.md</code> (« Ce qui reste »)
+et de <code>2026-10-22-terminal-beaute.md</code>. But : que ce qui restait marche de bout en bout, en données fictives, pour que les
+personnes qui essaient le terminal puissent faire des retours. Le sens clinique des fiches ne change pas (présentation
+seulement), l'aide-soignante ne voit toujours aucune cotation, <code>DEMONSTRATION</code> et <code>DEMO_STATIQUE</code> se construisent.
+Le poste fixe (<code>web/</code>) n'est pas touché ; côté serveur, seuls un test et ses exemples sont ajoutés (aucune route,
+aucune migration, OpenAPI inchangé).</p>
+<p>Banc : API sur le port 8802 (base <code>tabsante_fterm</code>, <code>TABSANTE_DEV_AUTH=true</code>, <code>TABSANTE_LECTEUR_ORDONNANCE=factice</code>,
+<code>TABSANTE_CORS_ORIGINES</code> ouvert au seul <code>127.0.0.1:5302</code>), <code>POST /dev/demo</code>, <code>scripts/agregats.py --reconstruire</code> ;
+terminal construit pour le navigateur (<code>--dart-define=CAPTURES=true --dart-define=API_URL=http://127.0.0.1:8802</code>)
+et servi sur le port 5302 ; « avant » = le même build fait depuis dd8827ef (<code>git archive</code>, hors du dépôt).</p>
+<h2 id="captures">Captures</h2>
+<p><code>docs/audit/captures-ux/2026-10-23-finitions-terminal/</code> : <code>avant-&lt;écran&gt;.png</code>, <code>apres-&lt;écran&gt;.png</code> (jour),
+<code>avant-nuit-…</code>, <code>apres-nuit-…</code> (nuit), 390 × 844 à 2×, Chromium de Playwright sur un profil neuf à chaque série
+(<code>mobile/tool/captures_terminal.mjs</code>, nouvelles entrées 80 à 89 ; <code>NOTIF=1</code> pour le build d'avant).</p>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Écran</th>
+<th>Ce qu'on y voit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>10-tournee</td>
+<td>carte du prochain passage : « Passage fait » (avant) → « Reparti · soins à signer » en ambre (après)</td>
+</tr>
+<tr>
+<td>12-itineraire</td>
+<td>arrêts 1 et 2 : coche verte (avant) → leur numéro, ambre (après)</td>
+</tr>
+<tr>
+<td>52-moi-bas, 87-moi-avis</td>
+<td>« Moi », groupe Assistance : « Donner mon avis »</td>
+</tr>
+<tr>
+<td>57-menu-passage, 88-menu-passage-avis</td>
+<td>menu « ⋮ » du passage : groupe Assistance, « Donner mon avis » avant la fin de suivi</td>
+</tr>
+<tr>
+<td>80, 81, 89 (consultation infirmière)</td>
+<td>blocs repliables : « Compréhension, environnement… », « Autres compétences proposées (8) », « Prévention, accompagnement »</td>
+</tr>
+<tr>
+<td>82-fiche-respiratoire-stome</td>
+<td>« Sevrage : obturation (facultatif) » en bloc repliable</td>
+</tr>
+<tr>
+<td>83-photo-gabarit</td>
+<td>guide photo : pictogramme (avant) → gabarit cadre + cible + réglette graduée, photo simulée sans appareil photo (après)</td>
+</tr>
+<tr>
+<td>84-dictee-micro</td>
+<td>« Dicter » : champ focalisé (clavier ouvert), consigne du micro du clavier</td>
+</tr>
+<tr>
+<td>85-envois-conflit</td>
+<td>envoi refusé trois fois par un conflit d'écriture : « À revoir », explication, « Renvoyer » (l'avant ne connaît pas l'écran : capture vide)</td>
+</tr>
+<tr>
+<td>86-notification</td>
+<td>bandeau de l'application (avant) → bannière système simulée : pastille, « TabSanté », heure, titre, texte (après)</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="ce-qui-est-fait">Ce qui est fait</h2>
+<ol>
+<li><strong>Blocs repliables des fiches</strong> : <code>BlocRepliable</code> (passe du 23/10) gagne une forme sans carte (<code>encadre: false</code>,
+   posée dans la carte de la fiche), une clé d'en-tête et se rouvre si une donnée exigée apparaît dedans. Il remplace
+   les boutons « ▾ … » faits à la main : consultation infirmière / séance (compréhension, environnement, entourage,
+   difficultés ; prévention, accompagnement ; autres compétences du volet), soins respiratoires (filtre-échangeur et
+   phonation ou obturation de la canule ; masque changé de la PPC). Mêmes champs, mêmes clés de test ; ouvert d'office
+   quand il porte déjà une saisie.</li>
+<li><strong>Gabarit de cadrage</strong> (<code>lib/cadrage.dart</code>) : cadre 4:3, cible de la plaie, bande de la réglette graduée en cm, posé
+   sur la photo précédente quand le téléphone la garde ; la même géométrie sert à la photo simulée. Sans appareil photo
+   (navigateur qui ne voit aucune caméra), « Prendre une photo simulée » produit un PNG 1600 × 1200 (plaie fictive,
+   réglette de 10 cm au gabarit, mention « PHOTO SIMULÉE · DÉMONSTRATION ») qui suit le chemin d'une vraie photo.
+   Passage de plaie et photos des dispositifs passent par la même fonction (<code>photoCadree</code>).</li>
+<li><strong>Dictée</strong> : « Dicter la transmission » (bouton de 56 dp) ouvre le panneau et focalise le champ — le clavier
+   s'ouvre, sa touche micro est à un appui — avec la consigne « Le clavier est ouvert : touchez son micro… ». La règle
+   de rangement en cible / données / actions / résultat est maintenant <strong>la copie de celle du serveur</strong>
+   (<code>backend/app/domaines/dictee.py</code>) : mêmes marqueurs (« D : », « A - », « Objet — »…), mêmes mots repères, même
+   découpage, même raison par phrase. Douze exemples produits par le serveur (<code>backend/tests/dictee_exemples.json</code>)
+   sont vérifiés des deux côtés (<code>test_dictee.py</code>, <code>dictee_test.dart</code>) : changer la règle d'un seul côté fait échouer
+   l'autre. Le téléphone range toujours hors connexion, sans appeler le serveur.</li>
+<li><strong>Conflit d'écriture à la synchronisation</strong> — existant vérifié : le serveur rend 409 avec la contrainte en cause
+   (<code>app/domaines/sync.py</code>, P2-3, « le terminal compte ses essais ») ; le terminal la marquait « à corriger » avec un
+   texte qui disait « sera rejouée », et la renvoyait à chaque passage, sans fin. Désormais (<code>Synchro.pousser</code>) : un
+   conflit reste « en attente » et repart, ses essais comptés sur la même contrainte (une autre contrainte remet le
+   compte à un) ; au troisième, l'envoi passe <strong>« à revoir »</strong> : il ne repart plus seul, l'écran Envois explique
+   (une autre saisie modifiait la même donnée, rien n'est perdu, vérifier au cabinet) et propose « Renvoyer » (essais
+   remis à zéro) ou « Abandonner ».</li>
+<li><strong>Notification système simulée</strong> : en démonstration (hébergée ou statique), la notification locale (rappel de
+   passage, transmission qui me mentionne, retard, tournée validée) se montre en bannière du téléphone — pastille de
+   l'application avec l'icône de la nature, « TabSanté », l'heure d'arrivée, titre, texte — au lieu d'une notification
+   du navigateur. Un appui ou un glissement la ferme. Captures : <code>&amp;notif=systeme</code>.</li>
+<li><strong>« Passage fait » sans soin signé</strong> — trouvé : le plan du serveur dit un arrêt « terminé » dès que l'intervenante
+   est <strong>repartie vers le suivant</strong> (<code>app/domaines/itineraires.py</code> : <code>termine = tous les soins faits ou quitte</code>) ; la
+   démonstration semée fait partir Claire des maisons 1 et 2 sans rien signer. Le terminal recopie ce calcul
+   (<code>recalculer</code>) et la carte du prochain passage l'affichait tel quel, alors que la liste « Ensuite » le filtrait
+   déjà. Corrigé côté terminal : à la superposition de la vue, un arrêt terminé dont un soin reste dû sur le téléphone
+   porte <code>soins_a_signer</code> ; la carte dit « Reparti · soins à signer » en ambre, la carte et la liste de l'itinéraire le
+   montrent en ambre avec son numéro (plus la coche verte). <strong>À voir côté serveur (autre agent)</strong> : soit la
+   démonstration semée signe les passages des maisons quittées, soit <code>termine</code> ne vaut que si tous les soins sont
+   faits (et « quitté » devient un autre état).</li>
+<li><strong>Liens d'aide</strong> : <code>portailUrl</code> = <code>https://valeriongg.github.io/tabsante-docs/</code>, ancres <code>#id</code> inchangées.</li>
+<li><strong>« Donner mon avis »</strong> : dans « Moi » (groupe Assistance) et en fin de chaque menu « ⋮ » d'écran plein (passage,
+   fiches de soin, fiche du patient, séance, dispositif, plaie), groupe Assistance. Fonction pure <code>lienAvis</code> (<code>lib/aide.dart</code>) :
+   <code>…/issues/new?template=retour.yml&amp;application=Terminal&amp;ecran=&lt;nom&gt;&amp;profil=&lt;rôle&gt;&amp;title=Terminal · &lt;nom&gt; :</code>.
+   L'écran est l'id d'aide sans « terminal- » (<code>fiche-pansement</code>, <code>passage</code>, <code>moi</code>, <code>plaie</code>, <code>dispositif</code>) ; tout ce
+   qui n'est pas un nom en minuscules sans longue suite de chiffres devient <code>autre</code> (jamais un identifiant, un nom ni
+   une donnée). Profil : <code>IDE</code>, <code>IDE remplaçante</code>, <code>Aide-soignante</code>, <code>Administration</code>. Ouvert par le canal qui sert
+   déjà « En savoir plus » (<code>ouvrirLien</code>, pas de nouvelle dépendance).</li>
+</ol>
+<h2 id="choix-tranchés">Choix tranchés</h2>
+<ol>
+<li><strong>Les « Repris du passage · Modifier » et les déclarations restent tels quels</strong> : ce ne sont pas des blocs
+   d'affichage mais une bascule résumé ↔ saisie (le résumé doit rester lisible pour être vérifié) ou une déclaration
+   qui efface ses champs quand on l'annule (« Effet secondaire… », « Autre origine… », pompe mise en service). Les
+   replier changerait le geste, pas la présentation. Le schéma des sites d'injection garde son en-tête ambre (il
+   s'ouvre seul sur une zone signalée).</li>
+<li><strong>Gabarit avant l'appareil photo, pas par-dessus</strong> : l'appareil est celui du système (<code>image_picker</code>), qui
+   n'accepte pas de calque ; un viseur en direct demanderait le paquet <code>camera</code>. Le gabarit posé sur la photo
+   précédente donne le même repère juste avant la prise.</li>
+<li><strong>Dictée rangée sur le téléphone, toujours</strong> : même règle que le serveur, donc même résultat ; pas d'appel réseau
+   pour un texte de santé. Le terminal n'ouvre pas de micro lui-même (pas de reconnaissance vocale tierce).</li>
+<li><strong>Trois essais</strong> sur la même contrainte avant « à revoir » ; « Renvoyer » reste possible hors connexion (l'envoi
+   repart au retour du réseau).</li>
+<li><strong>« Passage fait » corrigé à l'affichage du terminal</strong>, sans toucher au calcul partagé avec le serveur : la donnée
+   du plan reste celle du serveur, le téléphone la croise avec ses propres soins dus.</li>
+<li><strong>Bannière simulée</strong> pour toute démonstration (<code>DEMONSTRATION</code>, <code>DEMO_STATIQUE</code>) : le navigateur n'est pas le
+   téléphone, une notification du bureau de l'ordinateur ne montrait pas ce que l'infirmière verra.</li>
+</ol>
+<h2 id="vérifications">Vérifications</h2>
+<ul>
+<li><code>flutter analyze</code> : aucune remarque. <code>flutter test</code> : <strong>983 tests verts</strong> (51 ignorés, comme avant ; 968 au départ).</li>
+<li>Nouveaux tests : <code>mobile/test/finitions_terminal_test.dart</code> (15) — adresse du formulaire, écran jamais une donnée,
+  profils, « Moi » et menu « ⋮ » ouvrent la bonne adresse, bloc repliable sans carte qui se rouvre, conflit compté
+  puis « à revoir » puis renvoyé, autre contrainte, écran Envois, dictée focalisée, <code>soins_a_signer</code> et la carte du
+  prochain passage, bannière système, guide photo et photo simulée (PNG 4:3, identique d'une fois sur l'autre) ;
+  <code>mobile/test/dictee_test.dart</code> réécrit (exemples du serveur, marqueurs, mots repères en début de mot).</li>
+<li>Serveur : <code>tests/test_dictee.py</code> vert (4, dont les exemples partagés) sur <code>tabsante_fterm_test</code>.</li>
+<li>Builds web : captures (<code>CAPTURES</code>), démonstration statique et hébergée (<code>DEMO_STATIQUE</code>, <code>DEMONSTRATION</code>)
+  construits sans erreur.</li>
+</ul>
+<h2 id="ce-qui-reste">Ce qui reste</h2>
+<ol>
+<li><strong>Serveur, « termine »</strong> : la démonstration semée et la règle du plan (voir 6) — laissé à l'agent du serveur.</li>
+<li><strong>Viseur en direct</strong> avec le gabarit dessus : demanderait le paquet <code>camera</code> (nouvelle dépendance, permissions) ;
+   non fait.</li>
+<li><strong>Notification réelle Android/iOS</strong> : toujours non branchée hors démonstration (<code>notifieur_io.dart</code>), le bandeau
+   de l'application la remplace tant que TabSanté est ouvert.</li>
+<li><strong>Formulaire <code>retour.yml</code></strong> : le gabarit d'issue doit exister dans le dépôt public <code>tabsante-docs</code> avec les champs
+   <code>application</code>, <code>ecran</code>, <code>profil</code> pour que le préremplissage prenne ; hors de ce dépôt.</li>
+<li>Le ressenti au téléphone (clavier et micro de la dictée, haptique) n'a pas été essayé sur un Android réel : aucun
+   appareil sur ce poste.</li>
+</ol>
+</main>
+</body>
+</html>
