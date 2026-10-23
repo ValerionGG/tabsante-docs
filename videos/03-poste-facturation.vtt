@@ -1,37 +1,43 @@
 WEBVTT
 
-00:00:04.725 --> 00:00:08.935
+00:00:04.723 --> 00:00:08.027
 Cinq étapes, du soin signé au retour de l’Assurance maladie. D’abord, la file de contrôle.
 
-00:00:08.937 --> 00:00:16.144
+00:00:08.030 --> 00:00:10.557
+La file est regroupée par patient. Claire filtre ce qui reste à arbitrer.
+
+00:00:10.567 --> 00:00:18.086
 Cette cotation diverge entre la signature et le moteur : « Pourquoi ? » l’explique, règle de la NGAP à l’appui.
 
-00:00:16.146 --> 00:00:27.175
+00:00:18.089 --> 00:00:30.868
 Claire arbitre : elle confirme la cotation du moteur, avec un motif tracé au journal.
 
-00:00:27.180 --> 00:00:33.289
+00:00:30.871 --> 00:00:37.015
 Étape 2, « Facturer » : les actes confirmés, regroupés par patient. Une feuille de soins par groupe.
 
-00:00:33.291 --> 00:00:35.335
+00:00:37.017 --> 00:00:40.959
 Claire crée la feuille de soins électronique de Mme Lefèvre.
 
-00:00:35.338 --> 00:00:39.543
+00:00:40.962 --> 00:00:46.383
+Avant de créer, un récapitulatif : patient, actes retenus, montant, et ce qui suit.
+
+00:00:46.386 --> 00:00:49.690
 Chaque ligne cite l’acte signé, son empreinte et sa règle. Reste à la sécuriser.
 
-00:00:39.545 --> 00:00:47.404
+00:00:49.694 --> 00:00:57.765
 Sécuriser : carte Vitale du patient et carte CPS de l’infirmière, toutes deux simulées ici.
 
-00:00:47.407 --> 00:00:50.406
-Sécurisée, signature vérifiée. Elle part ensuite avec le lot.
+00:00:57.768 --> 00:01:03.002
+Sécurisée, signature vérifiée. « Ajouter au lot du jour » la mène au lot.
 
-00:00:50.409 --> 00:00:56.522
+00:01:03.005 --> 00:01:06.456
 « Vérifier puis télétransmettre » : un contrôle de cohérence complet avant tout envoi.
 
-00:00:56.524 --> 00:01:04.864
+00:01:06.464 --> 00:01:14.089
 Empreintes, prescriptions, fréquences, saisies différées, journal : rien ne bloque. Le lot part.
 
-00:01:04.865 --> 00:01:08.368
+00:01:14.091 --> 00:01:17.092
 Lot télétransmis, accusé de réception reçu (simulé : rien ne quitte la démonstration).
 
-00:01:08.369 --> 00:01:17.150
+00:01:17.094 --> 00:01:23.719
 Étape 5, les retours : chaque rejet dit sa cause et ce qu’il faut faire pour refacturer.
