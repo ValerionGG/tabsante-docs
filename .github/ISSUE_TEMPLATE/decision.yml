@@ -1,0 +1,40 @@
+name: Décision sur une question ouverte
+description: Répondre à une des questions à trancher de TabSanté (page « Questions à trancher »).
+title: "[Décision] "
+labels: ["decision"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Merci ! La question est remplie depuis la page « Questions à trancher ». Les réponses sont **publiques** : n'écrivez aucune donnée réelle de patient.
+  - type: input
+    id: question
+    attributes:
+      label: Question
+      description: Sa référence, par exemple Q-200.
+      placeholder: Q-200
+    validations:
+      required: true
+  - type: dropdown
+    id: choix
+    attributes:
+      label: Votre choix
+      options:
+        - A
+        - B
+        - C
+        - D
+        - Autre (précisez ci-dessous)
+        - Je ne sais pas encore
+    validations:
+      required: true
+  - type: textarea
+    id: precisions
+    attributes:
+      label: Précisions
+      description: Conditions, chiffres, délais, exceptions, ce que vous souhaitez ajouter.
+  - type: input
+    id: qui
+    attributes:
+      label: Vous répondez en tant que
+      placeholder: Fondateur, IDE référente, DPO, juriste, comptable…
