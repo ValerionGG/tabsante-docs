@@ -1,0 +1,61 @@
+name: Retour sur la démo
+description: Un avis, une gêne, une idée sur le poste fixe, le terminal, les vidéos ou le portail de TabSanté.
+title: "[Retour] "
+labels: ["retour"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Merci de prendre le temps de répondre. La démo est **entièrement fictive** : n'écrivez ici **aucune donnée réelle** de patient (nom, date de naissance, numéro de sécurité sociale, adresse…). Ce formulaire est public.
+  - type: input
+    id: application
+    attributes:
+      label: Application
+      description: Poste fixe (ordinateur), Terminal (téléphone), Vidéos, Portail ou Site.
+      placeholder: Poste fixe
+    validations:
+      required: true
+  - type: input
+    id: ecran
+    attributes:
+      label: Écran
+      description: Rempli automatiquement depuis le bouton « Donner mon avis » ; sinon, le nom de la page.
+      placeholder: /patients/:id/preuve
+  - type: input
+    id: profil
+    attributes:
+      label: Profil utilisé
+      description: IDE, IDE remplaçante, Aide-soignante ou Administration.
+      placeholder: IDE
+  - type: dropdown
+    id: type
+    attributes:
+      label: Type de retour
+      options:
+        - Quelque chose ne marche pas
+        - C'est confus ou difficile à trouver
+        - Il manque quelque chose
+        - Idée d'amélioration
+        - Ça me plaît
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Ce que vous avez vu ou voulu faire
+      description: Ce que vous cherchiez à faire, ce qui s'est passé, ce que vous attendiez. Une capture d'écran aide beaucoup (glissez-la ici).
+    validations:
+      required: true
+  - type: dropdown
+    id: importance
+    attributes:
+      label: Importance pour votre travail
+      options:
+        - Bloquant
+        - Gênant
+        - Confort
+  - type: input
+    id: metier
+    attributes:
+      label: Votre métier (facultatif)
+      placeholder: Infirmière libérale, aide-soignante, secrétaire, médecin…

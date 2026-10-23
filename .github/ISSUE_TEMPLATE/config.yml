@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Essayer la démo
+    url: https://valeriongg.github.io/tabsante-docs/demo/
+    about: Le poste fixe et le terminal dans le navigateur, avec des profils fictifs.
+  - name: Portail d'aide et de documentation
+    url: https://valeriongg.github.io/tabsante-docs/
+    about: Guides, facturation et NGAP, questions fréquentes.
