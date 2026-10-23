@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Terminal : G2 « Carte et trajet d&#x27;abord », G3 « Contraste terrain » (2026-10-23)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{--bg:#F4F6FA;--surface:#FFFFFF;--surface-2:#EEF2FB;--fg:#141A2E;--fg-2:#4A5372;--ligne:#DDE3EF;
+--accent:#2F5BEA;--accent-fg:#FFFFFF;--accent-doux:#E6ECFD;--attention:#8A5A00;--attention-fond:#FFF4DC;
+--code-fond:#F1F3F8;--police:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+--police-code:"JetBrains Mono",ui-monospace,"Cascadia Code",Consolas,monospace;--rayon:10px;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0E1220;--surface:#151A2B;--surface-2:#1C2338;
+--fg:#E8ECF7;--fg-2:#A3ACC6;--ligne:#2A3250;--accent:#7C9BFF;--accent-fg:#0E1220;--accent-doux:#1E2950;
+--attention:#F2C25B;--attention-fond:#33290F;--code-fond:#10152A;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0E1220;--surface:#151A2B;--surface-2:#1C2338;--fg:#E8ECF7;--fg-2:#A3ACC6;--ligne:#2A3250;
+--accent:#7C9BFF;--accent-fg:#0E1220;--accent-doux:#1E2950;--attention:#F2C25B;--attention-fond:#33290F;--code-fond:#10152A;color-scheme:dark}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--police);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}
+.entete{background:var(--surface);border-bottom:1px solid var(--ligne)}
+.entete div{max-width:calc(80ch + 32px);margin:0 auto;padding:12px 16px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.entete b{font-weight:600}
+.entete a{color:var(--accent);text-decoration:none;font-weight:500}
+.entete a:hover{text-decoration:underline}
+main{max-width:calc(80ch + 32px);margin:0 auto;padding:24px 16px 64px;overflow-wrap:break-word}
+.chemin{font-family:var(--police-code);font-size:12px;color:var(--fg-2);margin:0 0 8px}
+h1{font-size:28px;line-height:1.25;margin:0 0 16px}
+h2{font-size:21px;line-height:1.3;margin:36px 0 12px;padding-top:12px;border-top:1px solid var(--ligne)}
+h3{font-size:17px;margin:28px 0 8px}h4,h5,h6{font-size:15px;margin:20px 0 6px}
+a{color:var(--accent)}
+p,li{max-width:80ch}
+code{font-family:var(--police-code);font-size:.88em;background:var(--code-fond);border:1px solid var(--ligne);border-radius:5px;padding:0 4px;overflow-wrap:anywhere}
+pre{background:var(--code-fond);border:1px solid var(--ligne);border-radius:var(--rayon);padding:14px 16px;overflow-x:auto;font-size:13px;line-height:1.55}
+pre code{background:none;border:0;padding:0;font-size:inherit;overflow-wrap:normal}
+.tableau{overflow-x:auto;margin:16px 0;border:1px solid var(--ligne);border-radius:var(--rayon);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:13.5px;line-height:1.5}
+th,td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--ligne);min-width:8ch}
+th{background:var(--surface-2);font-weight:600}
+tr:last-child td{border-bottom:0}
+blockquote{margin:16px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-doux);border-radius:0 var(--rayon) var(--rayon) 0}
+hr{border:0;border-top:1px solid var(--ligne);margin:28px 0}
+img{max-width:100%}
+.non-publie{font-size:13px;color:var(--attention);background:var(--attention-fond);padding:1px 6px;border-radius:5px}
+details.sommaire{background:var(--surface);border:1px solid var(--ligne);border-radius:var(--rayon);padding:10px 16px;margin:0 0 24px}
+details.sommaire summary{cursor:pointer;font-weight:600}
+details.sommaire ul{padding-left:20px;margin:8px 0 0}
+.admonition{border:1px solid var(--ligne);border-radius:var(--rayon);padding:8px 16px;background:var(--surface)}
+.admonition-title{font-weight:600}
+</style>
+</head>
+<body>
+<header class="entete"><div><b>TabSanté — documents</b><a href="../../">← Retour au portail</a></div></header>
+<main>
+<p class="chemin">docs/audit/2026-10-23-terminal-g2g3.html</p>
+<h1 id="terminal--g2--carte-et-trajet-dabord--g3--contraste-terrain--2026-10-23">Terminal : G2 « Carte et trajet d'abord », G3 « Contraste terrain » (2026-10-23)</h1>
+<details class="sommaire"><summary>Sommaire</summary><ul><li><a href="#captures">Captures</a></li><li><a href="#critique-avant">Critique (avant)</a></li><li><a href="#ce-qui-change">Ce qui change</a></li><li><a href="#tests">Tests</a></li><li><a href="#ce-qui-reste">Ce qui reste</a></li></ul></details>
+<p>Branche <code>evol-terminal-g2g3</code> (depuis <code>main</code> 79a0e7f7). L'utilisateur trouvait le terminal peu subtil et pas assez
+efficace ; il a choisi dans le canevas de design (variantes G, <code>references-G-terminal.md</code>) <strong>G2 pour la tournée</strong> et
+<strong>G3 pour le passage et le menu d'actions</strong>. La charte « Terrain jour/nuit » évolue (DESIGN.md, nouvelle section
+« G2 · G3 ») : mêmes jetons, Atkinson et son zéro pointé, jour et nuit, plus un affichage <strong>Soleil</strong>. Aucune règle
+métier, aucun champ de fiche, aucun appel serveur n'a changé ; l'aide-soignante ne voit toujours aucune cotation.
+Données fictives seulement.</p>
+<p>Banc : API de démonstration sur le port 8806 (base <code>tabsante_tg2</code>, <code>TABSANTE_DEV_AUTH=true</code>,
+<code>TABSANTE_LECTEUR_ORDONNANCE=factice</code>, <code>POST /dev/demo</code>, <code>scripts/agregats.py --reconstruire</code>, CORS ouvert au seul
+<code>127.0.0.1:5306</code>), terminal construit pour le navigateur (<code>--dart-define=CAPTURES=true
+--dart-define=API_URL=http://127.0.0.1:8806</code>) et servi sur le port 5306. Chromium de Playwright (<code>chromium-1243</code>),
+profil neuf et jetable à chaque série, piloté par <code>mobile/tool/captures_terminal.mjs</code> ; seul son propre processus est
+arrêté à la fin.</p>
+<h2 id="captures">Captures</h2>
+<p><code>docs/audit/captures-ux/2026-10-23-terminal-g2g3/</code> : <code>avant-&lt;écran&gt;.png</code>, <code>avant-nuit-…</code> (le terminal de <code>main</code>),
+<code>apres-&lt;écran&gt;.png</code>, <code>apres-nuit-…</code>, <code>apres-soleil-…</code> (390 × 844 à 2×, chaque écran sur un stockage vidé). L'outil sait
+maintenant capturer au soleil (<code>THEMES=jour,nuit,soleil</code>, <code>&amp;soleil=1</code> en mode captures). Écrans nouveaux : 11 (tournée,
+feuille dépliée), 39 (passage pas à pas), 39b (l'étape « Douleur au soin »), 39c (étapes faites, réponses données),
+52 (« Moi », Affichage), 57b (menu du passage en visite), 57c (menu de l'aide-soignante), 57d (menu avec
+« Abandonner »).</p>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Écran</th>
+<th>Avant</th>
+<th>Après</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tournée</td>
+<td><code>avant-10-tournee</code> : bonjour, carte de progression, carte du prochain passage, dock</td>
+<td><code>apres-10-tournee</code> (+ nuit, soleil) : carte plein écran, pastilles, feuille au prochain passage</td>
+</tr>
+<tr>
+<td>Tournée, liste</td>
+<td>—</td>
+<td><code>apres-11-tournee-liste</code> : second cran de la feuille</td>
+</tr>
+<tr>
+<td>Passage</td>
+<td><code>avant-30-passage</code>, <code>avant-39-visite</code></td>
+<td><code>apres-39-visite</code>, <code>apres-39b-visite-etape</code>, <code>apres-39c-visite-signe</code></td>
+</tr>
+<tr>
+<td>Menu « ⋮ »</td>
+<td><code>avant-57-menu-passage</code> (lignes, à défiler)</td>
+<td><code>apres-57-menu-passage</code>, <code>apres-57d-menu-abandon</code>, <code>apres-57c-menu-as</code></td>
+</tr>
+<tr>
+<td>Reçu</td>
+<td><code>avant-38-recu</code></td>
+<td><code>apres-38-recu</code></td>
+</tr>
+<tr>
+<td>Moi</td>
+<td><code>avant-50-moi</code></td>
+<td><code>apres-52-moi-bas</code> (Affichage : Soleil)</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="critique-avant">Critique (avant)</h2>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Constat</th>
+<th>Gravité</th>
+<th>Suite</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>La tournée est une liste où l'on cherche l'itinéraire : la carte n'est qu'une ligne « Itinéraire du matin », à ouvrir ; on ne voit ni le trajet, ni où est le bouchon, ni l'ordre des arrêts.</td>
+<td>P1</td>
+<td>G2 : la tournée <strong>est</strong> la carte.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>« Bonjour Claire », la date et une carte de progression prennent le premier tiers de l'écran avant le patient.</td>
+<td>P2</td>
+<td>Une pastille flottante (anneau, « 0 / 28 soins », réseau).</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Le passage est une longue fiche à défiler ; le mode visite n'en est qu'un sommaire, qui fait défiler. Au soleil, les choix de 48 dp et la douleur en deux rangées de six se touchent mal.</td>
+<td>P1</td>
+<td>G3 : une étape à la fois, en grand (72 à 76 dp).</td>
+</tr>
+<tr>
+<td>4</td>
+<td>L'allergie, en ambre pâle, se confond avec les autres bandeaux.</td>
+<td>P2</td>
+<td>Aplat ambre franc, encre noire.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Le menu « ⋮ » se défile (14 lignes) ; « Abandonner la saisie » d'un appui, puis une boîte de dialogue.</td>
+<td>P2</td>
+<td>Tuiles sur deux colonnes, sans défilement ; abandon maintenu.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Après la signature, pour partir chez le suivant : retour à la tournée, puis « Y aller ».</td>
+<td>P2</td>
+<td>« Y aller · patient suivant · n min » sur le reçu.</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Les tuiles du fond de carte viennent de <code>tile.openstreetmap.org</code>, un tiers : elles disent le quartier des patients (déjà relevé le 16/10).</td>
+<td>P1</td>
+<td>Par défaut, aucune tuile : plan schématique local.</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Aucun affichage pour le plein soleil : de jour, contours d'1 dp et teintes pâles.</td>
+<td>P2</td>
+<td>Affichage « Soleil ».</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="ce-qui-change">Ce qui change</h2>
+<h3 id="g2--la-tournée">G2 · la tournée</h3>
+<ul>
+<li><strong>Carte plein écran</strong> (<code>ecrans/tournee_carte.dart</code>) dès que l'itinéraire du moment place deux points ; sinon la liste
+  d'avant, inchangée. Le tracé se dessine, puis les arrêts s'allument dans l'ordre (une fois, rien en mouvement réduit).
+  Repères : à venir, fait (coché), en retard ou soins à signer (ambre, numéro écrit) ; le prochain en épingle sous une
+  étiquette « Roussel J. · 10 h 57 ». Trafic dense et bouchon sous le tracé, pastille « ▲ Bouchon +5 min ».
+  « Recentrer ». Un appui sur un repère ouvre l'arrêt (Avant d'arriver, Y aller, Prévenir).</li>
+<li><strong>Fond</strong> : <code>TUILES_URL</code> (cabinet, hébergeur HDS) s'il est fourni ; <strong>par défaut, aucune tuile</strong> : un plan
+  schématique dessiné sur le téléphone. La règle « aucune adresse ni position de patient chez un tiers non HDS » vaut
+  aussi pour la démonstration. L'écran « Itinéraire » suit la même règle. Aucune dépendance ajoutée (<code>flutter_map</code> et
+  <code>latlong2</code> étaient là).</li>
+<li><strong>Pastilles</strong> : anneau et « n / 28 soins » avec la pastille réseau (« Hors ligne »), « Moi », « Fin estimée 17 h 09 ·
+  +25 min » (ambre au-delà du seuil de retard), l'aide « ? ».</li>
+<li><strong>Feuille à deux crans</strong> : le prochain passage (heure en Mono 40, « 6 min · 1,8 km », « ● À l'heure » ou « ▲ +12 min »
+  et le cadre de retard avec « Prévenir »), le patient, une puce de ce qui demande l'attention (« +n »), « Avant
+  d'arriver », les soins, « Y aller » et « Commencer », « Voir les 12 passages suivants » ; puis la liste (suggestions,
+  itinéraire détaillé, signalements, rappels, échanges, Ensuite, fin de journée). Poignée : appui ou glissement.</li>
+<li><strong>Reçu</strong> : « Y aller · Garnier Paul · 4 min » plein quand le suivant est sur l'itinéraire et pas atteint (départ en
+  file, navigation, retour à la carte) ; « Patient suivant » passe en second.</li>
+<li><strong>Menu d'un passage</strong> : groupe <strong>Trajet</strong> en tête — « Prévenir » le patient suivant d'un retard (l'appel ou le SMS
+  neutre du téléphone, comme sur la tournée) et « Noter l'accès au domicile » (code, clé, stationnement), versé au
+  cabinet en transmission intra-cabinet, qui le reporte au dossier (aucun nouveau champ, aucune nouvelle opération).</li>
+</ul>
+<h3 id="g2--repères-lisibles-reprise-demandée-avant-la-fusion">G2 · repères lisibles (reprise demandée avant la fusion)</h3>
+<p>La première version empilait les repères au cadrage d'ensemble (<code>apres-10-tournee</code> de la première série : 12 sous 13,
+1 et 3 à 6 en tas, l'étiquette « Roussel J. » sous le 6, le 8 sous la pastille du bouchon, le 10 coupé par « Plan
+schématique »). Sans dépendance nouvelle :
+- <strong>Repères étalés à l'écran</strong> (<code>etaler</code>, <code>CoucheReperes</code>), recalculés à chaque mouvement : quelques itérations de
+  répulsion entre repères plus proches qu'un diamètre plus 4 dp, 8 dp d'écart au plus, un trait fin vers le point vrai
+  au-delà de 6 dp ; au-delà, les plus proches se groupent un à un en un repère rond « 1–6 » (pas de groupe qui happe ses
+  voisins de proche en proche). Un appui approche la carte de ses arrêts ; à la même adresse (12 et 13), la liste des
+  arrêts. Le zoom les sépare de lui-même.
+- <strong>Étiquette du prochain passage</strong> placée d'abord, du côté où il y a le moins de domiciles (dessus, dessous, droite,
+  gauche) ; elle et l'épingle repoussent les autres repères et se dessinent en dernier : rien ne les couvre.
+- <strong>Pastille du bouchon</strong> sur son trajet là où elle ne couvre rien, sinon de côté, sinon ancrée à un bord libre.
+  <strong>« Plan schématique »</strong> dans le coin bas droit, au-dessus de la feuille ; « Recentrer » monte avec l'aide, en haut.
+- <strong>Cadrage</strong> : la place des pastilles du haut, de la feuille et de la mention est laissée libre (marges du cadrage) ;
+  il se refait quand la feuille est mesurée, tant que la carte n'a pas été touchée. Les puces du prochain passage
+  tiennent sur une rangée qui défile : la feuille repliée est plus basse, la carte plus grande.
+- Test : <code>etaler</code> (rien ne se recouvre, 8 dp au plus, groupes, plages « 1–6 », obstacles) et une tournée dense de 13
+  arrêts (aucun repère l'un sur l'autre, sous l'étiquette, sous la pastille du bouchon, sous la mention, sous la feuille
+  ni sous les pastilles ; le groupe de la même adresse s'ouvre en liste).</p>
+<h3 id="g3--le-passage-et-le-menu">G3 · le passage et le menu</h3>
+<ul>
+<li><strong>Une étape à la fois</strong> (<code>Tranche</code>, <code>EnTeteEtapes</code>, <code>BarreEtapes</code> dans <code>ecrans/visite.dart</code>) : la fiche reste
+  entière et montée, seule la tranche de l'étape se voit. C'est une présentation : mêmes champs, même brouillon, mêmes
+  règles, la barre « Il manque » reste seule juge et amène à l'étape du champ. Le passage de routine présente ses trois
+  réponses de sécurité en trois étapes. Le mode visite garde son menu (« Quitter le mode visite » rend la fiche entière),
+  sa liste d'étapes (« Toutes »), la photo comparée et la note de relève ; les blocs repliables restent dans leur étape.</li>
+<li><strong>En tête</strong> : l'alerte du patient en aplat ambre franc (partout où elle est condensée, fiches de la fiche 24 comprises),
+  « Étape » et « 3 / 9 » en Mono 30, segments, puces des étapes faites.</li>
+<li><strong>Cibles</strong> : 72 dp pour les choix et les crans, la douleur en grille de quatre boutons de 76 dp ; titre d'étape 26/700.</li>
+<li><strong>Menu « ⋮ »</strong> en tuiles de 60 dp sur deux colonnes, sans défilement à 390 × 844 (vérifié par un test, polices
+  réelles) ; libellés courts sur la tuile, libellé entier au lecteur d'écran. « Signaler » rejoint « Pendant le soin »,
+  la carte Vitale le dossier (l'aide-soignante n'en a pas). « Abandonner » : tuile critique <strong>à maintenir</strong> une seconde,
+  comme la signature (appui puis confirmation en accessibilité). « Donner mon avis » à côté de « Fermer ».</li>
+<li><strong>Soleil</strong> (« Moi » → Affichage) : noir sur blanc pur, contours de 2 dp, aucune ombre ; boutons inactifs gris clair.</li>
+</ul>
+<h2 id="tests">Tests</h2>
+<p><code>flutter analyze</code> sans remarque ; <code>flutter test</code> vert : 994 réussis, 51 ignorés (intégration, sans API). Nouveau fichier
+<code>mobile/test/g2g3_widgets_test.dart</code> (polices réelles chargées, pour que les mesures valent celles du téléphone) :
+- la tournée en carte : plan local par défaut (aucune tuile), repères, épingle et étiquette du prochain passage,
+  pastilles (soins, réseau, fin estimée, Moi, aide), feuille au cran 1 puis 2 (« Voir la suite », poignée, glissement),
+  bouchon signalé, « Y aller » d'un appui, mouvement réduit ;
+- le passage pas à pas : une seule étape touchable, la fiche montée, « Étape faite », précédente, puces, douleur en
+  grille de quatre de 76 dp en Mono, « Il manque » qui amène à l'étape, cibles de 72 dp, signature maintenue inchangée ;
+- le menu en tuiles : Trajet en tête (« Prévenir » le suivant, « Noter l'accès »), deux colonnes de 60 dp, libellé
+  entier au lecteur d'écran, <strong>aucun défilement</strong> à 390 × 844, « Donner mon avis », pas de facturation pour
+  l'aide-soignante ;
+- « Abandonner » : un appui bref n'efface rien, l'appui maintenu efface, rien n'est signé ;
+- le reçu : « Y aller · Dupuis · 10 min » vers le patient suivant, départ en file et navigation ;
+- le soleil : réglage gardé, jetons (contours de 2 dp, aucune ombre).</p>
+<p>Tests adaptés sans en changer le sens : le mode visite (<code>visite_widgets_test.dart</code> : ordre des étapes, cocher, revoir,
+quitter et revenir, la saisie seule juge, mouvement réduit, photo comparée et note de relève atteintes dans leur étape),
+l'abandon (appui puis confirmation en mouvement réduit), le menu (groupes regroupés, avis à côté de « Fermer »), les
+tuiles aux libellés courts (appui par la clé de l'action), la tournée de lot E (itinéraire détaillé au second cran).
+L'aide-outil <code>toucher</code> amène l'étape du champ à l'écran avant de toucher, comme le doigt.</p>
+<h2 id="ce-qui-reste">Ce qui reste</h2>
+<ul>
+<li>Le plan schématique ne dit rien de la géographie réelle (seules les positions des arrêts sont vraies) : en service,
+  un serveur de tuiles HDS (<code>TUILES_URL</code>).</li>
+<li>Dans la démonstration, les domiciles sont proches : au cadrage d'ensemble, une partie se lit en groupes (« 3–4, 7 »,
+  « 5–6 ») qui s'ouvrent au toucher ou au zoom.</li>
+<li>Le pas à pas découpe les fiches par sections (<code>TitreSection</code>) : une section qui porte plusieurs questions (constantes,
+  médicaments) reste une étape ; seul le passage de routine découpe ses trois questions. Découper d'autres fiches demande
+  un titre de section de plus, sans toucher aux champs.</li>
+<li>« Noter l'accès » passe par le cabinet (transmission intra-cabinet) : la saisie directe des champs d'accès au
+  terminal demanderait une opération serveur.</li>
+<li>Les écrans de consultation et de bilan (fiche 24, en cours dans une autre branche) prennent le style par le système
+  (aplat d'alerte, cibles de terrain, pas à pas) ; ils n'ont pas été recapturés ici.</li>
+</ul>
+</main>
+</body>
+</html>

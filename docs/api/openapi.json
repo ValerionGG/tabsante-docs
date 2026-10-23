@@ -14186,7 +14186,7 @@
      "bilans"
     ],
     "summary": "Bilans Du Cabinet",
-    "description": "EX-TO-08 : bilans partagés au niveau du cabinet (portée d'un remplaçant respectée, EX-TO-06).",
+    "description": "EX-TO-08 : bilans partagés au niveau du cabinet (portée d'un remplaçant respectée, EX-TO-06). Fiche 24 v0.2,\nCI-RG-16 : ceux d'un objet suivi — le bilan de plaie, lisible depuis la plaie, jamais ressaisi.",
     "operationId": "bilans_du_cabinet_bilans_get",
     "parameters": [
      {
@@ -14255,6 +14255,23 @@
         }
        ],
        "title": "Patient Id"
+      }
+     },
+     {
+      "name": "objet_suivi_id",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string",
+         "format": "uuid"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Objet Suivi Id"
       }
      },
      {
@@ -20871,6 +20888,81 @@
     "summary": "Reperes",
     "description": "Avenant 11 : les données que la plateforme tient pour le moteur — jamais une certitude de facturation.",
     "operationId": "reperes_patients__patient_id__reperes_conventionnels_get",
+    "parameters": [
+     {
+      "name": "patient_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "format": "uuid",
+       "title": "Patient Id"
+      }
+     },
+     {
+      "name": "date",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string",
+         "format": "date"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Date"
+      }
+     },
+     {
+      "name": "authorization",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Authorization"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/patients/{patient_id}/diagnostics-infirmiers": {
+   "get": {
+    "tags": [
+     "bilans et consultation"
+    ],
+    "summary": "Get Histoire",
+    "description": "D1, poste fixe : diagnostics posés, hypothèses écartées et leur motif, révisions, preuves sourcées. Écran de\nlecture ; l'aide-soignante n'y a aucun accès (CI-RG-04).",
+    "operationId": "get_histoire_patients__patient_id__diagnostics_infirmiers_get",
     "parameters": [
      {
       "name": "patient_id",
@@ -31660,10 +31752,24 @@
        }
       ],
       "title": "Prescription Infirmiere Id"
+     },
+     "notification_medecin": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 2000,
+        "minLength": 1
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Notification Medecin"
      }
     },
     "type": "object",
-    "title": "Actions"
+    "title": "Actions",
+    "description": "CI-E06 (v0.2) : libres, facultatives ; NIC non prévu."
    },
    "Adaptation": {
     "properties": {
@@ -36724,6 +36830,43 @@
        }
       ],
       "title": "Acte Id"
+     },
+     "transmission_id": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "uuid"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Transmission Id"
+     },
+     "le": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "date-time"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Le"
+     },
+     "auteur": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 200,
+        "minLength": 1
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Auteur"
      }
     },
     "type": "object",
@@ -36733,7 +36876,7 @@
      "valeur"
     ],
     "title": "DonneeReprise",
-    "description": "EX-CI-05 : donnée lue dans une autre fiche et retenue par l'IDE (cochée) — jamais ressaisie."
+    "description": "EX-CI-05, CI-E02, CI-RG-05 : donnée lue dans une autre fiche et retenue par l'IDE (cochée) — jamais ressaisie.\nLa reprise est une référence : l'acte (ou la transmission ciblée) d'origine, son horodatage et son auteur ; le\nserveur fige à la signature la version signée lue (empreinte de l'acte, app.domaines.diagnostics)."
    },
    "DonneesALR": {
     "properties": {
@@ -39572,6 +39715,9 @@
        },
        {
         "$ref": "#/components/schemas/VoletLibre"
+       },
+       {
+        "$ref": "#/components/schemas/VoletParametre"
        }
       ],
       "title": "Volet",
@@ -39581,6 +39727,7 @@
         "cia": "#/components/schemas/VoletCIA",
         "cib": "#/components/schemas/VoletCIB",
         "libre": "#/components/schemas/VoletLibre",
+        "parametre": "#/components/schemas/VoletParametre",
         "rdi": "#/components/schemas/VoletRDI"
        }
       }
@@ -40881,6 +41028,118 @@
     "title": "EffetSecondaire",
     "description": "MED-E08 : rattaché à la ligne et à l'acte, horodaté ; ne modifie aucune ligne (MED-RG-16)."
    },
+   "Element": {
+    "properties": {
+     "categorie": {
+      "type": "string",
+      "enum": [
+       "caracteristique",
+       "facteur_relie",
+       "facteur_risque",
+       "population_a_risque",
+       "probleme_associe"
+      ],
+      "title": "Categorie"
+     },
+     "code": {
+      "type": "string",
+      "maxLength": 60,
+      "minLength": 1,
+      "title": "Code"
+     },
+     "preuve": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/Preuve"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "categorie",
+     "code"
+    ],
+    "title": "Element",
+    "description": "CI-N05 à N08 : un élément coché dans les listes du diagnostic choisi, avec sa preuve (CI-N09, CI-RG-10)."
+   },
+   "ElementContraire": {
+    "properties": {
+     "preuve": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/Preuve"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "texte": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 2000,
+        "minLength": 1
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Texte"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "title": "ElementContraire",
+    "description": "CI-N15 : la donnée reprise ou l'observation qui a fait écarter l'hypothèse, sourcée comme CI-N09."
+   },
+   "ElementRetire": {
+    "properties": {
+     "categorie": {
+      "type": "string",
+      "enum": [
+       "caracteristique",
+       "facteur_relie",
+       "facteur_risque",
+       "population_a_risque",
+       "probleme_associe"
+      ],
+      "title": "Categorie"
+     },
+     "code": {
+      "type": "string",
+      "maxLength": 60,
+      "minLength": 1,
+      "title": "Code"
+     },
+     "commentaire": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 2000,
+        "minLength": 1
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Commentaire"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "categorie",
+     "code"
+    ],
+    "title": "ElementRetire",
+    "description": "CI-RG-12 : retirer un élément ne l'efface pas — un événement daté qui référence la pose."
+   },
    "EnrolementIn": {
     "properties": {
      "code": {
@@ -41612,6 +41871,15 @@
       "title": "Donnees Reprises",
       "default": []
      },
+     "observations": {
+      "items": {
+       "$ref": "#/components/schemas/Observation"
+      },
+      "type": "array",
+      "maxItems": 40,
+      "title": "Observations",
+      "default": []
+     },
      "plaintes_symptomes": {
       "anyOf": [
        {
@@ -41693,6 +41961,45 @@
     },
     "type": "object",
     "title": "EvaluationGlobale"
+   },
+   "EvaluationObjectif": {
+    "properties": {
+     "objectif_id": {
+      "type": "string",
+      "format": "uuid",
+      "title": "Objectif Id"
+     },
+     "etat": {
+      "type": "string",
+      "enum": [
+       "atteint",
+       "partiellement_atteint",
+       "non_atteint"
+      ],
+      "title": "Etat"
+     },
+     "commentaire": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 2000,
+        "minLength": 1
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Commentaire"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "objectif_id",
+     "etat"
+    ],
+    "title": "EvaluationObjectif",
+    "description": "CI-R03 : à la révision, chaque objectif du diagnostic s'évalue — atteint, partiellement, non atteint."
    },
    "EvenementCritiqueIn": {
     "properties": {
@@ -43128,6 +43435,92 @@
     ],
     "title": "Hme",
     "description": "RES-E51, trachéostomie : filtre-échangeur, protection de stome."
+   },
+   "Hypothese": {
+    "properties": {
+     "hypothese_id": {
+      "type": "string",
+      "format": "uuid",
+      "title": "Hypothese Id"
+     },
+     "code": {
+      "type": "string",
+      "maxLength": 20,
+      "minLength": 1,
+      "title": "Code"
+     },
+     "elements": {
+      "items": {
+       "$ref": "#/components/schemas/Element"
+      },
+      "type": "array",
+      "maxItems": 40,
+      "title": "Elements",
+      "default": []
+     },
+     "motif": {
+      "type": "string",
+      "maxLength": 40,
+      "minLength": 1,
+      "title": "Motif"
+     },
+     "commentaire": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 2000,
+        "minLength": 1
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Commentaire"
+     },
+     "element_contraire": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/ElementContraire"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "retenu_a_la_place": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "uuid"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Retenu A La Place"
+     },
+     "rappel_le": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "date"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Rappel Le"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "hypothese_id",
+     "code",
+     "motif"
+    ],
+    "title": "Hypothese",
+    "description": "CI-N14 à N16, CI-RG-18 : hypothèse envisagée puis écartée avant signature, par son code ; motif obligatoire\n(liste fermée du référentiel, [P] CI-O12) ; ce qui l'avait fait envisager est facultatif. Trace interne (CI-RG-19)."
    },
    "IdentifiantsIn": {
     "properties": {
@@ -47761,6 +48154,18 @@
    },
    "MotifTronc": {
     "properties": {
+     "code": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 30
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Code"
+     },
      "demande_patient": {
       "anyOf": [
        {
@@ -48069,6 +48474,18 @@
    },
    "Objectif": {
     "properties": {
+     "id": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "uuid"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Id"
+     },
      "libelle": {
       "type": "string",
       "maxLength": 2000,
@@ -48147,7 +48564,7 @@
      "libelle"
     ],
     "title": "Objectif",
-    "description": "Convenu avec le patient, évaluable et daté (échéance en date ou en rang de séance) ; état du jour (D-19)."
+    "description": "Convenu avec le patient, évaluable et daté (échéance en date ou en rang de séance) ; état du jour (D-19).\nv0.2, famille R : rattaché à un diagnostic NANDA-I, identifié pour être évalué à la révision (CI-R01 à R04)."
    },
    "Observance": {
     "properties": {
@@ -48174,6 +48591,40 @@
     ],
     "title": "Observance",
     "description": "RES-E77, C9 : la durée porte sa méthode ; deux méthodes ne se mêlent pas sur la courbe (RG-53)."
+   },
+   "Observation": {
+    "properties": {
+     "id": {
+      "type": "string",
+      "maxLength": 40,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9_-]+$",
+      "title": "Id"
+     },
+     "texte": {
+      "type": "string",
+      "maxLength": 2000,
+      "minLength": 1,
+      "title": "Texte"
+     },
+     "nature": {
+      "type": "string",
+      "enum": [
+       "constat",
+       "propos"
+      ],
+      "title": "Nature",
+      "default": "constat"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "id",
+     "texte"
+    ],
+    "title": "Observation",
+    "description": "CI-E03 : constat fait ou propos rapporté ce jour, identifiable pour servir de preuve à un élément."
    },
    "Obturation": {
     "properties": {
@@ -49510,6 +49961,109 @@
     ],
     "title": "PorteeIn"
    },
+   "Pose": {
+    "properties": {
+     "diagnostic_id": {
+      "type": "string",
+      "format": "uuid",
+      "title": "Diagnostic Id"
+     },
+     "code": {
+      "type": "string",
+      "maxLength": 20,
+      "minLength": 1,
+      "title": "Code"
+     },
+     "elements": {
+      "items": {
+       "$ref": "#/components/schemas/Element"
+      },
+      "type": "array",
+      "maxItems": 40,
+      "title": "Elements",
+      "default": []
+     },
+     "objectifs": {
+      "items": {
+       "$ref": "#/components/schemas/Objectif"
+      },
+      "type": "array",
+      "maxItems": 3,
+      "title": "Objectifs",
+      "default": []
+     },
+     "date_revision": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "date"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Date Revision"
+     },
+     "reprend_id": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "uuid"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Reprend Id"
+     },
+     "corrige_id": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "uuid"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Corrige Id"
+     },
+     "commentaire": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 2000,
+        "minLength": 1
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Commentaire"
+     },
+     "theme": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 80,
+        "minLength": 1
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Theme"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "diagnostic_id",
+     "code"
+    ],
+    "title": "Pose",
+    "description": "Famille N : un diagnostic posé, choisi par son code (CI-N01) ; libellé, type et version de la taxonomie sont\nhérités du référentiel en vigueur à la pose et figés par le serveur (CI-N02 à N04, CI-RG-08)."
+   },
    "PosteIn": {
     "properties": {
      "libelle": {
@@ -49946,6 +50500,51 @@
      "prescription_id"
     ],
     "title": "PressionIn"
+   },
+   "Preuve": {
+    "properties": {
+     "type": {
+      "type": "string",
+      "enum": [
+       "donnee_reprise",
+       "observation",
+       "dossier"
+      ],
+      "title": "Type"
+     },
+     "ref": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 60
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Ref"
+     },
+     "texte": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 200,
+        "minLength": 1
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Texte"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "type"
+    ],
+    "title": "Preuve",
+    "description": "CI-N09 : la preuve d'un élément — une donnée reprise (CI-E02, par sa clé), une observation de la consultation\n(CI-E03, par son identifiant) ou le dossier patient (texte court qui dit la donnée du dossier)."
    },
    "Prevention": {
     "properties": {
@@ -52728,6 +53327,94 @@
     ],
     "title": "RetraitVoie"
    },
+   "Revision": {
+    "properties": {
+     "diagnostic_id": {
+      "type": "string",
+      "format": "uuid",
+      "title": "Diagnostic Id"
+     },
+     "reponse": {
+      "type": "string",
+      "enum": [
+       "maintenu",
+       "resolu",
+       "abandonne",
+       "corrige"
+      ],
+      "title": "Reponse"
+     },
+     "motif": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 2000,
+        "minLength": 1
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Motif"
+     },
+     "evaluations": {
+      "items": {
+       "$ref": "#/components/schemas/EvaluationObjectif"
+      },
+      "type": "array",
+      "maxItems": 3,
+      "title": "Evaluations",
+      "default": []
+     },
+     "elements_ajoutes": {
+      "items": {
+       "$ref": "#/components/schemas/Element"
+      },
+      "type": "array",
+      "maxItems": 40,
+      "title": "Elements Ajoutes",
+      "default": []
+     },
+     "elements_retires": {
+      "items": {
+       "$ref": "#/components/schemas/ElementRetire"
+      },
+      "type": "array",
+      "maxItems": 40,
+      "title": "Elements Retires",
+      "default": []
+     },
+     "objectifs": {
+      "items": {
+       "$ref": "#/components/schemas/Objectif"
+      },
+      "type": "array",
+      "maxItems": 3,
+      "title": "Objectifs",
+      "default": []
+     },
+     "date_revision": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "date"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Date Revision"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "diagnostic_id",
+     "reponse"
+    ],
+    "title": "Revision",
+    "description": "CI-RG-11 : chaque diagnostic actif attend une réponse — maintenu, résolu, abandonné (motif, CI-N11) ; corrigé\npour une erreur de saisie (§2.7). Éléments ajoutés ou retirés, preuves renouvelées : tracés, jamais réécrits."
+   },
    "RevocationControleIn": {
     "properties": {
      "motif": {
@@ -55087,6 +55774,46 @@
     ],
     "title": "Suture"
    },
+   "TempsDiagnostic": {
+    "properties": {
+     "aucun_retenu": {
+      "type": "boolean",
+      "title": "Aucun Retenu",
+      "default": false
+     },
+     "poses": {
+      "items": {
+       "$ref": "#/components/schemas/Pose"
+      },
+      "type": "array",
+      "maxItems": 5,
+      "title": "Poses",
+      "default": []
+     },
+     "revisions": {
+      "items": {
+       "$ref": "#/components/schemas/Revision"
+      },
+      "type": "array",
+      "maxItems": 10,
+      "title": "Revisions",
+      "default": []
+     },
+     "hypotheses": {
+      "items": {
+       "$ref": "#/components/schemas/Hypothese"
+      },
+      "type": "array",
+      "maxItems": 10,
+      "title": "Hypotheses",
+      "default": []
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "title": "TempsDiagnostic",
+    "description": "CI-E05, CI-RG-07 : le temps diagnostic est toujours considéré — diagnostic posé, diagnostic actif révisé, ou\naucun diagnostic retenu ; aucune réponse n'est présumée."
+   },
    "Tension": {
     "properties": {
      "systolique": {
@@ -55526,16 +56253,38 @@
       "$ref": "#/components/schemas/EvaluationGlobale"
      },
      "diagnostics": {
-      "items": {
-       "$ref": "#/components/schemas/Diagnostic"
-      },
-      "type": "array",
-      "maxItems": 5,
-      "minItems": 1,
+      "anyOf": [
+       {
+        "items": {
+         "$ref": "#/components/schemas/Diagnostic"
+        },
+        "type": "array",
+        "maxItems": 5,
+        "minItems": 1
+       },
+       {
+        "type": "null"
+       }
+      ],
       "title": "Diagnostics"
      },
+     "diagnostic": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/TempsDiagnostic"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
      "actions": {
-      "$ref": "#/components/schemas/Actions"
+      "$ref": "#/components/schemas/Actions",
+      "default": {
+       "supports_remis": [],
+       "orientations": [],
+       "orientations_precedentes": []
+      }
      },
      "resultat": {
       "$ref": "#/components/schemas/Resultat"
@@ -55544,8 +56293,6 @@
     "type": "object",
     "required": [
      "evaluation",
-     "diagnostics",
-     "actions",
      "resultat"
     ],
     "title": "TroncCommun"
@@ -56237,6 +56984,65 @@
     ],
     "title": "VoletLibre"
    },
+   "VoletParametre": {
+    "properties": {
+     "type": {
+      "type": "string",
+      "const": "parametre",
+      "title": "Type"
+     },
+     "motif": {
+      "type": "string",
+      "maxLength": 30,
+      "minLength": 1,
+      "title": "Motif"
+     },
+     "valeurs": {
+      "additionalProperties": {
+       "anyOf": [
+        {
+         "type": "string",
+         "maxLength": 2000
+        },
+        {
+         "type": "boolean"
+        },
+        {
+         "type": "null"
+        }
+       ]
+      },
+      "propertyNames": {
+       "maxLength": 40
+      },
+      "type": "object",
+      "maxProperties": 30,
+      "title": "Valeurs",
+      "default": {}
+     },
+     "precision": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 2000,
+        "minLength": 1
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Precision"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "type",
+     "motif"
+    ],
+    "title": "VoletParametre",
+    "description": "v0.2, CI-RG-03 : volet d'un motif clinique, paramétré par TABSANTE (champs du motif au référentiel), jamais codé\nici ; chaque valeur est contrôlée contre les champs de la version du motif (app.domaines.consultations)."
+   },
    "VoletRAAC": {
     "properties": {
      "type": {
@@ -56763,6 +57569,18 @@
         "type": "null"
        }
       ]
+     },
+     "domaine_ipa": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 40
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Domaine Ipa"
      }
     },
     "type": "object",

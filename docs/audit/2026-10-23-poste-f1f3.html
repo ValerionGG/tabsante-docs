@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Poste fixe : direction F1 « Précision calme » et mode focus F3 — 23 octobre 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{--bg:#F4F6FA;--surface:#FFFFFF;--surface-2:#EEF2FB;--fg:#141A2E;--fg-2:#4A5372;--ligne:#DDE3EF;
+--accent:#2F5BEA;--accent-fg:#FFFFFF;--accent-doux:#E6ECFD;--attention:#8A5A00;--attention-fond:#FFF4DC;
+--code-fond:#F1F3F8;--police:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+--police-code:"JetBrains Mono",ui-monospace,"Cascadia Code",Consolas,monospace;--rayon:10px;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0E1220;--surface:#151A2B;--surface-2:#1C2338;
+--fg:#E8ECF7;--fg-2:#A3ACC6;--ligne:#2A3250;--accent:#7C9BFF;--accent-fg:#0E1220;--accent-doux:#1E2950;
+--attention:#F2C25B;--attention-fond:#33290F;--code-fond:#10152A;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0E1220;--surface:#151A2B;--surface-2:#1C2338;--fg:#E8ECF7;--fg-2:#A3ACC6;--ligne:#2A3250;
+--accent:#7C9BFF;--accent-fg:#0E1220;--accent-doux:#1E2950;--attention:#F2C25B;--attention-fond:#33290F;--code-fond:#10152A;color-scheme:dark}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--police);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}
+.entete{background:var(--surface);border-bottom:1px solid var(--ligne)}
+.entete div{max-width:calc(80ch + 32px);margin:0 auto;padding:12px 16px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.entete b{font-weight:600}
+.entete a{color:var(--accent);text-decoration:none;font-weight:500}
+.entete a:hover{text-decoration:underline}
+main{max-width:calc(80ch + 32px);margin:0 auto;padding:24px 16px 64px;overflow-wrap:break-word}
+.chemin{font-family:var(--police-code);font-size:12px;color:var(--fg-2);margin:0 0 8px}
+h1{font-size:28px;line-height:1.25;margin:0 0 16px}
+h2{font-size:21px;line-height:1.3;margin:36px 0 12px;padding-top:12px;border-top:1px solid var(--ligne)}
+h3{font-size:17px;margin:28px 0 8px}h4,h5,h6{font-size:15px;margin:20px 0 6px}
+a{color:var(--accent)}
+p,li{max-width:80ch}
+code{font-family:var(--police-code);font-size:.88em;background:var(--code-fond);border:1px solid var(--ligne);border-radius:5px;padding:0 4px;overflow-wrap:anywhere}
+pre{background:var(--code-fond);border:1px solid var(--ligne);border-radius:var(--rayon);padding:14px 16px;overflow-x:auto;font-size:13px;line-height:1.55}
+pre code{background:none;border:0;padding:0;font-size:inherit;overflow-wrap:normal}
+.tableau{overflow-x:auto;margin:16px 0;border:1px solid var(--ligne);border-radius:var(--rayon);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:13.5px;line-height:1.5}
+th,td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--ligne);min-width:8ch}
+th{background:var(--surface-2);font-weight:600}
+tr:last-child td{border-bottom:0}
+blockquote{margin:16px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-doux);border-radius:0 var(--rayon) var(--rayon) 0}
+hr{border:0;border-top:1px solid var(--ligne);margin:28px 0}
+img{max-width:100%}
+.non-publie{font-size:13px;color:var(--attention);background:var(--attention-fond);padding:1px 6px;border-radius:5px}
+details.sommaire{background:var(--surface);border:1px solid var(--ligne);border-radius:var(--rayon);padding:10px 16px;margin:0 0 24px}
+details.sommaire summary{cursor:pointer;font-weight:600}
+details.sommaire ul{padding-left:20px;margin:8px 0 0}
+.admonition{border:1px solid var(--ligne);border-radius:var(--rayon);padding:8px 16px;background:var(--surface)}
+.admonition-title{font-weight:600}
+</style>
+</head>
+<body>
+<header class="entete"><div><b>TabSanté — documents</b><a href="../../">← Retour au portail</a></div></header>
+<main>
+<p class="chemin">docs/audit/2026-10-23-poste-f1f3.html</p>
+<h1 id="poste-fixe--direction-f1--précision-calme--et-mode-focus-f3--23-octobre-2026">Poste fixe : direction F1 « Précision calme » et mode focus F3 — 23 octobre 2026</h1>
+<details class="sommaire"><summary>Sommaire</summary><ul><li><a href="#ce-qui-change">Ce qui change</a></li><li><a href="#choix-tranchés-ici">Choix tranchés ici</a></li><li><a href="#vérifications">Vérifications</a></li><li><a href="#ce-qui-reste">Ce qui reste</a></li></ul></details>
+<p><strong>Branche</strong> <code>evol-poste-f1f3</code>, partie de <code>79a0e7f7</code>. <strong>Demande</strong> : appliquer au poste fixe la direction choisie dans le canevas de design — F1 partout, le mode focus F3 pour la file de contrôle de la facturation et « à traiter » d'Aujourd'hui. Maquettes : <code>F1-Precision-aujourdhui</code>, <code>F1-Precision-facturation</code>, <code>F3-Focus-aujourdhui</code>, <code>F3-Focus-facturation</code> ; parti pris et références : <code>references-F-poste.md</code> (Vercel Analytics, Holesinsky, Salesflare, CareChart, Assay, Productboard, MSP Alert Triage). Le mode focus est rendu dans le système F1 (Geist, encre), pas dans la police et le bleu de la maquette F3.</p>
+<p><strong>Méthode.</strong> Base <code>tabsante_pf1</code>, API sur le port 8805 (<code>TABSANTE_DEV_AUTH=true</code>, lecteur d'ordonnance factice, CORS <code>http://127.0.0.1:5305</code>), <code>POST /dev/demo</code> puis <code>scripts/agregats.py --reconstruire</code>, Vite sur le port 5305. Chromium isolé (Playwright, contexte neuf à chaque capture), 1440 et 390 px, débordement horizontal mesuré sur chaque écran. Aucune donnée réelle ; aucune décision envoyée pendant les captures (les états « traité » et « tout est vu » des captures sont des reports et des gestes locaux).</p>
+<p>Captures : <code>docs/audit/captures-ux/2026-10-23-poste-f1f3/</code>, <code>avant-*</code> (état de départ, 17 écrans × 2 largeurs) et <code>apres-*</code> (les mêmes, plus le mode focus d'Aujourd'hui, la vue d'ensemble de la file et cinq états au clavier : sélection J/J, cas traité par E, motif demandé, barre d'actions groupées, file entièrement vue).</p>
+<h2 id="ce-qui-change">Ce qui change</h2>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>Sujet</th>
+<th>Ce qui a changé</th>
+<th>Fichiers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Jetons</td>
+<td>Surface unique gris chaud (#F7F7F5, barre latérale comprise, séparée d'un filet), filets de 1 px (<code>--filet-fort</code>), encre #18181B, gris #3F3F46 et #63636B, rayons 12/9/10/14, ombres réduites à un filet. <strong>Une seule couleur pleine pour l'action</strong> : <code>--action</code> (l'encre) ; le bleu reste au focus, aux liens, à la sélection et à « suggéré ». Durées <code>--d-panneau</code> 200 ms et <code>--d-barre-groupee</code> 240 ms.</td>
+<td><code>styles.css</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td>Polices</td>
+<td>Geist et Geist Mono variables (woff2 du dépôt officiel <code>vercel/geist-font</code>, licence OFL jointe), déclarées en <code>@font-face</code> et servies par Vite comme l'était Inter : aucun appel réseau. Geist Mono pour les chiffres qui se comparent (touches, compteurs, onglets-chiffres, rangs, codes, numéros de FSE). Inter n'est plus importée (la dépendance reste dans <code>package.json</code>, <code>node_modules</code> étant une jonction partagée).</td>
+<td><code>assets/polices/</code>, <code>main.tsx</code>, <code>DossierPreuve.tsx</code> (pied d'impression)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Composants</td>
+<td>Boutons (encre / filet), filtres sans piste, onglets et circuit soulignés d'encre, puces 24 px, tuiles 32 px, tableaux (en-têtes 12,5/550, sélection <code>--selection</code>), avatars neutres, barre latérale (raccourci <strong>G + lettre affiché</strong> sur chaque entrée sans compteur), barre du haut, touches affichées. Survol et sélection plus fins. Barre d'actions groupées en encre, collée en bas, 240 ms. <code>prefers-reduced-motion</code> coupe animations, transitions et appui.</td>
+<td><code>poste-f1.css</code>, <code>Cadre.tsx</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td>Aujourd'hui (F1)</td>
+<td>Bande d'onglets-chiffres (À traiter, Sur le terrain, Plaies en cours, Facturation) avec la bascule « Vue d'ensemble / Mode focus ». « À traiter » <strong>groupée par urgence</strong> : Maintenant, Aujourd'hui, En série, Facturation. Les passages non réalisés (deux ou plus) font <strong>une ligne « En série »</strong>. <strong>Détail à droite</strong> (200 ms) : patient avec âge, allergies et INS d'abord, constat, action principale. <strong>Clavier</strong> sur la liste : J/K, Entrée, E (« Marquer traité », geste de ce poste pour la journée), Z (annuler). Les autres panneaux passent dans « Sur le terrain », dessous.</td>
+<td><code>pages/Aujourdhui.tsx</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td>Mode focus (F3)</td>
+<td>Composant commun : un cas à la fois, file à gauche, une phrase, cartes de contexte, trois options numérotées (« suggéré »), 1-3 puis Entrée, cas suivant automatique, J/K, E et Z là où ils ont un sens, « Plus tard », état final « Tout est traité. ». Raccourcis sur le conteneur focalisé (<code>onKeyDown</code>), jamais sur la fenêtre ; Échap rend la main depuis un champ.</td>
+<td><code>fileFocus.tsx</code></td>
+</tr>
+<tr>
+<td>6</td>
+<td>« À traiter » en focus</td>
+<td>Options réelles, pas inventées : signalement → écran de décision (suggéré), « Surveillance renforcée », « Classer sans suite » (même requête que le menu « ⋯ », infirmier seulement) ; passages non réalisés → par patient, « Patient absent » ou « Hospitalisation » pour tous ses passages (une requête par passage), « Un autre motif » (dialogue existant) ; terminal muet → appeler, « Marquer comme vu » ; le reste → la page qui permet d'agir, le dossier, « Plus tard ».</td>
+<td><code>pages/Aujourdhui.tsx</code></td>
+</tr>
+<tr>
+<td>7</td>
+<td>File de contrôle</td>
+<td><strong>Mode focus par défaut</strong>, vue d'ensemble F1 à un clic (<code>?vue=ensemble</code>) avec J/K, X (choisir), Entrée (arbitrer) et la barre d'actions groupées. En focus : phrase courte (« La cotation signée diffère du moteur, qui retient AMI 2 à 50 %. »), écart expliqué dessous, <strong>comparaison champ par champ</strong> (« 4 sur 5 champs concordent », l'écart en ambre), preuve et règle à côté ; options « Retenir la cotation du moteur » (suggérée), « Écarter de la facturation », « Plus tard » ; non-arbitre : options visibles, inactives, raison écrite. Les cotations de même statut et même motif, trois ou plus, forment une <strong>série</strong> (« 29 cotations, même règle ») : reconfirmer (signalées) ou retenir les n (à arbitrer, motif commun), ou « Les revoir une à une ». État final vers « À facturer ».</td>
+<td><code>pages/Facturation.tsx</code>, <code>main.tsx</code> (route)</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Aide</td>
+<td>Entrées mises à jour : Aujourd'hui, À traiter (groupes, clavier, « Marquer traité » local), Vérifier les cotations (vue d'ensemble au clavier), Arbitrage, Navigation (touches affichées). Nouvelles : « En série », « Mode focus » (Aujourd'hui), « File de contrôle, mode focus » (réservée à qui voit la cotation) ; deux astuces.</td>
+<td><code>aide/contenu.ts</code></td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Vu aux captures et corrigé en route.</strong>
+- Le champ de motif prenait le focus à l'arrivée d'une cotation (l'option suggérée l'exige) : J et K s'écrivaient dans le champ. Il ne le prend plus que si l'on choisit l'option ; un test le vérifie.
+- À 390 px, le champ de motif choisi restait sous le pied collé : il défile maintenant au-dessus (<code>scroll-margin</code>).
+- La phrase d'une cotation reprenait toute l'explication de l'écart (quatre lignes) : la phrase dit le code retenu, l'explication passe dessous.
+- Signalement : la citation était répétée dans la phrase et dans la carte ; la phrase dit qui et où, la carte cite.
+- Double point final (« 1 oct.. »), « 0 sur 4 » entièrement en chasse fixe, légende des touches affichée deux fois, « Tout est traité » quand tout avait été reporté (devient « Tout est vu : 4 cas restent en file pour plus tard. »), « Revoir les 1 reportés ».
+- Circuit de facturation : l'étape courante était un bloc bleu ; elle est soulignée d'encre comme les onglets.</p>
+<h2 id="choix-tranchés-ici">Choix tranchés ici</h2>
+<ul>
+<li><strong>Motif de l'arbitrage.</strong> La maquette ne demandait le motif que pour garder la cotation signée. Le serveur n'a que deux décisions, retenir la cotation du moteur ou l'écarter, et <strong>exige le motif pour les deux</strong> (journalisé). Les règles métier ne changent pas : le motif reste demandé pour retenir comme pour écarter ; « Garder la cotation signée » n'existe pas et n'a pas été ajouté. Le champ n'apparaît qu'avec l'option qui l'exige.</li>
+<li><strong>« Suggéré »</strong> désigne, dans « à traiter », l'écran qui permet d'agir — jamais une décision clinique (passer midi, demander une photo) que l'application ne peut pas savoir ; en facturation, la cotation du moteur de démonstration.</li>
+<li><strong>« Marquer traité » (E)</strong> est un geste du poste, pour la journée (<code>sessionStorage</code>), annulable par Z ; rien n'est écrit au dossier et le compteur de la barre latérale garde le décompte du serveur. Une tâche réellement traitée quitte la liste d'elle-même.</li>
+<li><strong>Séries.</strong> Aujourd'hui : dès deux passages non réalisés (une ligne en vue d'ensemble, un cas par patient en focus). Facturation : trois cotations ou plus de même statut et de même premier motif. « Reconfirmer les cotations » reste l'action globale qu'elle était (toutes les provisoires jusqu'à aujourd'hui), et le dit.</li>
+<li><strong>Vue par défaut.</strong> Facturation en focus (<code>/facturation</code>), Aujourd'hui en vue d'ensemble ; le choix se lit dans l'adresse (<code>?vue=</code>), un retour le garde.</li>
+<li><strong>Écran étroit.</strong> Le détail F1 disparaît sous 900 px (chaque ligne garde son bouton) ; en focus, la file passe au-dessus du cas, en défilement de 260 px.</li>
+<li><strong>Écrans de l'autre agent</strong> (<code>BilansConsultation</code>, <code>SousFiche</code>) : pas touchés ; le système s'y applique par les feuilles.</li>
+</ul>
+<h2 id="vérifications">Vérifications</h2>
+<ul>
+<li><code>npx tsc --noEmit</code> sans erreur ; <code>npx vitest run</code> : <strong>76 fichiers, 688 tests, verts</strong>. Nouveau <code>ModeFocus.test.tsx</code> (10 tests : focus du conteneur, 1-3 et Entrée, cas suivant, J/K, motif exigé seulement pour son option et frappes non interceptées dans le champ, report et état final, E/Z, option impossible ; comparaison champ par champ ; arbitrage au clavier jusqu'à « Tout est traité » ; série dépliée ; non-arbitre). <code>Aujourdhui.test.tsx</code> : la ligne « En série » remplace les seize lignes (même ordre de gravité vérifié), plus J/K/E/Z et la série d'un patient déclarée en focus (une requête par passage).</li>
+<li><code>oxlint src</code> : aucun avertissement nouveau.</li>
+<li>Constructions <code>VITE_DEMO_STATIQUE=true</code> et <code>VITE_DEMO_HEBERGEE=true</code> (base <code>/poste/</code>) réussies, Geist et Geist Mono embarquées. La seule lecture nouvelle (<code>/patients/{id}/dossier</code> pour la garde du détail) se tait si l'enregistrement statique ne l'a pas.</li>
+<li>Captures : <strong>aucun débordement horizontal</strong> à 1440 ni à 390 px sur les 38 vues « après » des écrans (les 6 états au clavier en plus).</li>
+<li>Serveur : non touché (aucune migration, contrat OpenAPI inchangé).</li>
+</ul>
+<h2 id="ce-qui-reste">Ce qui reste</h2>
+<ul>
+<li><strong>Portail public</strong> : ancres à ajouter au portail <code>tabsante-docs</code> pour les nouvelles entrées d'aide (<code>#poste-aujourdhui-en-serie</code>, <code>#poste-aujourdhui-mode-focus</code>, <code>#poste-facturation-mode-focus</code>).</li>
+<li><strong>Comparaison champ par champ</strong> : la file de contrôle ne transmet pas les montants de démonstration ni le rang de l'acte au passage ; la comparaison porte sur patient, passage, soin, actes et taux. Ajouter <code>montant</code> aux lignes de <code>/facturation/file-controle</code> donnerait la ligne « Montant démo » de la maquette.</li>
+<li><strong>Suggestions cliniques</strong> de la maquette F3 (« Prévoir un passage IDE ce midi », « Hospitalisé d'après la transmission du 16 ») : elles demanderaient de lire le planning et les transmissions pour proposer une décision ; non faites, pour ne pas inventer de règle.</li>
+<li><strong>Écrans hérités</strong> : le système s'applique par les jetons et <code>poste-f1.css</code> ; quelques feuilles anciennes gardent des teintes bleues propres (cartes CPS de la connexion, « Non lue » des transmissions), laissées volontairement.</li>
+<li>La dépendance <code>@fontsource-variable/inter</code> reste déclarée (le site public <code>site/</code> l'utilise toujours, et <code>web/node_modules</code> est partagé) ; à retirer de <code>web/package.json</code> lors d'une prochaine mise à jour des dépendances.</li>
+</ul>
+</main>
+</body>
+</html>

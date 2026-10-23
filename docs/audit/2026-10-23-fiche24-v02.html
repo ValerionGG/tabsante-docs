@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fiche 24 Bilans/Consultation — passage de la v0.1 à la v0.2 (23 octobre 2026)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{--bg:#F4F6FA;--surface:#FFFFFF;--surface-2:#EEF2FB;--fg:#141A2E;--fg-2:#4A5372;--ligne:#DDE3EF;
+--accent:#2F5BEA;--accent-fg:#FFFFFF;--accent-doux:#E6ECFD;--attention:#8A5A00;--attention-fond:#FFF4DC;
+--code-fond:#F1F3F8;--police:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+--police-code:"JetBrains Mono",ui-monospace,"Cascadia Code",Consolas,monospace;--rayon:10px;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0E1220;--surface:#151A2B;--surface-2:#1C2338;
+--fg:#E8ECF7;--fg-2:#A3ACC6;--ligne:#2A3250;--accent:#7C9BFF;--accent-fg:#0E1220;--accent-doux:#1E2950;
+--attention:#F2C25B;--attention-fond:#33290F;--code-fond:#10152A;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0E1220;--surface:#151A2B;--surface-2:#1C2338;--fg:#E8ECF7;--fg-2:#A3ACC6;--ligne:#2A3250;
+--accent:#7C9BFF;--accent-fg:#0E1220;--accent-doux:#1E2950;--attention:#F2C25B;--attention-fond:#33290F;--code-fond:#10152A;color-scheme:dark}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--police);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}
+.entete{background:var(--surface);border-bottom:1px solid var(--ligne)}
+.entete div{max-width:calc(80ch + 32px);margin:0 auto;padding:12px 16px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.entete b{font-weight:600}
+.entete a{color:var(--accent);text-decoration:none;font-weight:500}
+.entete a:hover{text-decoration:underline}
+main{max-width:calc(80ch + 32px);margin:0 auto;padding:24px 16px 64px;overflow-wrap:break-word}
+.chemin{font-family:var(--police-code);font-size:12px;color:var(--fg-2);margin:0 0 8px}
+h1{font-size:28px;line-height:1.25;margin:0 0 16px}
+h2{font-size:21px;line-height:1.3;margin:36px 0 12px;padding-top:12px;border-top:1px solid var(--ligne)}
+h3{font-size:17px;margin:28px 0 8px}h4,h5,h6{font-size:15px;margin:20px 0 6px}
+a{color:var(--accent)}
+p,li{max-width:80ch}
+code{font-family:var(--police-code);font-size:.88em;background:var(--code-fond);border:1px solid var(--ligne);border-radius:5px;padding:0 4px;overflow-wrap:anywhere}
+pre{background:var(--code-fond);border:1px solid var(--ligne);border-radius:var(--rayon);padding:14px 16px;overflow-x:auto;font-size:13px;line-height:1.55}
+pre code{background:none;border:0;padding:0;font-size:inherit;overflow-wrap:normal}
+.tableau{overflow-x:auto;margin:16px 0;border:1px solid var(--ligne);border-radius:var(--rayon);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:13.5px;line-height:1.5}
+th,td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--ligne);min-width:8ch}
+th{background:var(--surface-2);font-weight:600}
+tr:last-child td{border-bottom:0}
+blockquote{margin:16px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--accent-doux);border-radius:0 var(--rayon) var(--rayon) 0}
+hr{border:0;border-top:1px solid var(--ligne);margin:28px 0}
+img{max-width:100%}
+.non-publie{font-size:13px;color:var(--attention);background:var(--attention-fond);padding:1px 6px;border-radius:5px}
+details.sommaire{background:var(--surface);border:1px solid var(--ligne);border-radius:var(--rayon);padding:10px 16px;margin:0 0 24px}
+details.sommaire summary{cursor:pointer;font-weight:600}
+details.sommaire ul{padding-left:20px;margin:8px 0 0}
+.admonition{border:1px solid var(--ligne);border-radius:var(--rayon);padding:8px 16px;background:var(--surface)}
+.admonition-title{font-weight:600}
+</style>
+</head>
+<body>
+<header class="entete"><div><b>TabSanté — documents</b><a href="../../">← Retour au portail</a></div></header>
+<main>
+<p class="chemin">docs/audit/2026-10-23-fiche24-v02.html</p>
+<h1 id="fiche-24-bilansconsultation--passage-de-la-v01-à-la-v02-23-octobre-2026">Fiche 24 Bilans/Consultation — passage de la v0.1 à la v0.2 (23 octobre 2026)</h1>
+<details class="sommaire"><summary>Sommaire</summary><ul><li><a href="#1-ce-que-la-v02-change">1. Ce que la v0.2 change</a></li><li><a href="#2-correspondance-exigence-par-exigence-9-de-la-fiche">2. Correspondance exigence par exigence (§9 de la fiche)</a></li><li><a href="#3-règles-ci-rg-01-à-20">3. Règles CI-RG-01 à 20</a></li><li><a href="#4-compteurs-7">4. Compteurs (§7)</a></li><li><a href="#5-modèle-de-données">5. Modèle de données</a></li><li><a href="#6-choix-tranchés-pendant-le-lot">6. Choix tranchés pendant le lot</a></li><li><a href="#7-ce-qui-reste">7. Ce qui reste</a></li><li><a href="#8-captures">8. Captures</a></li></ul></details>
+<p>Branche <code>evol-fiche24-v02</code> (partie de <code>main</code> <code>79a0e7f7</code>). Source : <code>docs/reference/fiche24-bilans-consultation-v0.2.txt</code>
+(fiche du fondateur du 18 octobre 2026, maquettes terminal M1 à M7 et vue poste fixe D1 dans
+<code>docs/maquettes/references/fiche24-bilans-consultation-v0.2.html</code>). Base de comparaison : la v0.1 du 5-7 octobre
+(<code>docs/reference/fiche24-bilans-consultation.txt</code>), implémentée au lot web 16 et aux lots terminal 16 à 24.</p>
+<p>États : <strong>Fait</strong> (serveur, poste fixe, terminal, testé) · <strong>Fait (v0.1)</strong> (déjà en place, vérifié inchangé) ·
+<strong>Simulé</strong> (branché sur une valeur provisoire documentée, [P]) · <strong>Reste</strong> (non fait, raison donnée).</p>
+<h2 id="1-ce-que-la-v02-change">1. Ce que la v0.2 change</h2>
+<p>La v0.2 tranche quatre choses (décisions du 18 octobre 2026) et en précise d'autres :</p>
+<ol>
+<li><strong>La fiche mère ne cote jamais</strong> ; la sous-fiche seule porte l'acte. Déjà vrai en v0.1 côté faits ; la v0.2
+   ajoute que rien du tronc commun ne parvient au moteur autrement que par la sous-fiche.</li>
+<li><strong>Le diagnostic infirmier NANDA-I se pose ici et seulement ici</strong> — jamais dans une transmission ciblée.</li>
+<li><strong>Le diagnostic s'enregistre par son seul code</strong>, avec les éléments qui le fondent et la source de chacun : EX-SC-02
+   (« texte libre en surface, correspondance NANDA-I en dessous ») est <strong>amendé</strong>. La v0.1 du code faisait exactement
+   ce qui est désormais écarté.</li>
+<li><strong>L'hypothèse diagnostique écartée se trace</strong>, avec son motif ; trace interne.</li>
+</ol>
+<p>S'y ajoutent : familles N (diagnostic) et R (objectif et suivi) ; cycle de vie du diagnostic (pose, maintien,
+résolution, abandon, correction, écart) ; reprise par <strong>référence</strong> (source, horodatage, auteur, version signée) et
+correction ultérieure signalée ; sous-fiches IPA réservées à l'IPA, rang dans la période et forfait périodique en
+cascade (EX-CI-42) ; motif choisi dans la liste TABSANTE qui commande un volet paramétré ; cotation attendue dite sans
+lettre-clé (CI-O13) ; rôles (séance 5 ter par IDE formé, IPA, aide-soignante sans accès) ; alias de recherche ;
+compteurs ; export FHIR Condition/evidence ; bilan de plaie lisible depuis la plaie.</p>
+<h2 id="2-correspondance-exigence-par-exigence-9-de-la-fiche">2. Correspondance exigence par exigence (§9 de la fiche)</h2>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Exigence</th>
+<th>Traitement v0.2 (§9)</th>
+<th>Code avant (v0.1)</th>
+<th>Fait dans ce lot</th>
+<th>État</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EX-SC-01</td>
+<td>§2.4, famille E — tranchée</td>
+<td>cinq champs en tronc commun</td>
+<td>temps diagnostic toujours considéré (CI-E05) ; actions facultatives (CI-E06) ; observations (CI-E03)</td>
+<td><strong>Fait</strong></td>
+</tr>
+<tr>
+<td>EX-SC-02</td>
+<td><strong>Amendée</strong> : code NANDA-I seul ; facteurs, objectifs, évaluation en familles N et R ; NIC non prévu ; licence D-03</td>
+<td>texte libre + code facultatif sur table vide</td>
+<td><code>TempsDiagnostic</code> (poses, révisions, hypothèses) ; code obligatoire du référentiel en vigueur, libellé, type, version figés ; éléments par catégorie avec preuve ; texte libre retiré des deux clients, forme v0.1 seulement relue</td>
+<td><strong>Fait</strong> (référentiel <strong>Simulé</strong> : démonstration, Q-200)</td>
+</tr>
+<tr>
+<td>EX-CI-01 à 03</td>
+<td>motif référentiel (CI-RG-03) ; date d'effet et versionnement des volets « à intégrer »</td>
+<td>motifs versionnés, date d'effet</td>
+<td>motifs cliniques (<code>nature: motif_clinique</code>) et volet paramétré contrôlé contre les champs de la version du motif</td>
+<td><strong>Fait</strong> ; versionnement des volets paramétrés : <strong>Fait (v0.1)</strong> par la version du motif</td>
+</tr>
+<tr>
+<td>EX-CI-04</td>
+<td>§2.4 — tranchée</td>
+<td>tronc commun</td>
+<td>inchangé, temps diagnostic v0.2</td>
+<td><strong>Fait</strong></td>
+</tr>
+<tr>
+<td>EX-CI-05</td>
+<td>CI-RG-05 — la reprise est une <strong>référence</strong></td>
+<td>donnée cochée (clé, valeur, acte)</td>
+<td>source, horodatage, auteur ; version signée (empreinte de l'acte ou de la transmission) figée à la projection ; correction ultérieure signalée en D1 ; transmissions ciblées reprenables</td>
+<td><strong>Fait</strong></td>
+</tr>
+<tr>
+<td>EX-CI-06</td>
+<td>CI-RG-03 ; demande d'un motif « à intégrer »</td>
+<td>demande au catalogue</td>
+<td>inchangé ; un motif clinique n'ouvre pas de suivi</td>
+<td><strong>Fait (v0.1)</strong></td>
+</tr>
+<tr>
+<td>EX-CI-07</td>
+<td>CI-RG-01 — tranchée</td>
+<td>faits de la sous-fiche</td>
+<td><code>tronc_commun</code> (et <code>diagnostics</code> v0.1) déclarés non transmis au moteur ; aucun fait de diagnostic</td>
+<td><strong>Fait</strong></td>
+</tr>
+<tr>
+<td>EX-CI-08 à 13</td>
+<td>« à intégrer » ; M1 n'affiche que la sous-fiche active</td>
+<td>séance dédiée, BSI, origines, sous-fiches actives, entrée directe, vue d'ensemble</td>
+<td>inchangé</td>
+<td><strong>Fait (v0.1)</strong></td>
+</tr>
+<tr>
+<td>EX-CI-14 à 14 quinquies, 23</td>
+<td>« à intégrer »</td>
+<td>composant Éducation et compétences</td>
+<td>inchangé</td>
+<td><strong>Fait (v0.1)</strong></td>
+</tr>
+<tr>
+<td>EX-CI-15 à 20</td>
+<td>« à intégrer »</td>
+<td>volets 5 ter et RAAC</td>
+<td>séances : temps diagnostic v0.2 contrôlé et projeté comme une consultation ; formation 5 ter inchangée</td>
+<td><strong>Fait</strong></td>
+</tr>
+<tr>
+<td>EX-CI-21 [P]</td>
+<td>texte libre écarté ; facteurs et caractéristiques CI-N05 à 08 ; priorité CI-O8 ; « un à trois objectifs »</td>
+<td>diagnostic texte libre, priorité</td>
+<td>code seul ; éléments ; un à trois objectifs datés par diagnostic, aux deux clients ; priorité : ordre de pose (Q-209)</td>
+<td><strong>Fait</strong></td>
+</tr>
+<tr>
+<td>EX-CI-22</td>
+<td>CI-RG-15, CI-R04 ; note 1 à 5 à ajouter à CI-R04</td>
+<td>état simple, NOC et note réservés</td>
+<td>évaluation à la révision obligatoire ; NOC et note réservés, inactifs</td>
+<td><strong>Fait</strong></td>
+</tr>
+<tr>
+<td>EX-CI-25 à 28</td>
+<td>compte rendu « à intégrer » ; jamais les hypothèses écartées (CI-RG-19)</td>
+<td>compte rendu pré-rédigé</td>
+<td>phrases « Diagnostic posé / maintenu / résolu… » et objectifs ; hypothèses jamais au CR, au DMP, en coordination, au moteur, en FHIR ; observations au CR</td>
+<td><strong>Fait</strong></td>
+</tr>
+<tr>
+<td>EX-CI-29 à 41</td>
+<td>volets CIA, CIB, prévention « à intégrer »</td>
+<td>volets en place</td>
+<td>thème CIB relié à une pose (EX-CI-36) gardé au dossier si le patient le garde</td>
+<td><strong>Fait (v0.1)</strong> + <strong>Fait</strong> (thème)</td>
+</tr>
+<tr>
+<td>EX-CI-42</td>
+<td>CI-S03 — tranchée</td>
+<td>aucune</td>
+<td>rang de la consultation de suivi régulier IPA dans la période, pour le patient ; palier de la cascade aux faits ; obstacle <code>palier_non_remunere</code></td>
+<td><strong>Simulé</strong> (période semestre civil et paliers proposés, Q-203)</td>
+</tr>
+<tr>
+<td>EX-CI-43 à 55</td>
+<td>volet IPA « à intégrer » ; EX-CI-47 : CI-O13</td>
+<td>aucune</td>
+<td>sous-fiches <code>ipa_suivi</code>, <code>ipa_bilan</code>, <code>ipa_consultation</code> (volet libre en attendant), réservées à l'IPA de la mention ; cotation attendue sans lettre-clé (EX-CI-47)</td>
+<td><strong>Fait</strong> pour la structure et les rôles ; contenu du volet IPA : <strong>Reste</strong> (absent de la fiche et du cahier fourni, v0.3)</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="3-règles-ci-rg-01-à-20">3. Règles CI-RG-01 à 20</h2>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Règle</th>
+<th>Où</th>
+<th>État</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RG-01 fiche mère sans cotation</td>
+<td><code>app/fiches/__init__.py</code> (<code>non_transmis</code> tronc commun), <code>consultations.faits_consultation</code></td>
+<td>Fait</td>
+</tr>
+<tr>
+<td>RG-02 réponse obligatoire de la sous-fiche</td>
+<td>non-réalisation existante de l'occurrence (motif), signature sinon ; M1 et poste fixe</td>
+<td>Fait (v0.1)</td>
+</tr>
+<tr>
+<td>RG-03 motif TABSANTE, volet jamais codé</td>
+<td>motifs cliniques et <code>VoletParametre</code>, <code>controler_volet_parametre</code></td>
+<td>Fait</td>
+</tr>
+<tr>
+<td>RG-04 rôles</td>
+<td>IPA : mention tenue comme formation datée (<code>habilitations.FORMATIONS</code>, <code>exiger_ipa</code>) à l'ouverture et à la signature ; 5 ter : formation (v0.1) ; AS : aucune route de la fiche, ni référentiel en précharge, ni compteurs</td>
+<td>Fait</td>
+</tr>
+<tr>
+<td>RG-05 reprise par référence</td>
+<td><code>DonneeReprise</code> (le, auteur, transmission_id), <code>diagnostics._empreintes</code>, <code>_corriges</code></td>
+<td>Fait</td>
+</tr>
+<tr>
+<td>RG-06 diagnostic posé dans la fiche 24 seulement</td>
+<td>aucune autre fiche ne porte de diagnostic ; transmission ciblée inchangée</td>
+<td>Fait</td>
+</tr>
+<tr>
+<td>RG-07 temps diagnostic toujours considéré</td>
+<td><code>TempsDiagnostic.considere</code>, signature inactive (C19) aux deux clients</td>
+<td>Fait</td>
+</tr>
+<tr>
+<td>RG-08 code du référentiel, version figée</td>
+<td><code>diagnostics.controler</code>, colonnes <code>code</code>, <code>taxonomie</code>, <code>referentiel_version</code></td>
+<td>Fait</td>
+</tr>
+<tr>
+<td>RG-09 fondé par ses éléments</td>
+<td><code>_fonde</code> (risque : facteur de risque ; autres : caractéristique ; facteurs reliés selon réglage [P])</td>
+<td>Fait</td>
+</tr>
+<tr>
+<td>RG-10 preuve d'office depuis l'évaluation</td>
+<td>terminal : preuve posée d'office ; poste fixe : l'IDE la choisit parmi ce qu'il a coché (voir §6)</td>
+<td>Fait</td>
+</tr>
+<tr>
+<td>RG-11 chaque diagnostic actif répond</td>
+<td>409 si un actif posé avant la consultation reste sans réponse</td>
+<td>Fait</td>
+</tr>
+<tr>
+<td>RG-12 rien de signé n'est modifié</td>
+<td>événements immuables (déclencheur <code>evenement_diagnostic_immuable</code>), chaque événement référence le précédent</td>
+<td>Fait</td>
+</tr>
+<tr>
+<td>RG-13 aucune proposition de diagnostic</td>
+<td>recherche par libellé, code, domaine, classe, ordre alphabétique ; tri par signes : Q-201</td>
+<td>Fait</td>
+</tr>
+<tr>
+<td>RG-14 le diagnostic ne se cote pas</td>
+<td>faits sans code ni nombre (les deux formes), tronc commun non transmis</td>
+<td>Fait</td>
+</tr>
+<tr>
+<td>RG-15 NOC réservé, inactif</td>
+<td><code>Objectif.noc</code>, champ verrouillé aux clients</td>
+<td>Fait</td>
+</tr>
+<tr>
+<td>RG-16 bilan de plaie depuis la plaie</td>
+<td><code>GET /bilans?objet_suivi_id=</code>, section « Bilans de cette plaie »</td>
+<td>Fait</td>
+</tr>
+<tr>
+<td>RG-17 export FHIR</td>
+<td><code>fhir.diagnostics_v02</code> → Condition (code et version, statuts, evidence), Goal</td>
+<td>Simulé ([P] CI-O10, Q-205)</td>
+</tr>
+<tr>
+<td>RG-18 hypothèse tracée, motif obligatoire</td>
+<td><code>Hypothese</code>, motifs du référentiel</td>
+<td>Fait</td>
+</tr>
+<tr>
+<td>RG-19 hypothèse interne</td>
+<td>absente du CR, DMP, coordination, moteur, FHIR ; rappelée à la consultation suivante tant qu'aucune pose ne la reprend</td>
+<td>Fait</td>
+</tr>
+<tr>
+<td>RG-20 suites du motif d'écart</td>
+<td>« données à compléter » → rappel C4 ; « rôle médical » → C6 au médecin traitant avec l'observation, jamais l'hypothèse</td>
+<td>Fait</td>
+</tr>
+</tbody>
+</table></div>
+<p>Champs : familles S (CI-S01 à 05 : sous-fiche, réponse, rang, objet plaie, C5), E (CI-E01 à 09), N (CI-N01 à 16), R
+(CI-R01 à 04) couverts par <code>app/fiches/consultation.py</code> et la projection <code>app/domaines/diagnostics.py</code>. CI-F02 (cadre
+HAD, C23) est ajouté aux faits.</p>
+<h2 id="4-compteurs-7">4. Compteurs (§7)</h2>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Compteur</th>
+<th>Où</th>
+<th>État</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Rang du suivi régulier IPA dans la période</td>
+<td>faits <code>rang_periode</code>, cotation attendue</td>
+<td>Fait (période [P])</td>
+</tr>
+<tr>
+<td>Consultations et séances des parcours, consommées et restantes</td>
+<td>fiche mère (v0.1)</td>
+<td>Fait (v0.1)</td>
+</tr>
+<tr>
+<td>Diagnostics actifs et ancienneté</td>
+<td>fiche mère <code>diagnostics</code>, préparation</td>
+<td>Fait</td>
+</tr>
+<tr>
+<td>Révisions échues non faites (cabinet)</td>
+<td>tableau de bord <code>diagnostics_infirmiers.revisions_echues</code></td>
+<td>Fait</td>
+</tr>
+<tr>
+<td>Hypothèses écartées par motif</td>
+<td>tableau de bord</td>
+<td>Simulé (proposé, Q-212)</td>
+</tr>
+<tr>
+<td>Part des diagnostics sourcés</td>
+<td>tableau de bord</td>
+<td>Simulé (proposé, Q-212)</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="5-modèle-de-données">5. Modèle de données</h2>
+<p>Migration <code>0048f24_diagnostic_nanda</code> (après <code>0047p_a</code>) : <code>diagnostic_infirmier</code> (état courant, éléments et preuves,
+objectifs, projetés de l'acte signé, classée « reportée » à la fusion d'identités et « conservée » au décès) et
+<code>evenement_diagnostic</code> (immuable). L'acte signé reste la vérité (charge et empreinte) ; les tables le projettent pour la
+consultation suivante, le poste fixe et l'export. Référentiel <code>diagnostics_infirmiers</code> <code>demo-2026.10-2</code> publié comme
+version nouvelle (date d'effet 02/10/2026) : quatre diagnostics (00303, 00306, 00085, 00148), listes abrégées,
+motifs d'écart, réglage des facteurs reliés — « référentiel de démonstration, licence NANDA-I à acquérir ».</p>
+<h2 id="6-choix-tranchés-pendant-le-lot">6. Choix tranchés pendant le lot</h2>
+<ul>
+<li>La forme v0.1 (diagnostic en texte libre) reste <strong>acceptée à la signature</strong> pour ne perdre aucun acte signé hors
+  connexion par un terminal pas encore mis à jour ; plus aucun client ne l'émet. Ses faits ne portent plus ni code ni
+  nombre de diagnostics.</li>
+<li>Identifiants des diagnostics, hypothèses et objectifs posés par le client (UUID) : une révision faite hors
+  connexion référence une pose pas encore synchronisée.</li>
+<li>La mention IPA est tenue comme une <strong>formation datée</strong> de l'intervenant (cinq mentions), sans nouveau rôle.</li>
+<li>Forfait en cascade : semestre civil, paliers « première consultation », « suivante », « non rémunérée, tracée »
+  (d'après l'exemple de CI-O13) ; sous-fiches IPA tracées non facturantes tant que TABSANTE ne date pas leur cotation.</li>
+<li>Motif clinique de démonstration « Prévention des chutes » (volet « chutes » à trois champs) pour la sous-fiche de
+  consultation non facturable.</li>
+<li>Actions facultatives (CI-E06) ; notification au médecin traitant proposée depuis les actions (CI-E07).</li>
+<li>Révisions « échues » : date de révision dépassée (strictement avant le jour).</li>
+<li>FHIR : preuves dites en texte dans <code>evidence</code> ; la référence à la ressource d'origine attend CI-O10.</li>
+<li>Poste fixe : la preuve d'un élément se choisit parmi les données cochées et les observations (pas de rapprochement
+  automatique de sens) ; terminal : posée d'office quand l'élément vient de l'évaluation.</li>
+</ul>
+<h2 id="7-ce-qui-reste">7. Ce qui reste</h2>
+<ul>
+<li><strong>Volet IPA (EX-CI-43 à 55)</strong> : la fiche le renvoie à la v0.3 et le cahier fourni ne le contient pas ; la
+  structure, les rôles et la cascade sont en place, le contenu du volet non.</li>
+<li><strong>Une consultation qui sert deux sous-fiches au même passage</strong> (§2.2) : une sous-fiche par acte signé (Q-213).</li>
+<li><strong>Mode démo statique</strong> : l'enregistrement de l'API (<code>scripts/demo_statique</code>) n'est pas refait ; le référentiel et
+  l'histoire des diagnostics y répondent « donnée non enregistrée », le reste fonctionne.</li>
+<li><strong>Histoire des diagnostics au terminal</strong> : la fiche la réserve au poste fixe (D1) ; le terminal montre les diagnostics actifs et les hypothèses rappelées.</li>
+<li>Points ouverts de la fiche : Q-200 à Q-213 (couverture, §7.1).</li>
+</ul>
+<h2 id="8-captures">8. Captures</h2>
+<p><code>docs/audit/captures-ux/2026-10-23-fiche24/</code> : <code>poste-avant-*</code> et <code>poste-apres-*</code> (1440 et 390 px : fiche mère,
+sous-fiche, tableau de bord, ouverture d'un suivi IPA, histoire des diagnostics de Mme Leroux et ses preuves,
+sous-fiche en révision, suivi IPA de M. Bernard) ; <code>terminal-avant-*</code> et <code>terminal-apres-*</code> (390 × 844, jour et
+<code>-nuit-</code> : consultation, évaluation, compétences, actions, séance art. 5 ter, M1 à M7).</p>
+</main>
+</body>
+</html>

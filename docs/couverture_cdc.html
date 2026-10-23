@@ -98,6 +98,54 @@ details.sommaire ul{padding-left:20px;margin:8px 0 0}
 <p><strong>Part de la plateforme (lot L17, audit du 16/10/2026 §5.1).</strong> Trois précisions, appliquées aux lignes : (1) une exigence dont le texte confie la décision au moteur et ne demande à la fiche que de tracer et transmettre des faits, ou de restituer son retour (« la fiche transmet les faits », « le moteur tranche », « tracé, non coté »), est <strong>Fait</strong> quand cette part est codée et testée, même si la doublure rend la décision ; une exigence qui énonce elle-même la cotation (« ne font jamais un deuxième AMI 14 », « déclenche la facturation ») reste <strong>Simulée</strong> tant que la doublure la tient, <strong>Bloquée</strong> si aucune doublure ne la tient ; (2) un document produit, signé, immuable et versé au registre est <strong>Fait</strong> quand seul son acheminement (MSSanté, DMP) est simulé — l'acheminement est compté aux interfaces (§9) ; (3) un droit (§3.2) ou une règle de facturation codés et testés par la plateforme sont <strong>Faits</strong> même si le service qu'ils gardent (FSE, INSi, PSC) est simulé.</p>
 <h2 id="1-synthèse">1. Synthèse</h2>
 <p>Le CDC définit <strong>303 exigences EX-</strong>* (dont 13 <code>EX-DIA-P-*</code> de la dialyse et 44 <code>EX-CI-*</code> de la fiche 24 ; <code>EX-PSE-03 bis</code> à <code>EX-PSE-10</code> sont déclarées caduques ou reprises en <code>EX-ALR</code>). La matrice ci-dessous y ajoute les principes, le périmètre, les acteurs, les 33 lignes d'habilitation, les 47 entités du modèle, les 17 cycles de vie, le remaniement des fiches, le hors connexion, les interfaces, la sécurité, le terminal, le non fonctionnel, les 20 décisions et l'annexe Ségur : <strong>533 éléments</strong> au commit <code>ff74608</code> (la ligne « §6.5 à préciser », ajoutée avec la tournée géolocalisée, est hors décompte), <strong>561</strong> au recompte du lot L17 (16 lignes ajoutées par les lots L1 à L16, dont le bloc AVK F7-01 à F7-08, et 12 par L17 pour les manques P2-01 à P2-11 et P2-43 de l'audit). Les fiches comptent en plus <strong>528 règles de gestion</strong> (§3 ; 504 annoncées à <code>ff74608</code>).</p>
+<h3 id="10-fiche-24-v02-23-octobre-2026-branche-evol-fiche24-v02">1.0 Fiche 24 v0.2 (23 octobre 2026, branche <code>evol-fiche24-v02</code>)</h3>
+<p>La fiche Bilans/Consultation v0.2 du 18 octobre (<code>docs/reference/fiche24-bilans-consultation-v0.2.txt</code>) amende
+EX-SC-02 (code NANDA-I seul), ajoute EX-CI-42 (rang IPA, <strong>Simulé</strong>) et le volet IPA EX-CI-43 à 55 (<strong>Partiel</strong> :
+structure et rôles, contenu renvoyé à la v0.3), et des règles propres (CI-RG-04, 16, 17, 18 à 20, alias) reprises en
+lignes ; les trois décisions du 18/10 sont au registre (D-18/10-a à c) ; points ouverts Q-200 à Q-213. Matrice d'écart
+et choix : <code>docs/audit/2026-10-23-fiche24-v02.md</code>. Recompte (<code>python scripts/recompter_matrice.py</code>) :</p>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Périmètre</th>
+<th style="text-align: right;">Fait</th>
+<th style="text-align: right;">Partiel</th>
+<th style="text-align: right;">Simulé</th>
+<th style="text-align: right;">Bloqué</th>
+<th style="text-align: right;">Absent</th>
+<th style="text-align: right;">Total</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Exigences EX-*</td>
+<td style="text-align: right;">240</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">62</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">305</td>
+</tr>
+<tr>
+<td>Autres éléments du CDC</td>
+<td style="text-align: right;">178</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">77</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">266</td>
+</tr>
+<tr>
+<td><strong>Matrice complète</strong></td>
+<td style="text-align: right;">418</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">139</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">571</td>
+</tr>
+</tbody>
+</table></div>
 <h3 id="11-comptes-globaux-au-lot--finitions--22-octobre-2026-branche-evol-finitions-main-97b3c344-fusionné-lot-l18-compris">1.1 Comptes globaux au lot « Finitions » (22 octobre 2026, branche <code>evol-finitions</code>, <code>main</code> <code>97b3c344</code> fusionné, lot L18 compris)</h3>
 <p>Recomptés à partir des lignes elles-mêmes par <code>python scripts/recompter_matrice.py</code> (<code>--modules</code> pour le §1.3, <code>--lignes Partiel</code> pour la liste d'un statut). Au lot L17 (<code>a76cd53</code>) : matrice 407 · 14 · 136 · 4 · 0, règles 494 · 1 · 32 · 1 · 0 (§1.2). Avant L17, au commit <code>3ce6f97b</code> qui porte les lots L1 à L16 et L19 (aucun n'avait recompté) : matrice 347 · 10 · 188 · 4 · 0 sur 549, règles 460 · 1 · 56 · 0 · 0 sur 517, composants 21 · 2 · 2, écrans 11 · 0 · 4 et 19 · 0 · 4 (§1.2).</p>
 <div class="tableau"><table>
@@ -2381,7 +2429,7 @@ details.sommaire ul{padding-left:20px;margin:8px 0 0}
 <td>T</td>
 <td><strong>Fait</strong></td>
 <td>serveur · web</td>
-<td>b/referentiels/motifs_consultation.json (inchangé), b/domaines/consultations.py:vue_motif (volet, facturable, J0, fenêtre, plafond, unité, exclusions, cumul, date d'effet) — t/test_fiche24::test_catalogue_versionne_et_demande_de_motif ; démo ; <strong>L17</strong> (audit du 16/10, §5.1) : Fait — le texte confie la décision au moteur et ne demande à la fiche que de tracer et transmettre les faits (ou de restituer le retour) : cette part est faite et testée ; la cotation relève du moteur réel (§7)</td>
+<td>b/referentiels/motifs_consultation.json (inchangé), b/domaines/consultations.py:vue_motif (volet, facturable, J0, fenêtre, plafond, unité, exclusions, cumul, date d'effet) — t/test_fiche24::test_catalogue_versionne_et_demande_de_motif ; démo ; <strong>L17</strong> (audit du 16/10, §5.1) : Fait — le texte confie la décision au moteur et ne demande à la fiche que de tracer et transmettre les faits (ou de restituer le retour) : cette part est faite et testée ; la cotation relève du moteur réel (§7) ; <strong>v0.2</strong> (fiche du 18/10/2026, audit docs/audit/2026-10-23-fiche24-v02.md) : motifs cliniques (nature motif_clinique) et volet paramétré contrôlé contre les champs du motif (consultations.py:controler_volet_parametre) — t/test_fiche24_v02::test_le_motif_clinique_commande_un_volet_parametre</td>
 </tr>
 <tr>
 <td>EX-CI-02</td>
@@ -2413,7 +2461,7 @@ details.sommaire ul{padding-left:20px;margin:8px 0 0}
 <td>T</td>
 <td><strong>Fait</strong></td>
 <td>serveur · web · mobile</td>
-<td>b/domaines/consultations.py:contexte_clinique (constantes, douleur, glycémies 7 j, traitement, plaies) repris et coché — t/test_fiche24::test_entree_directe_depuis_la_tournee_et_contexte_repris ; douleur lue dans la série C22 du patient (b/domaines/series.py:points_patient), quelle que soit la fiche qui l'a mesurée, mesures du dernier soin, circonstance en clair (L16, P1-70) — t/test_fiche24_l16::test_douleur_reprise_de_la_serie_c22_toutes_fiches ; w/pages/SousFiche.tsx ; mobile/test/lot24_widgets_test</td>
+<td>b/domaines/consultations.py:contexte_clinique (constantes, douleur, glycémies 7 j, traitement, plaies) repris et coché — t/test_fiche24::test_entree_directe_depuis_la_tournee_et_contexte_repris ; douleur lue dans la série C22 du patient (b/domaines/series.py:points_patient), quelle que soit la fiche qui l'a mesurée, mesures du dernier soin, circonstance en clair (L16, P1-70) — t/test_fiche24_l16::test_douleur_reprise_de_la_serie_c22_toutes_fiches ; w/pages/SousFiche.tsx ; mobile/test/lot24_widgets_test ; <strong>v0.2</strong> (fiche du 18/10/2026, audit docs/audit/2026-10-23-fiche24-v02.md) : la reprise est une référence : source, horodatage, auteur, version signée figée ; correction ultérieure signalée au poste fixe (CI-RG-05) — t/test_fiche24_v02::test_correction_ulterieure_de_la_donnee_d_origine_signalee_jamais_substituee</td>
 </tr>
 <tr>
 <td>EX-CI-06</td>
@@ -2429,7 +2477,7 @@ details.sommaire ul{padding-left:20px;margin:8px 0 0}
 <td>P</td>
 <td><strong>Fait</strong></td>
 <td>serveur · web · mobile</td>
-<td>b/fiches/consultation.py:MotifTronc, EvaluationGlobale, Diagnostic, Actions, Resultat ; prescription infirmière citée (faits, phrase du CR, liste au suivi) — t/test_fiche24_suites::test_prescription_infirmiere_citee_par_la_consultation ; m/ mobile20_test</td>
+<td>b/fiches/consultation.py:MotifTronc, EvaluationGlobale, Diagnostic, Actions, Resultat ; prescription infirmière citée (faits, phrase du CR, liste au suivi) — t/test_fiche24_suites::test_prescription_infirmiere_citee_par_la_consultation ; m/ mobile20_test ; <strong>v0.2</strong> (fiche du 18/10/2026, audit docs/audit/2026-10-23-fiche24-v02.md) : diagnostic par code seul, éléments CI-N05 à 08, un à trois objectifs datés aux deux clients ; priorité : ordre de pose (Q-209)</td>
 </tr>
 <tr>
 <td>EX-CI-22</td>
@@ -2437,7 +2485,7 @@ details.sommaire ul{padding-left:20px;margin:8px 0 0}
 <td>T</td>
 <td><strong>Fait</strong></td>
 <td>serveur · web · mobile</td>
-<td>b/fiches/consultation.py:Objectif (atteint, partiellement, non atteint ; NOC et note 1-5 facultatifs, table vide) — t/test_fiche24::test_plafond_par_patient_et_regles_du_volet ; w/pages/SousFiche.tsx ; mobile/test/lot24_widgets_test (sf-etat)</td>
+<td>b/fiches/consultation.py:Objectif (atteint, partiellement, non atteint ; NOC et note 1-5 facultatifs, table vide) — t/test_fiche24::test_plafond_par_patient_et_regles_du_volet ; w/pages/SousFiche.tsx ; mobile/test/lot24_widgets_test (sf-etat) ; <strong>v0.2</strong> (fiche du 18/10/2026, audit docs/audit/2026-10-23-fiche24-v02.md) : évaluation de chaque objectif obligatoire à la révision (CI-R03) ; NOC et note réservés (CI-RG-15) — t/test_fiche24_v02::test_chaque_diagnostic_actif_attend_une_reponse_a_la_consultation_suivante</td>
 </tr>
 <tr>
 <td>EX-CI-07</td>
@@ -2445,7 +2493,7 @@ details.sommaire ul{padding-left:20px;margin:8px 0 0}
 <td>T</td>
 <td><strong>Fait</strong></td>
 <td>serveur · web · mobile</td>
-<td>b/domaines/consultations.py:faits_consultation (sous-fiche, motif et version, obstacles, aucun coefficient) — t/test_fiche24::test_plafond_par_patient_et_regles_du_volet, t/test_fiche24_conformite::test_forme_du_lot_14_tracee_hors_referentiel… ; démo ; <strong>L17</strong> (audit du 16/10, §5.1) : Fait — le texte confie la décision au moteur et ne demande à la fiche que de tracer et transmettre les faits (ou de restituer le retour) : cette part est faite et testée ; la cotation relève du moteur réel (§7)</td>
+<td>b/domaines/consultations.py:faits_consultation (sous-fiche, motif et version, obstacles, aucun coefficient) — t/test_fiche24::test_plafond_par_patient_et_regles_du_volet, t/test_fiche24_conformite::test_forme_du_lot_14_tracee_hors_referentiel… ; démo ; <strong>L17</strong> (audit du 16/10, §5.1) : Fait — le texte confie la décision au moteur et ne demande à la fiche que de tracer et transmettre les faits (ou de restituer le retour) : cette part est faite et testée ; la cotation relève du moteur réel (§7) ; <strong>v0.2</strong> (fiche du 18/10/2026, audit docs/audit/2026-10-23-fiche24-v02.md) : tronc commun non transmis au moteur (fiches/<strong>init</strong>.py non_transmis), aucun fait de diagnostic (CI-RG-01, CI-RG-14)</td>
 </tr>
 <tr>
 <td>EX-CI-08</td>
@@ -2549,7 +2597,7 @@ details.sommaire ul{padding-left:20px;margin:8px 0 0}
 <td>T</td>
 <td><strong>Fait</strong></td>
 <td>serveur · web</td>
-<td>b/domaines/consultations.py:apres_consultation, _prerediger_cr ; relecture et signature b/domaines/bilans.py — t/test_fiche24::test_cia_ouverte_en_role_propre…, ::test_art5ter_duree_ic_48_heures_amx_sous_forfait_sans_majoration ; w/pages/Bilans.tsx</td>
+<td>b/domaines/consultations.py:apres_consultation, _prerediger_cr ; relecture et signature b/domaines/bilans.py — t/test_fiche24::test_cia_ouverte_en_role_propre…, ::test_art5ter_duree_ic_48_heures_amx_sous_forfait_sans_majoration ; w/pages/Bilans.tsx ; <strong>v0.2</strong> (fiche du 18/10/2026, audit docs/audit/2026-10-23-fiche24-v02.md) : le compte rendu dit les diagnostics posés et révisés, jamais les hypothèses écartées (CI-RG-19)</td>
 </tr>
 <tr>
 <td>EX-CI-26</td>
@@ -2637,7 +2685,7 @@ details.sommaire ul{padding-left:20px;margin:8px 0 0}
 <td>T</td>
 <td><strong>Simulé</strong></td>
 <td>serveur · web · mobile</td>
-<td>thème relié (diagnostic, compétence, orientation) et filet par mots, seule la version partagée sort — t/test_fiche24_suites::test_theme_relie_decide_de_ce_qui_sort… ; phrase libre qui nomme autrement un thème gardé (b/domaines/consultations.py:MOTS_SENSIBLES) — t/test_partiel_c2_transverse::test_phrase_libre_qui_nomme_autrement_un_theme_garde ; choix du patient imposé au terminal pour un thème sensible (m/ecrans/fiche_lot24.dart) ; liste de mots provisoire, règle provisoire réglable (b/simulation.py, Paramètres › Simulations)</td>
+<td>thème relié (diagnostic, compétence, orientation) et filet par mots, seule la version partagée sort — t/test_fiche24_suites::test_theme_relie_decide_de_ce_qui_sort… ; phrase libre qui nomme autrement un thème gardé (b/domaines/consultations.py:MOTS_SENSIBLES) — t/test_partiel_c2_transverse::test_phrase_libre_qui_nomme_autrement_un_theme_garde ; choix du patient imposé au terminal pour un thème sensible (m/ecrans/fiche_lot24.dart) ; liste de mots provisoire, règle provisoire réglable (b/simulation.py, Paramètres › Simulations) ; <strong>v0.2</strong> (fiche du 18/10/2026, audit docs/audit/2026-10-23-fiche24-v02.md) : un diagnostic v0.2 se relie à un thème du plan ; gardé au dossier s'il l'est (CR, FHIR)</td>
 </tr>
 <tr>
 <td>EX-CI-37</td>
@@ -2680,12 +2728,68 @@ details.sommaire ul{padding-left:20px;margin:8px 0 0}
 <td>b/referentiels/trame_bilan_prevention.json (trame proposée par tranche), consultations.py:trame_entretien, refus hors trame — t/test_fiche24_suites::test_trame_d_entretien_selon_la_tranche_d_age ; mobile/test/mobile20_test ; à aligner sur Mon Bilan Prévention</td>
 </tr>
 <tr>
+<td>EX-CI-42</td>
+<td>Rang de consultation du suivi régulier IPA dans la période (forfait périodique en cascade)</td>
+<td>T</td>
+<td><strong>Simulé</strong></td>
+<td>serveur · web · mobile</td>
+<td><strong>v0.2</strong> (fiche du 18/10/2026, audit docs/audit/2026-10-23-fiche24-v02.md) : faits rang_periode, periode, palier, obstacle palier_non_remunere (b/domaines/consultations.py:rang_periode, palier_ipa), cotation attendue sans lettre-clé — t/test_fiche24_v02::test_suivi_regulier_ipa_reserve_a_l_ipa_rang_dans_le_semestre ; période semestre civil et paliers proposés (Q-203)</td>
+</tr>
+<tr>
+<td>EX-CI-43 à 55</td>
+<td>Volet IPA (suivi régulier, bilan, consultation IPA)</td>
+<td>P</td>
+<td><strong>Partiel</strong></td>
+<td>serveur · web · mobile</td>
+<td><strong>v0.2</strong> (fiche du 18/10/2026, audit docs/audit/2026-10-23-fiche24-v02.md) : sous-fiches ipa_suivi, ipa_bilan, ipa_consultation réservées à l'IPA de la mention (habilitations.FORMATIONS ipa_*, consultations.exiger_ipa), volet libre en attendant ; EX-CI-47 : cotation attendue (CI-O13) ; contenu du volet absent de la fiche v0.2 et du cahier fourni (v0.3)</td>
+</tr>
+<tr>
+<td>CI-RG-04</td>
+<td>Rôles : séance 5 ter par IDE formé, sous-fiches IPA à l'IPA dans son domaine, AS sans accès</td>
+<td>T</td>
+<td><strong>Fait</strong></td>
+<td>serveur · web · mobile</td>
+<td><strong>v0.2</strong> (fiche du 18/10/2026, audit docs/audit/2026-10-23-fiche24-v02.md) : t/test_fiche24_v02::test_l_aide_soignante_ne_lit_aucun_diagnostic, ::test_suivi_regulier_ipa_reserve_a_l_ipa_rang_dans_le_semestre</td>
+</tr>
+<tr>
+<td>CI-RG-16</td>
+<td>Bilan de plaie lisible depuis l'objet plaie</td>
+<td>T</td>
+<td><strong>Fait</strong></td>
+<td>serveur · web</td>
+<td><strong>v0.2</strong> (fiche du 18/10/2026, audit docs/audit/2026-10-23-fiche24-v02.md) : GET /bilans?objet_suivi_id= ; w/pages/VuePlaie.tsx — t/test_fiche24_v02::test_le_bilan_de_plaie_se_lit_depuis_sa_plaie</td>
+</tr>
+<tr>
+<td>CI-RG-17</td>
+<td>Export HL7 FHIR des diagnostics (Condition, evidence, statuts)</td>
+<td>P</td>
+<td><strong>Simulé</strong></td>
+<td>serveur</td>
+<td><strong>v0.2</strong> (fiche du 18/10/2026, audit docs/audit/2026-10-23-fiche24-v02.md) : b/domaines/diagnostics.py:ressources_fhir ; preuves en texte, correspondance détaillée [P] CI-O10 (Q-205)</td>
+</tr>
+<tr>
+<td>CI-RG-18 à 20</td>
+<td>Hypothèse écartée tracée, motif obligatoire, trace interne, suites proposées</td>
+<td>T</td>
+<td><strong>Fait</strong></td>
+<td>serveur · web · mobile</td>
+<td><strong>v0.2</strong> (fiche du 18/10/2026, audit docs/audit/2026-10-23-fiche24-v02.md) : t/test_fiche24_v02::test_suites_proposees_par_le_motif_d_ecart, ::test_consultation_pose_un_diagnostic_code_source_et_trace_l_hypothese_ecartee</td>
+</tr>
+<tr>
+<td>Alias fiche 24</td>
+<td>Alias de recherche : Consultation, CIA, CIB, bilan, bilan de plaie, prévention, diagnostic, NANDA, IPA, parcours, RAAC, 5 ter</td>
+<td>T</td>
+<td><strong>Fait</strong></td>
+<td>web</td>
+<td><strong>v0.2</strong> (fiche du 18/10/2026, audit docs/audit/2026-10-23-fiche24-v02.md) : palette (w/Cadre.tsx), w/test/Fiche24V02.test.tsx</td>
+</tr>
+<tr>
 <td>EX-CI-15</td>
 <td>J0 = date de sortie d'hospitalisation</td>
 <td>T</td>
 <td><strong>Fait</strong></td>
 <td>serveur · web · mobile</td>
-<td>J0 et protocole écrit déposé, rattaché, exigé (creer_parcours, EX-PAR-05), alertes 7 jours et hebdomadaire — t/test_parcours::test_protocole_ecrit_obligatoire_a_la_creation ; pathologie, durée et stade de la BPCO (II et suivants, Q-63) envoyés à la création au poste fixe (5269052, 1f061b5) — t/test_fiche24::test_art5ter_bpco_stade_ii_et_suivants, w/test/Lot11.test.tsx « création : pathologie, stade et durée… » (recompte ff74608 : le manque était périmé)</td>
+<td>J0 et protocole écrit déposé, rattaché, exigé (creer_parcours, EX-PAR-05), alertes 7 jours et hebdomadaire — t/test_parcours::test_protocole_ecrit_obligatoire_a_la_creation ; pathologie, durée et stade de la BPCO (II et suivants, Q-63) envoyés à la création au poste fixe (5269052, 1f061b5) — t/test_fiche24::test_art5ter_bpco_stade_ii_et_suivants, w/test/Lot11.test.tsx « création : pathologie, stade et durée… » (recompte ff74608 : le manque était périmé) ; <strong>v0.2</strong> (fiche du 18/10/2026, audit docs/audit/2026-10-23-fiche24-v02.md) : séances : temps diagnostic v0.2 contrôlé et projeté (b/domaines/parcours.py:faits_seance)</td>
 </tr>
 <tr>
 <td>EX-CI-16</td>
@@ -3229,7 +3333,7 @@ details.sommaire ul{padding-left:20px;margin:8px 0 0}
 <td>T</td>
 <td><strong>Fait</strong></td>
 <td>serveur · web · mobile</td>
-<td>cinq champs devenus tronc commun (b/fiches/consultation.py:DonneesSousFiche) — t/test_fiche24::test_cia_ouverte_en_role_propre_j0_repris_et_tracee_non_facturante ; w/pages/SousFiche.tsx ; m/fiches_lot24.dart ; cotation par b/cotation/demo.py ; <strong>L17</strong> (audit du 16/10, §5.1) : Fait — le texte confie la décision au moteur et ne demande à la fiche que de tracer et transmettre les faits (ou de restituer le retour) : cette part est faite et testée ; la cotation relève du moteur réel (§7)</td>
+<td>cinq champs devenus tronc commun (b/fiches/consultation.py:DonneesSousFiche) — t/test_fiche24::test_cia_ouverte_en_role_propre_j0_repris_et_tracee_non_facturante ; w/pages/SousFiche.tsx ; m/fiches_lot24.dart ; cotation par b/cotation/demo.py ; <strong>L17</strong> (audit du 16/10, §5.1) : Fait — le texte confie la décision au moteur et ne demande à la fiche que de tracer et transmettre les faits (ou de restituer le retour) : cette part est faite et testée ; la cotation relève du moteur réel (§7) ; <strong>v0.2</strong> (fiche du 18/10/2026, audit docs/audit/2026-10-23-fiche24-v02.md) : temps diagnostic toujours considéré (CI-RG-07), observations (CI-E03), actions facultatives (CI-E06) — t/test_fiche24_v02::test_le_diagnostic_se_choisit_dans_le_referentiel_et_se_fonde</td>
 </tr>
 <tr>
 <td>EX-SC-02</td>
@@ -3237,7 +3341,7 @@ details.sommaire ul{padding-left:20px;margin:8px 0 0}
 <td>T</td>
 <td><strong>Fait</strong></td>
 <td>serveur · web · mobile</td>
-<td>b/fiches/consultation.py:Diagnostic (texte libre, facteurs, objectifs évalués ; NANDA-I sur table vide, D-03) ; b/domaines/fhir.py:demarche_clinique (Condition, Goal, CarePlan liés) — t/test_fiche24_suites::test_diagnostic_objectifs_et_actions_exportes…</td>
+<td>b/fiches/consultation.py:Diagnostic (texte libre, facteurs, objectifs évalués ; NANDA-I sur table vide, D-03) ; b/domaines/fhir.py:demarche_clinique (Condition, Goal, CarePlan liés) — t/test_fiche24_suites::test_diagnostic_objectifs_et_actions_exportes… ; <strong>v0.2</strong> (fiche du 18/10/2026, audit docs/audit/2026-10-23-fiche24-v02.md) : <strong>amendée</strong> — code NANDA-I seul, sans texte libre ; éléments fondateurs et preuves (familles N et R) ; hypothèse écartée tracée ; tables diagnostic_infirmier et evenement_diagnostic (b/domaines/diagnostics.py, migration 0048f24) ; FHIR Condition/evidence/Goal (b/domaines/fhir.py:diagnostics_v02) — t/test_fiche24_v02::test_consultation_pose_un_diagnostic_code_source_et_trace_l_hypothese_ecartee ; w/pages/SousFiche.tsx, w/pages/Diagnostics.tsx ; m/fiches_lot24_v02.dart, m/test/lot24_v02_test ; référentiel de démonstration (licence NANDA-I à acquérir, Q-200)</td>
 </tr>
 <tr>
 <td>EX-SC-03</td>
@@ -5574,6 +5678,30 @@ details.sommaire ul{padding-left:20px;margin:8px 0 0}
 <td><strong>Simulé</strong></td>
 <td>—</td>
 <td>support paramétré au parcours (ParcoursIn.support_fiche_suivi, choisi à la création au poste fixe, « celle de l'établissement » par défaut, choix provisoire — w/pages/ParcoursEncadres.tsx, w/test/Lot11.test.tsx) et choisi à la séance au terminal (fiche_suivi) — t/test_fiche24::test_raac_anomalie… ; décision ouverte ; « generee » ne produit aucun document</td>
+</tr>
+<tr>
+<td>D-18/10-a</td>
+<td>Diagnostic NANDA-I posé dans la consultation (fiche 24) et nulle part ailleurs</td>
+<td>D</td>
+<td><strong>Fait</strong></td>
+<td>—</td>
+<td>décision du 18/10/2026 (fiche 24 v0.2, CI-RG-06) ; transmissions ciblées à cible libre, preuve possible d'un élément</td>
+</tr>
+<tr>
+<td>D-18/10-b</td>
+<td>Code NANDA-I seul, sans texte libre ; EX-SC-02 amendé</td>
+<td>D</td>
+<td><strong>Fait</strong></td>
+<td>—</td>
+<td>décision du 18/10/2026 (CI-RG-08) ; la forme v0.1 reste lue pour les actes signés</td>
+</tr>
+<tr>
+<td>D-18/10-c</td>
+<td>Hypothèse écartée tracée avec son motif, trace interne</td>
+<td>D</td>
+<td><strong>Fait</strong></td>
+<td>—</td>
+<td>décision du 18/10/2026 (CI-RG-18 à 20)</td>
 </tr>
 <tr>
 <td><strong>Annexe A Ségur</strong></td>
@@ -8537,6 +8665,111 @@ details.sommaire ul{padding-left:20px;margin:8px 0 0}
 <td>Audit sécurité F-02, F-09</td>
 <td>25 Mo par requête (160 Mo pour une file /sync), deux flux d'événements par session</td>
 <td>Valeurs à confirmer avec l'hébergeur (proxy <code>client_max_body_size</code>)</td>
+</tr>
+<tr>
+<td><strong>Fiche 24 v0.2 (18/10/2026)</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Q-200</td>
+<td>Licence NANDA-I</td>
+<td>CI-O3, D-03, EX-SC-02</td>
+<td>b/referentiels/diagnostics_infirmiers.json demo-2026.10-2 : quatre diagnostics (00303, 00306, 00085, 00148), listes abrégées, « référentiel de démonstration, licence NANDA-I à acquérir »</td>
+<td>Licence du référentiel français, actualisation par édition, usage futur pour une aide</td>
+</tr>
+<tr>
+<td>Q-201</td>
+<td>Trier la liste des diagnostics selon les signes cochés</td>
+<td>CI-O4, CI-RG-13</td>
+<td>Aucun tri : recherche par libellé, code, domaine, classe, ordre alphabétique</td>
+<td>Aide à la documentation ou dispositif médical (MDR, règle 11) ?</td>
+</tr>
+<tr>
+<td>Q-202</td>
+<td>Facteurs reliés obligatoires</td>
+<td>CI-O9, CI-N06</td>
+<td>regles.facteurs_relies_obligatoires = false au référentiel (proposés, non exigés)</td>
+<td>Les exiger pour un diagnostic focalisé sur un problème ?</td>
+</tr>
+<tr>
+<td>Q-203</td>
+<td>Suivi régulier IPA : période, paliers, date d'effet, volet</td>
+<td>EX-CI-42 à 55, CI-O13</td>
+<td>motifs ipa_* : semestre civil, paliers « première », « suivante », « non rémunérée, tracée » ; sans date d'effet (tracées non facturantes) ; volet libre</td>
+<td>Période, paliers, date d'effet, contenu du volet (v0.3)</td>
+</tr>
+<tr>
+<td>Q-204</td>
+<td>Liste des motifs d'écart</td>
+<td>CI-O12, CI-N14</td>
+<td>Les cinq de la fiche, au référentiel</td>
+<td>Distinguer « hors rôle propre » de « relève du rôle médical » ?</td>
+</tr>
+<tr>
+<td>Q-205</td>
+<td>Correspondance FHIR détaillée</td>
+<td>CI-O10, CI-RG-17</td>
+<td>Condition (code et version, statuts clinique et de vérification), evidence en texte, Goal</td>
+<td>Système de codage, catégorie, preuves par référence</td>
+</tr>
+<tr>
+<td>Q-206</td>
+<td>Diagnostics actifs affichés dans les autres fiches</td>
+<td>CI-O5</td>
+<td>Non affichés</td>
+<td>Bandeau discret ?</td>
+</tr>
+<tr>
+<td>Q-207</td>
+<td>Information du patient et réutilisation des données de diagnostic</td>
+<td>CI-O6</td>
+<td>Mentions actuelles</td>
+<td>Mentions CNIL et HDS dès la V2</td>
+</tr>
+<tr>
+<td>Q-208</td>
+<td>Types de bilans et archétype de chacun</td>
+<td>CI-O7</td>
+<td>Inchangés (v0.1)</td>
+<td>Archétypes</td>
+</tr>
+<tr>
+<td>Q-209</td>
+<td>Priorité entre plusieurs diagnostics actifs</td>
+<td>CI-O8</td>
+<td>Ordre de pose</td>
+<td>Une priorité saisie ?</td>
+</tr>
+<tr>
+<td>Q-210</td>
+<td>Antécédents : texte libre en surface ou code</td>
+<td>CI-O14, EX-DS-09</td>
+<td>Inchangé (texte et code dessous)</td>
+<td>Coder aussi les antécédents ?</td>
+</tr>
+<tr>
+<td>Q-211</td>
+<td>Motifs cliniques et champs de leurs volets</td>
+<td>CI-E01, CI-RG-03</td>
+<td>« Prévention des chutes », volet « chutes » à trois champs de démonstration</td>
+<td>Liste des motifs, champs de chaque volet</td>
+</tr>
+<tr>
+<td>Q-212</td>
+<td>Compteurs proposés du tableau de bord</td>
+<td>§7 [P]</td>
+<td>Hypothèses écartées par motif, part des diagnostics sourcés, marqués « proposés »</td>
+<td>Les garder ?</td>
+</tr>
+<tr>
+<td>Q-213</td>
+<td>Une consultation qui sert deux sous-fiches au même passage</td>
+<td>§2.2</td>
+<td>Une sous-fiche par acte signé</td>
+<td>Deux réponses dans une même signature ?</td>
 </tr>
 </tbody>
 </table></div>
