@@ -1,43 +1,46 @@
 WEBVTT
 
-00:00:04.723 --> 00:00:08.027
+00:00:04.726 --> 00:00:08.040
 Cinq étapes, du soin signé au retour de l’Assurance maladie. D’abord, la file de contrôle.
 
-00:00:08.030 --> 00:00:10.557
-La file est regroupée par patient. Claire filtre ce qui reste à arbitrer.
+00:00:08.042 --> 00:00:11.853
+La file de contrôle s’ouvre en mode focus : un cas à la fois, le plus urgent d’abord.
 
-00:00:10.567 --> 00:00:18.086
-Cette cotation diverge entre la signature et le moteur : « Pourquoi ? » l’explique, règle de la NGAP à l’appui.
+00:00:11.855 --> 00:00:16.733
+La cotation signée diffère du moteur : les champs sont comparés un à un, la règle NGAP est citée.
 
-00:00:18.089 --> 00:00:30.868
-Claire arbitre : elle confirme la cotation du moteur, avec un motif tracé au journal.
+00:00:16.735 --> 00:00:23.254
+Décision au clavier : 1 retient la cotation du moteur, puis un motif tracé au journal.
 
-00:00:30.871 --> 00:00:37.015
+00:00:23.256 --> 00:00:26.779
+Entrée valide : le cas est traité, le suivant s’affiche.
+
+00:00:26.782 --> 00:00:32.878
 Étape 2, « Facturer » : les actes confirmés, regroupés par patient. Une feuille de soins par groupe.
 
-00:00:37.017 --> 00:00:40.959
+00:00:32.882 --> 00:00:35.901
 Claire crée la feuille de soins électronique de Mme Lefèvre.
 
-00:00:40.962 --> 00:00:46.383
+00:00:35.904 --> 00:00:42.178
 Avant de créer, un récapitulatif : patient, actes retenus, montant, et ce qui suit.
 
-00:00:46.386 --> 00:00:49.690
+00:00:42.179 --> 00:00:45.486
 Chaque ligne cite l’acte signé, son empreinte et sa règle. Reste à la sécuriser.
 
-00:00:49.694 --> 00:00:57.765
+00:00:45.488 --> 00:00:53.302
 Sécuriser : carte Vitale du patient et carte CPS de l’infirmière, toutes deux simulées ici.
 
-00:00:57.768 --> 00:01:03.002
+00:00:53.304 --> 00:00:58.505
 Sécurisée, signature vérifiée. « Ajouter au lot du jour » la mène au lot.
 
-00:01:03.005 --> 00:01:06.456
+00:00:58.506 --> 00:01:01.898
 « Vérifier puis télétransmettre » : un contrôle de cohérence complet avant tout envoi.
 
-00:01:06.464 --> 00:01:14.089
+00:01:01.899 --> 00:01:09.517
 Empreintes, prescriptions, fréquences, saisies différées, journal : rien ne bloque. Le lot part.
 
-00:01:14.091 --> 00:01:17.092
+00:01:09.520 --> 00:01:12.526
 Lot télétransmis, accusé de réception reçu (simulé : rien ne quitte la démonstration).
 
-00:01:17.094 --> 00:01:23.719
+00:01:12.528 --> 00:01:19.156
 Étape 5, les retours : chaque rejet dit sa cause et ce qu’il faut faire pour refacturer.
