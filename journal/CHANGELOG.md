@@ -25,26 +25,61 @@ Les 4 éléments bloqués attendent un tiers : un hébergeur certifié HDS, un 
 
 *en cours au 26 octobre 2026* — Ces chantiers avancent en parallèle. Ils rejoindront le journal, avec leur numéro de version, une fois fusionnés et vérifiés.
 
-### Intégrations
+### Cotation NGAP (démonstration)
 
-- Droits de l'assuré (ADRi) : le contrat d'échange est remis en conformité. L'interrogation reste simulée jusqu'à l'agrément.
-- Annuaire Santé, version 2 : retrouver un prescripteur ou un destinataire dans l'annuaire national des professionnels.
-- Base de données publique des médicaments (BDPM) : noms, formes et présentations issus de la base officielle.
-- Export complet du cabinet en FHIR et en CSV, pour emporter toutes ses données à tout moment.
+- Règles complémentaires : non-cumuls de l'article 6, séance hebdomadaire de l'insulino-traité, dialyse plafonnée, pansements lourds manquants et TPN, perfusion (forfait d'organisation, changement de flacon), mucoviscidose, actes à distance (TLS, TLD, TLL, TMI, RQD).
+- Banc de cotation enrichi de nouveaux cas vérifiés sur le texte en vigueur.
 
-### Reprise des dossiers
+### Zones et adresses
 
-- Reprendre les dossiers tenus dans un autre logiciel, avec un aperçu avant de valider la reprise.
+- Unités urbaines complètes pour les indemnités kilométriques ; zones de montagne.
+- Saisie d'adresse avec suggestions, servie par le cabinet : aucune adresse de patient ne part vers un service public.
 
-### Poste fixe
+### Facturation
 
-- **Poste fixe ·** Carte, météo et indicateurs plus lisibles.
+- Garde BSI : forfait, AMX et IFI ne sont proposés que si un BSI déposé couvre la date.
+- Couverture complémentaire détaillée (n° d'adhérent, contrat, fin de droits), SESAM sans Vitale, accusé de réception distinct du remboursement, NIR fictifs refusés.
+
+### Organisation du cabinet
+
+- **Poste fixe ·** Lieu du passage planifié, jours de fermeture du cabinet et pauses, créneau libre proposé, invitation d'un membre, puce « BSI requis » sur la carte de passage.
 
 ### Terminal
 
-- **Terminal ·** Carte, météo et indicateurs plus lisibles.
-- **Terminal ·** Fiches longues découpées en étapes.
-- **Terminal ·** Saisie d'un code d'accès.
+- **Terminal ·** Réordonner sa tournée hors connexion, modifier les coordonnées d'un patient, puce « BSI requis », derniers patients ouverts.
+
+## [0.16] — 26 octobre 2026 — Lisible d'un coup d'œil, et le jour qui vient
+
+Les indicateurs deviennent des questions simples, la météo dit ce qu'elle change pour la tournée, la carte se lit sans légende. Reprise des dossiers et intégrations nationales.
+
+### Nouveau
+
+- **Poste fixe ·** « Le jour à Nantes » : la météo matin, midi et soir de la commune du cabinet, puis ce qu'elle change (« prévoir 30 min de marge sur la tournée Centre », « 12 patients fragiles à hydrater »).
+- **Terminal ·** Bandeau du jour sur la carte : vigilance, pluie et marge à prévoir, férié, vacances, le temps en quatre heures. Calculé au départ du cabinet, jamais au domicile d'un patient.
+- **Terminal ·** « Vous êtes ici » estimé d'après la tournée, sans GPS ; heure fixe épinglée sur la carte ; légende « Lire la carte ».
+- **Terminal ·** Accès au domicile : l'infirmier note digicode, interphone, étage et clés, hors connexion ; le code reste masqué par défaut.
+- Reprise des dossiers tenus dans un autre logiciel : modèles CSV, assistant avec aperçu avant de valider, lettre type au patient, jeu d'exemple.
+- Annuaire Santé v2 pour retrouver un prescripteur ; noms des médicaments issus de la base publique (BDPM) ; export complet du cabinet en FHIR et en CSV.
+
+### Amélioré
+
+- **Poste fixe ·** Aujourd'hui : quatre questions (ce qui attend une décision, ce qui reste à faire, les plaies à surveiller, les cotations à contrôler), chacune un chiffre, une phrase et une action.
+- **Poste fixe ·** Tableau de bord : de 5 500 px de chiffres à trois questions ; le détail est replié.
+- **Poste fixe ·** Facturation : « Ce qui bloque la facturation » en une phrase ; le circuit n'est plus coupé sur mobile.
+- **Poste fixe ·** Carte des tournées dessinée sur le poste, sans service extérieur : arrêts groupés, état en forme et en mot, retard affiché là où il apparaît.
+- **Terminal ·** Fin de journée et « Moi » : « Ce qu'il me reste », « Ce qui est en attente d'envoi ».
+- **Terminal ·** Fiches longues en étapes : paramètres vitaux en six étapes, un médicament par étape.
+
+### Sécurité et conformité
+
+- Droits de l'assuré (ADRi) conformes au contrat d'échange (date et rang de naissance) ; l'interrogation reste simulée jusqu'à l'agrément.
+- Aucune carte ni météo n'interroge un tiers à la position d'un domicile.
+- L'aide-soignante ne voit aucune cotation dans les nouveaux écrans.
+
+### Démo et documentation
+
+- Tests rendus indépendants de la date et du changement d'heure : la suite se rejoue à n'importe quel jour.
+- Galerie design : passes « Poste lisible » et « Terminal lisible », avant et après, jour et nuit.
 
 ## [0.15] — 23 octobre 2026 — Bilans et consultation : la fiche du 18 octobre
 
