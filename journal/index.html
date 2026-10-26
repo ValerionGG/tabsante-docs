@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Journal des versions</title>
+<meta name="description" content="Journal des versions de TabSanté V2, la plateforme des infirmières libérales à domicile : ce qui change, version par version.">
+<style>
+:root {
+  --bg: #F4F6FA; --surface: #FFFFFF; --surface-2: #EEF2FB; --fg: #141A2E; --fg-2: #4A5372; --ligne: #DDE3EF;
+  --accent: #2F5BEA; --accent-fg: #FFFFFF; --accent-doux: #E6ECFD;
+  --vert: #127A52; --vert-fond: #E3F5EC; --ambre: #8A5A00; --ambre-fond: #FFF4DC;
+  --violet: #5B3CC4; --violet-fond: #EEEAFC; --gris-fond: #EEF1F6;
+  --s-fait: #2F5BEA; --s-simule: #9DB2F5; --s-partiel: #E0A526; --s-bloque: #C2410C;
+  --ombre: 0 1px 2px rgba(20,26,46,.06), 0 8px 24px rgba(20,26,46,.06);
+  --police: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --rayon: 14px;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0E1220; --surface: #151A2B; --surface-2: #1C2338; --fg: #E8ECF7; --fg-2: #A3ACC6; --ligne: #2A3250;
+  --accent: #7C9BFF; --accent-fg: #0E1220; --accent-doux: #1E2950;
+  --vert: #5FD3A0; --vert-fond: #12301F; --ambre: #F2C25B; --ambre-fond: #33290F;
+  --violet: #B5A3FF; --violet-fond: #261F45; --gris-fond: #1C2338;
+  --s-fait: #7C9BFF; --s-simule: #3F4F86; --s-partiel: #F2C25B; --s-bloque: #F08A5D;
+  --ombre: 0 1px 2px rgba(0,0,0,.4); color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #0E1220; --surface: #151A2B; --surface-2: #1C2338; --fg: #E8ECF7; --fg-2: #A3ACC6; --ligne: #2A3250;
+  --accent: #7C9BFF; --accent-fg: #0E1220; --accent-doux: #1E2950;
+  --vert: #5FD3A0; --vert-fond: #12301F; --ambre: #F2C25B; --ambre-fond: #33290F;
+  --violet: #B5A3FF; --violet-fond: #261F45; --gris-fond: #1C2338;
+  --s-fait: #7C9BFF; --s-simule: #3F4F86; --s-partiel: #F2C25B; --s-bloque: #F08A5D;
+  --ombre: 0 1px 2px rgba(0,0,0,.4); color-scheme: dark }
+
+* { box-sizing: border-box }
+html { scroll-padding-top: 84px }
+body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--police); font-size: 15.5px; line-height: 1.6;
+  -webkit-font-smoothing: antialiased; overflow-wrap: break-word }
+a { color: var(--accent) }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap }
+
+.entete { position: sticky; top: 0; z-index: 5; background: var(--surface); border-bottom: 1px solid var(--ligne) }
+.entete-in { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; max-width: 1240px; margin: 0 auto; padding: 10px 16px }
+.marque { display: flex; align-items: center; gap: 10px; font-weight: 700; color: var(--fg); text-decoration: none; white-space: nowrap }
+.logo { width: 30px; height: 30px; border-radius: 8px; background: var(--accent); color: var(--accent-fg); display: grid; place-items: center; font-size: 17px }
+.marque small { display: block; font-weight: 500; font-size: 12px; color: var(--fg-2); line-height: 1.2 }
+.liens { display: flex; gap: 2px; flex-wrap: wrap; font-size: 14px }
+.liens a { text-decoration: none; color: var(--fg-2); padding: 6px 10px; border-radius: 8px; font-weight: 500 }
+.liens a:hover { background: var(--surface-2); color: var(--fg) }
+.avis { margin-left: auto; text-decoration: none; font-size: 14px; font-weight: 600; color: var(--accent-fg); background: var(--accent);
+  padding: 8px 14px; border-radius: 999px; white-space: nowrap }
+.avis:hover { filter: brightness(1.08) }
+
+.cadre { display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 32px; max-width: 1240px; margin: 0 auto; padding: 20px 16px 64px }
+.cote { position: sticky; top: 76px; align-self: start; max-height: calc(100vh - 96px); overflow: auto }
+.recherche { position: relative; margin-bottom: 14px }
+.recherche svg { position: absolute; left: 12px; top: 12px; width: 16px; height: 16px; color: var(--fg-2) }
+.recherche input { width: 100%; height: 40px; border: 1px solid var(--ligne); background: var(--surface); color: var(--fg); border-radius: 999px;
+  padding: 0 14px 0 36px; font: inherit; font-size: 14px }
+.recherche input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-doux) }
+#etat-recherche { font-size: 13px; color: var(--fg-2); min-height: 1.4em; margin: -6px 4px 8px }
+details.sommaire summary { cursor: pointer; font-weight: 600; font-size: 14px; padding: 10px 14px; background: var(--surface);
+  border: 1px solid var(--ligne); border-radius: 12px; list-style: none }
+details.sommaire summary::-webkit-details-marker { display: none }
+details.sommaire summary::after { content: "▾"; float: right; color: var(--fg-2) }
+details.sommaire[open] summary::after { content: "▴" }
+.sommaire ol { list-style: none; margin: 8px 0 0; padding: 0 }
+.sommaire a { display: grid; grid-template-columns: 44px 1fr; gap: 6px; padding: 6px 10px; border-radius: 8px; color: var(--fg); text-decoration: none; font-size: 13.5px; line-height: 1.35 }
+.sommaire a b { font-variant-numeric: tabular-nums; color: var(--fg-2); font-weight: 600 }
+.sommaire a:hover { background: var(--surface-2) }
+.sommaire a[aria-current="true"] { background: var(--accent-doux); color: var(--accent) }
+.sommaire a[aria-current="true"] b { color: var(--accent) }
+.sommaire li.masque a { opacity: .35 }
+.sommaire .avenir a b { color: var(--ambre) }
+
+main { min-width: 0; display: grid; gap: 20px }
+.carte { background: var(--surface); border: 1px solid var(--ligne); border-radius: var(--rayon); padding: clamp(18px, 3.2vw, 32px); box-shadow: var(--ombre) }
+h1 { font-size: clamp(28px, 3.4vw, 38px); line-height: 1.15; letter-spacing: -.02em; margin: 0 0 8px; text-wrap: balance }
+.chapeau { font-size: 17px; color: var(--fg-2); margin: 0; max-width: 68ch }
+.maj { font-size: 13px; color: var(--fg-2); margin-top: 10px }
+
+.etat h2 { font-size: 20px; margin: 0 0 4px; letter-spacing: -.01em }
+.etat .sous { color: var(--fg-2); margin: 0 0 18px }
+.chiffre { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 10px }
+.chiffre strong { font-size: 40px; line-height: 1; letter-spacing: -.02em; font-variant-numeric: tabular-nums }
+.chiffre span { color: var(--fg-2) }
+.barre { display: flex; height: 12px; border-radius: 999px; overflow: hidden; background: var(--surface-2); gap: 2px }
+.seg-fait { background: var(--s-fait) } .seg-simule { background: var(--s-simule) }
+.seg-partiel { background: var(--s-partiel) } .seg-bloque { background: var(--s-bloque) }
+.legende { list-style: none; padding: 0; margin: 10px 0 22px; display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 14px; color: var(--fg-2) }
+.legende b { color: var(--fg); font-variant-numeric: tabular-nums }
+.pt { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: -1px }
+.etat h3 { font-size: 15px; margin: 0 0 10px }
+.pourquois { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px }
+.pourquoi { background: var(--surface-2); border-radius: 12px; padding: 14px 16px }
+.pourquoi b { display: block; font-size: 14.5px; margin-bottom: 2px }
+.pourquoi p { margin: 0; font-size: 14px; color: var(--fg-2) }
+.note { margin: 14px 0 0; font-size: 14px; color: var(--fg-2) }
+.honnete { margin: 16px 0 0; padding: 12px 14px; border-radius: 12px; background: var(--ambre-fond); color: var(--fg); font-size: 14px }
+.honnete b { color: var(--ambre) }
+.boutons { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px }
+.boutons a { text-decoration: none; font-size: 14px; font-weight: 600; padding: 8px 14px; border-radius: 999px; border: 1px solid var(--ligne); color: var(--fg); background: var(--surface) }
+.boutons a:hover { border-color: var(--accent); color: var(--accent) }
+.boutons a.plein { background: var(--accent); border-color: var(--accent); color: var(--accent-fg) }
+
+.version h2 { font-size: 22px; line-height: 1.25; letter-spacing: -.01em; margin: 8px 0 4px; text-wrap: balance }
+.v-tete { display: flex; align-items: center; gap: 12px; flex-wrap: wrap }
+.v-num { font-weight: 700; font-size: 14px; font-variant-numeric: tabular-nums; background: var(--accent-doux); color: var(--accent); padding: 2px 10px; border-radius: 999px }
+.v-tete time { font-size: 14px; color: var(--fg-2) }
+.v-resume { color: var(--fg-2); margin: 0 0 6px; max-width: 72ch }
+.version.avenir { border-style: dashed; border-width: 1.5px; border-color: var(--s-partiel); box-shadow: none }
+.version.avenir .v-num { background: var(--ambre-fond); color: var(--ambre) }
+.rub { margin-top: 16px }
+.rub h3 { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; margin: 0 0 4px; color: var(--fg-2) }
+.rub h3::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: currentColor }
+.rub-nouveau h3 { color: var(--accent) } .rub-ameliore h3 { color: var(--vert) } .rub-corrige h3 { color: var(--ambre) }
+.rub-securite h3 { color: var(--violet) } .rub-demo h3 { color: var(--fg-2) } .rub-encours h3 { color: var(--ambre) }
+.rub ul { margin: 0; padding-left: 20px }
+.rub li { margin: 5px 0; max-width: 78ch }
+.rub li::marker { color: var(--fg-2) }
+.tag { display: inline-block; font-size: 11.5px; font-weight: 600; line-height: 1.5; padding: 0 7px; border-radius: 6px; vertical-align: 1px; white-space: nowrap }
+.tag-t { background: var(--vert-fond); color: var(--vert) }
+.tag-p { background: var(--accent-doux); color: var(--accent) }
+.tag-tp { background: var(--violet-fond); color: var(--violet) }
+.masque { display: none !important }
+.methode h2 { font-size: 20px; margin: 0 0 8px }
+.methode ul { margin: 0; padding-left: 20px } .methode li { margin: 6px 0; max-width: 78ch }
+footer { max-width: 1240px; margin: 0 auto; padding: 0 16px 40px; font-size: 13px; color: var(--fg-2) }
+
+@media (min-width: 1024px) { details.sommaire summary { display: none } .sommaire ol::before { content: "Versions"; display: block; font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--fg-2); padding: 0 10px 4px } }
+#etat-recherche:empty { display: none }
+body.cherche .etat, body.cherche .methode { display: none }
+.haut { max-width: 1240px; margin: 0 auto; padding: 28px 16px 0 }
+@media (max-width: 1023px) {
+  .cadre { grid-template-columns: minmax(0, 1fr); gap: 16px; padding-top: 16px }
+  .cote { position: static; max-height: none; overflow: visible }
+}
+@media (max-width: 640px) {
+  .entete-in { padding: 8px 16px; gap: 6px 10px }
+  .liens { order: 3; width: 100%; flex-wrap: nowrap; overflow-x: auto; margin: 0 -6px; scrollbar-width: none }
+  .liens a { padding: 4px 8px; white-space: nowrap }
+  .avis { padding: 6px 12px; font-size: 13px }
+  html { scroll-padding-top: 110px }
+  .pourquois { grid-template-columns: minmax(0, 1fr) }
+  .chiffre strong { font-size: 34px }
+}
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth } }
+@media print { .entete, .cote { display: none } .cadre { display: block } .carte { box-shadow: none; break-inside: avoid-page } }
+</style>
+</head>
+<body>
+<header class="entete">
+  <div class="entete-in">
+    <a class="marque" href="https://valeriongg.github.io/tabsante-docs/"><span class="logo" aria-hidden="true">T</span><span>TabSanté<small>Journal des versions</small></span></a>
+    <nav class="liens" aria-label="Liens TabSanté"><a href="https://valeriongg.github.io/tabsante-docs/">Portail</a><a href="https://valeriongg.github.io/tabsante-docs/demo/">Démo</a><a href="https://valeriongg.github.io/tabsante-docs/videos/">Vidéos</a><a href="https://valeriongg.github.io/tabsante-docs/design/">Design</a><a href="https://valeriongg.github.io/tabsante-docs/questions/">Questions</a></nav>
+    <a class="avis" href="https://github.com/ValerionGG/tabsante-docs/issues/new?template=retour.yml&amp;application=Journal&amp;title=%5BRetour%5D%20Journal" target="_blank" rel="noopener">Donner mon avis</a>
+  </div>
+</header>
+
+<div class="haut">
+<section class="carte">
+      <h1>Journal des versions</h1>
+      <p class="chapeau">Ce qui change dans TabSanté, la plateforme des infirmières libérales à domicile, version par version : au poste fixe du cabinet, sur le terminal de tournée et dans la démo.</p>
+      <p class="maj">Mis à jour le 26 octobre 2026 · dernière version publiée <a href="#v0-15">0.15</a> du 23 octobre 2026.</p>
+    </section>
+</div>
+
+<div class="cadre">
+  <aside class="cote">
+    <div class="recherche" role="search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <label class="sr" for="q">Rechercher dans le journal</label>
+      <input id="q" type="search" placeholder="Rechercher (touche /)" autocomplete="off">
+    </div>
+    <p id="etat-recherche" aria-live="polite"></p>
+    <details class="sommaire" id="sommaire">
+      <summary>Sommaire des versions</summary>
+      <nav aria-label="Sommaire des versions"><ol>
+        <li class="avenir"><a href="#a-venir"><b>…</b><span>À venir — en cours</span></a></li>
+        <li><a href="#v0-15"><b>0.15</b><span>Bilans et consultation : la fiche du 18 octobre</span></a></li><li><a href="#v0-14"><b>0.14</b><span>Les directions de design retenues</span></a></li><li><a href="#v0-13"><b>0.13</b><span>Nouveau design et finitions pour les testeurs</span></a></li><li><a href="#v0-12"><b>0.12</b><span>La démo en ligne</span></a></li><li><a href="#v0-11"><b>0.11</b><span>Facturation refondue, terminal retravaillé, propositions de terrain</span></a></li><li><a href="#v0-10"><b>0.10</b><span>Connexion unifiée, finitions et aide sur chaque écran</span></a></li><li><a href="#v0-9"><b>0.9</b><span>Les lots de correction d'octobre</span></a></li><li><a href="#v0-8"><b>0.8</b><span>La facturation et la NGAP</span></a></li><li><a href="#v0-7"><b>0.7</b><span>Tournée, planning et confort au quotidien</span></a></li><li><a href="#v0-6"><b>0.6</b><span>Échanges de santé en démonstration, tournée sur la carte</span></a></li><li><a href="#v0-5"><b>0.5</b><span>Bilans et consultations, avenant 11</span></a></li><li><a href="#v0-4"><b>0.4</b><span>Soins techniques, partage et exploitation</span></a></li><li><a href="#v0-3"><b>0.3</b><span>Dossier patient, cabinet et coordination</span></a></li><li><a href="#v0-2"><b>0.2</b><span>Les premières fiches de soin, la charte « Clinique premium »</span></a></li><li><a href="#v0-1"><b>0.1</b><span>Le socle et les pansements</span></a></li>
+        <li><a href="#methode"><b>?</b><span>Comment ce journal est construit</span></a></li>
+      </ol></nav>
+    </details>
+  </aside>
+
+  <main>
+
+
+    <section class="carte etat" aria-labelledby="etat-titre">
+      <h2 id="etat-titre">Où en est TabSanté</h2>
+      <p class="sous">Couverture du cahier des charges, recomptée élément par élément.</p>
+      <div class="chiffre"><strong>418</strong><span>éléments faits et testés sur 571 (73 %)</span></div>
+      <div class="barre" role="img" aria-label="418 faits, 139 simulés, 10 partiels, 4 bloqués sur 571"><span class="seg seg-fait" style="width:73.2%" title="Faits : 418"></span><span class="seg seg-simule" style="width:24.3%" title="Simulés : 139"></span><span class="seg seg-partiel" style="width:1.8%" title="Partiels : 10"></span><span class="seg seg-bloque" style="width:0.7%" title="Bloqués : 4"></span></div>
+      <ul class="legende"><li><i class="pt seg-fait"></i><b>418</b> faits et testés</li><li><i class="pt seg-simule"></i><b>139</b> simulés</li><li><i class="pt seg-partiel"></i><b>10</b> partiels</li><li><i class="pt seg-bloque"></i><b>4</b> bloqués</li></ul>
+      <h3>Ce qui est simulé, et pourquoi</h3>
+      <div class="pourquois"><div class="pourquoi"><b>Agréments SESAM-Vitale et CNDA</b><p>La lecture des cartes CPS et Vitale, les feuilles de soins électroniques et la télétransmission fonctionnent de bout en bout, mais avec un composant de démonstration. Rien n'est transmis à l'Assurance maladie tant que l'agrément n'est pas obtenu.</p></div><div class="pourquoi"><b>Cotation NGAP</b><p>Le moteur de cotation est une démonstration, alignée sur le texte de la NGAP en vigueur et vérifiée sur des cas officiels. Il explique chaque ligne mais ne doit jamais servir à facturer.</p></div><div class="pourquoi"><b>Hébergement HDS</b><p>Les données de santé devront être hébergées chez un hébergeur certifié HDS. Le dossier est préparé ; d'ici là, TabSanté ne contient que des personnes fictives.</p></div><div class="pourquoi"><b>Raccordements nationaux</b><p>INSi, DMP, messagerie sécurisée MSSanté, Pro Santé Connect et ordonnance numérique sont joués par des doublures fidèles, en attendant les conventions et les accès de production.</p></div></div>
+      <p class="note">Les 4 éléments bloqués attendent un tiers : un hébergeur certifié HDS, un délégué à la protection des données, un essai d'autonomie de 10 heures sur le téléphone cible et une décision de phasage.</p>
+      <p class="honnete"><b>À savoir.</b> La cotation affichée est une démonstration et la télétransmission est simulée. TabSanté ne contient aucune donnée réelle : tous les patients et soignants sont fictifs. Aucune date d’agrément n’est annoncée.</p>
+      <div class="boutons">
+        <a class="plein" href="https://valeriongg.github.io/tabsante-docs/demo/">Essayer la démo</a>
+        <a href="https://valeriongg.github.io/tabsante-docs/videos/">Vidéos</a>
+        <a href="https://valeriongg.github.io/tabsante-docs/design/">Design</a>
+        <a href="https://valeriongg.github.io/tabsante-docs/questions/">Questions</a>
+        <a href="https://valeriongg.github.io/tabsante-docs/">Portail</a>
+      </div>
+    </section>
+
+    <article class="version carte avenir" id="a-venir" data-titre="À venir en cours">
+      <header class="v-tete"><span class="v-num">À venir</span><time>en cours au 26 octobre 2026</time></header>
+      <h2>À venir — en cours</h2>
+      <p class="v-resume">Ces chantiers avancent en parallèle. Ils rejoindront le journal, avec leur numéro de version, une fois fusionnés et vérifiés.</p>
+      <section class="rub rub-encours"><h3>Intégrations</h3><ul><li>Droits de l'assuré (ADRi) : le contrat d'échange est remis en conformité. L'interrogation reste simulée jusqu'à l'agrément.</li><li>Annuaire Santé, version 2 : retrouver un prescripteur ou un destinataire dans l'annuaire national des professionnels.</li><li>Base de données publique des médicaments (BDPM) : noms, formes et présentations issus de la base officielle.</li><li>Export complet du cabinet en FHIR et en CSV, pour emporter toutes ses données à tout moment.</li></ul></section><section class="rub rub-encours"><h3>Reprise des dossiers</h3><ul><li>Reprendre les dossiers tenus dans un autre logiciel, avec un aperçu avant de valider la reprise.</li></ul></section><section class="rub rub-encours"><h3>Poste fixe</h3><ul><li><span class="tag tag-p">Poste fixe</span> Carte, météo et indicateurs plus lisibles.</li></ul></section><section class="rub rub-encours"><h3>Terminal</h3><ul><li><span class="tag tag-t">Terminal</span> Carte, météo et indicateurs plus lisibles.</li><li><span class="tag tag-t">Terminal</span> Fiches longues découpées en étapes.</li><li><span class="tag tag-t">Terminal</span> Saisie d'un code d'accès.</li></ul></section>
+    </article>
+    
+<article class="version carte" id="v0-15" data-titre="0.15 Bilans et consultation : la fiche du 18 octobre">
+  <header class="v-tete">
+    <span class="v-num">0.15</span>
+    <time>23 octobre 2026</time>
+  </header>
+  <h2>Bilans et consultation : la fiche du 18 octobre</h2>
+  <p class="v-resume">La fiche Bilans/Consultation suit sa nouvelle version : diagnostic infirmier codé et sourcé, hypothèse écartée tracée, révisions suivies, volet IPA.</p>
+  <section class="rub rub-nouveau"><h3>Nouveau</h3><ul><li>Le diagnostic infirmier se choisit par son code dans le référentiel NANDA-I (de démonstration), jamais en texte libre ; chaque élément qui le fonde se coche avec sa preuve.</li><li>L'hypothèse écartée se trace avec son motif. Elle reste interne au cabinet et revient à la consultation suivante.</li><li><span class="tag tag-p">Poste fixe</span> Nouvelle vue « Diagnostics infirmiers » ; les révisions échues remontent au tableau de bord.</li><li>Sous-fiches réservées à l'infirmier en pratique avancée (IPA), avec le rang de la consultation dans le semestre.</li><li>Motif clinique « Prévention des chutes » (démonstration) et son volet paramétré.</li></ul></section><section class="rub rub-ameliore"><h3>Amélioré</h3><ul><li>Chaque diagnostic actif reçoit une réponse à la consultation suivante : maintenu, résolu, abandonné ou corrigé.</li><li>Les données reprises d'une autre fiche gardent leur source, leur heure, leur auteur et la version signée ; <span class="tag tag-p">Poste fixe</span> une correction faite ensuite est signalée.</li><li>La cotation attendue s'affiche en clair avant la signature. Rien du diagnostic ne part au moteur de cotation.</li><li>Le bilan de plaie se lit depuis la plaie. La recherche trouve la fiche par « consultation », « bilan », « prévention », « diagnostic », « IPA » ou « RAAC ».</li></ul></section><section class="rub rub-securite"><h3>Sécurité et conformité</h3><ul><li>Le volet IPA n'est ouvert qu'à l'infirmier titulaire de la mention ; l'aide-soignante n'a aucun accès à la fiche.</li></ul></section><section class="rub rub-demo"><h3>Démo et documentation</h3><ul><li>Démo réenregistrée avec le design final et la fiche du 18 octobre : chute et consultation de Mme Leroux, suivi IPA de M. Bernard, bilan de prévention de M. Vasseur. Tous fictifs.</li><li>Dans la démo : recherche, simulateur de cotation, contrôle CPAM et accès d'un professionnel par QR code, simulés.</li><li>Le volet IPA est en place (rôles, écrans) ; son contenu détaillé attend la prochaine version du référentiel.</li><li>État des lieux des raccordements aux services nationaux, pour préparer les intégrations.</li><li>Couverture du cahier des charges recomptée : 571 éléments, 418 faits, 139 simulés, 10 partiels, 4 bloqués.</li></ul></section>
+</article>
+<article class="version carte" id="v0-14" data-titre="0.14 Les directions de design retenues">
+  <header class="v-tete">
+    <span class="v-num">0.14</span>
+    <time>23 octobre 2026</time>
+  </header>
+  <h2>Les directions de design retenues</h2>
+  <p class="v-resume">Après comparaison de plusieurs variantes, trois directions sont appliquées : « Précision calme » au poste fixe, « Carte d'abord » et « Contraste terrain » au terminal, « Produit en direct » sur le site.</p>
+  <section class="rub rub-nouveau"><h3>Nouveau</h3><ul><li><span class="tag tag-p">Poste fixe</span> Mode focus : un cas à la fois, trois options numérotées dont une suggérée ; 1, 2 ou 3 puis Entrée, et le cas suivant arrive seul. C'est l'affichage par défaut de la file de contrôle de la facturation.</li><li><span class="tag tag-p">Poste fixe</span> « Aujourd'hui » groupé par urgence : Maintenant, Aujourd'hui, En série, Facturation ; le détail s'ouvre à droite.</li><li><span class="tag tag-t">Terminal</span> La tournée sur une carte plein écran, avec une feuille du bas à deux crans et « Y aller » d'un appui.</li><li><span class="tag tag-t">Terminal</span> Le passage pas à pas : une étape à la fois, de très gros chiffres et de grandes cibles, la signature par appui maintenu.</li><li><span class="tag tag-t">Terminal</span> Mode Soleil (Moi › Affichage) : noir sur blanc, pour lire en plein soleil.</li></ul></section><section class="rub rub-ameliore"><h3>Amélioré</h3><ul><li><span class="tag tag-p">Poste fixe</span> Une surface calme, une seule couleur pleine pour l'action, des chiffres alignés qui se comparent d'un coup d'œil.</li><li><span class="tag tag-p">Poste fixe</span> Au clavier : J et K pour se déplacer, E pour marquer traité, Z pour annuler. Plusieurs passages non réalisés tiennent sur une ligne « En série ».</li><li><span class="tag tag-p">Poste fixe</span> File de contrôle : la cotation signée et celle du moteur se comparent champ par champ (« 4 sur 5 champs concordent »), l'écart est dit en une phrase.</li><li><span class="tag tag-t">Terminal</span> Menu d'actions en tuiles, sans défilement ; abandonner une saisie demande un appui maintenu.</li><li>Site public : le produit dès le premier écran, de la signature au reçu dont chaque ligne montre sa règle NGAP.</li></ul></section><section class="rub rub-corrige"><h3>Corrigé</h3><ul><li><span class="tag tag-p">Poste fixe</span> Les touches J et K ne s'écrivent plus dans le champ de motif ; à 390 px, ce champ ne passe plus sous le pied de page.</li></ul></section><section class="rub rub-securite"><h3>Sécurité et conformité</h3><ul><li><span class="tag tag-t">Terminal</span> Le fond de carte est dessiné sur le téléphone, sans service extérieur : aucune position de patient ne quitte l'appareil.</li><li>Les animations s'effacent quand l'appareil demande moins de mouvement.</li><li>L'aide-soignante ne voit toujours aucune cotation.</li></ul></section><section class="rub rub-demo"><h3>Démo et documentation</h3><ul><li>Page Design : avant/après écran par écran et toutes les variantes proposées, avec leurs références.</li></ul></section>
+</article>
+<article class="version carte" id="v0-13" data-titre="0.13 Nouveau design et finitions pour les testeurs">
+  <header class="v-tete">
+    <span class="v-num">0.13</span>
+    <time>23 octobre 2026</time>
+  </header>
+  <h2>Nouveau design et finitions pour les testeurs</h2>
+  <p class="v-resume">Les deux applications sont refondues dans leur navigation, puis finies pour que des testeurs puissent les essayer de bout en bout, en données fictives.</p>
+  <section class="rub rub-nouveau"><h3>Nouveau</h3><ul><li><span class="tag tag-p">Poste fixe</span> Barre du haut toujours visible : où vous êtes (« Soins › Patients › … »), recherche Ctrl K, aide F1 et notifications.</li><li><span class="tag tag-p">Poste fixe</span> Barre latérale réductible aux icônes (touche « [ ») ; sur téléphone, elle devient un tiroir.</li><li><span class="tag tag-p">Poste fixe</span> Raccourcis : G puis une lettre pour aller à une page (A Aujourd'hui, P Patients, T Tournées…).</li><li><span class="tag tag-tp">Poste fixe et terminal</span> « Donner mon avis » : un formulaire de retour, ouvert depuis l'écran où l'on se trouve.</li><li><span class="tag tag-t">Terminal</span> Gabarit photo : cadre, cible et réglette graduée, pour des photos de plaie comparables d'une fois sur l'autre.</li><li><span class="tag tag-t">Terminal</span> La transmission dictée se range aussi hors connexion.</li><li><span class="tag tag-t">Terminal</span> Un envoi en conflit est marqué « à revoir » au lieu d'échouer en silence.</li></ul></section><section class="rub rub-ameliore"><h3>Amélioré</h3><ul><li><span class="tag tag-p">Poste fixe</span> Un menu « ⋯ » sur toutes les listes : plaies, bilans, transmissions, signalements, renouvellements.</li><li><span class="tag tag-p">Poste fixe</span> Preuves et cotations : tableau pleine largeur, 25 actes par page puis « Afficher 25 actes de plus ».</li><li><span class="tag tag-p">Poste fixe</span> Panneaux et tableaux unifiés, en-têtes de tableau qui restent visibles, plus aucun défilement de côté jusqu'à 390 px.</li><li><span class="tag tag-t">Terminal</span> Menus groupés sous le pouce, feuilles du bas d'une seule forme, dates et heures en français ; texte lisible jusqu'à 130 %.</li><li><span class="tag tag-t">Terminal</span> Blocs repliables unifiés dans les fiches longues (consultation, soins respiratoires).</li><li><span class="tag tag-p">Poste fixe</span> Facturation : récapitulatif avant de créer une feuille de soins, arbitrage sans choix par défaut, écart expliqué en une phrase.</li><li><span class="tag tag-tp">Poste fixe et terminal</span> Chaque « En savoir plus » de l'aide ouvre le portail public.</li></ul></section><section class="rub rub-corrige"><h3>Corrigé</h3><ul><li><span class="tag tag-tp">Poste fixe et terminal</span> Une intervenante repartie d'un domicile sans avoir signé ses soins n'est plus affichée « Passage fait » : elle apparaît « Reparti · soins à signer ».</li><li><span class="tag tag-p">Poste fixe</span> Les liens vers un bilan programmé ne mènent plus à une page vide.</li><li><span class="tag tag-p">Poste fixe</span> Le dossier de preuve ne déborde plus sur téléphone.</li></ul></section><section class="rub rub-securite"><h3>Sécurité et conformité</h3><ul><li><span class="tag tag-tp">Poste fixe et terminal</span> « Donner mon avis » ne transmet que le nom de l'application, de l'écran et du profil : aucune donnée de patient.</li></ul></section><section class="rub rub-demo"><h3>Démo et documentation</h3><ul><li>Notes de design avec captures avant/après, à 1 440 et 390 px, publiées sur la page Design.</li></ul></section>
+</article>
+<article class="version carte" id="v0-12" data-titre="0.12 La démo en ligne">
+  <header class="v-tete">
+    <span class="v-num">0.12</span>
+    <time>22 et 23 octobre 2026</time>
+  </header>
+  <h2>La démo en ligne</h2>
+  <p class="v-resume">TabSanté s'essaie dans le navigateur, sans installation, avec des profils et des patients fictifs.</p>
+  <section class="rub rub-nouveau"><h3>Nouveau</h3><ul><li>Démo en ligne : le poste fixe et le terminal rejoués dans le navigateur, sans serveur, avec des profils et des patients fictifs.</li><li>Démonstration hébergée préparée : connexion par des comptes fictifs indiqués à l'écran, sans code de service ni carte CPS.</li><li>Page « Démos, vidéos et design » au portail.</li><li>Page publique « Questions » : 112 questions encore à trancher, auxquelles chacun peut répondre.</li><li>« Donner mon avis » depuis la démo et le portail, et liste publique des retours.</li></ul></section><section class="rub rub-ameliore"><h3>Amélioré</h3><ul><li>Portail d'aide et de documentation : rubriques Facturation et NGAP, Questions ouvertes, Documents et Nouveautés.</li><li>Page d'accueil du site centrée sur la facturation et la NGAP.</li></ul></section><section class="rub rub-corrige"><h3>Corrigé</h3><ul><li>Deux plantages du dossier de preuve, dont celui d'un patient suivi en neuropsychiatrie.</li></ul></section><section class="rub rub-securite"><h3>Sécurité et conformité</h3><ul><li>La démo ne contient aucune donnée réelle et n'envoie rien à l'Assurance maladie.</li></ul></section><section class="rub rub-demo"><h3>Démo et documentation</h3><ul><li>Procédure de démonstration hébergée écrite, pour une présentation à la demande.</li></ul></section>
+</article>
+<article class="version carte" id="v0-11" data-titre="0.11 Facturation refondue, terminal retravaillé, propositions de terrain">
+  <header class="v-tete">
+    <span class="v-num">0.11</span>
+    <time>22 octobre 2026</time>
+  </header>
+  <h2>Facturation refondue, terminal retravaillé, propositions de terrain</h2>
+  <p class="v-resume">La facturation explique chaque ligne, le terminal gagne en confort, et plusieurs propositions de la feuille de route deviennent réelles.</p>
+  <section class="rub rub-nouveau"><h3>Nouveau</h3><ul><li><span class="tag tag-p">Poste fixe</span> Mesure de plaie sur photo, à l'échelle de la réglette photographiée avec elle : contour tracé ou proposé, puis ajusté ; la première et la dernière mesure se superposent.</li><li><span class="tag tag-p">Poste fixe</span> Dossier de preuve en « PDF scellé » pour une période ; un exemplaire remis se vérifie par son empreinte.</li><li><span class="tag tag-p">Poste fixe</span> Planning de la semaine en glisser-déposer : confier un moment à une personne de l'équipe, formation à vérifier et charge de la semaine annoncées avant l'envoi.</li><li><span class="tag tag-tp">Poste fixe et terminal</span> Fin de journée : « Tournée terminée · n passages signés · 0 en attente », et pour l'infirmier les cotations du jour, sans montant.</li><li><span class="tag tag-tp">Poste fixe et terminal</span> Transmission dictée : dictée au micro du clavier, rangée en cible, données, actions et résultat, relue avant l'envoi.</li><li><span class="tag tag-p">Poste fixe</span> Mode contrôle CPAM (simulé) : accès en lecture seule remis au contrôleur, limité à un patient et une période, révocable.</li></ul></section><section class="rub rub-ameliore"><h3>Amélioré</h3><ul><li><span class="tag tag-p">Poste fixe</span> Facturation en cinq étapes : Vérifier, Facturer, Sécuriser, Télétransmettre, Retours, avec ce qui attend à chaque étape et son montant de démonstration.</li><li><span class="tag tag-p">Poste fixe</span> Chaque ligne dit sa règle NGAP en clair (article 11 B, majorations, IFD et IK, BSI, avenant 11) et mène à la preuve de l'acte.</li><li><span class="tag tag-p">Poste fixe</span> Rejets regroupés par motif, avec l'action à mener ; arbitrage groupé dans la file de contrôle.</li><li><span class="tag tag-p">Poste fixe</span> Une ordonnance versée est lue d'office ; l'alerte d'un dispositif apparaît dans « À savoir avant le soin ».</li><li><span class="tag tag-t">Terminal</span> Cartes plus lisibles au soleil, barres d'action sous le pouce, mouvements doux (supprimés si le téléphone le demande).</li><li><span class="tag tag-t">Terminal</span> Signature : légère vibration pendant l'appui maintenu, puis « Signé » en vert ; chaque liste vide dit quoi faire.</li><li><span class="tag tag-t">Terminal</span> Une prescription modifiée reste visible sur la fiche du patient jusqu'au premier soin sous la nouvelle valeur.</li></ul></section><section class="rub rub-securite"><h3>Sécurité et conformité</h3><ul><li>Photos enregistrées sans position GPS ni métadonnées.</li><li><span class="tag tag-p">Poste fixe</span> Session fermée après 15 minutes sans activité.</li><li><span class="tag tag-p">Poste fixe</span> Chaque lecture du contrôleur CPAM est tracée.</li><li><span class="tag tag-p">Poste fixe</span> Un lot dont la chaîne d'intégrité est rompue reste refusé ; seul le responsable du cabinet peut le forcer, avec un motif, et le lot le porte.</li><li>Vidéos chargées depuis YouTube au clic seulement.</li></ul></section><section class="rub rub-demo"><h3>Démo et documentation</h3><ul><li>Facturation entièrement simulée : aucune feuille de soins n'est transmise à l'Assurance maladie.</li></ul></section>
+</article>
+<article class="version carte" id="v0-10" data-titre="0.10 Connexion unifiée, finitions et aide sur chaque écran">
+  <header class="v-tete">
+    <span class="v-num">0.10</span>
+    <time>22 octobre 2026</time>
+  </header>
+  <h2>Connexion unifiée, finitions et aide sur chaque écran</h2>
+  <p class="v-resume">Une seule connexion au poste fixe et au terminal, ce qui restait partiel est terminé, et chaque écran a son aide.</p>
+  <section class="rub rub-nouveau"><h3>Nouveau</h3><ul><li><span class="tag tag-tp">Poste fixe et terminal</span> « Se connecter avec TabSanté » (Keycloak) : identifiant et mot de passe, ou carte CPS par Pro Santé Connect, simulé en attendant la convention avec l'ANS. Page de connexion en français.</li><li><span class="tag tag-tp">Poste fixe et terminal</span> Un bouton « ? » sur chaque écran et sur les blocs délicats : 197 aides et 61 astuces au poste fixe, 92 aides et 23 astuces au terminal, selon le rôle.</li><li><span class="tag tag-p">Poste fixe</span> Panneau d'aide (touche ? ou F1) avec recherche.</li><li><span class="tag tag-t">Terminal</span> Une ordonnance versée en PDF se lit hors connexion.</li><li><span class="tag tag-tp">Poste fixe et terminal</span> Écran du code de service, en secours de la connexion.</li></ul></section><section class="rub rub-ameliore"><h3>Amélioré</h3><ul><li><span class="tag tag-tp">Poste fixe et terminal</span> Le bloc AVK s'ouvre dès qu'une surveillance de l'INR est en cours.</li><li><span class="tag tag-p">Poste fixe</span> Plus aucun défilement de côté entre 1 440 et 800 px ; hiérarchie et densité revues ; plus aucun code technique à l'écran.</li><li><span class="tag tag-t">Terminal</span> Zéro pointé : « 0 » ne se confond plus avec « 8 » ; le premier champ d'une fiche est visible sans défiler ; « Prochain passage » en tête de la tournée.</li><li><span class="tag tag-t">Terminal</span> Zones tactiles d'au moins 48 points, libellés pour le lecteur d'écran, contrastes vérifiés automatiquement.</li></ul></section><section class="rub rub-securite"><h3>Sécurité et conformité</h3><ul><li>La session TabSanté reste la sienne : l'enrôlement du téléphone et le code à 6 chiffres ne changent pas.</li><li><span class="tag tag-p">Poste fixe</span> Boutons et liens n'apparaissent qu'à qui a le droit de s'en servir : l'aide-soignante ne voit ni la cotation ni le dossier de preuve.</li><li><span class="tag tag-t">Terminal</span> Un patient créé au domicile hors tournée n'est gardé sur le téléphone que le jour de sa création, sauf envoi en attente.</li><li>La liste des événements tracés au journal d'audit est vérifiée automatiquement.</li></ul></section><section class="rub rub-demo"><h3>Démo et documentation</h3><ul><li>Portail : chaque « En savoir plus » de l'aide ouvre sa rubrique « Aide écran par écran ».</li><li>Couverture recomptée : 561 éléments, 411 faits, 137 simulés, 9 partiels, 4 bloqués.</li></ul></section>
+</article>
+<article class="version carte" id="v0-9" data-titre="0.9 Les lots de correction d&#x27;octobre">
+  <header class="v-tete">
+    <span class="v-num">0.9</span>
+    <time>21 et 22 octobre 2026</time>
+  </header>
+  <h2>Les lots de correction d'octobre</h2>
+  <p class="v-resume">Une relecture complète du cahier des charges, le 16 octobre, a ouvert des lots de correction ; ils complètent les fiches, le tableau de bord, les transmissions et les formulaires.</p>
+  <section class="rub rub-nouveau"><h3>Nouveau</h3><ul><li><span class="tag tag-p">Poste fixe</span> Déclarer le décès d'un patient : ce qui devait venir s'arrête au jour du décès, les soignants de ses tournées sont prévenus, le dossier demeure ; <span class="tag tag-t">Terminal</span> le terminal affiche « Décédé le … ».</li><li><span class="tag tag-tp">Poste fixe et terminal</span> L'aide-soignante écrit une transmission ciblée de ce qu'elle constate ; <span class="tag tag-t">Terminal</span> interpellations et notifications proposées se traitent au terminal.</li><li><span class="tag tag-tp">Poste fixe et terminal</span> Bloc AVK complet : posologie de la semaine et de la précédente, INR cible, signal de changement de posologie.</li><li><span class="tag tag-t">Terminal</span> Épreuve de lever : minuteur, trois mesures à leur heure réelle ; <span class="tag tag-p">Poste fixe</span> les écarts se lisent au poste fixe.</li><li><span class="tag tag-p">Poste fixe</span> Tableau de bord : « Soins à compléter », « Résultats attendus », « Pièces manquantes », BSI à renouveler, filtre par tournée et export CSV.</li><li>Nouveaux bilans pré-rédigés (perfusions, stomies, nutrition, trachéotomie, CPAP) ; prescription infirmière envoyée en extraits au laboratoire et à la pharmacie.</li><li><span class="tag tag-p">Poste fixe</span> Une fréquence se modifie en cours de route (« Modifier », à côté d'« Arrêter ce soin ») ; l'historique reste intact.</li><li><span class="tag tag-t">Terminal</span> Un acte fait en partie se déclare sur toutes les fiches ; sa cotation passe toujours en file de contrôle.</li><li>Lot et péremption lus sur le code produit (DataMatrix ou EAN-13), jamais saisis à la main.</li><li><span class="tag tag-t">Terminal</span> Le plan de soins entier se consulte hors connexion ; chaque case, ligne ou constante peut porter son commentaire.</li></ul></section><section class="rub rub-ameliore"><h3>Amélioré</h3><ul><li>L'écart à l'heure prescrite est calculé à la signature : « Réalisé à 19 h 50, 10 min avant l'heure prescrite (20 h) ».</li><li>La séance de perfusion se place dans la tournée du moment fixé, une par patient et par jour.</li><li>Suivi diabétique : historique « à faire » de chaque passage dû, patient devenu éligible à la séance hebdomadaire signalé ; diurèse ramenée à 24 heures.</li><li>Prélèvements : site distinct pour chaque paire d'hémocultures, heure du contrôle d'identité exigée, remise au laboratoire tracée.</li><li><span class="tag tag-t">Terminal</span> Les listes des fiches viennent d'un référentiel daté, embarqué sur le téléphone pour le hors connexion.</li><li><span class="tag tag-tp">Poste fixe et terminal</span> Carte, météo et trafic : arrivée prévue avec une fourchette, départ conseillé, calques radar.</li><li><span class="tag tag-tp">Poste fixe et terminal</span> 116 formulaires du poste fixe et 30 écrans du terminal revus : champs obligatoires saisissables, erreur affichée au bon champ, refus expliqués en français.</li><li><span class="tag tag-p">Poste fixe</span> « À traiter » trié par gravité, avec des compteurs cohérents.</li></ul></section><section class="rub rub-corrige"><h3>Corrigé</h3><ul><li>Une ligne sous-cutanée laissée posée ne déclenche plus de notification à tort ; retirer un site dépose ses lignes.</li><li>Plus de majoration de nuit sans horaire prescrit ; une seule plage de nuit, 20 h à 6 h, pour la planification.</li><li>Ce que les fiches disent « tracé, pas transmis » (dose, site, glycémie) ne part plus au moteur de cotation.</li><li>Une fréquence échue ne bloque plus celle de l'ordonnance suivante sur le même dispositif.</li><li>Une ordonnance au nom d'un autre patient est refusée.</li></ul></section><section class="rub rub-securite"><h3>Sécurité et conformité</h3><ul><li>Durcissement des droits : la portée d'une remplaçante s'applique à toutes les lectures, l'administrateur n'ouvre aucun dossier clinique, une intervenante sortie du cabinet perd ses accès.</li><li>Lectures nominatives tracées patient par patient ; journal d'audit sans copie des données cliniques.</li><li>Durcissement de la mise en service : outils de démonstration fermés hors démonstration, code à usage unique.</li><li>INS qualifiée seulement après contrôle de la pièce d'identité ; un courrier non relu ne part jamais d'un clic.</li></ul></section><section class="rub rub-demo"><h3>Démo et documentation</h3><ul><li>Chaque lot livré avec ses tests, écrits pour échouer avant la correction et passer après.</li><li>Couverture recomptée automatiquement : 561 éléments, 407 faits, 136 simulés, 14 partiels, 4 bloqués, aucun absent.</li></ul></section>
+</article>
+<article class="version carte" id="v0-8" data-titre="0.8 La facturation et la NGAP">
+  <header class="v-tete">
+    <span class="v-num">0.8</span>
+    <time>15 et 16 octobre 2026</time>
+  </header>
+  <h2>La facturation et la NGAP</h2>
+  <p class="v-resume">Un moteur de cotation de démonstration, aligné sur le texte de la NGAP en vigueur, qui explique chaque ligne et se compare aux cas officiels.</p>
+  <section class="rub rub-nouveau"><h3>Nouveau</h3><ul><li><span class="tag tag-p">Poste fixe</span> Cotation par passage, ligne par ligne, avec règles datées, jours fériés, zones et déplacements.</li><li><span class="tag tag-p">Poste fixe</span> « Simuler une cotation » : essayer un passage sans rien enregistrer ; « Pourquoi ? » sur chaque ligne (règle, article, version).</li><li><span class="tag tag-p">Poste fixe</span> Reçu de cotation du passage entier, avec « Et si… » (heure, dimanche, férié, horaire prescrit) comparé au réel, et impression.</li><li>Agent de poste pour les lecteurs de cartes et SESAM-Vitale : préparé et simulé, en attendant le composant agréé.</li></ul></section><section class="rub rub-ameliore"><h3>Amélioré</h3><ul><li>Cotation alignée sur la NGAP en vigueur (titre XVI) : 113 cas sur 120 conformes, aucun écart, les autres expliqués.</li><li>Comparaison au cahier de tests CNDA : 44 cas, 19 conformes au centime, aucun écart, 25 en attente d'éléments de l'agrément.</li><li>Avenant 11 suivi à sa date d'effet, grâce à un référentiel daté.</li><li><span class="tag tag-p">Poste fixe</span> Confirmation des cotations ramenée de 14 à 21 secondes à 1 seconde.</li></ul></section><section class="rub rub-securite"><h3>Sécurité et conformité</h3><ul><li>La cotation reste une démonstration : jamais facturable, signalée comme telle à l'écran et sur les documents.</li><li>La télétransmission est simulée ; l'agrément CNDA et le composant SESAM-Vitale restent à obtenir.</li></ul></section><section class="rub rub-demo"><h3>Démo et documentation</h3><ul><li>Banc de cotation consultable dans les paramètres ; 120 cas tirés du texte officiel de la NGAP publiés comme liste de travail.</li></ul></section>
+</article>
+<article class="version carte" id="v0-7" data-titre="0.7 Tournée, planning et confort au quotidien">
+  <header class="v-tete">
+    <span class="v-num">0.7</span>
+    <time>15 et 16 octobre 2026</time>
+  </header>
+  <h2>Tournée, planning et confort au quotidien</h2>
+  <p class="v-resume">La tournée s'organise mieux, le planning se règle à la souris ou au doigt, et l'application propose sans jamais imposer.</p>
+  <section class="rub rub-nouveau"><h3>Nouveau</h3><ul><li><span class="tag tag-p">Poste fixe</span> Absences et réattribution, services répétés, heures fixes et fenêtres, ordre de passage proposé, zone d'intervention.</li><li><span class="tag tag-p">Poste fixe</span> Planification du jour en colonnes, une par intervenant avec sa charge ; un passage se déplace à la souris, au doigt ou au clavier.</li><li><span class="tag tag-p">Poste fixe</span> Alerte « terminal non synchronisé » pendant une tournée en cours (2 heures par défaut, réglable), avec « Appeler » et « Marquer comme vu ».</li><li><span class="tag tag-t">Terminal</span> Mode visite : étapes du soin en liste, photo comparée à J0 par curseur, note de relève hors connexion.</li><li>Demandes de renouvellement d'ordonnance ; aperçu des passages avant validation.</li><li>Préparation des passages : prérequis par soin, « À préparer », motif « non à jeun ».</li><li>Suggestions tirées du contexte (jours fériés, vacances scolaires, vigilance météo, qualité de l'air, trafic estimé, changement d'heure), expliquées et jamais exécutées sans vous.</li><li>Recherche Ctrl K, mention @collègue, notifications locales au terminal, photo de l'entrée du domicile.</li><li><span class="tag tag-t">Terminal</span> Tournée géolocalisée hors connexion, navigation Waze ou Maps par coordonnées, « Prévenir le patient ».</li><li>Premier outil de reprise de dossiers : lecture seule, aperçu, reprise rejouable et tracée.</li></ul></section><section class="rub rub-ameliore"><h3>Amélioré</h3><ul><li><span class="tag tag-p">Poste fixe</span> Nouvelle apparence « Clinique calme » ; aperçu du patient sans quitter la liste.</li><li><span class="tag tag-t">Terminal</span> Affichage jour et nuit, police très lisible (Atkinson Hyperlegible), statuts dits par une forme et un mot, signature au maintien accessible.</li><li><span class="tag tag-p">Poste fixe</span> Tournées avec carte et frise de la journée ; dossier patient à en-tête fixe et frise des soins.</li><li><span class="tag tag-p">Poste fixe</span> Tableau de bord qui raconte la semaine : phrase de synthèse, carte de chaleur heure par jour, cicatrisation plaie par plaie, objectifs sans classement.</li><li>Les 23 sortes de PDF relues page par page : pagination, identité avec INS et RPPS, formats français, bandeau de démonstration.</li></ul></section><section class="rub rub-corrige"><h3>Corrigé</h3><ul><li><span class="tag tag-t">Terminal</span> Un envoi rejoué pendant le premier reçoit la même réponse, sans erreur ni doublon.</li><li><span class="tag tag-p">Poste fixe</span> L'aperçu des passages signale l'absence de l'intervenant, une heure fixe déjà prise et un domicile hors zone.</li></ul></section><section class="rub rub-securite"><h3>Sécurité et conformité</h3><ul><li>Chaque enregistrement est protégé contre les doublons, et le débit des appels est limité.</li><li><span class="tag tag-t">Terminal</span> Photos rangées en fichiers chiffrés sur le téléphone.</li><li>Vérification complète et automatique avant chaque livraison.</li></ul></section><section class="rub rub-demo"><h3>Démo et documentation</h3><ul><li>Premier site public.</li><li>Couverture recomptée : 533 éléments, 333 faits, 188 simulés, 8 partiels, 4 bloqués.</li><li>Quatre relectures internes (cahier des charges, parcours des utilisatrices, tests, sécurité et conformité) ouvrent les lots de correction livrés en 0.9.</li></ul></section>
+</article>
+<article class="version carte" id="v0-6" data-titre="0.6 Échanges de santé en démonstration, tournée sur la carte">
+  <header class="v-tete">
+    <span class="v-num">0.6</span>
+    <time>9 et 10 octobre 2026</time>
+  </header>
+  <h2>Échanges de santé en démonstration, tournée sur la carte</h2>
+  <p class="v-resume">Cartes CPS et Vitale, feuilles de soins, messagerie sécurisée et DMP fonctionnent de bout en bout en simulation, et la tournée passe sur la carte.</p>
+  <section class="rub rub-nouveau"><h3>Nouveau</h3><ul><li>Cartes CPS et Vitale simulées : connexion et signature par carte, création du patient depuis sa carte Vitale.</li><li>Feuilles de soins électroniques sécurisées, en ligne et hors connexion, retours NOEMIE et tiers payant : simulés.</li><li>Messagerie sécurisée MSSanté avec résultats rattachés au prélèvement, DMP et ordonnance numérique : simulés.</li><li>Référentiel des médicaments et diagnostics infirmiers de démonstration ; téléconsultation simulée.</li><li>Tournée géolocalisée : ordre de passage, carte, trajets et arrivées estimées, météo et trafic simulés, « Avant d'arriver ».</li><li><span class="tag tag-p">Poste fixe</span> Courriers libres, comptes rendus d'accès direct, rendez-vous hors fiche.</li></ul></section><section class="rub rub-ameliore"><h3>Amélioré</h3><ul><li>Restitution clinique : HbA1c, doses d'anticoagulant face à la biologie, schéma des sites d'injection, comparaison photo des dispositifs.</li><li><span class="tag tag-t">Terminal</span> Cotation provisoire hors connexion, compteurs à trois échelles, écart expliqué.</li><li><span class="tag tag-t">Terminal</span> Schéma des sites hors connexion ; courbes de saignée.</li><li>Rotation des sites : une zone n'est signalée que si elle porte au moins la moitié des injections de la semaine.</li></ul></section><section class="rub rub-securite"><h3>Sécurité et conformité</h3><ul><li>Photos et PDF chiffrés au repos, journal des accès chaîné, purges selon les durées de conservation.</li><li><span class="tag tag-t">Terminal</span> Une session révoquée ne fait perdre aucune saisie en attente.</li><li>Export FHIR : ce que le patient garde pour lui au dossier ne sort plus.</li><li>Dossier d'hébergement HDS, registre du délégué à la protection des données et analyse d'impact (AIPD) préparés.</li></ul></section><section class="rub rub-demo"><h3>Démo et documentation</h3><ul><li>Documentation technique, glossaire et FAQ en pages autonomes ; page des ajouts au-delà du cahier des charges, avec leurs raisons.</li></ul></section>
+</article>
+<article class="version carte" id="v0-5" data-titre="0.5 Bilans et consultations, avenant 11">
+  <header class="v-tete">
+    <span class="v-num">0.5</span>
+    <time>7 au 9 octobre 2026</time>
+  </header>
+  <h2>Bilans et consultations, avenant 11</h2>
+  <p class="v-resume">Le cahier des charges intègre la fiche Bilans/Consultation : consultation infirmière, bilan de prévention et séances de parcours se tiennent au domicile comme au cabinet.</p>
+  <section class="rub rub-nouveau"><h3>Nouveau</h3><ul><li>Fiche Bilans/Consultation : sous-fiches de consultation et de bilan, tronc commun, compétences du patient, compte rendu à trois destinations.</li><li><span class="tag tag-t">Terminal</span> Sous-fiche au domicile, hors connexion, depuis la tournée ; séances de parcours (art. 5 ter, RAAC) préparées et complètes avant signature.</li><li>Mesures de l'avenant 11 : score SEGA, dépistage colorectal, ALD, plaie en accès direct.</li><li>Courbes de croissance de l'enfant : poids, taille, périmètre crânien (référence OMS de démonstration).</li><li><span class="tag tag-t">Terminal</span> Injections chez l'enfant, sérum, allergènes, tuberculine, vaccination, implant, voie rectale, pulvérisation.</li><li><span class="tag tag-t">Terminal</span> Pompes PCA et PSE (voie, arrêt, tubulure, protocole) ; analgésie locorégionale prise en charge au domicile.</li><li><span class="tag tag-t">Terminal</span> Plusieurs plaies et récidive ; nursing (douche, escarre) ; hémocultures.</li></ul></section><section class="rub rub-ameliore"><h3>Amélioré</h3><ul><li><span class="tag tag-t">Terminal</span> Quatre onglets, « Il manque » sur deux lignes, catalogue des soins par famille, moins d'appuis.</li><li><span class="tag tag-p">Poste fixe</span> Graphiques à grammaire commune, tableau de bord « soins d'abord », 40 nouvelles pages harmonisées.</li><li><span class="tag tag-p">Poste fixe</span> Tableau de bord affiché en moins de 2 secondes.</li><li><span class="tag tag-t">Terminal</span> Libellés jamais coupés en plein mot ; conflit de brouillon lisible sur petit écran ; envoi refusé marqué « à corriger ».</li><li>Statut « aucune allergie connue », heures en français, confirmations avant les gestes importants.</li></ul></section><section class="rub rub-corrige"><h3>Corrigé</h3><ul><li>Corrections issues de la relecture du 7 octobre : fiche Bilans/Consultation, portail externe, droits de lecture, synchronisation, facturation, dispositifs, biologie.</li></ul></section><section class="rub rub-securite"><h3>Sécurité et conformité</h3><ul><li>Remplaçante limitée à sa période, sessions révocables, lectures du dossier journalisées ; contenu des consultations caché à l'aide-soignante.</li></ul></section><section class="rub rub-demo"><h3>Démo et documentation</h3><ul><li>Cahier des charges V2 et calendrier de l'avenant 11 (2026-2029) intégrés.</li><li>Couverture : plus aucune exigence absente du cahier des charges.</li></ul></section>
+</article>
+<article class="version carte" id="v0-4" data-titre="0.4 Soins techniques, partage et exploitation">
+  <header class="v-tete">
+    <span class="v-num">0.4</span>
+    <time>4 octobre 2026</time>
+  </header>
+  <h2>Soins techniques, partage et exploitation</h2>
+  <p class="v-resume">Les soins les plus techniques rejoignent le terminal hors connexion, le dossier se partage avec le consentement du patient, et l'exploitation se prépare.</p>
+  <section class="rub rub-nouveau"><h3>Nouveau</h3><ul><li>Parcours encadrés : séances, plafonds, livrables, séance diabète hebdomadaire.</li><li>Soins respiratoires (trachéotomie, aspirations, PPC, aérosols), surveillance neuropsychiatrique, drain de Redon.</li><li>PCA morphine et benzodiazépine, pousse-seringue électrique, dialyse péritonéale, analgésie locorégionale ; <span class="tag tag-t">Terminal</span> écran critique utilisable hors connexion.</li><li><span class="tag tag-t">Terminal</span> Consultation infirmière à domicile et prescription infirmière hors connexion.</li><li>Consentement du patient, accès d'un professionnel par QR code (Pro Santé Connect simulé), dépôt externe, actes à distance, export FHIR.</li><li>Portail du professionnel extérieur.</li><li><span class="tag tag-t">Terminal</span> Enrôlement du téléphone par code ; <span class="tag tag-p">Poste fixe</span> gestion des terminaux du cabinet.</li><li>Règles ajoutées : IMC, résultats de biologie, saignée, voies centrales, recherche par lot.</li></ul></section><section class="rub rub-ameliore"><h3>Amélioré</h3><ul><li><span class="tag tag-p">Poste fixe</span> Dossier en 6 onglets, barre latérale groupée, mise en page adaptée dès 1 024 px.</li><li>Tableau de bord 60 fois plus rapide à volume ; synchronisation groupée (83 requêtes au lieu de 321 pour 12 actes).</li><li><span class="tag tag-t">Terminal</span> « Appeler le 15 » et l'astreinte composent vraiment le numéro, mode kiosque compris.</li></ul></section><section class="rub rub-corrige"><h3>Corrigé</h3><ul><li>Cotation masquée à l'aide-soignante, une seule feuille de soins par acte, régularisation lisible.</li><li>Volumes de nutrition toujours décimaux.</li></ul></section><section class="rub rub-securite"><h3>Sécurité et conformité</h3><ul><li><span class="tag tag-t">Terminal</span> Aucune perte d'acte signé (mise en quarantaine), cache photo purgé, verrouillage de l'application.</li><li>Durcissement du serveur : privilèges réduits, journal des accès, scellement planifié du journal d'audit.</li><li>Sauvegardes chiffrées et restauration, durées de conservation, droits des patients, mode kiosque.</li></ul></section><section class="rub rub-demo"><h3>Démo et documentation</h3><ul><li>Couverture : 237 faits sur 485 éléments.</li></ul></section>
+</article>
+<article class="version carte" id="v0-3" data-titre="0.3 Dossier patient, cabinet et coordination">
+  <header class="v-tete">
+    <span class="v-num">0.3</span>
+    <time>3 octobre 2026</time>
+  </header>
+  <h2>Dossier patient, cabinet et coordination</h2>
+  <p class="v-resume">Le dossier patient, l'organisation du cabinet et la coordination entre soignants prennent forme autour des fiches.</p>
+  <section class="rub rub-nouveau"><h3>Nouveau</h3><ul><li><span class="tag tag-p">Poste fixe</span> Dossier patient en un écran : identité et INS, création avec détection des doublons, versions, rectification.</li><li>Organisation du cabinet et habilitations : planning par rôle, équipe, échanges de tournée, saisies différées.</li><li>Transmissions, interpellations, notifications, signalements et rappels ; tableau de bord du cabinet.</li><li>Savoir-faire : questions du réseau, gestes, vidéos sourcées, relecture par un référent ; <span class="tag tag-t">Terminal</span> « Comment faire ? » hors connexion.</li><li>Lecture d'ordonnance : photo, proposition de soins validée par l'infirmière.</li><li>Bilans pré-rédigés et sourcés, signature, PDF, registre des documents.</li><li>Consultation et prescription infirmières, avec compte rendu PDF au registre.</li><li>Facturation préparée : compteurs, file de contrôle, HAD, feuilles de soins simulées.</li><li><span class="tag tag-t">Terminal</span> Passage imprévu, soin non réalisé, création de patient, alerte allergie.</li></ul></section><section class="rub rub-corrige"><h3>Corrigé</h3><ul><li>Corrections relues par la fiche, courbes corrigées, dose d'anticoagulant, forfait nursing verrouillé.</li></ul></section><section class="rub rub-securite"><h3>Sécurité et conformité</h3><ul><li><span class="tag tag-t">Terminal</span> Base locale chiffrée sur le téléphone, terminal révocable.</li><li>Sessions courtes et révocables ; journal d'audit scellé.</li><li>L'aide-soignante ne lit aucune cotation ; chaque destinataire d'une transmission ne voit que ce qui le concerne.</li></ul></section><section class="rub rub-demo"><h3>Démo et documentation</h3><ul><li>Première matrice de couverture du cahier des charges : 122 faits sur 485 éléments.</li></ul></section>
+</article>
+<article class="version carte" id="v0-2" data-titre="0.2 Les premières fiches de soin, la charte « Clinique premium »">
+  <header class="v-tete">
+    <span class="v-num">0.2</span>
+    <time>3 octobre 2026</time>
+  </header>
+  <h2>Les premières fiches de soin, la charte « Clinique premium »</h2>
+  <p class="v-resume">Les soins les plus fréquents à domicile ont leur fiche, dans une charte commune aux deux applications.</p>
+  <section class="rub rub-nouveau"><h3>Nouveau</h3><ul><li>Fiches Injections, Suivi diabétique, Paramètres vitaux et Prélèvements, sur un moteur commun.</li><li>Fiches Anticoagulant injectable, Médicaments et Nursing (avec l'aide-soignante) ; fréquences et arrêt d'un soin.</li><li>Perfusions IV (dont nutrition parentérale) et sous-cutanées, stomies digestive et urinaire, pose et clôture de dispositif.</li><li>Nutrition entérale et soins uro-génito-digestifs.</li><li><span class="tag tag-t">Terminal</span> « Ajouter un soin » ; <span class="tag tag-tp">Poste fixe et terminal</span> pictogrammes des actes.</li></ul></section><section class="rub rub-ameliore"><h3>Amélioré</h3><ul><li><span class="tag tag-tp">Poste fixe et terminal</span> Charte « Clinique premium » sur les deux applications.</li><li><span class="tag tag-t">Terminal</span> Passage de routine en un écran ; brouillons enregistrés en continu.</li><li><span class="tag tag-p">Poste fixe</span> Plaies regroupées et courbes de cicatrisation.</li><li><span class="tag tag-t">Terminal</span> Empreinte du passage sur le reçu.</li></ul></section><section class="rub rub-corrige"><h3>Corrigé</h3><ul><li>La série des sites sous-cutanés ne dépend plus de l'ordre de relecture des passages.</li></ul></section><section class="rub rub-demo"><h3>Démo et documentation</h3><ul><li>Spécifications des 20 fiches de soin, feuille de route produit, photos de démonstration.</li></ul></section>
+</article>
+<article class="version carte" id="v0-1" data-titre="0.1 Le socle et les pansements">
+  <header class="v-tete">
+    <span class="v-num">0.1</span>
+    <time>2 octobre 2026</time>
+  </header>
+  <h2>Le socle et les pansements</h2>
+  <p class="v-resume">Les trois briques de TabSanté (serveur, poste fixe, terminal) et la première fiche de soin : les pansements.</p>
+  <section class="rub rub-nouveau"><h3>Nouveau</h3><ul><li>Le serveur, le poste fixe dans le navigateur et le terminal sur téléphone.</li><li>Fiche Pansements : plaie, mesures, photos, protocole.</li><li><span class="tag tag-t">Terminal</span> Terminal hors connexion : la saisie se fait au domicile, l'envoi au retour du réseau.</li><li><span class="tag tag-t">Terminal</span> Saisie allégée du pansement quand rien n'a changé.</li><li>Une preuve pour chaque passage signé.</li></ul></section><section class="rub rub-ameliore"><h3>Amélioré</h3><ul><li><span class="tag tag-tp">Poste fixe et terminal</span> Premières refontes du design et système de design commun.</li></ul></section><section class="rub rub-corrige"><h3>Corrigé</h3><ul><li><span class="tag tag-p">Poste fixe</span> Colonne Preuve fixée à droite du tableau des passages à 1 024 px.</li></ul></section><section class="rub rub-demo"><h3>Démo et documentation</h3><ul><li>Base de démonstration réinitialisable, identité du produit et système de design écrits.</li></ul></section>
+</article>
+
+    <section class="carte methode" id="methode">
+      <h2>Comment ce journal est construit</h2>
+      <ul><li>Chaque version regroupe les livraisons fusionnées sur la branche principale autour d'une grande étape, dans l'ordre où elles sont arrivées. La date est celle de la dernière fusion de l'étape.</li><li>Les numéros commencent à 0 : TabSanté est en préparation, sans agrément ni hébergement de santé, et n'est pas utilisé avec de vrais patients. La version 1.0 sera la première utilisée en conditions réelles ; aucune date n'est annoncée.</li><li>Le contenu vient des messages de fusion, des notes de chaque chantier, de la feuille de route, des nouveautés du portail et des recomptes successifs de la couverture du cahier des charges.</li><li>Les rubriques suivent l'usage « Keep a Changelog » : Nouveau, Amélioré, Corrigé, Sécurité et conformité, Démo et documentation. Une rubrique sans objet est omise.</li></ul>
+      <p class="note">Une remarque, une erreur, un manque&nbsp;? <a href="https://github.com/ValerionGG/tabsante-docs/issues/new?template=retour.yml&amp;application=Journal&amp;title=%5BRetour%5D%20Journal" target="_blank" rel="noopener">Donner mon avis</a> (compte GitHub requis).</p>
+    </section>
+  </main>
+</div>
+<footer>TabSanté V2 · journal des versions · données de démonstration uniquement.</footer>
+
+<script>
+(() => {
+  const q = document.getElementById('q');
+  const etat = document.getElementById('etat-recherche');
+  const blocs = [...document.querySelectorAll('article.version')];
+  const liensSommaire = new Map([...document.querySelectorAll('.sommaire a')].map(a => [a.getAttribute('href').slice(1), a]));
+  const norm = s => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+  blocs.forEach(b => b.querySelectorAll('li').forEach(li => li.dataset.t = norm(li.textContent)));
+
+  function filtrer() {
+    const mots = norm(q.value.trim()).split(/\s+/).filter(Boolean);
+    document.body.classList.toggle('cherche', mots.length > 0);
+    let lignes = 0, versions = 0;
+    for (const b of blocs) {
+      const titreOk = mots.length && mots.every(m => norm(b.dataset.titre + ' ' + b.querySelector('.v-resume').textContent).includes(m));
+      let vues = 0;
+      for (const rub of b.querySelectorAll('.rub')) {
+        let n = 0;
+        for (const li of rub.querySelectorAll('li')) {
+          const ok = !mots.length || titreOk || mots.every(m => li.dataset.t.includes(m));
+          li.classList.toggle('masque', !ok); if (ok) n++;
+        }
+        rub.classList.toggle('masque', n === 0); vues += n;
+      }
+      const visible = !mots.length || vues > 0;
+      b.classList.toggle('masque', !visible);
+      liensSommaire.get(b.id)?.parentElement.classList.toggle('masque', !visible);
+      if (visible && mots.length) { versions++; lignes += vues; }
+    }
+    etat.textContent = !mots.length ? '' : lignes
+      ? `${lignes} ligne${lignes > 1 ? 's' : ''} dans ${versions} version${versions > 1 ? 's' : ''}`
+      : 'Aucun résultat.';
+  }
+  q.addEventListener('input', filtrer);
+  document.addEventListener('keydown', e => {
+    if (e.key === '/' && document.activeElement !== q) { e.preventDefault(); q.focus(); }
+    if (e.key === 'Escape' && document.activeElement === q) { q.value = ''; filtrer(); }
+  });
+
+  // Sommaire ouvert et collant sur grand écran, repliable sur téléphone.
+  const som = document.getElementById('sommaire');
+  const large = matchMedia('(min-width: 1024px)');
+  const regler = () => { som.open = large.matches; };
+  regler(); large.addEventListener('change', regler);
+  som.addEventListener('click', e => { if (e.target.closest('a') && !large.matches) som.open = false; });
+
+  // Version en cours de lecture surlignée dans le sommaire.
+  const obs = new IntersectionObserver(entrees => {
+    for (const en of entrees) if (en.isIntersecting) {
+      liensSommaire.forEach(a => a.removeAttribute('aria-current'));
+      liensSommaire.get(en.target.id)?.setAttribute('aria-current', 'true');
+    }
+  }, { rootMargin: '-80px 0px -70% 0px' });
+  blocs.forEach(b => obs.observe(b));
+})();
+</script>
+</body>
+</html>
