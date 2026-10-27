@@ -2,7 +2,7 @@
 
 Ce qui change dans TabSanté, la plateforme des infirmières libérales à domicile, version par version : au poste fixe du cabinet, sur le terminal de tournée et dans la démo.
 
-*Mis à jour le 26 octobre 2026.*
+*Mis à jour le 27 octobre 2026.*
 
 [Portail](https://valeriongg.github.io/tabsante-docs/) · [Démo](https://valeriongg.github.io/tabsante-docs/demo/) · [Vidéos](https://valeriongg.github.io/tabsante-docs/videos/) · [Design](https://valeriongg.github.io/tabsante-docs/design/) · [Questions](https://valeriongg.github.io/tabsante-docs/questions/) · [Donner mon avis](https://github.com/ValerionGG/tabsante-docs/issues/new?template=retour.yml&application=Journal&title=%5BRetour%5D%20Journal)
 
@@ -23,30 +23,54 @@ Les 4 éléments bloqués attendent un tiers : un hébergeur certifié HDS, un 
 
 ## À venir — en cours
 
-*en cours au 26 octobre 2026* — Ces chantiers avancent en parallèle. Ils rejoindront le journal, avec leur numéro de version, une fois fusionnés et vérifiés.
+*en cours au 27 octobre 2026* — Ce qui suit attend une décision ou un tiers. Les autres chantiers sont fusionnés.
 
-### Cotation NGAP (démonstration)
+### Données publiques à charger
 
-- Règles complémentaires : non-cumuls de l'article 6, séance hebdomadaire de l'insulino-traité, dialyse plafonnée, pansements lourds manquants et TPN, perfusion (forfait d'organisation, changement de flacon), mucoviscidose, actes à distance (TLS, TLD, TLL, TMI, RQD).
-- Banc de cotation enrichi de nouveaux cas vérifiés sur le texte en vigueur.
+- Liste officielle des communes en zone de montagne et base des codes postaux (data.gouv.fr, Licence Ouverte) : l'importeur est prêt, le chargement attend l'accord du cabinet.
 
-### Zones et adresses
+### Raccordements réels
 
-- Unités urbaines complètes pour les indemnités kilométriques ; zones de montagne.
-- Saisie d'adresse avec suggestions, servie par le cabinet : aucune adresse de patient ne part vers un service public.
+- Agent de poste et télétransmission réels : attendent l'agrément SESAM-Vitale.
 
-### Facturation
+## [0.17] — 27 octobre 2026 — NGAP, facturation et organisation : ce qui manquait
 
-- Garde BSI : forfait, AMX et IFI ne sont proposés que si un BSI déposé couvre la date.
-- Couverture complémentaire détaillée (n° d'adhérent, contrat, fin de droits), SESAM sans Vitale, accusé de réception distinct du remboursement, NIR fictifs refusés.
+Règles NGAP complémentaires, garde BSI, complémentaire détaillée, unités urbaines complètes, organisation du cabinet et tournée réordonnable hors connexion.
 
-### Organisation du cabinet
+### Nouveau
 
-- **Poste fixe ·** Lieu du passage planifié, jours de fermeture du cabinet et pauses, créneau libre proposé, invitation d'un membre, puce « BSI requis » sur la carte de passage.
+- Cotation (démonstration) : non-cumuls de l'article 6 dans le bon sens, séance hebdomadaire de l'insulino-traité (une par semaine, jamais sous BSI), dialyse plafonnée à quatre par jour, RDI, postopératoire et périnerveux non cumulables, varices, analgésie topique, pansements lourds et TPN, perfusion (changement de flacon, forfait d'organisation), mucoviscidose, actes à distance (TLS, TLD, TLL, TMI, RQD), IK à pied ou à ski.
+- Unités urbaines complètes (34 875 communes) pour les indemnités kilométriques ; une commune inconnue n'est jamais classée « plaine » par défaut.
+- **Poste fixe ·** Saisie d'adresse avec suggestions, servie par le cabinet : aucune adresse de patient ne part vers un service public.
+- **Poste fixe ·** Lieu du passage prévu (domicile, cabinet, autre lieu de soin du patient) et lieux de soin alternatifs ; seul le lieu déclaré à la signature compte pour la cotation.
+- **Poste fixe ·** Jours de fermeture du cabinet avec permanence, passages à couvrir ou reporter ; pauses dans une journée ; créneau libre proposé à la création d'une fréquence ; rayon d'intervention par intervenant.
+- **Poste fixe ·** Invitation d'un membre : lien de 7 jours à usage unique, RPPS contrôlé, sans mot de passe.
+- **Terminal ·** Réordonner sa tournée hors connexion ; corriger téléphone, adresse, médecin traitant et personne de confiance d'un patient ; recherches récentes et derniers patients ouverts, gardés chiffrés sur le téléphone et effacés à la déconnexion.
+- **Poste fixe et terminal ·** Puces « BSI requis » et « Ordonnance à joindre » sur la carte de passage, jamais pour l'aide-soignante.
 
-### Terminal
+### Amélioré
 
-- **Terminal ·** Réordonner sa tournée hors connexion, modifier les coordonnées d'un patient, puce « BSI requis », derniers patients ouverts.
+- Garde BSI : forfait, AMX et IFI ne sont cotés que si un BSI déposé couvre la date ; « BSI non déposé » le dit au poste comme au terminal.
+- Complémentaire santé détaillée (n° d'adhérent, type de contrat, fin des droits) ; droits échus à la date des soins : la part revient au patient.
+- Facturation simulée : SESAM sans Vitale, rythme et canal de télétransmission (direct ou concentrateur), accusé de réception distinct du remboursement, annulation d'une FSE qui annule sa DRE, pièces jointes trop volumineuses signalées.
+- Règlement arrondi au demi supérieur (1,58 € et non 1,57 €).
+- **Poste fixe ·** Tableau de bord : les lots à télétransmettre remontent quand le rythme du cabinet est dépassé.
+- **Poste fixe ·** Patient précédent / suivant, menu contextuel d'un passage, squelettes de chargement dans Tournées.
+
+### Corrigé
+
+- Un acte à 50 % repartait à taux plein lorsqu'il passait par l'agent de poste.
+- **Terminal ·** « J+n » et « il y a n jours » perdaient un jour la semaine d'un changement d'heure.
+
+### Sécurité et conformité
+
+- Une FSE est refusée tant que le dossier porte un NIR fictif.
+- Une modification faite hors connexion n'écrase jamais une version plus récente saisie au cabinet ; une opération refusée reste dans la file avec son motif, jamais effacée.
+
+### Démo et documentation
+
+- Banc de cotation : 195 cas conformes sur 230, aucun écart ; 40 nouveaux cas.
+- La démo dépose le BSI de ses patients sous forfait.
 
 ## [0.16] — 26 octobre 2026 — Lisible d'un coup d'œil, et le jour qui vient
 
