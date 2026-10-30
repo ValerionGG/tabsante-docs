@@ -2,7 +2,7 @@
 
 Ce qui change dans TabSanté, la plateforme des infirmières libérales à domicile, version par version : au poste fixe du cabinet, sur le terminal de tournée et dans la démo.
 
-*Mis à jour le 27 octobre 2026.*
+*Mis à jour le 30 octobre 2026.*
 
 [Portail](https://valeriongg.github.io/tabsante-docs/) · [Démo](https://valeriongg.github.io/tabsante-docs/demo/) · [Vidéos](https://valeriongg.github.io/tabsante-docs/videos/) · [Design](https://valeriongg.github.io/tabsante-docs/design/) · [Questions](https://valeriongg.github.io/tabsante-docs/questions/) · [Donner mon avis](https://github.com/ValerionGG/tabsante-docs/issues/new?template=retour.yml&application=Journal&title=%5BRetour%5D%20Journal)
 
@@ -32,6 +32,41 @@ Les 4 éléments bloqués attendent un tiers : un hébergeur certifié HDS, un 
 ### Raccordements réels
 
 - Agent de poste et télétransmission réels : attendent l'agrément SESAM-Vitale.
+
+## [0.18] — 30 octobre 2026 — Couverture sociale juste, facturation prête pour son moteur
+
+Retour du premier cabinet testeur corrigé, préparation de l'intégration du moteur de facturation, DataMatrix INS et relevé kilométrique. Essai en direct désormais hébergé à une adresse stable.
+
+### Nouveau
+
+- **Poste fixe ·** Couverture sociale : régime et caisse choisis dans la liste des organismes d'assurance maladie (695), justification d'exonération et nature d'assurance en listes, taux, AT/MP/maternité, boutons AME, C2S, ALD et Exo Ø.
+- **Poste fixe et terminal ·** Scan du DataMatrix INS : l'identité se pré-remplit depuis le code d'un document de santé ; elle reste provisoire jusqu'à la vérification INSi, et les écarts avec un dossier existant sont signalés sans rien écraser.
+- **Poste fixe ·** Relevé kilométrique annuel : kilomètres des passages réalisés, IK facturées en regard, estimation au barème fiscal, export CSV et PDF ; **Terminal ·** « km ce mois-ci » dans Moi.
+- **Poste fixe ·** Facturation préparée puis signée : le cabinet prépare les factures sans carte, chaque infirmier les signe avec sa CPS, au lot ou à la télétransmission (simulé).
+- Situations d'exercice d'un même infirmier (IDEL, IPA) avec leurs paramètres de facturation.
+
+### Amélioré
+
+- Facturation simulée au plus près du futur moteur : reprise après une coupure sans doublon, empreinte de carte Vitale relue au-delà d'un an, vérification des droits abandonnée après 30 s sans réseau, retour de caisse manquant malgré un accusé positif signalé avec une demande de renvoi, remplacement porté sur la feuille de soins.
+- Repère « écran du moteur » sur les étapes de sécurisation, de signature et d'envoi, pour préparer le choix entre les modes d'intégration.
+- Numéros d'attente (NIA) acceptés à côté du NIR.
+
+### Corrigé
+
+- **Poste fixe ·** Un NIR de 15 caractères (avec clé) était toujours refusé à la saisie de la couverture ; la clé est désormais contrôlée et proposée.
+- Une signature groupée avec un code porteur faux pouvait bloquer la carte dès le troisième envoi : le code n'est plus vérifié qu'une fois par lot.
+
+### Sécurité et conformité
+
+- Le code porteur n'est jamais gardé ni journalisé (test de garde).
+- Une feuille de soins d'un autre infirmier n'est jamais signée avec votre carte.
+- Démonstration : rappel de ne jamais saisir un vrai NIR, et un bouton qui génère un NIR fictif.
+
+### Démo et documentation
+
+- Essai en direct hébergé sur un serveur, à une adresse stable, saisies conservées et sauvegardées chaque nuit : valeriongg.github.io/tabsante-docs/essai/.
+- Cabinet d'essai vide : le testeur crée son équipe, ses patients fictifs et ses soins.
+- Plan d'intégration du moteur de facturation et sept nouvelles questions à trancher.
 
 ## [0.17] — 27 octobre 2026 — NGAP, facturation et organisation : ce qui manquait
 
