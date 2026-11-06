@@ -2,7 +2,7 @@
 
 Ce qui change dans TabSanté, la plateforme des infirmières libérales à domicile, version par version : au poste fixe du cabinet, sur le terminal de tournée et dans la démo.
 
-*Mis à jour le 30 octobre 2026.*
+*Mis à jour le 6 novembre 2026.*
 
 [Portail](https://valeriongg.github.io/tabsante-docs/) · [Démo](https://valeriongg.github.io/tabsante-docs/demo/) · [Vidéos](https://valeriongg.github.io/tabsante-docs/videos/) · [Design](https://valeriongg.github.io/tabsante-docs/design/) · [Questions](https://valeriongg.github.io/tabsante-docs/questions/) · [Donner mon avis](https://github.com/ValerionGG/tabsante-docs/issues/new?template=retour.yml&application=Journal&title=%5BRetour%5D%20Journal)
 
@@ -23,7 +23,15 @@ Les 4 éléments bloqués attendent un tiers : un hébergeur certifié HDS, un 
 
 ## À venir — en cours
 
-*en cours au 27 octobre 2026* — Ce qui suit attend une décision ou un tiers. Les autres chantiers sont fusionnés.
+*en cours au 6 novembre 2026* — Ce qui suit attend une décision ou un tiers. Les autres chantiers sont fusionnés.
+
+### Proposé au cabinet testeur, en attente de son avis
+
+- Un statut « titulaire » pour l'infirmier en entreprise individuelle.
+- Des droits selon le statut : titulaire et associés gèrent l'équipe et les paramètres du cabinet, collaborateurs et salariés non.
+- **Terminal ·** La carte « Dossier » devient « Coordonnées et contacts » ; groupe sanguin et traitements de fond rejoignent le dossier de soins.
+- « Tous les lundis » sans date de fin obligatoire.
+- Planning IPA : vue au mois et prise de rendez-vous directe.
 
 ### Données publiques à charger
 
@@ -32,6 +40,161 @@ Les 4 éléments bloqués attendent un tiers : un hébergeur certifié HDS, un 
 ### Raccordements réels
 
 - Agent de poste et télétransmission réels : attendent l'agrément SESAM-Vitale.
+
+## [0.23] — 6 novembre 2026 — Les retours du cabinet testeur : statuts, dossier de soins, tournées et planning
+
+Cinq retours d'un infirmier libéral qui teste son propre cabinet d'essai, traités ensemble : le cabinet et son équipe se déclarent comme dans la vie, la plaie rejoint le dossier de soins, le patient est mis dans une tournée et le planning se lit sur un calendrier.
+
+### Nouveau
+
+- **Poste fixe ·** Forme juridique du cabinet (entreprise individuelle, SCM, SELARL, SELAS), choisie aussi à l'ouverture d'un cabinet d'essai ; pour une SELARL ou une SELAS, l'écran précise que les honoraires vont à la société.
+- **Poste fixe ·** Statut de chaque intervenant : un infirmier est associé, collaborateur, salarié ou remplaçant ; une aide-soignante est toujours salariée.
+- **Poste fixe ·** Infirmier déclaré IPA : lui seul ouvre et signe les bilans et consultations IPA de la fiche 24 et facture en tant qu'IPA.
+- **Poste fixe ·** Aides-soignants et IPA deviennent des options du cabinet, désactivées au départ ; l'option aides-soignants n'est proposée qu'à une SELAS. Sans option, l'application n'en parle nulle part.
+- **Poste fixe ·** Onglet « Tournée » du dossier patient : le patient est mis dans une tournée pour toute la journée ou selon le moment, dès qu'il existe une tournée ; ses passages suivent d'eux-mêmes.
+- **Poste fixe ·** Planning sur un calendrier, à la semaine ou au mois : chaque case se clique pour confier la tournée à un infirmier, pour un jour, une semaine, tous les lundis ou sans fin ; une absence déclarée est respectée.
+- **Poste fixe ·** Un planning par métier : infirmiers, aides-soignantes (avec l'option), IPA (avec l'option, les rendez-vous de la semaine).
+
+### Amélioré
+
+- **Poste fixe ·** « Dossiers de soins » remplace « Plaies » dans le menu, avec trois vues : patients, plaies, dispositifs. Les anciens liens mènent à la vue « Plaies ».
+- **Poste fixe et terminal ·** Un seul « Dossier de soins » dans la fiche du patient, et le soin d'une plaie s'appelle « Pansement » (« Pansement · Escarre stade 3 »).
+- **Terminal ·** L'infirmier voit sa tournée du jour dès qu'elle lui est confiée ; la personne qui reçoit ou perd une tournée est prévenue.
+
+### Corrigé
+
+- **Poste fixe ·** Avec plusieurs tournées créées, rien ne permettait d'y mettre un patient, et le planning restait vide tant que personne n'y était attribué.
+- **Poste fixe ·** Le planning des aides-soignantes montrait aussi les infirmiers.
+
+### Sécurité et conformité
+
+- Un aide-soignant ne peut être enregistré que dans un cabinet qui a l'option, et toujours comme salarié.
+- Planning IPA réservé à qui lit le dossier clinique ; ses lectures sont déclarées au journal des accès.
+- Rien n'est effacé lors du passage aux options : un cabinet qui avait déjà des aides-soignantes garde leurs comptes, et un message l'invite à corriger sa forme.
+
+### Démo et documentation
+
+- La démonstration devient une SELAS avec les deux options ; le cabinet d'essai du testeur est rangé en SCM, sans option.
+- Réponses publiées sur chaque retour, avec nos propositions pour la suite ; portail d'aide mis à jour avec le nouveau vocabulaire.
+
+## [0.22] — 4 et 5 novembre 2026 — Une journée réelle au poste, au terminal, en essai et en aide-soignante
+
+Quatre parcours joués de bout en bout, comme une infirmière, une infirmière seule qui découvre l'essai et une aide-soignante les vivraient ; chaque friction relevée est corrigée. Un doublon de traitement dangereux est désormais signalé.
+
+### Nouveau
+
+- **Poste fixe ·** Ordonnance validée : la même molécule déjà en cours est signalée (« Lovenox » et « Énoxaparine »), et il faut choisir de remplacer, d'ajouter volontairement ou de corriger avant de valider.
+
+### Amélioré
+
+- **Poste fixe et terminal ·** Nom puis prénom du patient partout, y compris dans les suggestions, l'encaissement et les demandes de soins.
+- **Terminal ·** Soins courts en moins de pages ; les examens d'un prélèvement sont pris de tout ce qui est prescrit ; photo sous le pouce ; une transmission faite hors connexion part au retour du réseau.
+- **Terminal ·** Retard : l'affichage dit « en retard » dès 5 minutes, l'infirmière n'est notifiée qu'à partir de 10.
+- **Poste fixe ·** Astuces sur une ligne en tête de page, jamais par-dessus le contenu, et montrées une seule fois.
+- **Poste fixe ·** Facturation : le contenu des sous-pages commence bien plus haut, en 1280 comme en 390 px ; bandeau de démonstration réduit à une phrase sur téléphone.
+- **Poste fixe ·** Un seul compte pour « À traiter » ; la page Renouvellements lit la même liste que les suggestions.
+- **Poste fixe ·** Essai : le cabinet garde le nom donné par l'infirmière, l'équipe est facultative pour une infirmière seule, la fréquence part de la fin de l'ordonnance et une fiche sans soin mène à l'ordonnance.
+- **Poste fixe ·** Heures écrites partout de la même façon (« 8 h 00 »).
+
+### Corrigé
+
+- **Poste fixe ·** Dans un état vide, la phrase et son lien passaient sur deux lignes.
+- **Poste fixe ·** Le médecin fictif de la démo avait quatre noms ; il s'appelle partout « Dr Jean Marchand ».
+
+### Sécurité et conformité
+
+- L'aide-soignante ne voit plus ni le niveau ni le forfait du BSI, ni un tarif LPP, ni les règles de non-cumul ou d'éligibilité à la séance hebdomadaire.
+- **Poste fixe ·** Au poste, l'aide-soignante suit son signalement au lieu de « Décider » ; le signalement dit ce qu'elle a constaté avant son texte libre.
+
+### Démo et documentation
+
+- Domiciles fictifs stables d'un chargement à l'autre de la démo ; le passage hebdomadaire de Mme Robin est remis au jour chaque semaine.
+- Comptes rendus des quatre parcours, avec les frictions corrigées et celles qui restent.
+
+## [0.21] — 2 et 3 novembre 2026 — Avenant 11, ordonnance numérique et prélèvements
+
+Les tarifs de l'avenant 11 datés, l'ordonnance numérique consultée par identifiant, la dictée des constantes et une surveillance des plaquettes revue de bout en bout. La démo se remet au jour chaque matin.
+
+### Nouveau
+
+- Avenant 11 : revalorisation datée au 6 novembre 2026, bandeau et écran des changements, levée de doute et compteur MIR, « votre mois avec l'avenant 11 » selon la zone du cabinet (cotation de démonstration).
+- **Poste fixe et terminal ·** Ordonnance numérique consultée par son identifiant, rattachée au patient sans toucher à l'INS, marquée exécutée (service simulé).
+- **Terminal ·** La dictée remplit les constantes, avec relecture obligatoire ; le micro gagne les champs libres de la fiche.
+- **Poste fixe ·** Historique des encaissements filtrable (dont « encaissé par »), export CSV journalisé ; part patient facturée et encaissée dans les recettes.
+- Suggestions : renouvellement « jusqu'à cicatrisation », dépistage colorectal, documents à verser au DMP, vaccination de saison préremplie, résultats de laboratoire lus hors visite.
+- Demandes de soins en ligne : le moment demandé guide le placement du patient.
+
+### Amélioré
+
+- Surveillance des plaquettes sous héparine : un seul seuil, celui du cabinet, pour la fiche et la suggestion ; chute mesurée depuis le pic ; J+n du traitement ; une notification par prélèvement, retirée si le résultat corrigé n'est plus en chute.
+- **Poste fixe et terminal ·** Tubes suggérés pré-cochés, tube fluorure accepté, glycémie capillaire sans tube ; un « bilan à jeun » reste à jeun.
+- **Poste fixe ·** Écran étroit : impayés qui défilent, prérequis qui passent à la ligne, apostrophes typographiques.
+
+### Corrigé
+
+- Le DMP revient bien dans les suggestions quand l'INS est écartée.
+
+### Démo et documentation
+
+- Démo hébergée : la journée est rejouée chaque matin à 8 h 25 et les exemples sont remis au jour, sauf ce qu'un visiteur a déjà traité.
+- Veille IDEL du 2 novembre 2026 (réglementation, numérique en santé, marché) et 15 améliorations priorisées.
+
+## [0.20] — 31 octobre 2026 — Une seule liste à traiter, encaissements et demandes de soins en ligne
+
+Tout ce qui demande une action tient dans une liste sur Aujourd'hui ; la part patient s'encaisse ; un patient peut demander des soins en ligne ; allergies et prélèvements sont mieux gardés.
+
+### Nouveau
+
+- **Poste fixe ·** Une seule liste « À traiter » sur Aujourd'hui (suggestions, préparations, rappels), sans doublon, avec « Annuler » après chaque action ; prérequis regroupés par jour et suggestions de même règle regroupées.
+- **Poste fixe ·** Encaissements : part patient encaissée (partielle, annulée, reçu PDF), contrats de rétrocession par remplaçant avec historique.
+- **Poste fixe ·** Pilotage : récapitulatif mensuel des IK, impayés par payeur, rétrocession par remplaçant, recettes au tableau de bord (montants de démonstration).
+- **Poste fixe ·** Demandes de soins en ligne : un lien public par cabinet, contrôle de zone, « Accepter » crée le patient prérempli et lit l'ordonnance.
+- **Poste fixe et terminal ·** Allergie face à un produit prescrit (substance BDPM, classes évidentes) : alerte à acquitter.
+- **Poste fixe et terminal ·** Aide au prélèvement sanguin : tubes, ordre de prélèvement, à jeun, précautions ; le laboratoire fait foi.
+- **Terminal ·** Micro de dictée pour les champs libres de la visite, la note de relève et la transmission ; contrôle de netteté et de luminosité de la photo d'ordonnance.
+- Suggestions : identité à qualifier avant un passage, constante hors seuil plusieurs fois de suite, surcharge du lendemain, droits et ALD à renouveler, consentements qui expirent, écart de poids.
+
+### Amélioré
+
+- **Terminal ·** Photo conseillée sur une plaie qui ne progresse pas, réponse du passage précédent en indice, appeler le patient suivant, puces d'attention cliquables.
+- **Poste fixe et terminal ·** Couleurs d'état et tailles de texte en jetons du design, contrastes d'au moins 4,5:1.
+
+### Corrigé
+
+- **Poste fixe ·** Une action annulée puis l'onglet fermé aussitôt pouvait ne jamais être enregistrée.
+
+### Sécurité et conformité
+
+- L'acquittement d'une alerte allergie est journalisé.
+
+### Démo et documentation
+
+- Démo prête à facturer : 7 patients sur 11, chaque motif de blocage illustré, une occurrence de chaque suggestion.
+- Site public et page de connexion aux couleurs de l'application.
+
+## [0.19] — 30 octobre 2026 (soir) — Chacun son cabinet d'essai, et une visite au terminal à pleine vitesse
+
+N'importe qui ouvre son propre cabinet d'essai en ligne ; le terminal enchaîne les soins sans détour ; la facturation dit avant la feuille de soins si elle passera.
+
+### Nouveau
+
+- Essai libre : chacun crée son cabinet d'essai et ses comptes depuis la page « Essayer TabSanté », ou rejoint un cabinet par invitation.
+- **Poste fixe ·** État « prêt / risque de rejet / bloqué » avant la feuille de soins, avec ce qui bloque, et « Facturer ma journée ».
+- **Poste fixe ·** Premiers pas d'un cabinet neuf : parcours guidé, états vides utiles, suggestions de démarrage.
+- **Poste fixe ·** Placer un nouveau patient dans les tournées, échange de passages chiffré entre infirmiers.
+- **Poste fixe ·** Page « Règles du cabinet » : seuils des suggestions réglables (plaie sans progrès, horizon de renouvellement).
+- **Poste fixe ·** Référentiels officiels embarqués (médicaments BDPM, LPP, FINESS) proposés à la saisie, sans appel à un tiers.
+
+### Amélioré
+
+- **Terminal ·** Visite à pleine vitesse : avance automatique, une signature par patient, « Signer » mène au champ manquant, arrivée directe au patient suivant ; lisible de nuit comme en plein soleil, état du réseau dans chaque en-tête.
+- **Poste fixe ·** Couverture sociale (retour #1) : contrôles du NIR complets, qualité du bénéficiaire, organismes C2S, n° de complémentaire et tiers payant, caisse proposée par le code postal, alertes de droits.
+- **Poste fixe ·** Transmissions : « Tout marquer lu » et compteurs des filtres.
+- **Poste fixe ·** Les calculs du tableau de bord deviennent des suggestions.
+
+### Sécurité et conformité
+
+- Essai libre : plafonds contre les abus, purge des cabinets d'essai inactifs, rappel de ne saisir que des données fictives.
 
 ## [0.18] — 30 octobre 2026 — Couverture sociale juste, facturation prête pour son moteur
 
