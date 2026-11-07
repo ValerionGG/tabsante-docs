@@ -2,7 +2,7 @@
 
 Ce qui change dans TabSanté, la plateforme des infirmières libérales à domicile, version par version : au poste fixe du cabinet, sur le terminal de tournée et dans la démo.
 
-*Mis à jour le 6 novembre 2026.*
+*Mis à jour le 7 novembre 2026.*
 
 [Portail](https://valeriongg.github.io/tabsante-docs/) · [Démo](https://valeriongg.github.io/tabsante-docs/demo/) · [Vidéos](https://valeriongg.github.io/tabsante-docs/videos/) · [Design](https://valeriongg.github.io/tabsante-docs/design/) · [Questions](https://valeriongg.github.io/tabsante-docs/questions/) · [Donner mon avis](https://github.com/ValerionGG/tabsante-docs/issues/new?template=retour.yml&application=Journal&title=%5BRetour%5D%20Journal)
 
@@ -23,15 +23,7 @@ Les 4 éléments bloqués attendent un tiers : un hébergeur certifié HDS, un 
 
 ## À venir — en cours
 
-*en cours au 6 novembre 2026* — Ce qui suit attend une décision ou un tiers. Les autres chantiers sont fusionnés.
-
-### Proposé au cabinet testeur, en attente de son avis
-
-- Un statut « titulaire » pour l'infirmier en entreprise individuelle.
-- Des droits selon le statut : titulaire et associés gèrent l'équipe et les paramètres du cabinet, collaborateurs et salariés non.
-- **Terminal ·** La carte « Dossier » devient « Coordonnées et contacts » ; groupe sanguin et traitements de fond rejoignent le dossier de soins.
-- « Tous les lundis » sans date de fin obligatoire.
-- Planning IPA : vue au mois et prise de rendez-vous directe.
+*en cours au 7 novembre 2026* — Ce qui suit attend une décision ou un tiers. Les autres chantiers sont fusionnés.
 
 ### Données publiques à charger
 
@@ -40,6 +32,28 @@ Les 4 éléments bloqués attendent un tiers : un hébergeur certifié HDS, un 
 ### Raccordements réels
 
 - Agent de poste et télétransmission réels : attendent l'agrément SESAM-Vitale.
+
+## [0.24] — 7 novembre 2026 — Ce que nous avions proposé au cabinet testeur
+
+Les propositions faites le 6 novembre en réponse aux retours du cabinet testeur sont livrées : le titulaire d'une entreprise individuelle a son statut, le statut règle les droits, la fiche du patient sur le téléphone sépare coordonnées et dossier de soins, et le planning gagne la répétition sans fin et la prise de rendez-vous IPA.
+
+### Nouveau
+
+- **Poste fixe ·** Statut « titulaire » : donné d'office à l'infirmier qui exerce en entreprise individuelle, un seul par cabinet. Un cabinet qui change de forme juridique voit le statut suivre.
+- **Poste fixe ·** Le statut règle les droits : titulaire et associés gèrent l'équipe, les paramètres du cabinet, les tournées et le planning ; collaborateurs et salariés gardent leurs tournées, leurs soins, les transmissions et leur propre facturation, sans gérer le cabinet ; les remplaçants ne changent pas.
+- **Poste fixe ·** « Lui confier le planning » : le titulaire ou un associé peut confier la gestion des tournées et du planning à un collaborateur ou un salarié précis.
+- **Poste fixe ·** Planning IPA au mois, comme celui des tournées, et bouton « Prendre un rendez-vous » : on choisit le patient, l'IPA, la date et l'heure, sans passer par le dossier du patient.
+
+### Amélioré
+
+- **Poste fixe ·** « Tous les lundis » sans date de fin : la tournée est confiée chaque lundi jusqu'à ce qu'on la confie à quelqu'un d'autre ; le planning l'indique sur chaque case.
+- **Terminal ·** La carte « Dossier » de la fiche du patient devient « Coordonnées et contacts » (téléphone, adresse, contacts) ; le groupe sanguin et les traitements de fond rejoignent le « Dossier de soins », à côté des dispositifs et des plaies.
+- **Poste fixe ·** Un écran que le statut ne permet pas de gérer le dit en clair, au lieu de cacher les boutons sans explication.
+
+### Sécurité et conformité
+
+- Les droits liés au statut sont vérifiés par le serveur : une demande hors statut reçoit un refus explicite, quel que soit l'écran d'où elle vient.
+- Une prise de rendez-vous IPA vérifie que l'infirmier choisi est bien IPA du cabinet et la trace au journal des accès.
 
 ## [0.23] — 6 novembre 2026 — Les retours du cabinet testeur : statuts, dossier de soins, tournées et planning
 
