@@ -37,6 +37,16 @@ Les 4 éléments bloqués attendent un tiers : un hébergeur certifié HDS, un 
 
 - Agent de poste et télétransmission réels : attendent l'agrément SESAM-Vitale.
 
+## [0.28] — 8 novembre 2026 — Le dossier patient respire sur tablette, et tout le portail passe à FPLS
+
+Sur une tablette tenue à l'horizontale, le bandeau du patient prend moins de place. La démo publique, le site et le portail documentaire portent désormais le nom FPLS.
+
+### Amélioré
+
+- **Poste fixe ·** Sur une tablette à l'horizontale, le bandeau du patient tient sur une ligne : le dossier gagne environ 60 pixels de hauteur.
+- **Poste fixe et terminal ·** La démo publique a été réenregistrée avec les dernières versions, sous le nom FPLS.
+- **Poste fixe et terminal ·** Le site de présentation et le portail documentaire portent le nom FPLS.
+
 ## [0.27] — 8 novembre 2026 — La prescription saisie dit le rythme des soins
 
 Réponse au retour du cabinet testeur sur l'écran « Nouvelle prescription » : chaque acte peut porter son rythme, les dimanches et jours fériés se tranchent par oui ou non, et le produit n'est demandé que pour les soins qui en administrent un. La veille du 8 novembre corrige aussi plusieurs suggestions et ajoute deux rappels de calendrier.

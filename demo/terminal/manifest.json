@@ -1,11 +1,11 @@
 {
-    "name": "TabSanté — terminal",
-    "short_name": "TabSanté",
+    "name": "FPLS — terminal",
+    "short_name": "FPLS",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "TabSanté V2 — terminal infirmier (démonstration)",
+    "description": "FPLS — terminal infirmier (démonstration)",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

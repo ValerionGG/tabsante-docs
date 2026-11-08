@@ -1,0 +1,4 @@
+﻿Encaissements du 2026-11-01 au 2026-11-30 · part du patient, feuilles de soins de démonstration
+Encaissé le;Patient;FSE;Infirmier (FSE);Mode;Montant (€);Saisi le;Encaissé par;Annulé le
+
+Total encaissé;;;;;0,00

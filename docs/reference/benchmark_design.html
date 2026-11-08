@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Benchmark design UI/UX — TabSanté V2</title>
+<title>Benchmark design UI/UX — FPLS</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
@@ -52,11 +52,11 @@ details.sommaire ul{padding-left:20px;margin:8px 0 0}
 </style>
 </head>
 <body>
-<header class="entete"><div><b>TabSanté — documents</b><a href="../../">← Retour au portail</a></div></header>
+<header class="entete"><div><b>FPLS — documents</b><a href="../../">← Retour au portail</a></div></header>
 <main>
 <p class="chemin">docs/reference/benchmark_design.html</p>
-<h1 id="benchmark-design-uiux--tabsanté-v2">Benchmark design UI/UX — TabSanté V2</h1>
-<details class="sommaire"><summary>Sommaire</summary><ul><li><a href="#0-synthèse-exécutive-10-points">0. Synthèse exécutive (10 points)</a></li><li><a href="#1-carte-de-maturité-design-a">1. Carte de maturité design (a)</a></li><li><a href="#2-fiches-design--lgc-idel-français">2. Fiches design — LGC IDEL français</a></li><li><a href="#3-apps-plaies--la-référence-de-la-rigueur-visuelle">3. Apps plaies — la référence de la rigueur visuelle</a></li><li><a href="#4-références-internationales-et-systèmes-de-design">4. Références internationales et systèmes de design</a></li><li><a href="#5-principes-et-patterns-pour-tabsanté-b">5. Principes et patterns pour TabSanté (b)</a></li><li><a href="#6-direction-visuelle-proposée-c--dans-la-charte-c17">6. Direction visuelle proposée (c) — dans la charte C17</a></li><li><a href="#7-anti-patterns-à-éviter-d">7. Anti-patterns à éviter (d)</a></li><li><a href="#8-top-10-des-améliorations-design-priorisées-e">8. Top 10 des améliorations design priorisées (e)</a></li><li><a href="#9-sources">9. Sources</a></li></ul></details>
+<h1 id="benchmark-design-uiux--tabsanté-v2">Benchmark design UI/UX — FPLS</h1>
+<details class="sommaire"><summary>Sommaire</summary><ul><li><a href="#0-synthèse-exécutive-10-points">0. Synthèse exécutive (10 points)</a></li><li><a href="#1-carte-de-maturité-design-a">1. Carte de maturité design (a)</a></li><li><a href="#2-fiches-design--lgc-idel-français">2. Fiches design — LGC IDEL français</a></li><li><a href="#3-apps-plaies--la-référence-de-la-rigueur-visuelle">3. Apps plaies — la référence de la rigueur visuelle</a></li><li><a href="#4-références-internationales-et-systèmes-de-design">4. Références internationales et systèmes de design</a></li><li><a href="#5-principes-et-patterns-pour-tabsanté-b">5. Principes et patterns pour FPLS (b)</a></li><li><a href="#6-direction-visuelle-proposée-c--dans-la-charte-c17">6. Direction visuelle proposée (c) — dans la charte C17</a></li><li><a href="#7-anti-patterns-à-éviter-d">7. Anti-patterns à éviter (d)</a></li><li><a href="#8-top-10-des-améliorations-design-priorisées-e">8. Top 10 des améliorations design priorisées (e)</a></li><li><a href="#9-sources">9. Sources</a></li></ul></details>
 <p><strong>« La plateforme de soins qui facture sur preuve » — langage visuel, hiérarchie, navigation, saisie, preuve</strong>
 Recherche web réalisée le 2 octobre 2026. Complète <code>benchmark_tabsante.md</code> (benchmark fonctionnel) : ici, on ne parle que de <strong>design</strong> — langage visuel, hiérarchie de l'information, navigation, densité, typographie, couleur, iconographie, data-viz, formulaires, états vides / erreur / hors ligne, confiance, accessibilité, mouvement et ton.</p>
 <blockquote>
@@ -66,7 +66,7 @@ Recherche web réalisée le 2 octobre 2026. Complète <code>benchmark_tabsante.m
 - ⚠️ NV = non vérifié visuellement (aucune capture produit consultable) : jugement par déduction</p>
 <p><strong>Méthode.</strong> Pour chaque produit : page App Store (captures + avis + notes de version), site éditeur (pages fonctionnalités, textes alternatifs des images), polices et couleurs dominantes extraites du code HTML public des sites, forums infirmiers. Les captures App Store sont des <strong>visuels marketing</strong> : elles montrent ce que l'éditeur veut montrer, souvent une version plus ancienne ou idéalisée. Aucune démo ni essai n'a été fait.</p>
 <p><strong>Citations.</strong> Les avis d'utilisateurs sont <strong>paraphrasés</strong> (avec lien) plutôt que recopiés ; les libellés d'interface cités entre guillemets sont de courts textes d'écran.</p>
-<p><strong>Contraintes TabSanté rappelées</strong> (cf. <code>composants_communs_v1.8.txt</code>) : charte <strong>C17</strong> (chrome #DCEBEA / texte #0E4746, page crème #FAF8F4, champs #FFFFFF, signal #FAEBD2 / #6B4E12, acquis #E4EFE7 / #1F5738, action #1F6FB2, critique #A62B38, rampe ambre #FBF0DE · #F2DDB8 · #E3C286 · #CFA254, la couleur ne porte jamais seule l'information) ; <strong>C18</strong> schéma corporel unique ; <strong>C19</strong> barre du bas réservée à ce qui termine le passage, un seul bouton plein par écran, bouton inactif qui dit ce qui manque.</p>
+<p><strong>Contraintes FPLS rappelées</strong> (cf. <code>composants_communs_v1.8.txt</code>) : charte <strong>C17</strong> (chrome #DCEBEA / texte #0E4746, page crème #FAF8F4, champs #FFFFFF, signal #FAEBD2 / #6B4E12, acquis #E4EFE7 / #1F5738, action #1F6FB2, critique #A62B38, rampe ambre #FBF0DE · #F2DDB8 · #E3C286 · #CFA254, la couleur ne porte jamais seule l'information) ; <strong>C18</strong> schéma corporel unique ; <strong>C19</strong> barre du bas réservée à ce qui termine le passage, un seul bouton plein par écran, bouton inactif qui dit ce qui manque.</p>
 </blockquote>
 <hr />
 <h2 id="0-synthèse-exécutive-10-points">0. Synthèse exécutive (10 points)</h2>
@@ -74,10 +74,10 @@ Recherche web réalisée le 2 octobre 2026. Complète <code>benchmark_tabsante.m
 <li><strong>Le marché IDEL est visuellement à mi-chemin.</strong> Personne n'est « cheap » au point d'être inutilisable, mais <strong>personne n'a un langage visuel clinique abouti</strong>. Les meilleurs (Swily, CareCare, Ozzen) ont le vernis d'une app grand public moderne ; les historiques (Soins 2000, Calendridel, Vega EVE) portent encore des écrans de poste Windows sur téléphone.</li>
 <li><strong>Le niveau de référence n'est pas chez les IDEL : il est chez les apps plaies et le home care nord-américain.</strong> Swift Skin &amp; Wound (mesure, % de fermeture, courbe, deltas), AlayaCare (statut icône + mot, progression « 1/5 », pointage, écran de synchronisation) et Healico (mesure calibrée, fil photo par plaie) fixent la barre.</li>
 <li><strong>Aucun concurrent ne rend la « preuve » visible.</strong> On voit des coches, des « factures à sécuriser », des montants. Personne ne montre <strong>la chaîne acte → signature → horodatage → ligne FSE</strong>. C'est un territoire de design vierge, cohérent avec le positionnement.</li>
-<li><strong>Les couleurs du marché sont saturées et décoratives</strong> (violet Ozzen, bleu électrique Swily, bordeaux Calendridel, marine Albus). La charte C17 de TabSanté — chrome bleu-vert pâle, crème, une seule couleur d'action — est <strong>plus calme et plus « document »</strong> que toute la concurrence. C'est un atout de différenciation à assumer, pas à corriger.</li>
+<li><strong>Les couleurs du marché sont saturées et décoratives</strong> (violet Ozzen, bleu électrique Swily, bordeaux Calendridel, marine Albus). La charte C17 de FPLS — chrome bleu-vert pâle, crème, une seule couleur d'action — est <strong>plus calme et plus « document »</strong> que toute la concurrence. C'est un atout de différenciation à assumer, pas à corriger.</li>
 <li><strong>CareCare est le plus proche en esprit</strong> (fond crème/pêche, bleu-vert sombre, page « Validation avant télétransmission » détaillant les parts AMO/AMC/patient). C'est la référence directe à dépasser sur le poste « facturer ».</li>
 <li><strong>Le statut par couleur seule est partout</strong> (barres rouges/vertes Calendridel, points colorés du schéma de plaies Axxess, coches vertes Albus). La règle C17 « couleur jamais seule » est un vrai différenciateur d'accessibilité et de lecture en plein soleil.</li>
-<li><strong>Le hors ligne est revendiqué mais jamais montré.</strong> Seul Soins 2000 affiche « Synchronisation OK, dernière synchro … » et l'état du lecteur. Swily précise que l'écriture demande le réseau. Un <strong>langage visuel du hors ligne</strong> (bandeau, compteur d'envois en attente, horodatage de synchro) est un levier de confiance fort pour TabSanté (héritage V1).</li>
+<li><strong>Le hors ligne est revendiqué mais jamais montré.</strong> Seul Soins 2000 affiche « Synchronisation OK, dernière synchro … » et l'état du lecteur. Swily précise que l'écriture demande le réseau. Un <strong>langage visuel du hors ligne</strong> (bandeau, compteur d'envois en attente, horodatage de synchro) est un levier de confiance fort pour FPLS (héritage V1).</li>
 <li><strong>Typographie : aucun choix pensé pour la lecture clinique.</strong> Poppins + police fantaisie (Agathe YOU, site), Outfit (Albus), Plus Jakarta Sans (Swily), Montserrat/Poppins (Calendridel), polices système ailleurs. Pour une app lue à bout de bras, en extérieur, avec des doses et des identifiants, <strong>une police à désambiguïsation forte (Atkinson Hyperlegible Next, licence OFL)</strong> est un choix défendable et différenciant.</li>
 <li><strong>Le ton du marché oscille entre familier (« tu », émojis) et administratif (identifiants RPPS en capitales).</strong> Il y a de la place pour un ton <strong>professionnel, calme et précis</strong> — celui d'un collègue fiable, pas d'un coach.</li>
 <li><strong>Top 3 des chantiers design</strong> : (1) la ligne de tournée et ses statuts icône + mot ; (2) la signature comme geste délibéré suivie d'un reçu horodaté ; (3) le « fil de preuve » sur le poste fixe et le dossier de preuve imprimable qui se lit comme un document officiel.</li>
@@ -244,13 +244,13 @@ Recherche web réalisée le 2 octobre 2026. Complète <code>benchmark_tabsante.m
   │                              Healico ●   Pixacare ●
   │                                      AlayaCare ●
   │        Calendridel ●            (Axxess ◐ wound mgr)
-  │   (traçabilité → facture,                 ◆ CIBLE TabSanté V2
+  │   (traçabilité → facture,                 ◆ CIBLE FPLS
   │    mais UI datée)                           (haut-droite)
   │                        CareCare ●
   │              Albus ●   Agathe ●   Ozzen ●   Swily ●
   │   Soins 2000 ●   EVE ●
   └──────────────────────────────────────────────────────► maturité visuelle</code></pre>
-<p><strong>Lecture :</strong> le quadrant <strong>haut-droite</strong> (visuel mûr + preuve/objets visibles) n'est occupé que par des <strong>apps plaies autonomes</strong> et du <strong>home care américain</strong>. Aucun LGC IDEL français n'y est. TabSanté doit y aller en combinant la rigueur de Swift (mesure, deltas, verrou) et la clarté de statut d'AlayaCare, dans une charte plus calme que tous les IDEL.</p>
+<p><strong>Lecture :</strong> le quadrant <strong>haut-droite</strong> (visuel mûr + preuve/objets visibles) n'est occupé que par des <strong>apps plaies autonomes</strong> et du <strong>home care américain</strong>. Aucun LGC IDEL français n'y est. FPLS doit y aller en combinant la rigueur de Swift (mesure, deltas, verrou) et la clarté de statut d'AlayaCare, dans une charte plus calme que tous les IDEL.</p>
 <hr />
 <h2 id="2-fiches-design--lgc-idel-français">2. Fiches design — LGC IDEL français</h2>
 <h3 id="21-agathe-you-cba--35">2.1 Agathe YOU (CBA) — 3/5</h3>
@@ -443,8 +443,8 @@ Recherche web réalisée le 2 octobre 2026. Complète <code>benchmark_tabsante.m
 <li>→ Modèle pour l'assistant ordonnance, la consultation infirmière et la <strong>vérification avant télétransmission</strong>.</li>
 <li><strong>Doctolib — Oxygen</strong> 🔶</li>
 <li>Système unique pour produit, design et dev ; <strong>tokens sémantiques nommés par intention, surface et force</strong> (ex. <code>brand-subtle-base</code>, <code>neutral-prominent-base</code>) ; titres Montserrat, texte Roboto (source secondaire) ; refonte de marque 2023 en interne, bleu conservé, accueil critique sur le côté « simpliste » du nouveau logo.</li>
-<li>→ Nommer les tokens TabSanté <strong>par rôle</strong> (signal, acquis, action, critique), ce que fait déjà C17.</li>
-<li><strong>DSFR (Système de design de l'État) et police Marianne</strong> ✅ : <strong>réservés aux services de l'État</strong> ; interdits aux acteurs privés. → TabSanté peut emprunter le <strong>registre</strong> « document officiel » (structure, sobriété, numérotation) mais <strong>ne doit jamais imiter l'identité de l'État</strong> (Marianne, bloc-marque, bleu-blanc-rouge).</li>
+<li>→ Nommer les tokens FPLS <strong>par rôle</strong> (signal, acquis, action, critique), ce que fait déjà C17.</li>
+<li><strong>DSFR (Système de design de l'État) et police Marianne</strong> ✅ : <strong>réservés aux services de l'État</strong> ; interdits aux acteurs privés. → FPLS peut emprunter le <strong>registre</strong> « document officiel » (structure, sobriété, numérotation) mais <strong>ne doit jamais imiter l'identité de l'État</strong> (Marianne, bloc-marque, bleu-blanc-rouge).</li>
 <li><strong>Apple HIG / WCAG 2.2</strong> ✅ : cible tactile <strong>44 pt</strong> (Apple), <strong>48 dp</strong> (Material) ; WCAG 2.5.8 (AA) <strong>24 × 24 px minimum</strong>, 2.5.5 (AAA) <strong>44 × 44 px</strong>. Étude Parhi et al. : <strong>≈ 9,6 mm</strong> pour un usage au pouce sans erreur.</li>
 <li><strong>Google — design hors ligne</strong> 🔶 : indicateur <strong>discret mais persistant</strong> quand on est hors ligne, icône « nuage barré » + libellé « Pas de connexion », laisser l'utilisateur <strong>travailler sur tout le reste</strong> ; bandeau persistant tant que l'état dure (pas un toast qui disparaît).</li>
 </ul>
@@ -454,7 +454,7 @@ Recherche web réalisée le 2 octobre 2026. Complète <code>benchmark_tabsante.m
 <li><strong>Stripe Dashboard</strong> 🔶 : <strong>chiffres tabulaires</strong>, montants <strong>alignés à droite</strong>, statuts centrés, palette d'état étroite (le rouge veut toujours dire « attention »), <strong>le tableau est la vérité, le graphique résume</strong>.</li>
 </ul>
 <hr />
-<h2 id="5-principes-et-patterns-pour-tabsanté-b">5. Principes et patterns pour TabSanté (b)</h2>
+<h2 id="5-principes-et-patterns-pour-tabsanté-b">5. Principes et patterns pour FPLS (b)</h2>
 <p>Chaque principe : <strong>quoi</strong>, <strong>pourquoi</strong>, <strong>inspiré de</strong>. Les principes respectent C17 / C18 / C19.</p>
 <h3 id="51-terminal-mobile-flutter-une-main-souvent-hors-ligne">5.1 Terminal mobile (Flutter, une main, souvent hors ligne)</h3>
 <div class="tableau"><table>
@@ -506,7 +506,7 @@ Recherche web réalisée le 2 octobre 2026. Complète <code>benchmark_tabsante.m
 <tr>
 <td><strong>M7</strong></td>
 <td><strong>Hors ligne visible et non bloquant</strong> : bandeau fin et persistant dans le chrome (« Hors connexion · 3 actes en attente d'envoi »), <strong>jamais de blocage d'écriture</strong> ; écran <strong>Synchronisation</strong> listant envois en attente / envoyés / en erreur avec <strong>horodatage de la dernière synchro</strong>.</td>
-<td>Héritage V1 et zones blanches ; la confiance vient de la visibilité, pas du silence. Swily bloque l'écriture hors ligne : TabSanté ne doit pas.</td>
+<td>Héritage V1 et zones blanches ; la confiance vient de la visibilité, pas du silence. Swily bloque l'écriture hors ligne : FPLS ne doit pas.</td>
 <td>Soins 2000 (dernière synchro), AlayaCare (Sync Activity), Google offline design</td>
 </tr>
 <tr>
