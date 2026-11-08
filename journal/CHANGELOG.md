@@ -1,12 +1,12 @@
-# Journal des versions — TabSanté V2
+# Journal des versions — FPLS
 
-Ce qui change dans TabSanté, la plateforme des infirmières libérales à domicile, version par version : au poste fixe du cabinet, sur le terminal de tournée et dans la démo.
+FPLS, anciennement TabSanté. Ce qui change dans FPLS, la plateforme des infirmières libérales à domicile, version par version : au poste fixe du cabinet, sur le terminal de tournée et dans la démo.
 
-*Mis à jour le 7 novembre 2026.*
+*Mis à jour le 8 novembre 2026.*
 
 [Portail](https://valeriongg.github.io/tabsante-docs/) · [Démo](https://valeriongg.github.io/tabsante-docs/demo/) · [Vidéos](https://valeriongg.github.io/tabsante-docs/videos/) · [Design](https://valeriongg.github.io/tabsante-docs/design/) · [Questions](https://valeriongg.github.io/tabsante-docs/questions/) · [Donner mon avis](https://github.com/ValerionGG/tabsante-docs/issues/new?template=retour.yml&application=Journal&title=%5BRetour%5D%20Journal)
 
-## Où en est TabSanté
+## Où en est FPLS
 
 Couverture du cahier des charges : **571 éléments**, dont **418 faits et testés** (73 %), **139 simulés**, **10 partiels** et **4 bloqués**.
 
@@ -14,16 +14,20 @@ Ce qui est simulé, et pourquoi :
 
 - **Agréments SESAM-Vitale et CNDA** — La lecture des cartes CPS et Vitale, les feuilles de soins électroniques et la télétransmission fonctionnent de bout en bout, mais avec un composant de démonstration. Rien n'est transmis à l'Assurance maladie tant que l'agrément n'est pas obtenu.
 - **Cotation NGAP** — Le moteur de cotation est une démonstration, alignée sur le texte de la NGAP en vigueur et vérifiée sur des cas officiels. Il explique chaque ligne mais ne doit jamais servir à facturer.
-- **Hébergement HDS** — Les données de santé devront être hébergées chez un hébergeur certifié HDS. Le dossier est préparé ; d'ici là, TabSanté ne contient que des personnes fictives.
+- **Hébergement HDS** — Les données de santé devront être hébergées chez un hébergeur certifié HDS. Le dossier est préparé ; d'ici là, FPLS ne contient que des personnes fictives.
 - **Raccordements nationaux** — INSi, DMP, messagerie sécurisée MSSanté, Pro Santé Connect et ordonnance numérique sont joués par des doublures fidèles, en attendant les conventions et les accès de production.
 
 Les 4 éléments bloqués attendent un tiers : un hébergeur certifié HDS, un délégué à la protection des données, un essai d'autonomie de 10 heures sur le téléphone cible et une décision de phasage.
 
-> **À savoir.** La cotation affichée est une démonstration et la télétransmission est simulée. TabSanté ne contient aucune donnée réelle : tous les patients et soignants sont fictifs. Aucune date d'agrément n'est annoncée.
+> **À savoir.** La cotation affichée est une démonstration et la télétransmission est simulée. FPLS ne contient aucune donnée réelle : tous les patients et soignants sont fictifs. Aucune date d'agrément n'est annoncée.
 
 ## À venir — en cours
 
-*en cours au 7 novembre 2026* — Ce qui suit attend une décision ou un tiers. Les autres chantiers sont fusionnés.
+*en cours au 8 novembre 2026* — Ce qui suit attend une décision ou un tiers. Les autres chantiers sont fusionnés.
+
+### À trancher avec le cabinet testeur, en réunion
+
+- Prescription : planifier à part plusieurs perfusions sur un même cathéter, préparer dès l'ordonnance le rythme des soins sur plaie ou dispositif, décaler un soin hebdomadaire tombant un dimanche ou un jour férié, tenir compte des renouvellements dans la date de fin.
 
 ### Données publiques à charger
 
@@ -32,6 +36,69 @@ Les 4 éléments bloqués attendent un tiers : un hébergeur certifié HDS, un 
 ### Raccordements réels
 
 - Agent de poste et télétransmission réels : attendent l'agrément SESAM-Vitale.
+
+## [0.27] — 8 novembre 2026 — La prescription saisie dit le rythme des soins
+
+Réponse au retour du cabinet testeur sur l'écran « Nouvelle prescription » : chaque acte peut porter son rythme, les dimanches et jours fériés se tranchent par oui ou non, et le produit n'est demandé que pour les soins qui en administrent un. La veille du 8 novembre corrige aussi plusieurs suggestions et ajoute deux rappels de calendrier.
+
+### Nouveau
+
+- **Poste fixe ·** Rythme par acte dans « Nouvelle prescription » : tous les jours, tous les 2 jours, un jour par semaine ou autre, avec les moments de la journée, les heures écrites, et un début et une fin propres à l'acte. À l'enregistrement, les passages sont prévus comme pour une ordonnance photographiée.
+- **Poste fixe ·** Rappel de retrait au 31 décembre 2026 pour Levemir, NovoMix 50 FlexPen, Fiasp PumpCart et Victoza : à voir avec le prescripteur. Il disparaît une fois la date passée.
+- **Poste fixe ·** Rappel de commande Comirnaty en décembre, avant la fermeture du portail du 21 décembre au 3 janvier.
+- **Poste fixe ·** Horaires de la pharmacie sur la fiche contacts du patient.
+
+### Amélioré
+
+- **Poste fixe ·** « Dimanches et jours fériés » se répond par oui ou non dans la saisie d'une prescription. La lecture d'une ordonnance photographiée peut rester sans réponse quand le papier ne dit rien.
+- **Poste fixe ·** Le champ produit n'apparaît que pour les soins qui administrent un produit (injections, perfusions, insuline, aérosol, pousse-seringue), et son exemple change selon le soin.
+- **Poste fixe ·** Le formulaire indique où saisir un traitement à distribuer pour qu'il rejoigne la fiche Distribution.
+- **Poste fixe ·** Le fil de preuve d'un acte mène à la ligne de son ordonnance et à la pièce jointe quand elle existe.
+- **Terminal ·** « Nouveautés depuis votre dernier passage » compte à partir de votre propre passage, même entre patients homonymes.
+
+### Corrigé
+
+- **Poste fixe ·** Deux perfusions d'une même ordonnance ne se signalent plus à tort comme un changement de prescription.
+- **Poste fixe ·** Suggestion de vaccin antigrippal : la règle « 65 ans ou ALD » était fausse. Le logiciel propose le vaccin à partir de 65 ans ou en hébergement médico-social, et pose la question aux autres patients à partir de 11 ans, car le dossier ne permet pas d'établir les autres groupes.
+
+### Sécurité et conformité
+
+- Quand une suggestion a été revérifiée sur sa source, l'écran donne la date de cette vérification.
+
+## [0.26] — 8 novembre 2026 — Une tournée qui survit au pouce, à l'interruption et à la zone blanche
+
+Première série d'améliorations tirées de la veille du 8 novembre, qui a recueilli les avis et témoignages d'infirmiers libéraux sur leurs logiciels : clôturer sa journée, retrouver où l'on en était et savoir ce qui est réellement envoyé.
+
+### Nouveau
+
+- **Terminal ·** Fin de tournée : la liste des visites qui restent à clôturer se vide jusqu'à « Tournée terminée ».
+- **Poste fixe ·** Panneau de fin de journée dans « Sur le terrain », qui se vide jusqu'à « Journée close ».
+- **Terminal ·** En tête du patient, ce qui est nouveau depuis votre dernier passage.
+- **Poste fixe ·** État de chaque ordonnance d'un coup d'œil : éléments manquants, échéance, renouvellement.
+- **Poste fixe ·** Fil d'un acte, de l'ordonnance à la facturation, et ancienneté des impayés (« Impayée depuis 9 mois »).
+
+### Amélioré
+
+- **Terminal ·** Trois états clairs pour chaque dossier : enregistré sur l'appareil, en cours d'envoi, envoyé.
+- **Terminal ·** Après une interruption, retour à l'étape laissée, avec le nom et la date de naissance du patient.
+- **Terminal ·** Signature : plus d'appui long, un appui ouvre une seule confirmation sous le pouce.
+- **Terminal ·** La tournée s'ouvre sur la liste, la carte reste à un appui.
+- **Terminal ·** Écrans principaux lisibles avec le texte agrandi à 200 %.
+- **Poste fixe ·** Médecin, pharmacie et laboratoire accessibles depuis tous les onglets du dossier, avec appel direct.
+- **Poste fixe ·** Les suggestions se ferment en un choix parmi quatre issues et montrent leur source.
+
+## [0.25] — 8 novembre 2026 — TabSanté devient FPLS
+
+La plateforme change de nom. Vos adresses de connexion, vos comptes et vos saisies ne changent pas.
+
+### Amélioré
+
+- **Poste fixe et terminal ·** Le nom FPLS remplace TabSanté dans le poste fixe, le terminal, l'écran de connexion et les documents.
+
+### Sécurité et conformité
+
+- Composants de la plateforme mis à jour : le routeur, le serveur du site, la carte et les outils de construction reçoivent les correctifs de sécurité publiés.
+- L'installation des dépendances n'exécute plus de scripts tiers, pour se protéger des attaques par paquets piégés signalées en 2026.
 
 ## [0.24] — 7 novembre 2026 — Ce que nous avions proposé au cabinet testeur
 
@@ -818,6 +885,6 @@ Les trois briques de TabSanté (serveur, poste fixe, terminal) et la première f
 ## Comment ce journal est construit
 
 - Chaque version regroupe les livraisons fusionnées sur la branche principale autour d'une grande étape, dans l'ordre où elles sont arrivées. La date est celle de la dernière fusion de l'étape.
-- Les numéros commencent à 0 : TabSanté est en préparation, sans agrément ni hébergement de santé, et n'est pas utilisé avec de vrais patients. La version 1.0 sera la première utilisée en conditions réelles ; aucune date n'est annoncée.
+- Les numéros commencent à 0 : FPLS est en préparation, sans agrément ni hébergement de santé, et n'est pas utilisé avec de vrais patients. La version 1.0 sera la première utilisée en conditions réelles ; aucune date n'est annoncée.
 - Le contenu vient des messages de fusion, des notes de chaque chantier, de la feuille de route, des nouveautés du portail et des recomptes successifs de la couverture du cahier des charges.
 - Les rubriques suivent l'usage « Keep a Changelog » : Nouveau, Amélioré, Corrigé, Sécurité et conformité, Démo et documentation. Une rubrique sans objet est omise.

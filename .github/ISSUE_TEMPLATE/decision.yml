@@ -1,5 +1,5 @@
 name: Décision sur une question ouverte
-description: Répondre à une des questions à trancher de TabSanté (page « Questions à trancher »).
+description: Répondre à une des questions à trancher de FPLS (page « Questions à trancher »).
 title: "[Décision] "
 labels: ["decision"]
 body:
