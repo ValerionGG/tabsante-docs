@@ -160,43 +160,43 @@ section + section { margin-top: 40px; }
         <li>
           <h3>Signez un passage au terminal</h3>
           <div class="puces"><span class="puce">Terminal</span><span class="puce">Paul Durand</span></div>
-          <ol><li>Créez votre code, ouvrez un patient de la tournée et un soin du jour.</li><li>Complétez ce que « Il manque » demande, puis maintenez « Signer ».</li><li>Le reçu affiche l’empreinte ; l’envoi est accepté sur le téléphone, rien ne part.</li></ol>
+          <ol><li>Créez votre code, ouvrez un patient de la tournée, puis « Commencer le passage ».</li><li>Répondez aux questions du soin, « Terminer le passage », puis maintenez « Signer ».</li><li>Le reçu dit « Accepté sur ce téléphone » : rien ne part.</li></ol>
           <a class="commencer" href="terminal/?persona=Durand">Commencer</a>
         </li>
         <li>
-          <h3>Arbitrez une cotation</h3>
+          <h3>Vérifiez une cotation</h3>
           <div class="puces"><span class="puce">Poste fixe</span><span class="puce">Claire Martin</span></div>
-          <ol><li>Facturation, file de contrôle.</li><li>« Arbitrer » : confirmez avec un motif.</li><li>La cotation passe « À facturer », au tarif de démonstration.</li></ol>
-          <a class="commencer" href="poste/#/connexion?persona=Martin&amp;suite=/facturation">Commencer</a>
+          <ol><li>Facturation, « Cotations à vérifier », vue « Liste ».</li><li>« Pourquoi ? » explique la règle ; cochez une cotation, puis décidez avec un motif.</li><li>Confirmée, elle passe dans « À facturer », au tarif de démonstration.</li></ol>
+          <a class="commencer" href="poste/#/connexion?persona=Martin&amp;suite=%2Ffacturation%2Fverifier%3Fvue%3Densemble">Commencer</a>
         </li>
         <li>
-          <h3>Mode focus : videz la file de contrôle</h3>
+          <h3>Un par un : videz les cotations à vérifier</h3>
           <div class="puces"><span class="puce">Poste fixe</span><span class="puce">Claire Martin</span></div>
-          <ol><li>Facturation : la file de contrôle, un cas à la fois.</li><li>Choisissez 1, 2 ou 3, donnez le motif, puis Entrée.</li><li>Le cas suivant arrive seul, jusqu’à « tout est vu ».</li></ol>
-          <a class="commencer" href="poste/#/connexion?persona=Martin&amp;suite=%2Ffacturation%3Fvue%3Dfocus">Commencer</a>
+          <ol><li>Facturation, « Cotations à vérifier », vue « Un par un ».</li><li>Choisissez 1, 2 ou 3, donnez le motif, puis Entrée.</li><li>Le cas suivant arrive seul, jusqu’au dernier.</li></ol>
+          <a class="commencer" href="poste/#/connexion?persona=Martin&amp;suite=%2Ffacturation%2Fverifier">Commencer</a>
         </li>
         <li>
           <h3>Posez un diagnostic infirmier (fiche 24)</h3>
           <div class="puces"><span class="puce">Poste fixe</span><span class="puce">Claire Martin</span></div>
           <ol><li>Mme Leroux Odile, Bilans/Consultation : ouvrez son suivi.</li><li>Révisez « Risque de chutes », posez un diagnostic NANDA-I ou écartez une hypothèse.</li><li>Signez : l’histoire des diagnostics affiche la pose, ses éléments et leurs preuves.</li></ol>
-          <a class="commencer" href="poste/#/connexion?persona=Martin&amp;suite=%2Fpatients%2Fb933501b-36af-4c52-b59e-d6148282a08d%3Fonglet%3Dconsultations">Commencer</a>
+          <a class="commencer" href="poste/#/connexion?persona=Martin&amp;suite=%2Fpatients%2F41bb9976-18fc-47da-828f-823c5a397cbc%3Fonglet%3Dconsultations">Commencer</a>
         </li>
         <li>
-          <h3>Créez et sécurisez une FSE</h3>
+          <h3>Créez et signez une feuille de soins</h3>
           <div class="puces"><span class="puce">Poste fixe</span><span class="puce">Claire Martin</span></div>
-          <ol><li>Facturation, à facturer.</li><li>« Créer la FSE » pour un patient.</li><li>« Sécuriser » : cartes CPS et Vitale simulées.</li></ol>
-          <a class="commencer" href="poste/#/connexion?persona=Martin&amp;suite=/facturation/a-facturer">Commencer</a>
+          <ol><li>Facturation, « À facturer ».</li><li>« Créer la feuille de soins » pour un patient.</li><li>« Signer avec ma carte CPS » : cartes CPS et Vitale simulées.</li></ol>
+          <a class="commencer" href="poste/#/connexion?persona=Martin&amp;suite=/facturation">Commencer</a>
         </li>
         <li>
-          <h3>Vérifiez puis télétransmettez un lot</h3>
+          <h3>Vérifiez puis envoyez vos feuilles à la caisse</h3>
           <div class="puces"><span class="puce">Poste fixe</span><span class="puce">Claire Martin</span></div>
-          <ol><li>Facturation, lots : les FSE sécurisées.</li><li>« Vérifier » : contrôle de cohérence.</li><li>Télétransmettez : simulé, rien ne part vers l’Assurance maladie.</li></ol>
-          <a class="commencer" href="poste/#/connexion?persona=Martin&amp;suite=/facturation/lots">Commencer</a>
+          <ol><li>Facturation, « Envois et retours » : les feuilles signées.</li><li>« Vérifier » : chaque soin est relu avant de partir.</li><li>« Envoyer à la caisse » : simulé, rien ne part vers l’Assurance maladie.</li></ol>
+          <a class="commencer" href="poste/#/connexion?persona=Martin&amp;suite=/facturation/envois">Commencer</a>
         </li>
         <li>
           <h3>Remettez un accès de contrôle CPAM</h3>
           <div class="puces"><span class="puce">Poste fixe</span><span class="puce">Claire Martin</span></div>
-          <ol><li>Facturation, contrôle CPAM.</li><li>Choisissez un patient et une période.</li><li>Ouvrez le lien remis : le dossier tel que le contrôleur le lit.</li></ol>
+          <ol><li>Facturation, « Plus » : accès pour un contrôle de la caisse.</li><li>Choisissez un patient et une période.</li><li>Ouvrez le lien remis : le dossier tel que le contrôleur le lit.</li></ol>
           <a class="commencer" href="poste/#/connexion?persona=Martin&amp;suite=/facturation/controle-cpam">Commencer</a>
         </li>
         <li>
@@ -214,7 +214,7 @@ section + section { margin-top: 40px; }
       <ul>
         <li>Le cabinet, les patients, les intervenants et leurs documents sont inventés.</li>
         <li>La cotation est celle du moteur de démonstration : elle ne doit jamais servir à facturer.</li>
-        <li>Cartes CPS et Vitale, FSE, télétransmission et retours de l’Assurance maladie sont simulés.</li>
+        <li>Cartes CPS et Vitale, feuilles de soins, envois à la caisse et retours de l’Assurance maladie sont simulés.</li>
         <li>L’horloge de la démonstration part de 8 h 40, à l’heure de Paris : la matinée de tournée commence, quelle que soit l’heure de votre visite.</li>
         <li>Rien n’est enregistré : rechargez l’onglet pour repartir de zéro (le terminal garde sa tournée dans ce navigateur, comme un téléphone).</li>
       </ul>

@@ -79,6 +79,8 @@ Troisième partie de la refonte : le dessin. Menu bleu nuit, cartes blanches ar
 - **Poste fixe ·** Une tournée créée paraît aussitôt dans le planning, sans recharger la page.
 - **Poste fixe ·** Tableau de bord : la carte heure par heure compte tous les passages dus de la semaine, comme « Passages de la semaine » (elle oubliait les jours pas encore ouverts).
 - **Terminal ·** Sur un petit téléphone, la première réponse de la fiche Médicaments ne reste plus cachée sous la barre du bas.
+- **Poste fixe ·** Rédiger une prescription infirmière depuis une consultation récente n'affiche plus d'erreur ; les diagnostics posés ce jour-là y sont rappelés.
+- **Poste fixe ·** L'aide intégrée renvoie au bon endroit du dossier pour le partage et la télésanté (onglet « Plus »).
 
 ## [0.30] — 12 novembre 2026 — Sur le téléphone, la fiche va droit au soin
 

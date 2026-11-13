@@ -1,0 +1,1 @@
+.ref-liste.officiel [role=option]{flex-direction:column;align-items:flex-start;gap:2px}.ref-liste.officiel small{white-space:normal}.vigilance{background:var(--alerte-50);color:var(--alerte-encre);box-shadow:inset 0 0 0 1px var(--alerte-200);font-weight:600;font-size:var(--t-xs);border-radius:6px;padding:0 6px;display:inline-block}
