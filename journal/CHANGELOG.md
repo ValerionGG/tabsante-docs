@@ -2,7 +2,7 @@
 
 FPLS, anciennement TabSanté. Ce qui change dans FPLS, la plateforme des infirmières libérales à domicile, version par version : au poste fixe du cabinet, sur le terminal de tournée et dans la démo.
 
-*Mis à jour le 8 novembre 2026.*
+*Mis à jour le 13 novembre 2026.*
 
 [Portail](https://valeriongg.github.io/tabsante-docs/) · [Démo](https://valeriongg.github.io/tabsante-docs/demo/) · [Vidéos](https://valeriongg.github.io/tabsante-docs/videos/) · [Design](https://valeriongg.github.io/tabsante-docs/design/) · [Questions](https://valeriongg.github.io/tabsante-docs/questions/) · [Donner mon avis](https://github.com/ValerionGG/tabsante-docs/issues/new?template=retour.yml&application=Journal&title=%5BRetour%5D%20Journal)
 
@@ -23,7 +23,7 @@ Les 4 éléments bloqués attendent un tiers : un hébergeur certifié HDS, un 
 
 ## À venir — en cours
 
-*en cours au 8 novembre 2026* — Ce qui suit attend une décision ou un tiers. Les autres chantiers sont fusionnés.
+*en cours au 13 novembre 2026* — Ce qui suit attend une décision ou un tiers. Les autres chantiers sont fusionnés.
 
 ### À trancher avec le cabinet testeur, en réunion
 
@@ -36,6 +36,130 @@ Les 4 éléments bloqués attendent un tiers : un hébergeur certifié HDS, un 
 ### Raccordements réels
 
 - Agent de poste et télétransmission réels : attendent l'agrément SESAM-Vitale.
+
+## [0.31] — 13 novembre 2026 — Un nouveau visage, au cabinet comme sur le téléphone
+
+Troisième partie de la refonte : le dessin. Menu bleu nuit, cartes blanches arrondies, bleu vif pour l'action, chiffres en cartes. Tous les écrans du poste et du téléphone ont été repris, et chaque écran montre d'abord ce qu'on vient y faire.
+
+### Nouveau
+
+- **Poste fixe et terminal ·** Nouvelle identité partout : page gris-bleu, cartes blanches très arrondies, un seul bouton bleu par écran, états en pastilles de couleur (corail critique, ambre à surveiller, vert fait, violet contexte), une couleur d'avatar par personne.
+- **Poste fixe ·** Aujourd'hui accueille par « Bonjour » et le prénom, puis quatre cartes de chiffres : passages signés, à traiter, cotations à vérifier, prêt à facturer. Chaque carte ouvre son écran. L'aide-soignante n'y voit ni cotation ni montant.
+- **Poste fixe ·** Aujourd'hui : un anneau dit où en sont les tournées, « Soins à surveiller » réunit plaies et dispositifs en alerte, « Passages de la semaine » montre en barres le prévu et le signé.
+- **Poste fixe ·** Dossier du patient : une carte d'identité en tête (âge, adresse, allergies, contexte, médecin traitant) avec « Transmission » et « Nouvelle prescription », puis les dernières constantes avec leur courbe, les derniers passages en frise, les soins en cours et « À savoir avant le soin ».
+- **Poste fixe ·** Tableau de bord : chiffres en cartes, passages en barres, objectifs de la semaine, carte heure par heure, cicatrisation plaie par plaie.
+- **Poste fixe ·** Tournées : la semaine est une grille de tuiles avec l'avatar du soignant ; quatre chiffres en tête (passages, cases non attribuées, journées chargées, échanges proposés).
+- **Poste fixe ·** Demandes de soins : une carte par demande, le téléphone en bouton « Appeler le … », puis Rappelé, Refuser ou Accepter.
+- **Poste fixe ·** Équipe : une carte par membre ; « Relier un téléphone » affiche le code en très grand et trois étapes numérotées.
+- **Terminal ·** La tournée s'ouvre sur « Bonjour » et une carte bleue : passages faits, fin estimée, état du réseau et des envois. La barre d'onglets flotte en bas.
+- **Terminal ·** Le téléphone prend la police du poste fixe (Geist) : les deux écrans se lisent de la même façon. Le zéro n'y est jamais barré, pour ne pas le confondre avec un 8.
+- **Terminal ·** Le reçu dit d'abord, en grand, où en est l'envoi, puis résume ce qui a été signé, pour qui, quand et par qui.
+
+### Amélioré
+
+- **Poste fixe ·** Dossier du patient : la synthèse tient en un écran et demi sur une tablette, au lieu de trois. Les vues d'un onglet se lisent juste dessous : un appui pour en changer, au lieu de deux.
+- **Poste fixe ·** « À traiter » : des tuiles colorées selon la gravité, un seul bouton par ligne ; toucher une ligne déplie son détail dessous.
+- **Poste fixe ·** Facturation : trois cartes de chiffres par onglet, une ligne par patient avec un seul bouton ; ce qui bloque est écrit dessous, avec « Corriger ».
+- **Poste fixe ·** Carte du jour : la carte et l'ordre de passage côte à côte ; chaque domicile tient en trois lignes. Au-delà de trois heures, un passage en retard est dit « toujours pas fait ».
+- **Poste fixe ·** Transmissions : chaque message montre l'auteur, l'heure, le patient puis le texte ; un seul bouton par message, « Requalifier » sous « ⋯ ».
+- **Poste fixe ·** Nouvelle prescription : trois sections numérotées, la fréquence de chaque acte dite en une phrase, « Enregistrer » toujours visible en bas.
+- **Poste fixe ·** Connexion : on choisit d'abord son profil ; la carte CPS et le code sont sous « Autres façons de se connecter ».
+- **Poste fixe ·** Toute boîte de dialogue a une croix en haut à droite et son bouton principal en bas à droite.
+- **Poste fixe ·** Sur tablette, tout se touche : aucune commande sous 44 px au doigt sur les écrans vérifiés, aucun débordement de 390 à 1440 px de large.
+- **Terminal ·** « Y aller » et « Commencer le passage » sont dans la carte du prochain passage, avec l'heure d'arrivée, les soins et ce qu'il faut savoir.
+- **Terminal ·** Fiche du patient : l'allergie en bloc corail, les soins du passage en lignes, le reste du dossier replié en cartes.
+- **Terminal ·** Pendant un soin, les choix sont de grandes pilules et les étapes une barre de segments.
+- **Terminal ·** Les affichages « Nuit » et « Soleil » suivent les mêmes formes.
+- **Terminal ·** L'aide intégrée décrit les écrans tels qu'ils sont, et plus aucun texte n'est sous 14.
+- **Terminal ·** « Mode visite » s'appelle « Étape par étape » ; dans « Faite par », « L'entourage » devient « Un proche ».
+
+### Corrigé
+
+- **Poste fixe ·** « Annuler » après un enregistrement (cabinet, coordonnées d'un membre, rayon d'intervention) remet bien les valeurs d'avant.
+- **Poste fixe ·** Une tournée créée paraît aussitôt dans le planning, sans recharger la page.
+- **Poste fixe ·** Tableau de bord : la carte heure par heure compte tous les passages dus de la semaine, comme « Passages de la semaine » (elle oubliait les jours pas encore ouverts).
+- **Terminal ·** Sur un petit téléphone, la première réponse de la fiche Médicaments ne reste plus cachée sous la barre du bas.
+
+## [0.30] — 12 novembre 2026 — Sur le téléphone, la fiche va droit au soin
+
+Deuxième partie de la refonte : le téléphone. La tournée montre le prochain patient et la suite sans défiler, la fiche du patient commence par les soins du jour, et une injection se trace en cinq touchers au lieu de neuf.
+
+### Nouveau
+
+- **Terminal ·** Avec du réseau, la recherche trouve tous les patients du cabinet : on lit la fiche d'un patient hors tournée (allergies, dernières transmissions, coordonnées) sans le recréer.
+- **Terminal ·** La fiche du patient a une ligne « Transmissions » : la dernière en clair, toutes d'un appui.
+- **Terminal ·** Fin du passage : ce qui a été fait, ce qui reste, la note pour la relève, puis « Signer » d'un seul appui.
+- **Terminal ·** « Rien à signaler » répond d'un geste aux questions de surveillance encore vides (anticoagulant, pansement), sans remplacer une réponse déjà donnée.
+
+### Amélioré
+
+- **Terminal ·** La tournée s'ouvre sur le prochain patient (heure d'arrivée, soins, ce qu'il faut savoir) et, juste dessous, la liste « Ensuite », sans défiler. « Y aller » et « Commencer le passage » restent sous le pouce.
+- **Terminal ·** La fiche du patient montre d'abord l'allergie, en une ligne, puis les soins du jour. Le reste se déplie d'un appui. Elle fait deux écrans au lieu de six.
+- **Terminal ·** La fiche de soin s'ouvre sur la première question. Le contexte (dernier passage, nouveautés, ordonnance) tient en une ligne « À savoir avant le soin ».
+- **Terminal ·** Une seule barre en bas, un seul bouton : « Valider », puis « Soin suivant » ou « Terminer le passage ». « Soin » ajoute un soin non prévu, « Plus » range la photo, la note pour la relève, le soin non réalisé et l'événement critique.
+- **Terminal ·** Injection : « Faite » remplit « Faite par » et propose le site selon la rotation, avec « Changer » à côté. Vérifiez-le avant de valider.
+- **Terminal ·** Une étape n'est « faite » que complète : ce qui manque est écrit au-dessus du bouton, et un appui y mène.
+- **Terminal ·** Le reçu dit d'abord « Enregistré sur ce téléphone » ou « Envoyé au cabinet ». Les détails techniques sont repliés.
+- **Terminal ·** Première ouverture : « Relier ce téléphone au cabinet », un seul champ. Ouvert par le QR code du cabinet, le code est déjà saisi.
+- **Terminal ·** Au retour du guidage ouvert par « Y aller », le code n'est plus redemandé, sauf après cinq minutes sans toucher l'écran.
+- **Terminal ·** Le message de notification est plus petit et ne cache plus « Retour ».
+- **Terminal ·** Les textes secondaires sont plus grands, et le réglage « Affichage » (Soleil) est en tête de « Moi ».
+- **Terminal ·** Mêmes mots qu'au cabinet : « Transmissions », « 1 pansement », « le cabinet » à la place de « serveur ».
+
+## [0.29] — 12 novembre 2026 — Le poste se simplifie : huit entrées au menu, et l'essentiel d'abord
+
+Refonte de l'ordinateur et de la tablette du cabinet après un audit complet et les retours du cabinet testeur. Le menu passe de vingt entrées à huit, chaque écran montre d'abord ce qu'on vient y faire, et tout se touche au doigt sur tablette. Cette version apporte aussi le rôle de secrétaire, l'acceptation d'une demande de soins en une fois et les règles de fréquence demandées.
+
+### Nouveau
+
+- **Poste fixe ·** Rôle « Secrétaire » : demandes de soins, planning, facturation et statistiques, sans aucun dossier de soins. Le titulaire peut lui accorder un accès aux soins en lecture seule, entre deux dates.
+- **Poste fixe ·** « Accepter » une demande de soins cherche d'abord le patient dans le cabinet (nom, date de naissance, numéro de sécurité sociale, téléphone) : « C'est lui » rattache la demande à son dossier, « Nouveau patient » ouvre le dossier avec tout ce que la demande contient.
+- **Poste fixe ·** Une demande acceptée peut être annulée tant qu'aucun soin n'a été prescrit ni signé depuis. Un onglet « Traitées » garde l'historique.
+- **Poste fixe ·** Le lien de demande de soins se donne en QR code, à afficher ou à imprimer : dix cartes de visite sur une feuille A4, ou une affiche A5.
+- **Poste fixe ·** Le formulaire public demande la civilité, l'adresse complète et, en option, le numéro de sécurité sociale.
+- **Poste fixe ·** « Facturer tout ce qui est prêt » : tous les soins signés, aujourd'hui, cette semaine ou tout, avec un récapitulatif avant de valider et un seul code de carte CPS pour toute la série.
+- **Poste fixe ·** « Dossier de preuve » : qui a fait quoi, à qui et quand, à filtrer par patient, soignant, soin et période, avec le total de chaque soignant.
+- **Poste fixe ·** Le dossier du patient a un bouton « Contacts » : médecin traitant, pharmacie, laboratoire, personne de confiance et proches, chaque numéro prêt à appeler.
+- **Poste fixe ·** Ce qu'il faut prévoir avant un soin se règle patient par patient, dans le dossier, onglet Tournée.
+- **Poste fixe ·** Soin « sous condition » (par exemple un lavement s'il n'y a pas de selles à J3) : aucun passage n'est prévu, et le plan de soins dit « pas encore fait », puis « fait le … par … ».
+- **Poste fixe ·** Depuis le planning, « Mettre un patient dans une tournée » range un patient sans ouvrir son dossier.
+
+### Amélioré
+
+- **Poste fixe ·** Le menu tient en huit lignes : Aujourd'hui, Patients, Demandes de soins, Dossiers de soins, Tournées, Transmissions, Facturation, Paramètres du cabinet. « Paramètres du cabinet » est toujours à l'écran.
+- **Poste fixe ·** Sur tablette, boutons, onglets, champs et lignes de menu font au moins 44 pixels : on les touche sans viser. Le plus petit texte fait 12 pixels.
+- **Poste fixe ·** « Aujourd'hui » s'ouvre sur la liste « À traiter ». Son total est le même dans le menu, en tête de liste et au tableau de bord. La page fait moins de deux écrans au lieu de six.
+- **Poste fixe ·** Le tableau de bord tient en un écran : six chiffres au plus, chacun avec ce qu'il couvre, puis le détail replié.
+- **Poste fixe ·** Le dossier du patient s'ouvre sur « Derniers passages » : qui est passé, quand, pour quels soins. Une seule rangée d'onglets, et un en-tête qui garde en vue le nom, l'âge, les allergies et les alertes.
+- **Poste fixe ·** « Dossier de soins » porte toute la traçabilité : soins en cours, soins effectués, bilans, consultations infirmières, résultats, traitement et alertes.
+- **Poste fixe ·** Dans la liste des patients, « Plaies actives » devient « Soins suivis » : pansements, dispositifs et soins en cours.
+- **Poste fixe ·** Tournées s'ouvre sur le planning pour qui attribue les tournées. Quatre onglets : Planning, Carte du jour, Préparer demain, Plus.
+- **Poste fixe ·** La facturation tient en trois onglets : « À facturer », « Envois et retours », « Paiements ». Un patient bloqué dit pourquoi sur sa ligne, et « Corriger » ouvre la couverture sociale sans quitter la page.
+- **Poste fixe ·** Les Paramètres du cabinet tiennent en quatre onglets : Cabinet, Équipe et téléphones, Règles, Données et sécurité. Les règles se lisent sans défiler de côté.
+- **Poste fixe ·** « Enrôler un terminal » devient « Relier un téléphone », depuis la ligne de chaque soignant : le code s'affiche en grand, avec un carré à viser. Un téléphone perdu se bloque d'un geste.
+- **Poste fixe ·** Un seul bouton pour faire entrer quelqu'un : « Ajouter un membre ». Son lien d'invitation s'envoie depuis votre messagerie ou se copie.
+- **Poste fixe ·** La fiche de chaque membre dit en phrases ce qu'il peut faire et ce qu'il ne voit pas.
+- **Poste fixe ·** Nouvelle prescription : un acte par ligne, sa fréquence déjà remplie et lisible en une phrase. Les mentions rares sont repliées, et « Enregistrer » reste visible en bas.
+- **Poste fixe ·** Quand l'ordonnance dit non aux dimanches et jours fériés : « tous les jours » devient « 6 jours sur 7 », le dimanche ne se coche plus, et un jour férié décale le passage au lendemain, ou au vendredi s'il tombe un samedi.
+- **Poste fixe ·** Perfusion : on parle d'« épisode de perfusion ». Une ligne par perfusion, avec produit, volume, débit et horaires prescrits ; aucune durée à saisir.
+- **Poste fixe ·** Reculer la fin d'un soin prolonge la même fréquence. Changer le rythme sans nouvelle ordonnance demande un motif.
+- **Poste fixe ·** La couverture sociale demande d'abord l'essentiel ; le reste est sous « Autres informations », et un seul bouton enregistre tout.
+- **Poste fixe ·** La recherche trouve les pages par leurs mots courants : « téléphone », « équipe », « règles », « données ».
+- **Poste fixe ·** Les mots changent : feuille de soins, envoi à la caisse, cotations à vérifier, soins saisis après coup, connexions en cours, dossier de preuve.
+
+### Corrigé
+
+- **Poste fixe ·** Une demande de soins ne s'accepte plus qu'une fois, même si deux personnes cliquent au même instant, et ne crée plus de patient en double.
+- **Poste fixe ·** Deux infirmiers (ou deux aides-soignants) ne peuvent plus être prévus au même moment chez un patient.
+- **Poste fixe ·** Une prescription ne s'enregistre plus sans acte.
+- **Poste fixe ·** Un patient bloqué pour la facturation ne propose plus « Créer la feuille de soins ».
+- **Poste fixe ·** Le « 0 » isolé sous certaines cartes de la planification a disparu.
+
+### Sécurité et conformité
+
+- **Poste fixe ·** Annuler le rattachement d'une demande à un patient retire de son dossier ce que la demande y avait ajouté : l'ordonnance, l'adresse, le téléphone, le proche. Rien d'un autre patient n'y reste visible.
+- **Poste fixe ·** Les totaux par soignant du dossier de preuve ne sont lus en entier que par ceux qui gèrent le cabinet ; les autres ne voient que le leur.
+- **Poste fixe ·** L'aide-soignant ne voit toujours ni cotation ni montant, y compris sur les nouveaux écrans.
 
 ## [0.28] — 8 novembre 2026 — Le dossier patient respire sur tablette, et tout le portail passe à FPLS
 
