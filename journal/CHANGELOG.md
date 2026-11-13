@@ -37,6 +37,41 @@ Les 4 éléments bloqués attendent un tiers : un hébergeur certifié HDS, un 
 
 - Agent de poste et télétransmission réels : attendent l'agrément SESAM-Vitale.
 
+## [0.32] — 13 novembre 2026 — Le téléphone d'abord : menu sous le pouce, boutons, mots, taille du texte et sons
+
+Le poste ouvert sur un téléphone devient confortable : menu en bas, onglets sur une ligne, texte plus gros, listes au lieu de tableaux. Partout, une seule couleur pour l'action et des boutons aux mots plus courts. Chacun règle la taille du texte et les sons, au poste comme sur le téléphone de tournée.
+
+### Nouveau
+
+- **Poste fixe et terminal ·** « Affichage et sons » : chacun choisit la taille du texte (Standard, Grand, Très grand) et coupe ou garde les sons. Au poste, sous votre nom en bas du menu ; sur le téléphone, dans « Moi ». Le réglage reste sur l'appareil.
+- **Poste fixe ·** Un son discret confirme la signature d'une feuille de soins, d'un bilan ou d'une consultation, l'envoi à la caisse et l'acceptation d'une demande ; un son grave signale un échec ; un carillon annonce une notification critique qui arrive.
+- **Terminal ·** Un son court confirme une signature, un autre signale un rappel ou un retard, un troisième une action refusée. Les vibrations se coupent aussi.
+- **Poste fixe ·** Sur un téléphone, le menu est en bas, sous le pouce : Aujourd'hui, Patients, Tournées, Transmissions, et « Plus » pour le reste. Chacun n'y voit que ce à quoi il a droit.
+- **Poste fixe ·** En tête de la synthèse d'un patient, « L'essentiel » en deux lignes : les soins en cours et l'alerte, puis le dernier passage et le prochain.
+- **Terminal ·** La fiche du patient dit d'abord l'essentiel, juste sous l'allergie : l'âge, les soins à faire à ce passage, le dernier passage.
+
+### Amélioré
+
+- **Poste fixe ·** Sur un téléphone, le texte est plus gros (15 px pour le texte courant, 13 au minimum), la barre du haut tient sur une ligne et le bandeau d'astuce ne prend plus de place.
+- **Poste fixe ·** Sur un téléphone, les onglets et les filtres tiennent sur une seule ligne qui défile au doigt : plus de menu sur deux ou trois lignes.
+- **Poste fixe ·** Sur un téléphone, les chiffres vont à deux par rangée : sur Aujourd'hui, la première ligne « À traiter » se voit sans défiler.
+- **Poste fixe ·** Sur un téléphone, les patients, les soins effectués, les bilans et courriers, les soins signés et ce qui reste dû sont des listes : plus de tableau coupé ou à faire défiler de côté.
+- **Poste fixe ·** Sur un téléphone, la carte du patient est trois fois moins haute, l'allergie toujours visible ; le planning montre un jour à la fois ; la recherche et les notifications prennent tout l'écran.
+- **Poste fixe ·** Sur un téléphone, l'action principale d'un écran est un bouton bleu en bas à droite, qui se réduit à un rond dès que la page défile.
+- **Poste fixe ·** Une seule couleur pour l'action, le bleu vif, et un seul bouton plein par écran ; les boutons d'une même rangée ont la même hauteur ; le choix fait dans un filtre se voit nettement.
+- **Poste fixe ·** Des mots plus courts : « Tout facturer », « Créer la feuille », « Ajouter un patient », « Nouvelle transmission », « Ajouter plusieurs soins ». Dans les transmissions, « Intra-cabinet » devient « Équipe » et une « interpellation » devient une « question ».
+- **Poste fixe ·** « Domicile non placé » dit maintenant quoi faire : « Adresse à saisir » dans le dossier, « Adresse à situer sur la carte » sur la tournée.
+- **Terminal ·** En bas de l'écran, les quatre onglets ont la même taille, en entier, même sur un petit téléphone.
+- **Terminal ·** Le prochain passage se lit en deux lignes : le patient et l'heure d'arrivée, puis le soin et la distance. Un seul bouton bleu, celui qui fait avancer la tournée.
+- **Terminal ·** Les boutons n'ont plus que deux hauteurs et parlent plus court (« Voir la tournée », « Finir la journée », « Signer l'ouverture ») ; aucun ne finit par « … ». Une réponse choisie est en bleu nuit, le bleu vif reste à l'action principale.
+- **Terminal ·** La liste des soins d'un arrêt ou d'un passage s'écrit en entier.
+
+### Corrigé
+
+- **Poste fixe ·** Le panneau des notifications se referme quand on change de page.
+- **Poste fixe ·** Une photo de plaie illisible le dit en français et indique quoi faire.
+- **Poste fixe ·** En texte « Très grand », plus rien n'est coupé sur Aujourd'hui ; le menu de gauche s'élargit pour garder ses libellés entiers.
+
 ## [0.31] — 13 novembre 2026 — Un nouveau visage, au cabinet comme sur le téléphone
 
 Troisième partie de la refonte : le dessin. Menu bleu nuit, cartes blanches arrondies, bleu vif pour l'action, chiffres en cartes. Tous les écrans du poste et du téléphone ont été repris, et chaque écran montre d'abord ce qu'on vient y faire.
