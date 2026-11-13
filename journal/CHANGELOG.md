@@ -37,6 +37,33 @@ Les 4 éléments bloqués attendent un tiers : un hébergeur certifié HDS, un 
 
 - Agent de poste et télétransmission réels : attendent l'agrément SESAM-Vitale.
 
+## [0.33] — 14 novembre 2026 — Les parcours rejoués pour de vrai sur un téléphone, les fiches de soin reprises une par une
+
+Après la mise au format téléphone, chaque parcours a été rejoué de bout en bout sur un petit écran, au poste comme sur le téléphone de tournée : créer un patient, prescrire, facturer, signer un passage, travailler sans réseau. Ce qui gênait en chemin est corrigé, et les boutons des fiches de soin disent leur geste en trois mots.
+
+### Amélioré
+
+- **Poste fixe ·** Sur un téléphone, le champ que l'on remplit ne passe plus sous le bouton collé en bas ; « Enregistrer » et « Annuler » tiennent sur une seule rangée.
+- **Poste fixe ·** Quand on valide un formulaire et qu'un champ est refusé plus haut, l'écran revient sur ce champ, avec son message.
+- **Poste fixe ·** Les listes de propositions (collègue à mentionner avec @, prescripteur) viennent à l'écran en s'ouvrant, au lieu de rester sous les boutons.
+- **Poste fixe ·** Après « Enregistrer la prescription » ou l'acceptation d'une demande de soins, l'écran revient sur ce qui vient d'être fait.
+- **Poste fixe ·** Sur un téléphone, le bouton bleu flottant se réduit à son icône dès qu'il recouvrirait un bouton ou un titre, et s'efface quand un formulaire a son propre bouton.
+- **Poste fixe ·** Paramètres du cabinet : « Enregistrer » reste inactif tant que rien n'a changé.
+- **Poste fixe ·** Facturation : la feuille de soins montre d'abord ce qu'il reste à faire (lire la carte, signer, envoyer) ; quand une correction contredit la carte Vitale, le message le dit et mène à « Choisir la bonne valeur ».
+- **Poste fixe ·** Sur un téléphone, le dossier de preuve se lit en deux rangées par soin ; les plaies, les dispositifs, les fréquences prescrites, le suivi des patients et les téléphones du cabinet se lisent sans défiler de côté.
+- **Terminal ·** Les boutons des fiches de soin disent un verbe et son objet en trois mots : « Créer les soins », « Envoyer la réponse », « Ajouter une pompe », « Lancer le minuteur », « Fait en entier ».
+- **Terminal ·** Fiche du patient : « Soin » en pilule compacte à côté de « Commencer le passage », qui tient sur une ligne même sur un petit téléphone.
+- **Terminal ·** Un bouton principal grisé n'est jamais muet : il dit ce qui manque.
+- **Terminal ·** En texte « Très grand » sur un petit téléphone, plus rien n'est coupé sur les écrans du quotidien (prochain passage, menu « Autres actions », itinéraire, reçu).
+- **Terminal ·** Plus de numéro de fiche ni de code à l'écran ; « Vigilance orages » s'écrit en entier sur la carte du trajet ; la dernière transmission d'un patient s'affiche avec sa date et son auteur.
+
+### Corrigé
+
+- **Poste fixe ·** Démonstration : le numéro de sécurité sociale proposé à la saisie (« Générer un NIR de démonstration ») est accepté à la facturation. L'ancien numéro proposé laissait le patient bloqué.
+- **Poste fixe ·** Demandes de soins : refuser pour « Autre motif » demande la précision sur place, au lieu d'un refus sans explication.
+- **Poste fixe ·** À la création d'un patient, l'étape « une identité ressemblante existe déjà » se lit depuis son début.
+- **Terminal ·** Pendant un soin pas à pas, une étape n'est plus dite « complète » quand une réponse vient de faire paraître des champs à remplir.
+
 ## [0.32] — 13 novembre 2026 — Le téléphone d'abord : menu sous le pouce, boutons, mots, taille du texte et sons
 
 Le poste ouvert sur un téléphone devient confortable : menu en bas, onglets sur une ligne, texte plus gros, listes au lieu de tableaux. Partout, une seule couleur pour l'action et des boutons aux mots plus courts. Chacun règle la taille du texte et les sons, au poste comme sur le téléphone de tournée.
