@@ -37,6 +37,19 @@ Les 4 éléments bloqués attendent un tiers : un hébergeur certifié HDS, un 
 
 - Agent de poste et télétransmission réels : attendent l'agrément SESAM-Vitale.
 
+## [0.35] — 14 novembre 2026 — Des couleurs plus claires : le bleu nuit s'en va
+
+Le bleu nuit quitte l'application, au poste comme sur le téléphone : menu blanc, barre du bas blanche, onglets et réponses choisies en bleu clair. Le bleu vif reste la couleur de l'action.
+
+### Amélioré
+
+- **Poste fixe ·** Le menu de gauche est blanc, à l'ombre douce des cartes ; la page ouverte y reste en bleu vif.
+- **Poste fixe ·** L'onglet ouvert d'une page, la période ouverte d'Aujourd'hui et l'onglet du dossier sont en bleu clair, comme les filtres : plus de pilule bleu nuit.
+- **Poste fixe ·** Le message de confirmation en bas de l'écran est blanc ; le bandeau de la démonstration en ligne est ambre clair.
+- **Terminal ·** La barre du bas est blanche, l'onglet ouvert en bleu clair.
+- **Terminal ·** Une réponse choisie dans une fiche de soin, un réglage ou un onglet est une pastille bleu clair cernée de bleu ; le bleu vif plein reste au bouton principal.
+- **Terminal ·** L'affichage par défaut est « Jour », même si le téléphone est réglé en sombre. « Automatique », « Nuit » et « Soleil » restent dans « Moi », pour qui les veut.
+
 ## [0.34] — 14 novembre 2026 — Les mêmes mots au poste et sur le téléphone, une échelle de tailles tenue
 
 Le téléphone de tournée parle maintenant comme le poste fixe (« Équipe », « question », « Nouvelle transmission ») et n'emploie plus que quelques tailles de texte. Au poste, les dernières gênes du format téléphone sont levées et le texte « Grand » ou « Très grand » a été contrôlé écran par écran.
