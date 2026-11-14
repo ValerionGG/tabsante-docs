@@ -37,6 +37,30 @@ Les 4 éléments bloqués attendent un tiers : un hébergeur certifié HDS, un 
 
 - Agent de poste et télétransmission réels : attendent l'agrément SESAM-Vitale.
 
+## [0.34] — 14 novembre 2026 — Les mêmes mots au poste et sur le téléphone, une échelle de tailles tenue
+
+Le téléphone de tournée parle maintenant comme le poste fixe (« Équipe », « question », « Nouvelle transmission ») et n'emploie plus que quelques tailles de texte. Au poste, les dernières gênes du format téléphone sont levées et le texte « Grand » ou « Très grand » a été contrôlé écran par écran.
+
+### Amélioré
+
+- **Terminal ·** Les mêmes mots qu'au poste fixe : « Équipe » (plus « Intra-cabinet »), « Question en attente, lue, traitée » (plus « Interpellation »), « Demander un avis à l'équipe », « Nouvelle transmission ».
+- **Terminal ·** Une échelle de tailles courte et tenue : 14 pour le secondaire, 16 pour le texte courant et les boutons, puis les titres. Un choix trop long ne rétrécit plus : il passe sous son voisin, à sa taille.
+- **Terminal ·** Tournée : dès trois soins, la ligne dit « 3 soins : Anticoagulant, Paramètres vitaux, Prélèvement », en entier.
+- **Terminal ·** « Commencer le passage » puis « Soin suivant » suivent l'ordre de la fiche du patient, le même à chaque fois.
+- **Terminal ·** Écran d'urgence de l'analgésie : une seule action pleine, « Arrêter la pompe » d'abord, puis l'appel une fois la pompe arrêtée.
+- **Terminal ·** « Poser un dispositif » devient une liste, un dispositif par ligne, sans nom coupé.
+- **Terminal ·** En texte « Très grand » sur un petit téléphone : « Terminer le passage » sur une ligne, fin de journée lisible, plus de mot coupé en deux.
+- **Poste fixe ·** Sur un téléphone, le bouton bleu flottant ne recouvre plus aucune action : quand il gênerait en haut de page, il s'affiche sous le titre, puis redevient un rond au défilement.
+- **Poste fixe ·** Sur un téléphone, les indemnités kilométriques se lisent en liste, jour par jour, et le dossier remis au contrôleur de la caisse se lit acte par acte.
+- **Poste fixe ·** Plan de soins : « Demander le renouvellement » devient un bouton blanc ; un seul bouton bleu plein reste à l'écran.
+- **Poste fixe ·** En texte « Grand » et « Très grand », plus rien ne finit par « … » : noms des mesures du dossier, nom du cabinet, planning, filtres.
+
+### Corrigé
+
+- **Poste fixe ·** Un code de carte CPS faux est signalé sous le champ du code, qui reprend le curseur, aux cinq endroits où on le saisit.
+- **Poste fixe ·** « Ajouter un patient » à une tournée : si un champ manque, le curseur revient dessus et le message est lu.
+- **Terminal ·** Carte du trajet : l'étiquette du prochain passage ne sort plus du cadre.
+
 ## [0.33] — 14 novembre 2026 — Les parcours rejoués pour de vrai sur un téléphone, les fiches de soin reprises une par une
 
 Après la mise au format téléphone, chaque parcours a été rejoué de bout en bout sur un petit écran, au poste comme sur le téléphone de tournée : créer un patient, prescrire, facturer, signer un passage, travailler sans réseau. Ce qui gênait en chemin est corrigé, et les boutons des fiches de soin disent leur geste en trois mots.
