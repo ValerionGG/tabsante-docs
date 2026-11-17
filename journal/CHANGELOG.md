@@ -37,6 +37,33 @@ Les 4 éléments bloqués attendent un tiers : un hébergeur certifié HDS, un 
 
 - Agent de poste et télétransmission réels : attendent l'agrément SESAM-Vitale.
 
+## [0.36] — 17 novembre 2026 — Le pansement se planifie avant sa plaie, le protocole d'insuline se saisit par moment
+
+Un pansement prescrit prévoit ses passages dès l'ordonnance, sa plaie s'ouvre au premier passage. Le suivi diabétique réunit glycémie et insuline en un seul passage, avec un protocole d'insuline par insuline et par moment et la dose proposée au passage. Un cabinet sans aides-soignantes n'en entend plus parler.
+
+### Nouveau
+
+- **Poste fixe ·** Nouvelle prescription : un pansement dont le rythme est écrit prévoit ses passages dès l'enregistrement. « Plaie » propose « Plaie à identifier au premier passage » (par défaut), une plaie déjà ouverte, ou « Ouvrir la plaie maintenant », au bureau.
+- **Terminal ·** Au premier passage, « Pansement · plaie à identifier » ouvre la plaie, qui reprend ce pansement et ses passages prévus.
+- **Terminal ·** « Ordonnance de pansement » dans les ordonnances du patient : prescripteur, date, durée, dimanches et jours fériés, rythme et photo de l'ordonnance, saisis au domicile, sans réseau compris, puis ouverture de la plaie.
+- **Poste fixe et terminal ·** Chaque plaie a un nom court, proposé d'après la localisation et modifiable (« Tibia In1/3S »), affiché partout où la plaie est nommée.
+- **Poste fixe et terminal ·** Protocole d'insuline par insuline et par moment : paliers de glycémie et doses, prescripteur, date et photo du protocole signé, saisis au poste comme au téléphone.
+- **Terminal ·** Au passage, après la glycémie, la dose du protocole est proposée pour chaque insuline du moment ; l'infirmier valide chaque injection. Glycémie hors des paliers : aucune dose proposée, la conduite écrite par le prescripteur s'affiche.
+- **Poste fixe et terminal ·** Courbe des glycémies des 14 derniers jours, une par moment.
+- **Poste fixe ·** Cocher « IPA » dans les paramètres du cabinet ouvre le choix des infirmiers IPA ; chaque infirmier a une case « IPA » dans « Équipe ».
+
+### Amélioré
+
+- **Poste fixe ·** Suivi diabétique : glycémie et insuline cochées ensemble, au même moment et au même horaire ; l'insuline se décoche. Une insuline sans glycémie ne s'enregistre que si l'ordonnance le dit.
+- **Poste fixe ·** « Plaies » et « Dispositifs » quittent le menu : ce sont des onglets de « Dossiers de soins ». « Pansement » nomme le soin, « plaie » ce que l'on suit.
+- **Poste fixe ·** L'option du cabinet s'appelle « Aides-soignantes salariées », décochée par défaut.
+
+### Corrigé
+
+- **Poste fixe et terminal ·** Un cabinet sans aides-soignantes ne reçoit plus « aucune aide-soignante attribuée » : la toilette y est un soin d'infirmier partout (suggestions, planning, journée, téléphone).
+- **Terminal ·** Dans ce même cabinet, les toilettes apparaissent de nouveau dans la journée de l'infirmier.
+- **Poste fixe ·** Glycémie et insuline d'une même ordonnance ne font plus deux passages en double.
+
 ## [0.35] — 14 novembre 2026 — Des couleurs plus claires : le bleu nuit s'en va
 
 Le bleu nuit quitte l'application, au poste comme sur le téléphone : menu blanc, barre du bas blanche, onglets et réponses choisies en bleu clair. Le bleu vif reste la couleur de l'action.
