@@ -37,6 +37,35 @@ Les 4 éléments bloqués attendent un tiers : un hébergeur certifié HDS, un 
 
 - Agent de poste et télétransmission réels : attendent l'agrément SESAM-Vitale.
 
+## [0.38] — 19 novembre 2026 — Le soin commencé avant son ordonnance, les jours fériés au téléphone, des finitions partout
+
+Un soin commencé au domicile avant l'ordonnance se trace et se signe, sa facturation attend une décision datée de l'infirmier. Le téléphone connaît les jours fériés sans réseau. La dose d'insuline se lit sans défiler, et les écrans en texte « Très grand » ne coupent plus rien.
+
+### Nouveau
+
+- **Poste fixe et terminal ·** Un soin commencé avant son ordonnance (« Ordonnance de pansement » › « À venir », même sans réseau) se trace et se signe ; sa facturation attend. « En attente d'ordonnance » s'affiche au tableau de bord, dans « Aujourd'hui » et dans l'onglet Prescriptions tant que l'attente dure ; rien ne bascule avec le temps.
+- **Poste fixe ·** Trois issues, datées et signées : « Verser l'ordonnance » (un aperçu montre les actes couverts), « Prescription infirmière », « Sans facturation » avec un motif. Les actes signés ne changent jamais.
+- **Poste fixe et terminal ·** Une stomie ou une nutrition entérale prescrite avant la première visite se planifie « à ouvrir » ; la pose reprend le soin prescrit.
+- **Terminal ·** Le téléphone connaît les jours fériés du cabinet, Alsace-Moselle et outre-mer compris, sans réseau : report au lendemain, samedi férié avancé au vendredi, deux passages le même jour réunis.
+- **Terminal ·** Fiche du patient diabétique : « Consultation du diabétique possible (n/4) » et ce qu'elle demande, même sans réseau ; jamais de cotation pour l'aide-soignante.
+
+### Amélioré
+
+- **Terminal ·** Suivi diabétique : la dose proposée se lit juste sous la glycémie, sans défiler, une ligne par insuline ; « À vérifier avant le passage » vient dessous.
+- **Poste fixe ·** « Envoyer au médecin » : « Relire d'abord » puis « Signer et envoyer » reprennent le même brouillon.
+- **Terminal ·** Un passage un jour écarté par l'ordonnance reste possible, avec un avertissement qui ne bloque pas, sans majoration.
+- **Poste fixe et terminal ·** « Ouvrir une plaie » propose « Ordonnance à venir » ; une plaie née d'un constat du Nursing n'est plus proposée d'office en accès direct avant 2027.
+- **Terminal ·** « n plaies → 1 pansement coté » se dit passage par passage ; la page d'une plaie n'affiche plus le bilan annuel qu'une fois.
+- **Poste fixe ·** Au téléphone en « Très grand », plus rien n'est coupé ni ne sort de l'écran : listes des patients, des documents et des soins effectués, filtres, transmissions, téléphones du cabinet.
+- **Poste fixe ·** Équipe au téléphone : l'avatar ne recouvre plus le nom. La recherche des patients dit « Nom ou prénom ».
+- **Poste fixe et terminal ·** La suggestion sur les plaquettes propose « Relire la notification », sur une ligne.
+- **Terminal ·** Photo d'une plaie : le cadre de visée reste lisible en « Très grand », sur un fond gris neutre. Carte du trajet sur un petit téléphone : l'état du réseau s'affiche en mots et ouvre « Envois ».
+- **Poste fixe ·** Démonstration en ligne : les photos des plaies s'affichent, et « Signer et envoyer » la fiche du diabète marche (envoi simulé).
+
+### Corrigé
+
+- **Poste fixe et terminal ·** Sans l'option « Aides-soignantes salariées », une aide-soignante encore inscrite au cabinet ne signe plus aucune fiche.
+
 ## [0.37] — 18 novembre 2026 — Plaies et diabète : un cran devant les autres logiciels infirmiers
 
 Après une étude des logiciels infirmiers du marché, FPLS ajoute ce qu'aucun ne propose : un seul pansement coté par passage quel que soit le nombre de plaies, l'accès direct et le bilan annuel de plaie prêts pour le 1er janvier 2027, la fiche de surveillance du diabète envoyée au médecin en un clic, et la consultation infirmière du diabétique qui débute l'insuline.
