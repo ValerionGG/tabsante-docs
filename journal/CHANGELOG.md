@@ -37,6 +37,29 @@ Les 4 éléments bloqués attendent un tiers : un hébergeur certifié HDS, un 
 
 - Agent de poste et télétransmission réels : attendent l'agrément SESAM-Vitale.
 
+## [0.37] — 18 novembre 2026 — Plaies et diabète : un cran devant les autres logiciels infirmiers
+
+Après une étude des logiciels infirmiers du marché, FPLS ajoute ce qu'aucun ne propose : un seul pansement coté par passage quel que soit le nombre de plaies, l'accès direct et le bilan annuel de plaie prêts pour le 1er janvier 2027, la fiche de surveillance du diabète envoyée au médecin en un clic, et la consultation infirmière du diabétique qui débute l'insuline.
+
+### Nouveau
+
+- **Poste fixe ·** Plusieurs plaies pansées au même passage : un seul pansement est coté, les autres sont comprises dedans ; le reçu le dit en mots (« 2 plaies → 1 pansement coté »). Réglable dans Paramètres › Simulations (« Plusieurs plaies pansées au même passage »).
+- **Poste fixe et terminal ·** « Ouvrir une plaie » propose « Sur ordonnance » ou « Accès direct ». L'accès direct est grisé, avec sa date, jusqu'au 1er janvier 2027 ; ensuite, le pansement d'une plaie en accès direct se cote sans ordonnance.
+- **Poste fixe ·** « Bilan annuel plaie disponible » quand les conditions sont réunies : « Préparer le compte rendu » le pré-rédige ; signé, il va au dossier et au DMP. À partir du 1er janvier 2027.
+- **Poste fixe ·** « Bilan de plaie guidé » en quatre étapes (patient, plaie, projet de soins, pansement). Un second bilan trop tôt est refusé avec la date du prochain possible.
+- **Poste fixe ·** Sur une plaie, « Surveillance à distance » : « n/4 télésoins ce mois-ci », jamais le jour d'un pansement.
+- **Poste fixe ·** « Ordonnance de pansement bientôt échue », au dossier et sur la plaie, avec « Demander le renouvellement ».
+- **Poste fixe ·** Suivi diabétique, « Envoyer au médecin » : la fiche de surveillance (14 jours, 30 jours ou 3 mois) part signée au médecin traitant par la messagerie de santé (simulée en démonstration) ; « Relire d'abord » ouvre le brouillon ; « Fiches envoyées » dit à qui et quand.
+- **Poste fixe ·** Semainier des glycémies sur 14 jours : dans l'objectif, hors objectif, hypoglycémie ; objectif glycémique écrit par le prescripteur sur le protocole.
+- **Poste fixe ·** « Consultation possible (n/4) » pour un diabétique de type 2 en ALD qui débute l'insuline, au suivi, dans la synthèse et à « Aujourd'hui » ; une condition manquante est dite.
+- **Poste fixe ·** « HbA1c à programmer » quand aucune HbA1c n'est revenue depuis trois mois et qu'aucun prélèvement n'est prévu (réglable).
+- **Terminal ·** La dose d'insuline proposée s'affiche en grand sous la glycémie (« NovoRapid matin : 6 UI ») ; hors des paliers, un bandeau rouge montre la conduite écrite par le prescripteur.
+
+### Amélioré
+
+- **Poste fixe ·** Une consultation signée sans cotation dit pourquoi au reçu : séance non dédiée, forfait BSI, plafond atteint, hors des six mois.
+- **Poste fixe ·** Le télésoin de pansement se compte par patient, quatre par mois au plus.
+
 ## [0.36] — 17 novembre 2026 — Le pansement se planifie avant sa plaie, le protocole d'insuline se saisit par moment
 
 Un pansement prescrit prévoit ses passages dès l'ordonnance, sa plaie s'ouvre au premier passage. Le suivi diabétique réunit glycémie et insuline en un seul passage, avec un protocole d'insuline par insuline et par moment et la dose proposée au passage. Un cabinet sans aides-soignantes n'en entend plus parler.
