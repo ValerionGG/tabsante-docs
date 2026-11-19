@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>FPLS · Les écrans à choisir</title>
+<style>
+  :root { --fond: #EDF1F8; --carte: #fff; --encre: #0D1530; --encre-2: #3A4566; --discret: #6B7694; --bleu: #3257F5; --bleu-f: #2343D1; --bleu-50: #EBF0FF; --vert: #08714F; --vert-50: #E2F7F0; --ambre: #8A4F00; --ambre-50: #FFF2DC; --filet: #E1E6F0; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--fond); color: var(--encre); font: 17px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 1120px; margin: 0 auto; padding: 32px 16px 80px; }
+  h1 { font-size: 34px; line-height: 1.15; letter-spacing: -.02em; margin: 0 0 8px; }
+  h2 { font-size: 26px; letter-spacing: -.015em; margin: 48px 0 6px; }
+  h3 { font-size: 20px; margin: 0 0 4px; }
+  p { margin: 6px 0; color: var(--encre-2); }
+  .intro { background: var(--carte); border-radius: 24px; padding: 22px 24px; margin: 20px 0; box-shadow: 0 1px 2px rgba(13,21,48,.04), 0 16px 36px -20px rgba(13,21,48,.18); }
+  .intro ol { margin: 8px 0 0; padding-left: 22px; } .intro li { margin: 6px 0; }
+  .repondre { display: inline-block; background: var(--bleu-50); color: var(--bleu-f); font-weight: 650; border-radius: 12px; padding: 2px 10px; }
+  .choix { display: grid; gap: 18px; margin-top: 16px; }
+  .option { background: var(--carte); border-radius: 24px; overflow: hidden; box-shadow: 0 1px 2px rgba(13,21,48,.04), 0 16px 36px -20px rgba(13,21,48,.18); }
+  .option .texte { padding: 18px 22px 14px; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 16px; align-items: start; }
+  .lettre { width: 52px; height: 52px; border-radius: 16px; background: var(--bleu); color: #fff; font-size: 26px; font-weight: 700; display: grid; place-items: center; }
+  .option.conseil .lettre { box-shadow: 0 0 0 4px var(--bleu-50); }
+  .badge { display: inline-block; font-size: 14px; font-weight: 650; border-radius: 99px; padding: 2px 10px; margin-left: 8px; vertical-align: 3px; }
+  .badge.vert { background: var(--vert-50); color: var(--vert); } .badge.ambre { background: var(--ambre-50); color: var(--ambre); }
+  .plus, .moins { margin: 4px 0 0; padding-left: 20px; font-size: 16px; color: var(--encre-2); }
+  .plus li::marker { content: "+  "; color: var(--vert); font-weight: 700; } .moins li::marker { content: "−  "; color: #B4262B; font-weight: 700; }
+  .option img, .planche img { display: block; width: 100%; height: auto; border-top: 1px solid var(--filet); }
+  .planche { background: var(--carte); border-radius: 24px; overflow: hidden; margin-top: 16px; box-shadow: 0 1px 2px rgba(13,21,48,.04), 0 16px 36px -20px rgba(13,21,48,.18); }
+  .planche .texte { padding: 16px 22px; }
+  .etat { font-size: 15px; font-weight: 650; color: var(--vert); }
+  details { margin-top: 10px; } summary { cursor: pointer; color: var(--bleu-f); font-weight: 600; }
+  @media (max-width: 640px) { h1 { font-size: 27px; } .option .texte { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<main>
+  <h1>Les écrans à choisir</h1>
+  <p>FPLS, 19 novembre 2026. Ce sont des maquettes : rien n’est encore changé dans l’application pour ces écrans. Données fictives.</p>
+
+  <div class="intro">
+    <h3>Ce qu’il faut me dire</h3>
+    <ol>
+      <li><b>« Aujourd’hui »</b> : A, B ou C. Exemple de réponse : <span class="repondre">Aujourd’hui : A</span></li>
+      <li><b>« Paramètres du cabinet », l’équipe</b> : A ou B. Exemple : <span class="repondre">Paramètres : B</span></li>
+      <li>Et, si tu veux, une remarque sur n’importe quelle image. Rien d’autre n’attend ta réponse : le reste (en bas de page) est déjà en cours.</li>
+    </ol>
+  </div>
+
+  <h2>1. « Aujourd’hui » : le premier écran du poste</h2>
+  <p>Le problème aujourd’hui : on ouvre FPLS et on voit quatre grandes cartes de chiffres avant ce qu’il faut faire. Les 4 urgences sont en bas, et il faut 10 clics pour les traiter. Les trois versions corrigent ça, chacune à sa manière.</p>
+  <div class="choix">
+    <div class="option conseil">
+      <div class="texte"><div class="lettre">A</div><div>
+        <h3>La liste d’abord <span class="badge vert">Mon conseil</span></h3>
+        <p>En haut, les chiffres tiennent sur une seule ligne. Dessous, à gauche, les urgences ; à droite, la décision de celle qu’on a touchée, sans changer de page. On traite tout depuis cet écran.</p>
+        <ul class="plus"><li>On voit toutes les urgences d’un coup, et on agit sans quitter la page.</li><li>Les chiffres restent, en plus petit.</li></ul>
+        <ul class="moins"><li>L’écran est plus dense que B.</li></ul>
+      </div></div>
+      <img src="img/aujourdhui-a.jpg" alt="Version A : une ligne de chiffres, la liste des urgences à gauche, la décision à droite" loading="lazy">
+    </div>
+    <div class="option">
+      <div class="texte"><div class="lettre">B</div><div>
+        <h3>Une chose à la fois</h3>
+        <p>L’urgence du moment prend tout le haut de l’écran, en grand, avec son bouton. Les trois suivantes attendent dans une petite colonne à droite. On les traite l’une après l’autre.</p>
+        <ul class="plus"><li>Impossible de se tromper sur ce qu’il faut faire maintenant.</li><li>Très lisible sur l’iPad.</li></ul>
+        <ul class="moins"><li>On voit moins de choses d’un coup.</li></ul>
+      </div></div>
+      <img src="img/aujourdhui-b.jpg" alt="Version B : l'urgence du moment en grand, la file des suivantes à droite" loading="lazy">
+    </div>
+    <div class="option">
+      <div class="texte"><div class="lettre">C</div><div>
+        <h3>La journée en trois colonnes</h3>
+        <p>Trois colonnes qui répondent à trois questions : <i>qu’est-ce qui presse ?</i>, <i>où en sont les tournées ?</i>, <i>que reste-t-il à faire ce soir ?</i> Chaque ligne a son bouton.</p>
+        <ul class="plus"><li>Toute la journée d’un regard, matin comme soir.</li></ul>
+        <ul class="moins"><li>Plus de boutons à l’écran ; les cartes de chiffres disparaissent.</li></ul>
+      </div></div>
+      <img src="img/aujourdhui-c.jpg" alt="Version C : trois colonnes, ce qui presse, les tournées, ce qui reste ce soir" loading="lazy">
+    </div>
+  </div>
+
+  <h2>2. « Paramètres du cabinet » : refait en profondeur</h2>
+  <p>Ce qui change dans les deux versions, d’après tes retours et ceux de Giovanni :</p>
+  <ul class="plus">
+    <li>Cinq rubriques en haut, chacune avec son état : le cabinet, l’équipe, les appareils, les règles, les données.</li>
+    <li>La pratique avancée (IPA) se coche directement sur la ligne de l’infirmier, plus au fond de sa fiche.</li>
+    <li>Les droits de chacun se cochent un par un, avec la date et qui les a changés. Le tableau « Détail des droits », qui ne se modifie pas, quitte l’équipe et va dans l’aide.</li>
+    <li>Les formations se cochent : PRADO (ouvre la facturation du suivi PRADO), PCA, cathéter périnerveux (tracées seulement).</li>
+    <li>Plusieurs appareils par personne (téléphone et tablette). À côté de « Bloquer » : « Déconnecter » et « Mettre en pause » (réparation, remplaçante absente), puis « Remettre en service » ou « Relier à nouveau ».</li>
+    <li>La liste de tous les appareils n’existe qu’à un endroit, pour les responsables. Dans l’équipe, chacun montre juste un résumé (« 2 reliés »).</li>
+    <li>Chaque option du cabinet dit ce qu’elle change, et une bulle « i » explique chaque mot qui peut poser question.</li>
+  </ul>
+  <div class="choix">
+    <div class="option conseil">
+      <div class="texte"><div class="lettre">A</div><div>
+        <h3>L’équipe en tableau</h3>
+        <p>Une ligne par personne : IPA, appareils, droits. On touche une ligne, sa fiche s’ouvre à droite pour tout régler.</p>
+        <ul class="plus"><li>Toute l’équipe sur un écran, même à dix personnes.</li></ul>
+        <ul class="moins"><li>Plus « tableau », moins chaleureux.</li></ul>
+      </div></div>
+      <img src="img/parametres-a.jpg" alt="Paramètres, version A : l'équipe en tableau et la fiche de Paul Durand à droite" loading="lazy">
+    </div>
+    <div class="option">
+      <div class="texte"><div class="lettre">B</div><div>
+        <h3>Une carte par personne</h3>
+        <p>Chaque membre a sa carte : IPA, appareils, droits. On touche une carte, la même fiche s’ouvre à droite.</p>
+        <ul class="plus"><li>Très lisible au doigt, chacun est bien distinct.</li></ul>
+        <ul class="moins"><li>Au-delà de six personnes, il faut faire défiler.</li></ul>
+      </div></div>
+      <img src="img/parametres-b.jpg" alt="Paramètres, version B : une carte par personne et la fiche à droite" loading="lazy">
+    </div>
+  </div>
+  <div class="planche"><div class="texte"><h3>Le cabinet et ses options</h3><p>Cochez seulement ce qui existe chez vous ; chaque ligne dit ce qu’elle change. Bulle ouverte en exemple sur « aides-soignantes salariées ».</p></div><img src="img/parametres-cabinet.jpg" alt="Le cabinet : nom, adresse, forme juridique, et les options expliquées" loading="lazy"></div>
+  <div class="planche"><div class="texte"><h3>Les appareils (pour les responsables)</h3><p>Chaque appareil a un état et ses gestes à côté : Déconnecter, Mettre en pause, Bloquer, Remettre en service, Relier à nouveau.</p></div><img src="img/parametres-appareils.jpg" alt="Les appareils : téléphone en pause, tablette reliée, téléphone bloqué, téléphone du cabinet" loading="lazy"></div>
+  <details><summary>Voir l’écran actuel de l’équipe (version 0.39), pour comparer</summary><div class="planche"><img src="img/parametres-equipe-actuel.jpg" alt="Écran actuel de l'équipe" loading="lazy"></div></details>
+
+  <h2>3. Déjà en cours de réalisation</h2>
+  <p class="etat">Rien à choisir ici : la tournée, la dose d’insuline et le texte plus gros sont en train d’être codés d’après ces maquettes.</p>
+  <div class="planche"><div class="texte"><h3>La tournée au téléphone</h3><p>Le patient et son adresse d’abord, les deux boutons sous le pouce.</p></div><img src="img/planche-3-tournee.jpg" alt="Tournée, avant et après" loading="lazy"></div>
+  <div class="planche"><div class="texte"><h3>La dose d’insuline</h3><p>« 14 unités » en grand dans la carte du bouton ; sous le seuil prescrit, un bloc rouge et la consigne du médecin.</p></div><img src="img/planche-4-dose-insuline.jpg" alt="Dose d'insuline, avant et après" loading="lazy"></div>
+  <div class="planche"><div class="texte"><h3>Le texte du poste, un cran plus gros</h3><p>Captures réelles de la démo : texte à 14 avant, à 16 après.</p></div><img src="img/planche-7-texte-a-16.jpg" alt="Texte du poste, avant et après" loading="lazy"></div>
+  <h2>4. Prévus ensuite</h2>
+  <p>Codés après tes choix ci-dessus, d’après ces maquettes. Dis-moi si l’une ne te plaît pas.</p>
+  <div class="planche"><div class="texte"><h3>Le planning</h3><p>Le trou dit en une phrase, la journée par heure, le calendrier en plus lisible.</p></div><img src="img/planche-5-planning.jpg" alt="Planning, avant et après" loading="lazy"></div>
+  <div class="planche"><div class="texte"><h3>L’ordonnance</h3><p>Des pastilles, rien de coché d’avance, et ce qui sera prévu dit en phrases.</p></div><img src="img/planche-6-ordonnance.jpg" alt="Ordonnance, avant et après" loading="lazy"></div>
+  <div class="planche"><div class="texte"><h3>Créer un patient</h3><p>Le nom d’abord, cinq réponses, un bouton.</p></div><img src="img/planche-8-nouveau-patient.jpg" alt="Nouveau patient, avant et après" loading="lazy"></div>
+</main>
+</body>
+</html>
