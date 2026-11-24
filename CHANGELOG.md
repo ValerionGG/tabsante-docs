@@ -2,9 +2,9 @@
 
 FPLS, anciennement TabSanté. Ce qui change dans FPLS, la plateforme des infirmières libérales à domicile, version par version : au poste fixe du cabinet, sur le terminal de tournée et dans la démo.
 
-*Mis à jour le 13 novembre 2026.*
+*Mis à jour le 24 novembre 2026.*
 
-[Portail](https://valeriongg.github.io/tabsante-docs/) · [Démo](https://valeriongg.github.io/tabsante-docs/demo/) · [Vidéos](https://valeriongg.github.io/tabsante-docs/videos/) · [Design](https://valeriongg.github.io/tabsante-docs/design/) · [Questions](https://valeriongg.github.io/tabsante-docs/questions/) · [Donner mon avis](https://github.com/ValerionGG/tabsante-docs/issues/new?template=retour.yml&application=Journal&title=%5BRetour%5D%20Journal)
+[Portail](https://valeriongg.github.io/tabsante-docs/) · [Démo](https://valeriongg.github.io/tabsante-docs/demo/) · [Vidéos](https://valeriongg.github.io/tabsante-docs/videos/) · [Design](https://valeriongg.github.io/tabsante-docs/design/) · [Questions](https://valeriongg.github.io/tabsante-docs/questions/) · [Démo en ligne](https://tabsante.217-160-124-232.nip.io/poste/) · [Donner mon avis](https://github.com/ValerionGG/tabsante-docs/issues/new?template=retour.yml&application=Journal&title=%5BRetour%5D%20Journal)
 
 ## Où en est FPLS
 
@@ -23,11 +23,13 @@ Les 4 éléments bloqués attendent un tiers : un hébergeur certifié HDS, un 
 
 ## À venir — en cours
 
-*en cours au 13 novembre 2026* — Ce qui suit attend une décision ou un tiers. Les autres chantiers sont fusionnés.
+*en cours au 24 novembre 2026* — Ce qui suit attend une décision ou un tiers. Les autres chantiers sont fusionnés.
 
-### À trancher avec le cabinet testeur, en réunion
+### À trancher avec le cabinet testeur
 
-- Prescription : planifier à part plusieurs perfusions sur un même cathéter, préparer dès l'ordonnance le rythme des soins sur plaie ou dispositif, décaler un soin hebdomadaire tombant un dimanche ou un jour férié, tenir compte des renouvellements dans la date de fin.
+- Écrans « Aujourd'hui » et Paramètres (ticket #20) : sans réponse le 26 novembre, les choix proposés par défaut sont retenus, puis codés.
+- Indemnités kilométriques : la règle d'un autre cabinet à moins de 4 km du patient attend sa référence écrite (NGAP, convention ou courrier de la caisse).
+- Infirmier référent choisi dans le dossier du patient, agenda de l'infirmier en pratique avancée : en attente de la réponse du cabinet.
 
 ### Données publiques à charger
 
@@ -36,6 +38,62 @@ Les 4 éléments bloqués attendent un tiers : un hébergeur certifié HDS, un 
 ### Raccordements réels
 
 - Agent de poste et télétransmission réels : attendent l'agrément SESAM-Vitale.
+
+## [0.41] — 24 novembre 2026 — La tournée sous le pouce, les retours du cabinet testeur, la démo à une nouvelle adresse
+
+Six chantiers réunis et les réponses aux retours du cabinet testeur des 19 et 24 novembre : la tournée se mène d'un pouce, l'insuline se lit d'un coup d'œil, chaque appareil a ses gestes, l'invitation part de FPLS, l'équipe, les formations, la rétrocession et les plaies suivent ce que le cabinet a demandé. La démo hébergée passe à la 0.41, à une nouvelle adresse.
+
+### Nouveau
+
+- **Terminal ·** Tournée : « Y aller » et « Commencer le passage » dans la barre du bas, sous le pouce ; l'avancement en une ligne ; le retard dit en mots (« Insuline de 19 h : 40 min de retard »).
+- **Terminal ·** Suivi diabétique : une carte par insuline, « 14 unités » en grand avec sa raison ; sous le seuil, la glycémie devient un bloc rouge avec la consigne du médecin, et injecter quand même demande un motif.
+- **Poste fixe ·** Appareils : chaque téléphone ou tablette a son état et ses gestes — Déconnecter, Mettre en pause (en réparation), Bloquer (perdu), Relier à nouveau ; plusieurs appareils par personne.
+- **Poste fixe ·** Invitation d'un membre : FPLS peut envoyer le courriel lui-même ; la double identification protège les comptes qu'il ouvre.
+- **Poste fixe ·** « Administrateur du cabinet » se coche dès l'ajout d'un membre ; le cabinet garde toujours au moins un administrateur.
+- **Poste fixe ·** Formations : une case par formation, avec ce qu'elle change (PRADO ouvre les séances du suivi PRADO ; PCA et cathéter périnerveux sont tracés), dans la fiche et dès l'ajout d'un infirmier.
+- **Poste fixe ·** Plaies : ouverte au bureau, une plaie peut attendre son premier passage pour être mesurée ; une note situe plusieurs petites plaies sous un même pansement ; nouveau type « plaie du pied diabétique ».
+- **Poste fixe ·** « Tournée » dans « Nouveau patient », menu « Planning et tournées », « Nouvelle tournée » en haut à gauche.
+
+### Amélioré
+
+- **Poste fixe ·** Texte courant à 16 px, rien sous 14 ; l'entrée ouverte du menu en bleu clair ; les astuces passent dans l'Aide.
+- **Poste fixe ·** Rétrocession : chaque taux dit ce qu'il couvre (actes et majorations, IFD et IK).
+- **Poste fixe ·** La secrétaire voit le dossier de preuve sans le contenu des soins.
+- **Poste fixe ·** Bilan annuel de plaie proposé pour les plaies à risque : ulcère, escarre, plaie du pied diabétique (liste à valider par le cabinet).
+- **Poste fixe ·** Zone d'intervention : plus de rayon propre à chaque soignant, la zone du cabinet est la même pour tous.
+
+### Corrigé
+
+- **Poste fixe ·** Le lien d'invitation ouvrait une page « Not Found » sur la démo hébergée ; il mène à la bonne page, et les anciens liens aussi.
+
+## [0.40] — 19 novembre 2026 — Rien de mesuré ni d'administré ne s'écrit sans vous
+
+Un audit de l'interface par seize relecteurs a relevé que l'application remplissait encore des mesures et des doses à la place de l'infirmier. C'est fini : une valeur d'un passage précédent s'affiche comme un repère daté, elle ne se signe jamais comme celle du jour. Les doses s'écrivent sans abréviation et les ordonnances ne partent plus d'un rythme choisi d'avance.
+
+### Nouveau
+
+- **Terminal ·** Pansement : les mesures de la plaie ne se recopient plus. On mesure, ou on appuie sur « Inchangées depuis le … », et le reçu le dit ; une mesure non refaite ne compte pas comme une mesure du jour.
+- **Terminal ·** Injection et anticoagulant : la dose et le lot du dernier passage s'affichent datés ; « Même dose », « Même lot » et « Même dosage » les reprennent d'un appui, la dose prescrite est rappelée.
+- **Terminal ·** Pompes et cathéter : le volume restant, le total et le repère se tapent ; la valeur attendue et l'écart s'affichent après. Le repère du cathéter peut se dire « Inchangé ».
+- **Terminal ·** Glycémie sous le seuil ou hors paliers : la consigne du médecin s'affiche en rouge juste au-dessus de « Injectée / Non injectée », et la dose est écrite en grand avec le nom de l'insuline.
+- **Terminal ·** La date de naissance et l'âge s'affichent sous le nom du patient, de la tournée au reçu.
+- **Poste fixe ·** Après l'enregistrement d'une ordonnance, l'écran dit ce qui est prévu : « C'est prévu : 7 passages dans les 7 jours… ».
+
+### Amélioré
+
+- **Poste fixe et terminal ·** Insuline écrite « 14 unités », jamais « UI » ; virgule décimale et milliers partout, montants à deux décimales ; tension en mmHg telle que saisie.
+- **Poste fixe et terminal ·** Ordonnance, « Nouvelle fréquence » et « Ajouter plusieurs soins » : aucun rythme ni moment coché d'avance ; on choisit ce qui est écrit sur l'ordonnance.
+- **Terminal ·** Glycémie et constantes : le premier appui sur + ou − ouvre le clavier ; la dernière valeur est rappelée avec sa date.
+- **Poste fixe ·** Une ordonnance ou un nouveau patient en cours de saisie se retrouve en entier au retour ; quitter par le menu ou fermer l'onglet demande d'abord.
+- **Poste fixe ·** Allergie en rouge partout ; textes blancs sur bleu et cibles au doigt plus lisibles sur iPad.
+- **Poste fixe ·** Le planning nomme la tournée sans personne, tous métiers confondus, et dit le métier de qui est absent.
+- **Poste fixe ·** Une plaie jamais mesurée le dit en toutes lettres, au lieu de « 0 % ».
+
+### Corrigé
+
+- **Poste fixe ·** Une urgence d'« À traiter » pouvait se masquer d'une touche ; elle reste tant qu'elle n'est pas traitée.
+- **Poste fixe ·** « Chaque tournée a quelqu'un » ne comptait que le métier affiché.
+- Installer un cabinet neuf échouait à la création de la base de données.
 
 ## [0.39] — 18 novembre 2026 — Paramètres du cabinet refaits : équipe et droits, sécurité
 

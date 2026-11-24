@@ -5173,7 +5173,7 @@ et choix : <code>docs/audit/2026-10-23-fiche24-v02.md</code>. Recompte (<code>py
 <td>T</td>
 <td><strong>Simulé</strong></td>
 <td>serveur · web</td>
-<td>Port TeleserviceADRi + ADRiFactice — t/test_identite::test_vitale_idb_et_adri</td>
+<td>Port TeleserviceADRi + ADRiFactice ; contrat DemandeADRi fidèle au service (NIR de l'ouvrant droit, date et rang de naissance, date de référence sans futur ni plus d'un an) — t/test_identite::test_vitale_idb_et_adri, t/test_identite::test_adri_contrat_triplet_obligatoire_et_controle, t/test_identite::test_adri_recoit_le_triplet_du_dossier</td>
 </tr>
 <tr>
 <td>INT-03</td>
@@ -5236,8 +5236,8 @@ et choix : <code>docs/audit/2026-10-23-fiche24-v02.md</code>. Recompte (<code>py
 <td>Ordonnance numérique (service national)</td>
 <td>T</td>
 <td><strong>Simulé</strong></td>
-<td>serveur · web</td>
-<td>Service national d'e-prescription simulé (GET /patients/{id}/ordonnances-electroniques, import), prescription.electronique (0037b), panne simulée — t/test_echanges_simules::test_ordonnance_electronique_importee_sert_le_mode_1 ; service réel à raccorder</td>
+<td>serveur · web · terminal</td>
+<td>Service national d'e-prescription simulé (GET /patients/{id}/ordonnances-electroniques, import), prescription.electronique (0037b), panne simulée — t/test_echanges_simules::test_ordonnance_electronique_importee_sert_le_mode_1 ; veille 02/11 n° 8 : retrouvée par identifiant (saisi ou QR à la douchette), identité contrôlée sans rien écrire, exécution tracée après un passage signé (…/{reference}, …/execution ; w/pages/EchangesSimules.tsx, m/ecrans/ordonnance_numerique.dart) — t/test_echanges_simules::test_ordonnance_numerique_par_identifiant_rattachee_puis_executee ; service réel à raccorder</td>
 </tr>
 <tr>
 <td>INT-11</td>
@@ -5855,7 +5855,7 @@ et choix : <code>docs/audit/2026-10-23-fiche24-v02.md</code>. Recompte (<code>py
 <td>Fait</td>
 <td>Fait</td>
 <td>18 (13/0/5/0/0)</td>
-<td>Dernier INR au terminal (terminal 24), chute plaquettaire réglable (règle provisoire <code>chute_plaquettaire</code>) ; Simulé : ACI-RG-02, 07 [P], 10, 13, 14</td>
+<td>Dernier INR au terminal (terminal 24), chute plaquettaire réglable (règle du cabinet <code>plaquettes_chute_pct</code>, commune à la suggestion des plaquettes) ; Simulé : ACI-RG-02, 07 [P], 10, 13, 14</td>
 </tr>
 <tr>
 <td>12</td>
@@ -5864,7 +5864,7 @@ et choix : <code>docs/audit/2026-10-23-fiche24-v02.md</code>. Recompte (<code>py
 <td>Fait</td>
 <td>Fait</td>
 <td>31 (27/1/3/0/0)</td>
-<td>Partiel : NUR-RG-16 (AS hors SELAS accepté au serveur, lot L7) ; alerte des quatrième et cinquième jours sans selles transmise aux infirmiers (ca146f1, NC-42) ; doublure alignée sur le cahier CNDA sous forfait BSI (AMX, IFI, MAU exclue : NUR-RG-05, démonstration) ; Simulé : NUR-RG-14, 20 [P], 21 [P] (BSI, PSC) ; NUR-RG-05 et 06 Faits (L17)</td>
+<td>Partiel : NUR-RG-16 (option et ajout d'un AS réservés à la SELAS depuis le 17/11 ; seule la signature d'un AS déjà présent hors SELAS reste acceptée au serveur, Q-30) ; alerte des quatrième et cinquième jours sans selles transmise aux infirmiers (ca146f1, NC-42) ; doublure alignée sur le cahier CNDA sous forfait BSI (AMX, IFI, MAU exclue : NUR-RG-05, démonstration) ; Simulé : NUR-RG-14, 20 [P], 21 [P] (BSI, PSC) ; NUR-RG-05 et 06 Faits (L17)</td>
 </tr>
 <tr>
 <td>13-14</td>
@@ -6229,7 +6229,7 @@ et choix : <code>docs/audit/2026-10-23-fiche24-v02.md</code>. Recompte (<code>py
 | ACI-RG-04 | Changement de dosage ou de spécialité : signal C3 à l'ouverture, levé à la première injection validée sous la  | T | **Fait** | serveur · web · mobile | Signal C3 sur changement de dosage et de spécialité, levé à la première injection validée sous la nouvelle valeur — t/test_partiel_c2_fiches::test_changement_de_specialite_signale_puis_leve, t/test_socle::test_signal_dosage_anticoagulant… |
 | ACI-RG-05 | La dose injectée est préremplie du dosage en cours. Un écart est accepté, affiché, et exige un commentaire — E | T | **Fait** | serveur · web · mobile | Écart dose / dosage → commentaire — t/test_anticoagulant::test_ecart_au_dosage_exige_un_commentaire ; m/test/fiches_test « dose différente du dosage » ; « Écart commenté » w/test/Lot2 |
 | ACI-RG-06 | Les examens sans objet pour la classe ne sont ni affichés ni saisissables ; les colonnes de l'historique suive | T | **Fait** | serveur · web · mobile | EXAMENS[classe] — t/test_anticoagulant::test_classe_commande_specialite_et_examens ; web n'affiche jamais le TCA en HBPM (w/test/Lot2) ; terminal m/fiches_lot2.dart:examensParClasse — m/test/lot12_test « examens de la classe seulement (ACI-RG-06) » |
-| ACI-RG-07 | La variation plaquettaire est calculée contre la référence et contre la valeur précédente. Au-delà d'un seuil, | P | **Simulé** | serveur · web · mobile | Variation référence / précédente calculée au serveur, numérations revenues au dossier comprises (b/fiches/anticoagulant.py:variation_plaquettes, plaquettes_revenues, variation_resultat), chute signalée au-delà du seuil et notification proposée — au passage comme au résultat reçu (apres, apres_resultat) ; bandeau et variation au terminal (m/fiches_lot2.dart:chutesPlaquettes, M7) — t/test_partiel_c2_fiches::test_chute_plaquettaire_signalee_et_notification_proposee, t/test_cdc_l7::test_chute_plaquettaire_d_un_resultat_revenu, w/test/PartielC2.test.tsx, m/test/cdc_l7_test « fiche 11 : chute plaquettaire… », m/test/cdc_l7_widgets_test ; seuil −30 % par défaut, règle provisoire réglable (b/simulation.py, Paramètres › Simulations) |
+| ACI-RG-07 | La variation plaquettaire est calculée contre la référence et contre la valeur précédente. Au-delà d'un seuil, | P | **Simulé** | serveur · web · mobile | Variation référence / précédente calculée au serveur, numérations revenues au dossier comprises (b/fiches/anticoagulant.py:variation_plaquettes, plaquettes_revenues, variation_resultat), chute signalée au-delà du seuil et notification proposée — au passage comme au résultat reçu (apres, apres_resultat) ; bandeau et variation au terminal (m/fiches_lot2.dart:chutesPlaquettes, M7) — t/test_partiel_c2_fiches::test_chute_plaquettaire_signalee_et_notification_proposee, t/test_cdc_l7::test_chute_plaquettaire_d_un_resultat_revenu, w/test/PartielC2.test.tsx, m/test/cdc_l7_test « fiche 11 : chute plaquettaire… », m/test/cdc_l7_widgets_test ; seuil −30 % par défaut, règle du cabinet `plaquettes_chute_pct` commune à la suggestion des plaquettes (b/regles_cabinet.py, Règles du cabinet ; t/test_suggestions_bio::test_fiche_11_et_suggestion_lisent_le_meme_seuil_de_chute) |
 | ACI-RG-08 | Anti-Xa et TCA hors des bornes prescrites : signalés sur la courbe et l'historique, sans interpellation du cab | T | **Fait** | serveur · web · mobile | Bornes prescrites au dossier, hors_bornes sans notification (b/fiches/anticoagulant.py:hors_bornes) — t/test_regles_absentes::test_anti_xa_et_tca_hors_bornes_prescrites… ; w/pages/Anticoagulant.tsx:CourbeBio (w/test/Lot14Biologie) ; m/test/lot12_test |
 | ACI-RG-09 | Chaque prochain prélèvement crée un rendez-vous de soin servi en fiche 21. Deux rendez-vous à la même date et  | T | **Fait** | serveur · web · mobile | RDV fusionnés (b/fiches/anticoagulant.py:regles) — t/test_anticoagulant::test_prochains_prelevements_en_rendez_vous_fusionnes ; saisie au terminal (m/fiches_lot2.dart:ProchainPrelevement — m/test/lot12_test « prochain prélèvement ») ; RDV lus au web |
 | ACI-RG-10 | Un résultat reçu par messagerie sécurisée est rattaché à la fiche et au prélèvement d'origine ; il affiche son | T | **Simulé** | serveur · web · mobile | Résultat reçu par MSSanté simulée rattaché au prélèvement d'origine, délai depuis la dernière injection et dosage du jour (biologie.py:injection_du_jour) — t/test_echanges_simules::test_bon_au_laboratoire_puis_resultats_par_messagerie ; w/pages/Biologie.tsx |
@@ -6265,7 +6265,7 @@ et choix : <code>docs/audit/2026-10-23-fiche24-v02.md</code>. Recompte (<code>py
 | NUR-RG-13 | Une rougeur qui ne blanchit pas à la pression déclenche une proposition de transmission et alimente le compteu | T | **Fait** | serveur · web · mobile | Signalement C8 notifié à l'IDE, transmission proposée ; antériorité des rougeurs qui ne blanchissent plus comptée (b/fiches/nursing.py:anteriorite_rougeurs ; w/pages/Nursing.tsx) — t/test_partiel_c2_soins::test_rougeurs_qui_ne_blanchissent_plus_comptees, w/test/PartielC2.test.tsx |
 | NUR-RG-14 | Une escarre prescrite en pansement n'arrête pas la prévention : la lésion se traite en fiche 01, la prévention | T | **Simulé** | serveur · mobile | Escarre en fiche 1 et prévention au même passage, deux actes, rien ne bascule, prévention « à renforcer » au terminal (m/ecrans/fiche_lot2.dart:_escarres) — m/test/mobile18b_test « EX-NUR-07/08 » ; non-double facturation laissée au moteur (doublure démo) |
 | NUR-RG-15 | L'aide-soignante saisit et signe ses actes. Elle ne facture jamais : en SELAS, la facturation est portée par l | T | **Fait** | serveur · mobile | L'AS signe au terminal et compte pour le forfait — t/test_nursing::test_l_aide_soignant_signe_et_le_forfait_est_compte ; m/test/integration/lot2_integration_test |
-| NUR-RG-16 | Le module aide-soignant est une option d'installation, réservée aux SELAS. Désactivé, la fiche ne propose ni q | T | **Partiel** | serveur · mobile | Module dit par /moi : activé en structure seulement, plus de règle provisoire (b/domaines/lectures.py:moi) — t/test_partiel_c2_transverse::test_module_aide_soignant_dit_au_poste_et_au_terminal, t/test_cdc_l7::test_module_aide_soignant_reserve_aux_selas ; au terminal, module désactivé : plus de qualité AS (m/fiches*:SaisieNursing.moduleAideSoignant) — m/test/mobile25_suivis_test. Manque : le serveur laisse encore signer le nursing à un AS hors SELAS (le bloc de signalement reste donc au terminal) — la démonstration a une aide-soignante dans un cabinet libéral ; la passer en SELAS change l'émetteur des FSE : décision à prendre ; **L17** : reste Partiel — le texte est tranché (Q-30) ; la démonstration garde une aide-soignante dans un cabinet libéral, choix du fondateur (Q-30) ; **Finitions** : (c) Q-30, non tranchée ici (la démonstration en SELAS, ou le refus au serveur) |
+| NUR-RG-16 | Le module aide-soignant est une option d'installation, réservée aux SELAS. Désactivé, la fiche ne propose ni q | T | **Partiel** | serveur · mobile | Module dit par /moi : activé en structure seulement, plus de règle provisoire (b/domaines/lectures.py:moi) — t/test_partiel_c2_transverse::test_module_aide_soignant_dit_au_poste_et_au_terminal, t/test_cdc_l7::test_module_aide_soignant_reserve_aux_selas ; au terminal, module désactivé : plus de qualité AS (m/fiches*:SaisieNursing.moduleAideSoignant) — m/test/mobile25_suivis_test. Manque (mis à jour le 18/11, lot fin-ux) : à la signature, le serveur ne contrôle que le rôle — un AS déjà présent dans un cabinet hors SELAS (donnée d'avant la règle, signalée dans Paramètres › Cabinet, ou resté après le retrait de l'option) signe encore un nursing (le bloc de signalement reste donc au terminal) ; **gio-cabinet (17/11, retours #6, #12)** : l'option « Aides-soignantes salariées » ne s'active qu'en SELAS (b/domaines/organisation.py:coordonnees_cabinet, 422), un AS ne s'ajoute qu'avec elle (statut_admis, 422), sans elle le nursing est un soin d'infirmier partout (suggestions, journée, planning — t/test_gio_cabinet), la démonstration est une SELAS (b/domaines/dev.py) ; **L17** : reste Partiel — le texte est tranché (Q-30) ; la démonstration garde une aide-soignante dans un cabinet libéral, choix du fondateur (Q-30) ; **Finitions** : (c) Q-30, non tranchée ici (la démonstration en SELAS, ou le refus au serveur) |
 | NUR-RG-17 | Hors connexion : tout l'écran est saisissable, photo comprise. La signature est locale et horodatée à l'instan | T | **Fait** | serveur · mobile | Nursing saisi hors connexion, étui et photo compris (SOINS_NURSING dans m/fiches.dart:fichesAvecPhoto) — m/test/mobile18b_test « NUR-RG-17 », intégration mobile18b ; signature horodatée au soin — t/test_sync::test_horodatage_du_soin_conserve |
 | NUR-RG-18 | Le bouton de signature reste affiché mais inactif tant que le repas, la prévention ou le positionnement sont s | T | **Fait** | mobile | Signature inactive, manques listés tant que repas, prévention, position sans réponse (m/fiches_lot2.dart:SaisieNursing.manquantsFiche) — m/test/fiches_test « repas, prévention, position délibérés » |
 | NUR-RG-22 | Le profil de dépendance se révise à tout moment ; chaque révision est un événement horodaté et signé, l'ancien | T | **Fait** | serveur · web | Profil versionné, ancienne version consultable, révision demandée au BSI (b/fiches/nursing.py:contexte) — t/test_regles_absentes::test_profil_revise_historise_et_douche_prevue_sans_obligation ; w/pages/CadreSoins.tsx:PanneauProfilDependance (w/test/Lot14Soins) |
@@ -7970,7 +7970,7 @@ et choix : <code>docs/audit/2026-10-23-fiche24-v02.md</code>. Recompte (<code>py
 <td>Q-26</td>
 <td><strong>Réduite au seuil</strong> : ACI-RG-07 tranche la double comparaison (« contre la référence et contre la valeur précédente »), le code la suit ; restent seuil, mode de calcul et caractère de la notification (ACI-O3) — Chute des plaquettes sous anticoagulant injectable</td>
 <td>ACI-RG-07, ACI-O3 (citait à tort ACI-RG-13 et 14)</td>
-<td>Règle provisoire <code>chute_plaquettaire</code> (registre des simulations, b/simulation.py) : variation contre la référence ou la valeur précédente, seuil −30 % (−20 à −50) ; au-delà, bandeau dans la fiche et notification proposée au prescripteur, jamais envoyée d'office</td>
+<td>Règle du cabinet <code>plaquettes_chute_pct</code> (b/regles_cabinet.py), la même que la suggestion des plaquettes : variation contre la référence ou la valeur précédente, seuil −30 % (−10 à −50) ; au-delà, bandeau dans la fiche et notification proposée au prescripteur, jamais envoyée d'office</td>
 <td>Seuil et mode de calcul (référence ou valeur précédente)</td>
 </tr>
 <tr>
@@ -7996,10 +7996,10 @@ et choix : <code>docs/audit/2026-10-23-fiche24-v02.md</code>. Recompte (<code>py
 </tr>
 <tr>
 <td>Q-30</td>
-<td><strong>Tranchée par NUR-RG-16</strong> ; reste la démonstration — Module aide-soignant</td>
+<td><strong>Tranchée par NUR-RG-16</strong> ; reste la signature — Module aide-soignant</td>
 <td>HAB-*, NUR-RG-16</td>
-<td><strong>Tranchée par NUR-RG-16</strong> (fiche 12 l.326 : « option d'installation, réservée aux SELAS ») et appliquée (lot L7) : module activé en structure seulement, règle provisoire <code>module_aide_soignant</code> retirée</td>
-<td>La démonstration (cabinet libéral avec une aide-soignante) : la passer en SELAS (l'émetteur des FSE devient la structure) ou refuser au serveur la signature d'un AS hors SELAS</td>
+<td><strong>Tranchée par NUR-RG-16</strong> (fiche 12 l.326 : « option d'installation, réservée aux SELAS ») et appliquée (lot L7) : module activé en structure seulement, règle provisoire <code>module_aide_soignant</code> retirée ; <strong>17/11 (retours #6, #12)</strong> : option réservée à la SELAS, AS ajouté seulement avec elle, démonstration en SELAS</td>
+<td>Refuser ou non, à la signature, le nursing d'un AS déjà présent hors SELAS (donnée d'avant, ou option retirée) : aujourd'hui accepté, l'écart signalé dans Paramètres</td>
 </tr>
 <tr>
 <td>Q-31</td>
@@ -8075,7 +8075,7 @@ et choix : <code>docs/audit/2026-10-23-fiche24-v02.md</code>. Recompte (<code>py
 <td>Q-39</td>
 <td>Fond de carte en production</td>
 <td>§6.5 (à préciser), W-tournées</td>
-<td>w/carte.tsx : OpenFreeMap (style vectoriel libre, sans clé) en démonstration, réglable par VITE_CARTE_STYLE (gabarit raster ou « aucune » → schéma SVG hors ligne) ; attribution affichée</td>
+<td>w/carte.tsx, w/planSchematique.tsx : aucun fond de carte par défaut, plan schématique dessiné sur le poste (aucun appel extérieur, 26/10/2026) ; fond réel seulement par VITE_CARTE_STYLE vers le serveur de tuiles du cabinet ou de l'hébergeur HDS (style vectoriel ou gabarit raster) ; attribution affichée</td>
 <td>Serveur de tuiles du cabinet ou de l'hébergeur HDS, ou fournisseur payant sous contrat (la politique d'usage des tuiles d'OpenStreetMap interdit l'usage intensif de tile.openstreetmap.org ; les tuiles demandées révèlent la zone des patients)</td>
 </tr>
 <tr>
@@ -8771,6 +8771,13 @@ et choix : <code>docs/audit/2026-10-23-fiche24-v02.md</code>. Recompte (<code>py
 <td>Une sous-fiche par acte signé</td>
 <td>Deux réponses dans une même signature ?</td>
 </tr>
+<tr>
+<td>Q-214</td>
+<td>Micro de dictée des champs libres du terminal (commentaires, note de relève, transmission dictée)</td>
+<td>Idées différenciantes (feuille de route) ; RGPD, HDS ; Q-162</td>
+<td>Micro dans l'application, voix reconnue sur le téléphone seulement (speech_to_text <code>onDevice</code>, français) : Android 12 et plus avec la reconnaissance hors connexion du système, vérifiée avant l'écoute (le paquet retomberait sinon sur la reconnaissance en ligne) ; iOS <code>requiresOnDeviceRecognition</code>. Sans elle ou micro refusé : message et renvoi au micro du clavier, aucun repli en ligne. Navigateur : pas de micro (<code>m/dictee_micro.dart</code>)</td>
+<td>Le micro du clavier proposé en repli peut lui-même envoyer le son à son éditeur : le déconseiller, ou exiger un clavier hors connexion sur les terminaux du cabinet ?</td>
+</tr>
 </tbody>
 </table></div>
 <h2 id="8-non-conformités-relevées-pendant-laudit">8. Non-conformités relevées pendant l'audit</h2>
@@ -9301,7 +9308,7 @@ et choix : <code>docs/audit/2026-10-23-fiche24-v02.md</code>. Recompte (<code>py
 <tbody>
 <tr>
 <td>AV-01</td>
-<td>Fin 2026 · 1/11/2027</td>
+<td>06/11/2026 · 1/11/2027</td>
 <td>Revalorisation AMI / AMX 3,35 € puis 3,45 €</td>
 <td>—</td>
 <td>Calendrier daté des lettres-clés (démonstration) lu à la date de réalisation</td>
@@ -9309,7 +9316,7 @@ et choix : <code>docs/audit/2026-10-23-fiche24-v02.md</code>. Recompte (<code>py
 <td>Date exacte de la première revalorisation ; valeur actuelle</td>
 <td><strong>Simulé</strong></td>
 <td>serveur · web</td>
-<td>b/cotation/tarifs_demo.json, demo.valeur_au, GET /cotation/tarifs (voir_cotation, AS 403) — t/test_avenant11::test_calendrier_date_des_lettres_cles, ::test_route_des_tarifs_reservee… ; 1re revalorisation sans date ; rien appliqué aux actes</td>
+<td>b/cotation/tarifs_demo.json, demo.valeur_au, GET /cotation/tarifs (voir_cotation, AS 403) — t/test_avenant11::test_calendrier_date_des_lettres_cles, ::test_route_des_tarifs_reservee… ; daté au 06/11/2026 (DOM et Mayotte 3,51 € puis 3,62 €) d'après l'arrêté du 5 mai 2026 et la décision UNCAM du 8/09/2026 (JO du 22/10/2026, art. 5) ; écran « Ce qui a changé dans la cotation » (GET /cotation/changements, w/pages/Avenant11.tsx), bandeau du jour poste fixe et terminal, « Votre mois avec l'avenant 11 » (GET /pilotage/avenant-11) — t/test_avenant11::test_ce_qui_a_change…, ::test_bandeau_du_jour…, ::test_votre_mois…</td>
 </tr>
 <tr>
 <td>AV-02</td>
@@ -9333,7 +9340,7 @@ et choix : <code>docs/audit/2026-10-23-fiche24-v02.md</code>. Recompte (<code>py
 <td>Identifiant de régulation ; distinction SAS / PDSA</td>
 <td><strong>Fait</strong></td>
 <td>serveur · web · mobile</td>
-<td>motif_non_programme soin_regule (b/fiches/commun.py:16), proposé à l'IDE au terminal (m/ecrans/fiche.dart:344), lu au web (DossierPatient.tsx:badgesPassage) — t/test_avenant11::test_lieu_du_soin_de_l_enfant_et_soin_regule ; mobile/test/fiches_test</td>
+<td>motif_non_programme soin_regule (b/fiches/commun.py:16), proposé à l'IDE au terminal (m/ecrans/fiche.dart:344), lu au web (DossierPatient.tsx:badgesPassage) ; au 06/11/2026 (NGAP art. 23.6) : levée de doute sans soin (fait <code>levee_de_doute</code>, AMI 1,35, sans MAU) et MIR par passage dans la doublure, 20 par semaine et par IDE (<code>mir_semaine</code> lu des cotations, au-delà tracée), compteur « MIR cette semaine » au terminal — t/test_avenant11::test_lieu_du_soin_de_l_enfant_et_soin_regule, ::test_levee_de_doute… ; mobile/test/fiches_test, avenant11_widgets_test</td>
 </tr>
 <tr>
 <td>AV-04</td>

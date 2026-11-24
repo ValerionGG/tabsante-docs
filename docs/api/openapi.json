@@ -2390,6 +2390,74 @@
     }
    }
   },
+  "/frequences/{frequence_id}/plaie": {
+   "post": {
+    "tags": [
+     "plaies"
+    ],
+    "summary": "Post Rattacher",
+    "description": "EX-PF-15 : le pansement « plaie à identifier » rattaché à une plaie déjà ouverte du patient (au poste ou au\nterminal). Une plaie qui s'ouvre le rattache d'elle-même (`PlaieIn.frequence_ids`).",
+    "operationId": "post_rattacher_frequences__frequence_id__plaie_post",
+    "parameters": [
+     {
+      "name": "frequence_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "format": "uuid",
+       "title": "Frequence Id"
+      }
+     },
+     {
+      "name": "authorization",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Authorization"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/RattachementIn"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
   "/plaies/{objet_id}": {
    "get": {
     "tags": [
@@ -3576,6 +3644,221 @@
     }
    }
   },
+  "/preuves/actes": {
+   "get": {
+    "tags": [
+     "preuve"
+    ],
+    "summary": "Actes Signes",
+    "description": "Dossier de preuve du cabinet (retour client n° 3) : qui a fait quoi, à qui et quand. Les soins signés, récents\nd'abord, filtrés par soignant, patient, soin et période, page par page ; les totaux par soignant portent sur tout\nle filtre, pas sur la page. La cotation n'est rendue qu'à qui la lit (HAB-22) : jamais à l'aide-soignant, et aucun\nmontant à personne.\n\nPortée : celle de la liste des patients suivie de leurs soins (GET /patients puis /patients/{id}/actes), ni plus\nni moins — le remplaçant ne lit que les patients de sa portée (EX-TO-06), les soins d'une identité fusionnée se\nlisent au dossier conservé, un dossier de reprise annulée n'y est pas. Les totaux sont une statistique de gestion\n(HAB-32, comme les compteurs par soignant du tableau de bord) : qui gère le cabinet les lit tous, chacun des\nautres ne reçoit que le sien — `totaux_tous` dit lequel des deux.",
+    "operationId": "actes_signes_preuves_actes_get",
+    "parameters": [
+     {
+      "name": "soignant",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string",
+         "format": "uuid"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Soignant"
+      }
+     },
+     {
+      "name": "patient",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string",
+         "format": "uuid"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Patient"
+      }
+     },
+     {
+      "name": "soin",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "enum": [
+          "PANSEMENT",
+          "INJECTION",
+          "SUIVI_DIABETIQUE",
+          "PARAMETRES_VITAUX",
+          "PRELEVEMENT",
+          "ANTICOAGULANT",
+          "MEDICAMENTS",
+          "SOINS_NURSING",
+          "PERFUSION_IV",
+          "PERFUSION_SC",
+          "STOMIE_DIGESTIVE",
+          "STOMIE_URINAIRE",
+          "NUTRITION_ENTERALE",
+          "URO_GENITO_DIGESTIF",
+          "CONSULTATION_INFIRMIERE",
+          "SOINS_RESPIRATOIRES",
+          "SURVEILLANCE_NEUROPSY",
+          "PSE",
+          "PCA_SEDATION",
+          "DIALYSE_PERITONEALE",
+          "ANALGESIE_LOCOREGIONALE"
+         ],
+         "type": "string"
+        },
+        {
+         "const": "SEANCE_PARCOURS",
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Soin"
+      }
+     },
+     {
+      "name": "du",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string",
+         "format": "date"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Du"
+      }
+     },
+     {
+      "name": "au",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string",
+         "format": "date"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Au"
+      }
+     },
+     {
+      "name": "q",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string",
+         "maxLength": 80
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Q"
+      }
+     },
+     {
+      "name": "differes",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "boolean"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Differes"
+      }
+     },
+     {
+      "name": "page",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "integer",
+       "minimum": 1,
+       "default": 1,
+       "title": "Page"
+      }
+     },
+     {
+      "name": "par_page",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "integer",
+       "maximum": 100,
+       "minimum": 1,
+       "default": 25,
+       "title": "Par Page"
+      }
+     },
+     {
+      "name": "authorization",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Authorization"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
   "/audit/verification": {
    "get": {
     "tags": [
@@ -3752,7 +4035,7 @@
      "suivi diabétique"
     ],
     "summary": "Suivi",
-    "description": "M8 et §7 : historique (« à faire » compris), compteurs du traitement, séance hebdomadaire du plus de 75 ans.",
+    "description": "M8 et §7 : historique (« à faire » compris), compteurs du traitement, séance hebdomadaire du plus de 75 ans.\nÉvolution diabète : repères (hypoglycémie, rythme de l'HbA1c) ; à l'infirmier, la consultation CIA possible et\nl'HbA1c à programmer.",
     "operationId": "suivi_patients__patient_id__suivi_diabetique_get",
     "parameters": [
      {
@@ -9003,7 +9286,7 @@
      "organisation"
     ],
     "summary": "Matrice",
-    "description": "La matrice §3.2 telle que le serveur l'applique, et les profils de l'utilisateur courant.",
+    "description": "La matrice §3.2 telle que le serveur l'applique, les profils de l'utilisateur courant et les droits qu'on lui a\najoutés ou retirés ; Équipe et droits : les droits de l'écran (groupes, libellés, verrous et socle par métier).",
     "operationId": "matrice_habilitations_matrice_get",
     "parameters": [
      {
@@ -9257,6 +9540,74 @@
     }
    }
   },
+  "/cabinet/invitations/{invitation_id}/envoi": {
+   "post": {
+    "tags": [
+     "organisation"
+    ],
+    "summary": "Envoyer Invitation",
+    "description": "Retour #13 : FPLS envoie lui-même le courriel d'invitation (app.courriel), avec le lien que l'administrateur\nvient de créer — vérifié par son empreinte : seul le lien en cours de cette invitation part.",
+    "operationId": "envoyer_invitation_cabinet_invitations__invitation_id__envoi_post",
+    "parameters": [
+     {
+      "name": "invitation_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "format": "uuid",
+       "title": "Invitation Id"
+      }
+     },
+     {
+      "name": "authorization",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Authorization"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/EnvoiInvitationIn"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
   "/cabinet/invitations/jeton/{jeton}": {
    "get": {
     "tags": [
@@ -9470,7 +9821,7 @@
      "organisation"
     ],
     "summary": "Regler Statut",
-    "description": "Retour #2 : statut au cabinet, déclaration IPA et planning confié, par qui gère l'équipe (HAB-33). Le remplaçant\ngarde son statut tant qu'il tient son remplacement ; l'aide-soignant reste salarié ; on ne se retire pas soi-même\nla gestion du cabinet.",
+    "description": "Retour #2 : statut au cabinet et planning confié, par qui gère l'équipe (HAB-33). Le remplaçant garde son statut\ntant qu'il tient son remplacement ; l'aide-soignant reste salarié ; on ne se retire pas soi-même la gestion du\ncabinet. 0066 : la pratique avancée se règle à part (PUT …/ipa) ; un `ipa` envoyé par un ancien poste est ignoré.",
     "operationId": "regler_statut_intervenants__intervenant_id__statut_put",
     "parameters": [
      {
@@ -9506,6 +9857,142 @@
       "application/json": {
        "schema": {
         "$ref": "#/components/schemas/StatutIn"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/intervenants/{intervenant_id}/droits": {
+   "put": {
+    "tags": [
+     "organisation"
+    ],
+    "summary": "Regler Droits",
+    "description": "Équipe et droits : un droit précis s'ajoute ou se retire à un membre, daté du jour, tracé, révocable — jamais ce\nque la loi ou le cahier interdisent à son métier (verrou), jamais ce dont son métier ne se passe pas (socle). Le\nplanning d'un collaborateur ou d'un salarié reste « confié » (retour #2) ; la lecture du dossier par un non-soignant\npasse par « Accès aux soins », daté. Qui règle les droits gère l'équipe et ne se retire pas cette gestion : le cabinet\ngarde toujours quelqu'un pour la tenir.",
+    "operationId": "regler_droits_intervenants__intervenant_id__droits_put",
+    "parameters": [
+     {
+      "name": "intervenant_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "format": "uuid",
+       "title": "Intervenant Id"
+      }
+     },
+     {
+      "name": "authorization",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Authorization"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/DroitsIn"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/intervenants/{intervenant_id}/ipa": {
+   "put": {
+    "tags": [
+     "organisation"
+    ],
+    "summary": "Regler Ipa",
+    "description": "Le droit IPA d'un infirmier, par qui gère l'équipe : accordé, modifié ou retiré, daté, tracé (qui, quand). Une\nmodification est une nouvelle version, à partir du jour (l'ancienne est révoquée, jamais effacée) ; la mention de\nchaque domaine est une formation de l'infirmier, créée si elle manque.",
+    "operationId": "regler_ipa_intervenants__intervenant_id__ipa_put",
+    "parameters": [
+     {
+      "name": "intervenant_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "format": "uuid",
+       "title": "Intervenant Id"
+      }
+     },
+     {
+      "name": "authorization",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Authorization"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/IpaIn"
        }
       }
      }
@@ -9933,6 +10420,7 @@
      "organisation"
     ],
     "summary": "Catalogue Formations",
+    "description": "`effet` : ce que la formation change, en une phrase (ticket #16) — seules celles qui en ont une se cochent dans la\nfiche du soignant ; les mentions IPA (`ipa`) se règlent avec le droit de pratique avancée.",
     "operationId": "catalogue_formations_formations_catalogue_get",
     "parameters": [
      {
@@ -9952,6 +10440,142 @@
       }
      }
     ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/formations/{formation_id}": {
+   "patch": {
+    "tags": [
+     "organisation"
+    ],
+    "summary": "Modifier Formation",
+    "description": "Équipe et droits : la date d'obtention et l'échéance d'une formation se corrigent, tracées (avant, après).",
+    "operationId": "modifier_formation_formations__formation_id__patch",
+    "parameters": [
+     {
+      "name": "formation_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "format": "uuid",
+       "title": "Formation Id"
+      }
+     },
+     {
+      "name": "authorization",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Authorization"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/FormationModifIn"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/formations/{formation_id}/retrait": {
+   "post": {
+    "tags": [
+     "organisation"
+    ],
+    "summary": "Retirer Formation",
+    "description": "Une formation se retire (saisie par erreur, mention perdue) : sa validité s'arrête la veille, jamais effacée ;\nce qu'elle permettait de signer ne l'est plus. Motif obligatoire, tracé.",
+    "operationId": "retirer_formation_formations__formation_id__retrait_post",
+    "parameters": [
+     {
+      "name": "formation_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "format": "uuid",
+       "title": "Formation Id"
+      }
+     },
+     {
+      "name": "authorization",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Authorization"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/RevocationIn"
+       }
+      }
+     }
+    },
     "responses": {
      "200": {
       "description": "Successful Response",
@@ -12607,7 +13231,7 @@
      "facturation"
     ],
     "summary": "Post Fse",
-    "description": "FSE construite des seules cotations confirmées d'actes signés (EX-FA-07, PR-2) — SIMULÉE. Avec `securisation`,\nsécurisée dans la foulée par les cartes (au domicile, hors connexion compris).",
+    "description": "FSE construite des seules cotations confirmées d'actes signés (EX-FA-07, PR-2) — SIMULÉE. Avec `securisation`,\nsécurisée dans la foulée par les cartes (au domicile, hors connexion compris). Avec `refuser_si_bloque`, refusée\npour un patient bloqué (refuser_bloque).",
     "operationId": "post_fse_facturation_fse_post",
     "parameters": [
      {
@@ -12974,6 +13598,7 @@
      "facturation"
     ],
     "summary": "Get Ma Journee",
+    "description": "Mes actes à facturer, par patient, prêts ou retenus : ceux du `jour`, ou d'une période qui finit ce jour-là\n(`periode` : la semaine depuis lundi, ou tout ce qui est signé).",
     "operationId": "get_ma_journee_facturation_ma_journee_get",
     "parameters": [
      {
@@ -12991,6 +13616,27 @@
         }
        ],
        "title": "Jour"
+      }
+     },
+     {
+      "name": "periode",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "enum": [
+          "jour",
+          "semaine",
+          "tout"
+         ],
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Periode"
       }
      },
      {
@@ -13036,7 +13682,7 @@
      "facturation"
     ],
     "summary": "Post Ma Journee",
-    "description": "Une FSE par patient prêt (ses actes du jour, par moi), créée puis signée par ma carte CPS — le code se présente\nune fois, avant toute création : faux, rien n'est fait — puis mise en lot, télétransmise au rythme du cabinet.\nRejouée (double clic, coupure), la même clé d'initialisation rend les mêmes FSE. Les patients retenus sont rendus\navec leurs motifs. SIMULÉ.",
+    "description": "Une FSE par patient prêt (ses actes du jour ou de la période, par moi), créée puis signée par ma carte CPS — le\ncode se présente une fois pour toute la série, avant toute création : faux, rien n'est fait — puis mise en lot,\ntélétransmise au rythme du cabinet. Rejouée (double clic, coupure), la même clé d'initialisation rend les mêmes\nFSE. Les patients retenus sont rendus avec leurs motifs ; ceux « à risque de rejet » ne partent que sur demande\n(`avec_risques`). Une FSE porte 50 actes au plus : au-delà, le patient en a plusieurs. SIMULÉ.",
     "operationId": "post_ma_journee_facturation_ma_journee_post",
     "parameters": [
      {
@@ -14736,6 +15382,63 @@
     }
    }
   },
+  "/auth/terminaux/{terminal}/deconnexion": {
+   "post": {
+    "tags": [
+     "sécurité"
+    ],
+    "summary": "Deconnecter Terminal",
+    "description": "« Déconnecter » (ch-telephones) : les connexions en cours sur ce terminal se ferment, il reste enrôlé ; on s'y\nreconnecte comme d'habitude, sans nouveau code. Pour qui gère les terminaux, ou pour son propriétaire.",
+    "operationId": "deconnecter_terminal_auth_terminaux__terminal__deconnexion_post",
+    "parameters": [
+     {
+      "name": "terminal",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Terminal"
+      }
+     },
+     {
+      "name": "authorization",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Authorization"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
   "/auth/terminaux": {
    "post": {
     "tags": [
@@ -14798,7 +15501,7 @@
      "sécurité"
     ],
     "summary": "Terminaux",
-    "description": "Terminaux du cabinet : enrôlés, en attente d'enrôlement (code émis, `code_expire_le`) ou révoqués (`motif_revocation`\n« enrolement_annule » pour un code annulé). Dernière activité : `dernier_rafraichissement_le` (connexion ou\nrafraîchissement de session), `derniere_synchronisation_le`.",
+    "description": "Terminaux du cabinet : enrôlés, en attente d'enrôlement (code émis, `code_expire_le`) ou révoqués (`motif_revocation`\n« enrolement_annule » pour un code annulé). Dernière activité : `dernier_rafraichissement_le` (connexion ou\nrafraîchissement de session), `derniere_synchronisation_le`. `pause_le` : en pause depuis ; `connectes` : les\nintervenants qui y ont une session active (vide : déconnecté).",
     "operationId": "terminaux_auth_terminaux_get",
     "parameters": [
      {
@@ -14897,6 +15600,120 @@
        "type": "string",
        "format": "uuid",
        "title": "Terminal Id"
+      }
+     },
+     {
+      "name": "authorization",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Authorization"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/auth/terminaux/{terminal}/pause": {
+   "post": {
+    "tags": [
+     "sécurité"
+    ],
+    "summary": "Mettre En Pause",
+    "description": "« Mettre en pause » (ticket #14 : en réparation, remplaçant absent) : ses connexions se ferment et aucune ne s'y\nouvre ni ne s'y rafraîchit (401 « terminal_en_pause ») jusqu'à la remise en service ; il reste enrôlé. Rejouée,\nla pause garde sa date.",
+    "operationId": "mettre_en_pause_auth_terminaux__terminal__pause_post",
+    "parameters": [
+     {
+      "name": "terminal",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Terminal"
+      }
+     },
+     {
+      "name": "authorization",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Authorization"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/auth/terminaux/{terminal}/reprise": {
+   "post": {
+    "tags": [
+     "sécurité"
+    ],
+    "summary": "Remettre En Service",
+    "description": "« Remettre en service » : la pause prend fin ; la personne s'y reconnecte avec ses codes, sans nouveau code de\nliaison.",
+    "operationId": "remettre_en_service_auth_terminaux__terminal__reprise_post",
+    "parameters": [
+     {
+      "name": "terminal",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Terminal"
       }
      },
      {
@@ -15694,6 +16511,7 @@
      "bilans"
     ],
     "summary": "Bilan A La Demande",
+    "description": "Un type de REPRIS_A_LA_DEMANDE rend le brouillon non signé du patient pour la même période (idempotent, comme\nle bilan dû d'une occurrence), pré-rédigé de nouveau s'il n'a jamais été relu ; relu, il est rendu tel quel.",
     "operationId": "bilan_a_la_demande_patients__patient_id__bilans_post",
     "parameters": [
      {
@@ -15804,7 +16622,8 @@
           "stomie",
           "nutrition",
           "tracheotomie",
-          "cpap"
+          "cpap",
+          "diabete"
          ],
          "type": "string"
         },
@@ -16132,6 +16951,64 @@
       }
      }
     },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/plaies/{objet_id}/bilan-plaie": {
+   "get": {
+    "tags": [
+     "bilans"
+    ],
+    "summary": "Bilan Plaie Possible",
+    "description": "Bilan de plaie guidé (AMI 11) : avant de le commencer, est-il cotable aujourd'hui, et sinon pourquoi — un par\nplaie sur douze mois, nouveau bilan pour une récidive après deux mois sans soin. Jamais de montant.",
+    "operationId": "bilan_plaie_possible_plaies__objet_id__bilan_plaie_get",
+    "parameters": [
+     {
+      "name": "objet_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "format": "uuid",
+       "title": "Objet Id"
+      }
+     },
+     {
+      "name": "authorization",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Authorization"
+      }
+     }
+    ],
     "responses": {
      "200": {
       "description": "Successful Response",
@@ -19391,6 +20268,64 @@
     }
    }
   },
+  "/plaies/{objet_id}/telesoin": {
+   "get": {
+    "tags": [
+     "actes à distance"
+    ],
+    "summary": "Etat Telesoin",
+    "description": "Bouton « Surveillance à distance » de la plaie (art. 14) : télésoins du mois sur quatre, pansement en présence\ndéjà fait (condition), pansement fait aujourd'hui (refus du jour). Des comptes, jamais un montant.",
+    "operationId": "etat_telesoin_plaies__objet_id__telesoin_get",
+    "parameters": [
+     {
+      "name": "objet_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "format": "uuid",
+       "title": "Objet Id"
+      }
+     },
+     {
+      "name": "authorization",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Authorization"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
   "/patients/{patient_id}/actes-distance": {
    "post": {
     "tags": [
@@ -21768,6 +22703,64 @@
     }
    }
   },
+  "/patients/{patient_id}/bilan-annuel-plaie": {
+   "get": {
+    "tags": [
+     "bilans et consultation"
+    ],
+    "summary": "Bilan Annuel Plaie",
+    "description": "Carte « Bilan annuel plaie disponible » du dossier : conditions réunies ou non, et pourquoi, en mots.",
+    "operationId": "bilan_annuel_plaie_patients__patient_id__bilan_annuel_plaie_get",
+    "parameters": [
+     {
+      "name": "patient_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "format": "uuid",
+       "title": "Patient Id"
+      }
+     },
+     {
+      "name": "authorization",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Authorization"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
   "/patients/{patient_id}/bilans-consultation": {
    "get": {
     "tags": [
@@ -23619,6 +24612,353 @@
       }
      }
     ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/frequences/en-attente-ordonnance": {
+   "get": {
+    "tags": [
+     "attente d'ordonnance"
+    ],
+    "summary": "Lister",
+    "description": "EX-PF-14 : les soins commencés sans ordonnance et leurs actes à la facturation suspendue, tant que l'attente\ndure ; `patient_id` : ceux d'un dossier (identités fusionnées comprises).",
+    "operationId": "lister_frequences_en_attente_ordonnance_get",
+    "parameters": [
+     {
+      "name": "patient_id",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string",
+         "format": "uuid"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Patient Id"
+      }
+     },
+     {
+      "name": "authorization",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Authorization"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/passages-a-regulariser": {
+   "get": {
+    "tags": [
+     "attente d'ordonnance"
+    ],
+    "summary": "A Regulariser",
+    "description": "Lecture d'avant EX-PF-14 (terminaux pas encore mis à jour) : un élément par acte suspendu.",
+    "operationId": "a_regulariser_passages_a_regulariser_get",
+    "parameters": [
+     {
+      "name": "authorization",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Authorization"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/frequences/{frequence_id}/regularisation": {
+   "post": {
+    "tags": [
+     "attente d'ordonnance"
+    ],
+    "summary": "Verser Ordonnance",
+    "description": "EX-PF-14 (b) : l'ordonnance demandée au médecin, versée après le début du soin, devient celle de la fréquence\n(et de l'objet suivi qui n'en avait pas) ; elle libère la cotation des actes qu'elle couvre (D-27, règle\nprovisoire : ceux faits à partir de sa date par défaut). Les autres restent en attente.",
+    "operationId": "verser_ordonnance_frequences__frequence_id__regularisation_post",
+    "parameters": [
+     {
+      "name": "frequence_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "format": "uuid",
+       "title": "Frequence Id"
+      }
+     },
+     {
+      "name": "apercu",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "boolean",
+       "default": false,
+       "title": "Apercu"
+      }
+     },
+     {
+      "name": "authorization",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Authorization"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/OrdonnanceTardiveIn"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/frequences/{frequence_id}/prescription-infirmiere": {
+   "post": {
+    "tags": [
+     "attente d'ordonnance"
+    ],
+    "summary": "Sur Prescription Infirmiere",
+    "description": "EX-PF-14 (a) : le soin entre dans ce que l'IDE peut prescrire — sa prescription infirmière signée, qui porte une\nligne de la catégorie du soin, devient la pièce de la fréquence. La cotation suit la nomenclature (le moteur).",
+    "operationId": "sur_prescription_infirmiere_frequences__frequence_id__prescription_infirmiere_post",
+    "parameters": [
+     {
+      "name": "frequence_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "format": "uuid",
+       "title": "Frequence Id"
+      }
+     },
+     {
+      "name": "apercu",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "boolean",
+       "default": false,
+       "title": "Apercu"
+      }
+     },
+     {
+      "name": "authorization",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Authorization"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/PrescriptionInfirmiereIssueIn"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/frequences/{frequence_id}/sans-facturation": {
+   "post": {
+    "tags": [
+     "attente d'ordonnance"
+    ],
+    "summary": "Tracer Sans Facturation",
+    "description": "EX-PF-14 (c) : le soin tracé sans facturation — geste explicite de l'infirmier, daté, signé, motivé. Il vaut pour\nles actes encore en attente de ce soin et, la fréquence encore sans pièce, pour ses actes à venir.",
+    "operationId": "tracer_sans_facturation_frequences__frequence_id__sans_facturation_post",
+    "parameters": [
+     {
+      "name": "frequence_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "format": "uuid",
+       "title": "Frequence Id"
+      }
+     },
+     {
+      "name": "apercu",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "boolean",
+       "default": false,
+       "title": "Apercu"
+      }
+     },
+     {
+      "name": "authorization",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Authorization"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/SansFacturationIn"
+       }
+      }
+     }
+    },
     "responses": {
      "200": {
       "description": "Successful Response",
@@ -25494,7 +26834,7 @@
      "échanges simulés"
     ],
     "summary": "Importer",
-    "description": "EX-MED-01 : la prescription importée est marquée électronique ; ses lignes entrent au traitement avec leur code\net leur statut de remboursement (MED-RG-10) ; la distribution passe sur elle (relais de la fréquence en cours, ou\nune fréquence quotidienne du matin). Rejouable : une ordonnance déjà importée n'est pas recréée.",
+    "description": "EX-MED-01 : la prescription importée est marquée électronique ; ses lignes entrent au traitement avec leur code\net leur statut de remboursement (MED-RG-10) ; la distribution passe sur elle : relais de la fréquence en cours,\nsinon au rythme dit par l'infirmier (`rythme`, que le terminal demande toujours). Rejouable : une ordonnance déjà\nimportée n'est pas recréée.",
     "operationId": "importer_patients__patient_id__ordonnances_electroniques__reference__import_post",
     "parameters": [
      {
@@ -25533,6 +26873,23 @@
       }
      }
     ],
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "anyOf": [
+         {
+          "$ref": "#/components/schemas/RythmeImport"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "title": "Rythme"
+       }
+      }
+     }
+    },
     "responses": {
      "201": {
       "description": "Successful Response",
@@ -25583,122 +26940,6 @@
        "title": "Reference"
       }
      },
-     {
-      "name": "authorization",
-      "in": "header",
-      "required": false,
-      "schema": {
-       "anyOf": [
-        {
-         "type": "string"
-        },
-        {
-         "type": "null"
-        }
-       ],
-       "title": "Authorization"
-      }
-     }
-    ],
-    "responses": {
-     "200": {
-      "description": "Successful Response",
-      "content": {
-       "application/json": {
-        "schema": {}
-       }
-      }
-     },
-     "422": {
-      "description": "Validation Error",
-      "content": {
-       "application/json": {
-        "schema": {
-         "$ref": "#/components/schemas/HTTPValidationError"
-        }
-       }
-      }
-     }
-    }
-   }
-  },
-  "/frequences/{frequence_id}/regularisation": {
-   "post": {
-    "tags": [
-     "règles provisoires"
-    ],
-    "summary": "Regulariser",
-    "description": "D-11 (provisoire) : la prescription arrivée après le passage imprévu se rattache à sa ponctuelle, dans le délai\nréglé ; l'acte servi est recoté sur elle et passe en file de contrôle (lignes d'avant consultables).",
-    "operationId": "regulariser_frequences__frequence_id__regularisation_post",
-    "parameters": [
-     {
-      "name": "frequence_id",
-      "in": "path",
-      "required": true,
-      "schema": {
-       "type": "string",
-       "format": "uuid",
-       "title": "Frequence Id"
-      }
-     },
-     {
-      "name": "authorization",
-      "in": "header",
-      "required": false,
-      "schema": {
-       "anyOf": [
-        {
-         "type": "string"
-        },
-        {
-         "type": "null"
-        }
-       ],
-       "title": "Authorization"
-      }
-     }
-    ],
-    "requestBody": {
-     "required": true,
-     "content": {
-      "application/json": {
-       "schema": {
-        "$ref": "#/components/schemas/RegularisationIn"
-       }
-      }
-     }
-    },
-    "responses": {
-     "200": {
-      "description": "Successful Response",
-      "content": {
-       "application/json": {
-        "schema": {}
-       }
-      }
-     },
-     "422": {
-      "description": "Validation Error",
-      "content": {
-       "application/json": {
-        "schema": {
-         "$ref": "#/components/schemas/HTTPValidationError"
-        }
-       }
-      }
-     }
-    }
-   }
-  },
-  "/passages-a-regulariser": {
-   "get": {
-    "tags": [
-     "règles provisoires"
-    ],
-    "summary": "A Regulariser",
-    "description": "Passages imprévus signés sans prescription, en attente de régularisation (règle provisoire).",
-    "operationId": "a_regulariser_passages_a_regulariser_get",
-    "parameters": [
      {
       "name": "authorization",
       "in": "header",
@@ -27084,129 +28325,6 @@
       }
      }
     ],
-    "responses": {
-     "200": {
-      "description": "Successful Response",
-      "content": {
-       "application/json": {
-        "schema": {}
-       }
-      }
-     },
-     "422": {
-      "description": "Validation Error",
-      "content": {
-       "application/json": {
-        "schema": {
-         "$ref": "#/components/schemas/HTTPValidationError"
-        }
-       }
-      }
-     }
-    }
-   }
-  },
-  "/cabinet/zone/intervenants/{intervenant_id}": {
-   "get": {
-    "tags": [
-     "tournées : itinéraire"
-    ],
-    "summary": "Zone Intervenant",
-    "operationId": "zone_intervenant_cabinet_zone_intervenants__intervenant_id__get",
-    "parameters": [
-     {
-      "name": "intervenant_id",
-      "in": "path",
-      "required": true,
-      "schema": {
-       "type": "string",
-       "format": "uuid",
-       "title": "Intervenant Id"
-      }
-     },
-     {
-      "name": "authorization",
-      "in": "header",
-      "required": false,
-      "schema": {
-       "anyOf": [
-        {
-         "type": "string"
-        },
-        {
-         "type": "null"
-        }
-       ],
-       "title": "Authorization"
-      }
-     }
-    ],
-    "responses": {
-     "200": {
-      "description": "Successful Response",
-      "content": {
-       "application/json": {
-        "schema": {}
-       }
-      }
-     },
-     "422": {
-      "description": "Validation Error",
-      "content": {
-       "application/json": {
-        "schema": {
-         "$ref": "#/components/schemas/HTTPValidationError"
-        }
-       }
-      }
-     }
-    }
-   },
-   "put": {
-    "tags": [
-     "tournées : itinéraire"
-    ],
-    "summary": "Regler Zone Intervenant",
-    "description": "Un cercle de ce rayon autour du point de départ, plus étroit (ou plus large) que la zone du cabinet ; nul : la\nzone du cabinet. Il juge « hors zone » les domiciles des tournées que l'intervenant sert.",
-    "operationId": "regler_zone_intervenant_cabinet_zone_intervenants__intervenant_id__put",
-    "parameters": [
-     {
-      "name": "intervenant_id",
-      "in": "path",
-      "required": true,
-      "schema": {
-       "type": "string",
-       "format": "uuid",
-       "title": "Intervenant Id"
-      }
-     },
-     {
-      "name": "authorization",
-      "in": "header",
-      "required": false,
-      "schema": {
-       "anyOf": [
-        {
-         "type": "string"
-        },
-        {
-         "type": "null"
-        }
-       ],
-       "title": "Authorization"
-      }
-     }
-    ],
-    "requestBody": {
-     "required": true,
-     "content": {
-      "application/json": {
-       "schema": {
-        "$ref": "#/components/schemas/ZoneIn"
-       }
-      }
-     }
-    },
     "responses": {
      "200": {
       "description": "Successful Response",
@@ -28916,6 +30034,64 @@
     }
    }
   },
+  "/patients/{patient_id}/pansements/fin-ordonnance": {
+   "get": {
+    "tags": [
+     "prescriptions"
+    ],
+    "summary": "Pansements Fin Ordonnance",
+    "description": "Alerte « ordonnance de pansement bientôt échue » du dossier et de la plaie : les ordonnances de pansement du\npatient qui finissent dans l'horizon du cabinet (ou « jusqu'à cicatrisation », 3 mois), sans demande de\nrenouvellement — la même liste que la suggestion d'« Aujourd'hui » (suggestions.a_renouveler).\nponytail: lit les échéances du cabinet puis filtre le patient ; une lecture par patient si le dossier ralentit.",
+    "operationId": "pansements_fin_ordonnance_patients__patient_id__pansements_fin_ordonnance_get",
+    "parameters": [
+     {
+      "name": "patient_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "format": "uuid",
+       "title": "Patient Id"
+      }
+     },
+     {
+      "name": "authorization",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Authorization"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
   "/patients/{patient_id}/renouvellements": {
    "get": {
     "tags": [
@@ -29693,6 +30869,130 @@
     "summary": "Regler Prerequis",
     "operationId": "regler_prerequis_cabinet_prerequis_soins_put",
     "parameters": [
+     {
+      "name": "authorization",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Authorization"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/PrerequisSoinsIn"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/patients/{patient_id}/prerequis-soins": {
+   "get": {
+    "tags": [
+     "tournées : préparation du passage"
+    ],
+    "summary": "Prerequis Du Patient",
+    "description": "Ce qu'il faut prévoir pour ce patient, soin par soin : les valeurs du cabinet, puis ce qui est réglé pour lui.",
+    "operationId": "prerequis_du_patient_patients__patient_id__prerequis_soins_get",
+    "parameters": [
+     {
+      "name": "patient_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "format": "uuid",
+       "title": "Patient Id"
+      }
+     },
+     {
+      "name": "authorization",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Authorization"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   },
+   "put": {
+    "tags": [
+     "tournées : préparation du passage"
+    ],
+    "summary": "Regler Prerequis Du Patient",
+    "description": "Le soignant règle ce qui vaut pour ce patient (« M. Martin : toujours à jeun, un aidant présent ») ; nul : retour\nà la valeur du cabinet. L'aide-soignante règle ceux de ses soins, comme au passage.",
+    "operationId": "regler_prerequis_du_patient_patients__patient_id__prerequis_soins_put",
+    "parameters": [
+     {
+      "name": "patient_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "format": "uuid",
+       "title": "Patient Id"
+      }
+     },
      {
       "name": "authorization",
       "in": "header",
@@ -33899,6 +35199,7 @@
      "demandes de soins"
     ],
     "summary": "Refuser",
+    "description": "Refus motivé ; le numéro de sécurité sociale, devenu sans objet, est effacé de la demande.",
     "operationId": "refuser_demandes_soins__demande_id__refus_post",
     "parameters": [
      {
@@ -33960,13 +35261,71 @@
     }
    }
   },
+  "/demandes-soins/{demande_id}/patients-proches": {
+   "get": {
+    "tags": [
+     "demandes de soins"
+    ],
+    "summary": "Patients Proches",
+    "description": "« Est-ce un patient du cabinet ? » : à lire avant d'accepter, pour rattacher plutôt que créer.",
+    "operationId": "patients_proches_demandes_soins__demande_id__patients_proches_get",
+    "parameters": [
+     {
+      "name": "demande_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "format": "uuid",
+       "title": "Demande Id"
+      }
+     },
+     {
+      "name": "authorization",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Authorization"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
   "/demandes-soins/{demande_id}/acceptation": {
    "post": {
     "tags": [
      "demandes de soins"
     ],
     "summary": "Accepter",
-    "description": "Rattache le patient créé ; la photo d'ordonnance rejoint son dossier (versement) et passe à la lecture : une\nproposition à valider, jamais une fréquence. Lecteur indisponible : le document seul, à lire depuis le dossier.",
+    "description": "Tout en une transaction : rattachement au patient existant ou ouverture du dossier (identité, adresse,\ntéléphone, numéro de sécurité sociale, demandeur), passage à « acceptée », versement de la photo d'ordonnance et sa\nlecture (une proposition à valider, jamais une fréquence ; lecteur indisponible : le document seul, à lire depuis\nle dossier). Rien n'existe à moitié : un échec n'écrit rien, la demande reste à traiter. Une demande déjà traitée\nest refusée (409) ; le même envoi rejoué (Idempotency-Key) reçoit la même réponse.",
     "operationId": "accepter_demandes_soins__demande_id__acceptation_post",
     "parameters": [
      {
@@ -34006,6 +35365,64 @@
       }
      }
     },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/demandes-soins/{demande_id}/annulation": {
+   "post": {
+    "tags": [
+     "demandes de soins"
+    ],
+    "summary": "Annuler",
+    "description": "« Annuler » après une acceptation, tant que rien n'a suivi (non_annulables) : la demande revient à traiter.\nRien n'est effacé. La lecture d'ordonnance encore à valider est écartée. Le dossier que l'acceptation avait ouvert\nquitte les listes du cabinet (reprise.reprise_annulee), ses doublons proposés sont écartés ; un patient qui\nexistait est détaché, et ce que le rattachement avait ajouté à son dossier — coordonnées, numéro de sécurité\nsociale, demandeur dans l'entourage — en est retiré (`apports_retires` ; `apports_conserves` : modifié depuis,\nlaissé), ce qu'il contenait avant ne bougeant jamais (_retirer_apports) ; l'ordonnance que\nla demande y avait versée le quitte aussi (`ordonnance_retiree`) — immuable, elle ne s'efface pas, elle n'est plus ni\nlistée ni lisible depuis ce dossier (acces.document_retire) : si le rattachement était une erreur de personne,\nl'ordonnance de l'un ne reste pas chez l'autre. Elle reste lisible depuis la demande, et sera versée au dossier\nretenu à la prochaine acceptation. Déjà revenue à traiter : rendue telle quelle.",
+    "operationId": "annuler_demandes_soins__demande_id__annulation_post",
+    "parameters": [
+     {
+      "name": "demande_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "format": "uuid",
+       "title": "Demande Id"
+      }
+     },
+     {
+      "name": "authorization",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Authorization"
+      }
+     }
+    ],
     "responses": {
      "200": {
       "description": "Successful Response",
@@ -34165,16 +35582,37 @@
    "AcceptationIn": {
     "properties": {
      "patient_id": {
-      "type": "string",
-      "format": "uuid",
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "uuid"
+       },
+       {
+        "type": "null"
+       }
+      ],
       "title": "Patient Id"
+     },
+     "sexe": {
+      "anyOf": [
+       {
+        "type": "string",
+        "enum": [
+         "F",
+         "M",
+         "I"
+        ]
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Sexe"
      }
     },
     "type": "object",
-    "required": [
-     "patient_id"
-    ],
-    "title": "AcceptationIn"
+    "title": "AcceptationIn",
+    "description": "`patient_id` : « C'est lui », le patient du cabinet auquel rattacher la demande. Sans lui : « Nouveau patient »,\nle dossier est ouvert depuis la demande ; `sexe` s'il manque à la demande (envoi d'avant le retour 9)."
    },
    "AccesControleIn": {
     "properties": {
@@ -37270,6 +38708,44 @@
        }
       ],
       "title": "Condition Jours Sans Selles"
+     },
+     "rythme_ecrit": {
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Rythme Ecrit"
+     },
+     "horaires_prescrits": {
+      "anyOf": [
+       {
+        "items": {
+         "type": "string",
+         "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$"
+        },
+        "type": "array",
+        "maxItems": 12
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Horaires Prescrits"
+     },
+     "sans_controle_glycemique": {
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Sans Controle Glycemique"
      }
     },
     "type": "object",
@@ -39593,6 +41069,19 @@
    },
    "CabinetIn": {
     "properties": {
+     "nom": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 150,
+        "minLength": 1
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Nom"
+     },
      "adresse": {
       "anyOf": [
        {
@@ -39617,6 +41106,19 @@
        }
       ],
       "title": "Telephone"
+     },
+     "mssante": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 254,
+        "pattern": "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Mssante"
      },
      "forme_juridique": {
       "anyOf": [
@@ -39645,22 +41147,11 @@
        }
       ],
       "title": "Module Aide Soignant"
-     },
-     "module_ipa": {
-      "anyOf": [
-       {
-        "type": "boolean"
-       },
-       {
-        "type": "null"
-       }
-      ],
-      "title": "Module Ipa"
      }
     },
     "type": "object",
     "title": "CabinetIn",
-    "description": "EX-PI-03 : coordonnées du cabinet, en en-tête des prescriptions et documents qu'il émet ; retours #2/#6 : forme\njuridique et options (aides-soignants, SELAS seulement ; IPA)."
+    "description": "EX-PI-03 : coordonnées du cabinet, en en-tête des prescriptions et documents qu'il émet ; retours #2/#6 : forme\njuridique et option aides-soignants (SELAS seulement). 0066 : plus d'option IPA (un `module_ipa` envoyé par un\nancien poste est ignoré) — la pratique avancée est un droit de chaque infirmier."
    },
    "CadreIn": {
     "properties": {
@@ -39839,6 +41330,22 @@
        }
       ],
       "title": "Commentaire Ouverture"
+     },
+     "frequence_ids": {
+      "anyOf": [
+       {
+        "items": {
+         "type": "string",
+         "format": "uuid"
+        },
+        "type": "array",
+        "maxItems": 10
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Frequence Ids"
      },
      "type": {
       "type": "string",
@@ -40140,6 +41647,22 @@
       ],
       "title": "Commentaire Ouverture"
      },
+     "frequence_ids": {
+      "anyOf": [
+       {
+        "items": {
+         "type": "string",
+         "format": "uuid"
+        },
+        "type": "array",
+        "maxItems": 10
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Frequence Ids"
+     },
      "type": {
       "type": "string",
       "const": "catheter_dp",
@@ -40259,6 +41782,22 @@
        }
       ],
       "title": "Commentaire Ouverture"
+     },
+     "frequence_ids": {
+      "anyOf": [
+       {
+        "items": {
+         "type": "string",
+         "format": "uuid"
+        },
+        "type": "array",
+        "maxItems": 10
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Frequence Ids"
      },
      "type": {
       "type": "string",
@@ -40436,6 +41975,22 @@
        }
       ],
       "title": "Commentaire Ouverture"
+     },
+     "frequence_ids": {
+      "anyOf": [
+       {
+        "items": {
+         "type": "string",
+         "format": "uuid"
+        },
+        "type": "array",
+        "maxItems": 10
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Frequence Ids"
      },
      "type": {
       "type": "string",
@@ -41011,6 +42566,18 @@
       "maxLength": 100,
       "minLength": 1,
       "title": "Libelle"
+     },
+     "intervenant_id": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "uuid"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Intervenant Id"
      }
     },
     "type": "object",
@@ -42484,6 +44051,22 @@
       ],
       "title": "Commentaire Ouverture"
      },
+     "frequence_ids": {
+      "anyOf": [
+       {
+        "items": {
+         "type": "string",
+         "format": "uuid"
+        },
+        "type": "array",
+        "maxItems": 10
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Frequence Ids"
+     },
      "type": {
       "type": "string",
       "const": "cpap",
@@ -42691,6 +44274,22 @@
        }
       ],
       "title": "Commentaire Ouverture"
+     },
+     "frequence_ids": {
+      "anyOf": [
+       {
+        "items": {
+         "type": "string",
+         "format": "uuid"
+        },
+        "type": "array",
+        "maxItems": 10
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Frequence Ids"
      },
      "type": {
       "type": "string",
@@ -43071,6 +44670,52 @@
       "format": "date",
       "title": "Date Naissance"
      },
+     "sexe": {
+      "anyOf": [
+       {
+        "type": "string",
+        "enum": [
+         "F",
+         "M"
+        ]
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Sexe"
+     },
+     "nir": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 40
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Nir"
+     },
+     "adresse": {
+      "type": "string",
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Adresse"
+     },
+     "complement": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 200,
+        "minLength": 1
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Complement"
+     },
      "code_postal": {
       "type": "string",
       "pattern": "^\\d{5}$",
@@ -43171,6 +44816,7 @@
      "nom",
      "prenom",
      "date_naissance",
+     "adresse",
      "code_postal",
      "commune",
      "telephone",
@@ -47982,6 +49628,35 @@
     ],
     "title": "Drain"
    },
+   "DroitsIn": {
+    "properties": {
+     "droits": {
+      "additionalProperties": {
+       "type": "boolean"
+      },
+      "type": "object",
+      "title": "Droits"
+     },
+     "motif": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 1000
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Motif"
+     }
+    },
+    "type": "object",
+    "required": [
+     "droits"
+    ],
+    "title": "DroitsIn",
+    "description": "L'état voulu des droits de l'écran (clé → coché), pour ce membre ; un droit qu'on n'envoie pas ne change pas.\nCoché comme le veut son statut : il y revient (l'ajout ou le retrait en cours est révoqué)."
+   },
    "DureesIn": {
     "properties": {
      "durees": {
@@ -48513,6 +50188,21 @@
     ],
     "title": "EnvoiIn"
    },
+   "EnvoiInvitationIn": {
+    "properties": {
+     "jeton": {
+      "type": "string",
+      "maxLength": 100,
+      "minLength": 20,
+      "title": "Jeton"
+     }
+    },
+    "type": "object",
+    "required": [
+     "jeton"
+    ],
+    "title": "EnvoiInvitationIn"
+   },
    "EnvoiRenouvellementIn": {
     "properties": {
      "confirme_sans_relecture": {
@@ -48619,6 +50309,22 @@
        }
       ],
       "title": "Commentaire Ouverture"
+     },
+     "frequence_ids": {
+      "anyOf": [
+       {
+        "items": {
+         "type": "string",
+         "format": "uuid"
+        },
+        "type": "array",
+        "maxItems": 10
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Frequence Ids"
      },
      "type": {
       "type": "string",
@@ -48745,6 +50451,22 @@
        }
       ],
       "title": "Commentaire Ouverture"
+     },
+     "frequence_ids": {
+      "anyOf": [
+       {
+        "items": {
+         "type": "string",
+         "format": "uuid"
+        },
+        "type": "array",
+        "maxItems": 10
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Frequence Ids"
      },
      "type": {
       "type": "string",
@@ -49873,6 +51595,17 @@
        }
       ],
       "title": "Situation Id"
+     },
+     "refuser_si_bloque": {
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Refuser Si Bloque"
      }
     },
     "type": "object",
@@ -50231,6 +51964,32 @@
      "obtenue_le"
     ],
     "title": "FormationIn"
+   },
+   "FormationModifIn": {
+    "properties": {
+     "obtenue_le": {
+      "type": "string",
+      "format": "date",
+      "title": "Obtenue Le"
+     },
+     "valide_jusqu_au": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "date"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Valide Jusqu Au"
+     }
+    },
+    "type": "object",
+    "required": [
+     "obtenue_le"
+    ],
+    "title": "FormationModifIn"
    },
    "FrequenceIn": {
     "properties": {
@@ -50812,6 +52571,7 @@
          "refus",
          "patient_absent",
          "lecteur_defaillant",
+         "non_prescrite",
          "autre"
         ]
        },
@@ -50853,7 +52613,8 @@
       "enum": [
        "administrateur",
        "responsable",
-       "remplacement"
+       "remplacement",
+       "acces_soins"
       ],
       "title": "Type"
      },
@@ -51126,6 +52887,32 @@
        }
       ],
       "title": "Telephone"
+     },
+     "courriel": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 254,
+        "pattern": "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Courriel"
+     },
+     "mssante": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 254,
+        "pattern": "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Mssante"
      }
     },
     "type": "object",
@@ -51544,7 +53331,8 @@
          "associe",
          "collaborateur",
          "salarie",
-         "remplacant"
+         "remplacant",
+         "secretaire"
         ]
        },
        {
@@ -51553,7 +53341,20 @@
       ],
       "title": "Statut"
      },
-     "ipa": {
+     "courriel": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 254,
+        "pattern": "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Courriel"
+     },
+     "administrateur": {
       "anyOf": [
        {
         "type": "boolean"
@@ -51562,7 +53363,15 @@
         "type": "null"
        }
       ],
-      "title": "Ipa"
+      "title": "Administrateur"
+     },
+     "formations": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "maxItems": 3,
+      "title": "Formations"
      }
     },
     "type": "object",
@@ -51643,23 +53452,44 @@
    "InvitationIn": {
     "properties": {
      "nom": {
-      "type": "string",
-      "maxLength": 100,
-      "minLength": 1,
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 100,
+        "minLength": 1
+       },
+       {
+        "type": "null"
+       }
+      ],
       "title": "Nom"
      },
      "prenom": {
-      "type": "string",
-      "maxLength": 100,
-      "minLength": 1,
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 100,
+        "minLength": 1
+       },
+       {
+        "type": "null"
+       }
+      ],
       "title": "Prenom"
      },
      "role": {
-      "type": "string",
-      "enum": [
-       "IDE",
-       "AS",
-       "ADM"
+      "anyOf": [
+       {
+        "type": "string",
+        "enum": [
+         "IDE",
+         "AS",
+         "ADM"
+        ]
+       },
+       {
+        "type": "null"
+       }
       ],
       "title": "Role"
      },
@@ -51674,15 +53504,132 @@
        }
       ],
       "title": "Rpps"
+     },
+     "courriel": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 254,
+        "pattern": "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Courriel"
+     },
+     "intervenant_id": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "uuid"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Intervenant Id"
+     }
+    },
+    "type": "object",
+    "title": "InvitationIn",
+    "description": "Retour #9 : `intervenant_id` invite un membre déjà ajouté à l'équipe (le chemin du poste : le membre existe\nd'abord, son lien d'invitation part ensuite par courriel) — son nom, son rôle et son RPPS sont alors les siens."
+   },
+   "IpaIn": {
+    "properties": {
+     "actif": {
+      "type": "boolean",
+      "title": "Actif"
+     },
+     "debut": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "date"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Debut"
+     },
+     "fin": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "date"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Fin"
+     },
+     "domaines": {
+      "additionalProperties": {
+       "type": "string",
+       "format": "date"
+      },
+      "propertyNames": {
+       "enum": [
+        "ipa_pathologies_chroniques",
+        "ipa_oncologie",
+        "ipa_maladie_renale",
+        "ipa_psychiatrie",
+        "ipa_urgences"
+       ]
+      },
+      "type": "object",
+      "title": "Domaines"
+     },
+     "exercice_coordonne": {
+      "anyOf": [
+       {
+        "type": "string",
+        "enum": [
+         "msp",
+         "centre_sante",
+         "esp",
+         "cpts"
+        ]
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Exercice Coordonne"
+     },
+     "structure": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 150
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Structure"
+     },
+     "motif": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 1000
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Motif"
      }
     },
     "type": "object",
     "required": [
-     "nom",
-     "prenom",
-     "role"
+     "actif"
     ],
-    "title": "InvitationIn"
+    "title": "IpaIn",
+    "description": "La pratique avancée d'un infirmier et ses limites (cahier §3.1 [T], R. 4301-2 CSP) : ses domaines d'intervention\n(au moins un, chacun avec la date d'inscription de sa mention), l'exercice coordonné (qui seul ouvre l'accès direct,\nEX-CI-44) et sa structure, les dates du droit. `actif` faux : le droit est retiré (historique gardé)."
    },
    "JourContexte": {
     "properties": {
@@ -51783,6 +53730,33 @@
        }
       ],
       "title": "Jour"
+     },
+     "periode": {
+      "anyOf": [
+       {
+        "type": "string",
+        "enum": [
+         "jour",
+         "semaine",
+         "tout"
+        ]
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Periode"
+     },
+     "avec_risques": {
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Avec Risques"
      },
      "carte": {
       "anyOf": [
@@ -52860,7 +54834,6 @@
     "properties": {
      "de": {
       "type": "number",
-      "maximum": 6.0,
       "minimum": 0.0,
       "title": "De"
      },
@@ -52868,7 +54841,6 @@
       "anyOf": [
        {
         "type": "number",
-        "maximum": 6.0,
         "exclusiveMinimum": 0.0
        },
        {
@@ -55512,6 +57484,18 @@
        }
       ],
       "title": "Methode Volume"
+     },
+     "inchangees_depuis": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "date"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Inchangees Depuis"
      }
     },
     "type": "object",
@@ -56380,6 +58364,22 @@
       ],
       "title": "Commentaire Ouverture"
      },
+     "frequence_ids": {
+      "anyOf": [
+       {
+        "items": {
+         "type": "string",
+         "format": "uuid"
+        },
+        "type": "array",
+        "maxItems": 10
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Frequence Ids"
+     },
      "type": {
       "type": "string",
       "const": "nutrition_enterale",
@@ -56662,7 +58662,10 @@
        "regler_prerequis",
        "noter_acces_domicile",
        "ordonner_tournee",
-       "acquitter_alerte_allergie"
+       "acquitter_alerte_allergie",
+       "saisir_prescription",
+       "rattacher_frequence",
+       "creer_frequence_en_attente"
       ],
       "title": "Type"
      },
@@ -56740,6 +58743,20 @@
      "document_id"
     ],
     "title": "OrdonnanceJointeIn"
+   },
+   "OrdonnanceTardiveIn": {
+    "properties": {
+     "prescription_id": {
+      "type": "string",
+      "format": "uuid",
+      "title": "Prescription Id"
+     }
+    },
+    "type": "object",
+    "required": [
+     "prescription_id"
+    ],
+    "title": "OrdonnanceTardiveIn"
    },
    "OrdreIn": {
     "properties": {
@@ -57434,6 +59451,17 @@
       "title": "Acces Direct",
       "default": false
      },
+     "ordonnance_a_venir": {
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Ordonnance A Venir"
+     },
      "ouvert_le": {
       "type": "string",
       "format": "date-time",
@@ -57445,14 +59473,51 @@
       "minLength": 1,
       "title": "Localisation Texte"
      },
+     "nom": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 40,
+        "minLength": 1
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Nom"
+     },
+     "frequence_ids": {
+      "items": {
+       "type": "string",
+       "format": "uuid"
+      },
+      "type": "array",
+      "maxItems": 10,
+      "title": "Frequence Ids",
+      "default": []
+     },
      "localisation_point": {
       "$ref": "#/components/schemas/Point"
+     },
+     "petites_plaies": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 500,
+        "minLength": 1
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Petites Plaies"
      },
      "type_plaie": {
       "type": "string",
       "enum": [
        "escarre",
        "ulcere",
+       "pied_diabetique",
        "chirurgicale",
        "traumatique",
        "brulure",
@@ -57492,7 +59557,14 @@
       "title": "Aspect Initial"
      },
      "dimensions": {
-      "$ref": "#/components/schemas/Dimensions"
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/Dimensions"
+       },
+       {
+        "type": "null"
+       }
+      ]
      },
      "volume_initial": {
       "anyOf": [
@@ -57644,7 +59716,6 @@
      "localisation_texte",
      "localisation_point",
      "type_plaie",
-     "dimensions",
      "fistuleuse",
      "suture"
     ],
@@ -58354,6 +60425,18 @@
    },
    "PrescriptionIn": {
     "properties": {
+     "id": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "uuid"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Id"
+     },
      "prescripteur_nom": {
       "type": "string",
       "maxLength": 150,
@@ -58613,8 +60696,34 @@
     ],
     "title": "PrescriptionInfirmiereIn"
    },
+   "PrescriptionInfirmiereIssueIn": {
+    "properties": {
+     "prescription_infirmiere_id": {
+      "type": "string",
+      "format": "uuid",
+      "title": "Prescription Infirmiere Id"
+     }
+    },
+    "type": "object",
+    "required": [
+     "prescription_infirmiere_id"
+    ],
+    "title": "PrescriptionInfirmiereIssueIn"
+   },
    "PrescriptionSaisieIn": {
     "properties": {
+     "id": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "uuid"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Id"
+     },
      "prescripteur_nom": {
       "type": "string",
       "maxLength": 150,
@@ -59338,6 +61447,43 @@
       ],
       "title": "Piece Jointe"
      },
+     "prescripteur": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 150,
+        "minLength": 1
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Prescripteur"
+     },
+     "date_prescription": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "date"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Date Prescription"
+     },
+     "document_id": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "uuid"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Document Id"
+     },
      "auteur_consigne": {
       "anyOf": [
        {
@@ -59375,6 +61521,32 @@
        }
       ],
       "title": "Borne Haute"
+     },
+     "cible_basse": {
+      "anyOf": [
+       {
+        "type": "number",
+        "maximum": 3.0,
+        "minimum": 0.5
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Cible Basse"
+     },
+     "cible_haute": {
+      "anyOf": [
+       {
+        "type": "number",
+        "maximum": 4.0,
+        "minimum": 0.8
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Cible Haute"
      },
      "consigne_hors_protocole": {
       "anyOf": [
@@ -60010,6 +62182,20 @@
     "title": "Rapport",
     "description": "NPS-N05 à N08 : déclaration recueillie de l'intervalle. Sans auteur ni période, ce n'est pas un rapport mais un\ncommentaire (NPS-RG-07) ; jamais fondu au constat (NPS-RG-06)."
    },
+   "RattachementIn": {
+    "properties": {
+     "objet_suivi_id": {
+      "type": "string",
+      "format": "uuid",
+      "title": "Objet Suivi Id"
+     }
+    },
+    "type": "object",
+    "required": [
+     "objet_suivi_id"
+    ],
+    "title": "RattachementIn"
+   },
    "RealisationIn": {
     "properties": {
      "acte_id": {
@@ -60214,7 +62400,9 @@
       "enum": [
        "session_expiree",
        "session_revoquee",
+       "session_fermee",
        "terminal_revoque",
+       "terminal_en_pause",
        "jeton_rejoue"
       ],
       "title": "Code"
@@ -60400,20 +62588,6 @@
      "valeur"
     ],
     "title": "RegleIn"
-   },
-   "RegularisationIn": {
-    "properties": {
-     "prescription_id": {
-      "type": "string",
-      "format": "uuid",
-      "title": "Prescription Id"
-     }
-    },
-    "type": "object",
-    "required": [
-     "prescription_id"
-    ],
-    "title": "RegularisationIn"
    },
    "RejetIn": {
     "properties": {
@@ -61904,6 +64078,46 @@
     ],
     "title": "RevocationIn"
    },
+   "RythmeImport": {
+    "properties": {
+     "tous_les_n_jours": {
+      "type": "integer",
+      "maximum": 90.0,
+      "minimum": 1.0,
+      "title": "Tous Les N Jours",
+      "default": 1
+     },
+     "jours_semaine": {
+      "items": {
+       "type": "integer"
+      },
+      "type": "array",
+      "maxItems": 7,
+      "title": "Jours Semaine",
+      "default": []
+     },
+     "moments": {
+      "items": {
+       "type": "string",
+       "enum": [
+        "matin",
+        "midi",
+        "soir",
+        "nuit"
+       ]
+      },
+      "type": "array",
+      "minItems": 1,
+      "title": "Moments"
+     }
+    },
+    "type": "object",
+    "required": [
+     "moments"
+    ],
+    "title": "RythmeImport",
+    "description": "Le rythme de la distribution, lu par l'infirmier sur l'ordonnance : jours et moments, rien n'est choisi d'avance.\nSans effet quand une distribution est en cours (la nouvelle reprend son rythme)."
+   },
    "Saignee": {
     "properties": {
      "ferritinemie": {
@@ -62037,6 +64251,21 @@
      "q"
     ],
     "title": "Saisie"
+   },
+   "SansFacturationIn": {
+    "properties": {
+     "motif": {
+      "type": "string",
+      "maxLength": 500,
+      "minLength": 3,
+      "title": "Motif"
+     }
+    },
+    "type": "object",
+    "required": [
+     "motif"
+    ],
+    "title": "SansFacturationIn"
    },
    "SeanceHebdomadaire": {
     "properties": {
@@ -63704,6 +65933,22 @@
       ],
       "title": "Commentaire Ouverture"
      },
+     "frequence_ids": {
+      "anyOf": [
+       {
+        "items": {
+         "type": "string",
+         "format": "uuid"
+        },
+        "type": "array",
+        "maxItems": 10
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Frequence Ids"
+     },
      "type": {
       "type": "string",
       "const": "sonde_urinaire",
@@ -63855,7 +66100,8 @@
          "associe",
          "collaborateur",
          "salarie",
-         "remplacant"
+         "remplacant",
+         "secretaire"
         ]
        },
        {
@@ -63863,17 +66109,6 @@
        }
       ],
       "title": "Statut"
-     },
-     "ipa": {
-      "anyOf": [
-       {
-        "type": "boolean"
-       },
-       {
-        "type": "null"
-       }
-      ],
-      "title": "Ipa"
      },
      "gere_planning": {
       "anyOf": [
@@ -63931,6 +66166,22 @@
        }
       ],
       "title": "Commentaire Ouverture"
+     },
+     "frequence_ids": {
+      "anyOf": [
+       {
+        "items": {
+         "type": "string",
+         "format": "uuid"
+        },
+        "type": "array",
+        "maxItems": 10
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Frequence Ids"
      },
      "emplacement": {
       "$ref": "#/components/schemas/Site"
@@ -64067,6 +66318,22 @@
        }
       ],
       "title": "Commentaire Ouverture"
+     },
+     "frequence_ids": {
+      "anyOf": [
+       {
+        "items": {
+         "type": "string",
+         "format": "uuid"
+        },
+        "type": "array",
+        "maxItems": 10
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Frequence Ids"
      },
      "emplacement": {
       "$ref": "#/components/schemas/Site"
@@ -64735,6 +67002,22 @@
        }
       ],
       "title": "Commentaire Ouverture"
+     },
+     "frequence_ids": {
+      "anyOf": [
+       {
+        "items": {
+         "type": "string",
+         "format": "uuid"
+        },
+        "type": "array",
+        "maxItems": 10
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Frequence Ids"
      },
      "type": {
       "type": "string",
@@ -66041,7 +68324,8 @@
        "stomie",
        "nutrition",
        "tracheotomie",
-       "cpap"
+       "cpap",
+       "diabete"
       ],
       "title": "Type"
      },
@@ -66319,6 +68603,34 @@
        }
       ],
       "title": "Domaine Ipa"
+     },
+     "parcours": {
+      "anyOf": [
+       {
+        "type": "string",
+        "enum": [
+         "adressage",
+         "acces_direct"
+        ]
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Parcours"
+     },
+     "medecin_adresseur": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 150,
+        "minLength": 2
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Medecin Adresseur"
      }
     },
     "type": "object",
