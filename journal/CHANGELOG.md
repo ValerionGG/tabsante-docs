@@ -2,7 +2,7 @@
 
 FPLS, anciennement TabSanté. Ce qui change dans FPLS, la plateforme des infirmières libérales à domicile, version par version : au poste fixe du cabinet, sur le terminal de tournée et dans la démo.
 
-*Mis à jour le 24 novembre 2026.*
+*Mis à jour le 26 novembre 2026.*
 
 [Portail](https://valeriongg.github.io/tabsante-docs/) · [Démo](https://valeriongg.github.io/tabsante-docs/demo/) · [Vidéos](https://valeriongg.github.io/tabsante-docs/videos/) · [Design](https://valeriongg.github.io/tabsante-docs/design/) · [Questions](https://valeriongg.github.io/tabsante-docs/questions/) · [Démo en ligne](https://tabsante.217-160-124-232.nip.io/poste/) · [Donner mon avis](https://github.com/ValerionGG/tabsante-docs/issues/new?template=retour.yml&application=Journal&title=%5BRetour%5D%20Journal)
 
@@ -38,6 +38,27 @@ Les 4 éléments bloqués attendent un tiers : un hébergeur certifié HDS, un 
 ### Raccordements réels
 
 - Agent de poste et télétransmission réels : attendent l'agrément SESAM-Vitale.
+
+## [0.42] — 26 novembre 2026 — Vos décisions du 25 novembre, « Aujourd'hui » et les Paramètres en version A, un planning qui se lit
+
+Les 41 réponses du cabinet testeur du 25 novembre sont en place. Le cabinet n'ayant pas répondu au ticket #20, les choix conseillés s'appliquent : « Aujourd'hui » et les Paramètres en version A, la double identification avec. Le planning se lit d'un coup d'œil, et l'ordonnance se saisit en pleine page en disant ce qui sera prévu.
+
+### Nouveau
+
+- **Poste fixe ·** « Aujourd'hui » : les chiffres sur une ligne ; à gauche, ce qui est à traiter maintenant ; à droite, la décision de la ligne choisie, avec un seul bouton pour la traiter, puis « Ensuite ». Plus de retour par le menu ; au téléphone, la décision s'ouvre en plein écran.
+- **Poste fixe ·** Planning : en tête, le trou le plus proche en une phrase rouge (« Demain soir, la tournée Centre n'a pas d'aide-soignante ») et « Choisir quelqu'un » ; à gauche, la journée par heure ; à droite, le calendrier par tournée, une phrase par tournée et des cases de 44 px.
+- **Poste fixe ·** Paramètres du cabinet : cinq rubriques, le cabinet, l'équipe, les appareils, les règles, les données. L'équipe en tableau, la fiche à droite ; la pratique avancée (IPA) se coche sur la ligne de l'infirmier ; chaque option dit ce qu'elle change, avec une bulle « i ».
+- **Poste fixe ·** Nouvelle ordonnance en pleine page : d'où elle vient (photo ou à la main), les médecins déjà connus d'un appui, « Jusqu'à quand ? » sans rien de coché d'avance, et à droite « Ce qui sera prévu » avant d'enregistrer.
+- **Poste fixe ·** Nouveau patient : « Plus vite » avec la carte Vitale ; l'écran dit ce qu'il manque, le reste se complète après ; puis « Saisir son ordonnance ».
+- **Poste fixe ·** Autres cabinets infirmiers du secteur : à déclarer, pour la règle des 4 km des indemnités kilométriques.
+
+### Amélioré
+
+- **Poste fixe et terminal ·** Décisions du 25 novembre : plus d'administrateur non soignant ; les absences se déclarent par qui organise les tournées ; un document déposé ne prévient que les infirmiers ; l'aide-soignante voit les soins du nursing à réaliser.
+- **Poste fixe ·** Facturation, décisions du 25 novembre : indemnités kilométriques seulement au-delà de 4 km et sans autre cabinet à moins de 4 km du patient ; un seul forfait de déplacement par domicile, même pour deux patients ; l'infirmier qui a fait l'acte tranche sa cotation ; le remplaçant facture au nom du remplacé avec sa carte.
+- **Poste fixe ·** Accord préalable « accordé implicitement » après 15 jours sans réponse ; consultation infirmière (CIA) selon l'insuline et l'ALD ; BSI coté après sa clôture sur AmeliPro ; marge autour d'une heure prescrite réglable par type de soin.
+- **Poste fixe ·** « Sécurité » devient « Les appareils » ; le journal des accès passe dans « Les données ». Les anciennes adresses mènent au bon endroit.
+- **Poste fixe ·** La page des questions montre chaque décision du cabinet, avec un filtre « À trancher / Décidées ».
 
 ## [0.41] — 24 novembre 2026 — La tournée sous le pouce, les retours du cabinet testeur, la démo à une nouvelle adresse
 

@@ -1769,6 +1769,74 @@
     }
    }
   },
+  "/patients/{patient_id}/prescriptions/apercu": {
+   "post": {
+    "tags": [
+     "prescriptions"
+    ],
+    "summary": "Apercu Prescription",
+    "description": "Planche 6 (plan du 18/11) : « Ce qui sera prévu », avant d'enregistrer. La saisie est jouée en entier, sous les\nmêmes contrôles, puis la transaction est défaite : rien n'est écrit. Par fréquence : le premier passage, le nombre\nde passages sur les 7 premiers jours, la tournée et qui la sert ; plus les conflits de l'aperçu des passages. Un\nrefus de la saisie (ordonnance échue, lecture non validée…) revient en mots, sans erreur.",
+    "operationId": "apercu_prescription_patients__patient_id__prescriptions_apercu_post",
+    "parameters": [
+     {
+      "name": "patient_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "format": "uuid",
+       "title": "Patient Id"
+      }
+     },
+     {
+      "name": "authorization",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Authorization"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/PrescriptionSaisieIn"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
   "/prescriptions/{prescription_id}/frequences": {
    "post": {
     "tags": [
@@ -12747,7 +12815,7 @@
      "facturation"
     ],
     "summary": "Get File Controle",
-    "description": "EX-TB-05 : même source que la section « file_controle_cotations » du tableau de bord ; chaque élément dit en plus\nles versions du référentiel et des tarifs que sa cotation porte (le « Pourquoi ? » d'une ligne).",
+    "description": "EX-TB-05 : même source que la section « file_controle_cotations » du tableau de bord ; chaque élément dit en plus\nles versions du référentiel et des tarifs que sa cotation porte (le « Pourquoi ? » d'une ligne) et, D-05 (décision\ndu 25/11), qui a fait le soin, si c'est à moi de trancher et les avis des collègues — ici seulement, l'écran où l'on\ndécide : le tableau de bord n'en a pas besoin.",
     "operationId": "get_file_controle_facturation_file_controle_get",
     "parameters": [
      {
@@ -12887,7 +12955,7 @@
      "facturation"
     ],
     "summary": "Post Arbitrage",
-    "description": "D-05 : l'arbitre retient la cotation confirmée par le moteur, ou l'écarte de la facturation ; motif exigé,\njournalisé. Une cotation écartée rend sa contribution aux compteurs ; une cotation déjà facturée ne s'écarte pas\n(§4.5 : elle relève d'une régularisation).",
+    "description": "D-05 : l'infirmier qui a réalisé l'acte retient la cotation confirmée par le moteur, ou l'écarte de la\nfacturation ; motif exigé, journalisé. Une cotation écartée rend sa contribution aux compteurs ; une cotation déjà\nfacturée ne s'écarte pas (§4.5 : elle relève d'une régularisation).",
     "operationId": "post_arbitrage_facturation_cotations__acte_id__arbitrage_post",
     "parameters": [
      {
@@ -12929,6 +12997,74 @@
     },
     "responses": {
      "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/facturation/cotations/{acte_id}/avis": {
+   "post": {
+    "tags": [
+     "facturation"
+    ],
+    "summary": "Post Avis",
+    "description": "D-05 (décision du 25/11) : « l'arbitrage peut se discuter entre les IDE du cabinet en cas de doute » — chaque\ninfirmier qui voit la file laisse son avis sur une cotation à arbitrer, l'auteur de l'acte compris ; l'avis ne\ntranche rien. Le texte reste à la cotation, le journal n'en garde que l'empreinte (E-05).",
+    "operationId": "post_avis_facturation_cotations__acte_id__avis_post",
+    "parameters": [
+     {
+      "name": "acte_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "format": "uuid",
+       "title": "Acte Id"
+      }
+     },
+     {
+      "name": "authorization",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Authorization"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/AvisIn"
+       }
+      }
+     }
+    },
+    "responses": {
+     "201": {
       "description": "Successful Response",
       "content": {
        "application/json": {
@@ -26985,7 +27121,7 @@
      "règles provisoires"
     ],
     "summary": "Deposer Bsi",
-    "description": "EX-NUR-05, NUR-RG-06 (provisoire) : dépôt du PDF du BSI, coté au dépôt par le moteur (doublure : jamais\nfacturable), compteur des intermédiaires sur douze mois glissants. Rejouable par l'identifiant.",
+    "description": "EX-NUR-05, NUR-RG-06 : dépôt du PDF du BSI, compteur des intermédiaires sur douze mois glissants. Q-13 : coté\n(doublure : jamais facturable) à sa clôture sur AmeliPro — `cloture_le` quand le PDF déposé est celui du BSI déjà\nclôturé, sinon plus tard (POST /bsi/{id}/cloture). Le niveau du forfait est celui que le téléservice a calculé\n(jamais choisi ici). Rejouable par l'identifiant.",
     "operationId": "deposer_bsi_patients__patient_id__bsi_post",
     "parameters": [
      {
@@ -27082,6 +27218,74 @@
     ],
     "responses": {
      "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/bsi/{depot_id}/cloture": {
+   "post": {
+    "tags": [
+     "règles provisoires"
+    ],
+    "summary": "Cloturer Bsi",
+    "description": "Q-13 (décision du cabinet du 25/11/2026) : le BSI déposé est transmis et clôturé sur AmeliPro — sa cotation DI\nse propose alors, jamais avant. Une fois par dépôt : la même date se rejoue, une autre se refuse.",
+    "operationId": "cloturer_bsi_bsi__depot_id__cloture_post",
+    "parameters": [
+     {
+      "name": "depot_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "format": "uuid",
+       "title": "Depot Id"
+      }
+     },
+     {
+      "name": "authorization",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Authorization"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/ClotureBsiIn"
+       }
+      }
+     }
+    },
+    "responses": {
+     "201": {
       "description": "Successful Response",
       "content": {
        "application/json": {
@@ -27840,6 +28044,163 @@
     }
    }
   },
+  "/cabinet/autres-cabinets": {
+   "get": {
+    "tags": [
+     "tournées : itinéraire"
+    ],
+    "summary": "Autres Cabinets",
+    "description": "Les autres cabinets infirmiers du secteur déclarés par le cabinet (Q-08).",
+    "operationId": "autres_cabinets_cabinet_autres_cabinets_get",
+    "parameters": [
+     {
+      "name": "authorization",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Authorization"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   },
+   "post": {
+    "tags": [
+     "tournées : itinéraire"
+    ],
+    "summary": "Declarer Autre Cabinet",
+    "description": "Déclare un autre cabinet infirmier du secteur : son repère posé à la main, ou géocodé depuis son adresse.",
+    "operationId": "declarer_autre_cabinet_cabinet_autres_cabinets_post",
+    "parameters": [
+     {
+      "name": "authorization",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Authorization"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/AutreCabinetIn"
+       }
+      }
+     }
+    },
+    "responses": {
+     "201": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/cabinet/autres-cabinets/{autre_id}": {
+   "delete": {
+    "tags": [
+     "tournées : itinéraire"
+    ],
+    "summary": "Retirer Autre Cabinet",
+    "description": "Retire un autre cabinet : il ne compte plus pour les passages à venir ; les cotations faites restent.",
+    "operationId": "retirer_autre_cabinet_cabinet_autres_cabinets__autre_id__delete",
+    "parameters": [
+     {
+      "name": "autre_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "format": "uuid",
+       "title": "Autre Id"
+      }
+     },
+     {
+      "name": "authorization",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Authorization"
+      }
+     }
+    ],
+    "responses": {
+     "204": {
+      "description": "Successful Response"
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
   "/cabinet/durees-soins": {
    "get": {
     "tags": [
@@ -27892,6 +28253,7 @@
      "tournées : itinéraire"
     ],
     "summary": "Regler Durees",
+    "description": "Durées types et, Q-49, marges autour d'une heure prescrite, soin par soin : qui organise les tournées les règle\n(la liste de l'IDE référente) ; un soin absent du corps garde sa valeur.",
     "operationId": "regler_durees_cabinet_durees_soins_put",
     "parameters": [
      {
@@ -28958,7 +29320,7 @@
      "organisation"
     ],
     "summary": "Declarer",
-    "description": "Chacun déclare les siennes ; qui organise les tournées, celles de l'équipe.",
+    "description": "Qui organise les tournées déclare celles de l'équipe, les siennes comprises (Q-46).",
     "operationId": "declarer_intervenants__intervenant_id__indisponibilites_post",
     "parameters": [
      {
@@ -40416,6 +40778,70 @@
     ],
     "title": "AuteurProtocole"
    },
+   "AutreCabinetIn": {
+    "properties": {
+     "nom": {
+      "type": "string",
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Nom"
+     },
+     "adresse": {
+      "type": "string",
+      "maxLength": 300,
+      "minLength": 3,
+      "title": "Adresse"
+     },
+     "lat": {
+      "anyOf": [
+       {
+        "type": "number",
+        "maximum": 90.0,
+        "minimum": -90.0
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Lat"
+     },
+     "lon": {
+      "anyOf": [
+       {
+        "type": "number",
+        "maximum": 180.0,
+        "minimum": -180.0
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Lon"
+     }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+     "nom",
+     "adresse"
+    ],
+    "title": "AutreCabinetIn"
+   },
+   "AvisIn": {
+    "properties": {
+     "texte": {
+      "type": "string",
+      "maxLength": 1000,
+      "minLength": 3,
+      "title": "Texte"
+     }
+    },
+    "type": "object",
+    "required": [
+     "texte"
+    ],
+    "title": "AvisIn"
+   },
    "BattementIn": {
     "properties": {
      "arret": {
@@ -40711,6 +41137,18 @@
       "type": "string",
       "contentMediaType": "application/octet-stream",
       "title": "Fichier"
+     },
+     "cloture_le": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "date"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Cloture Le"
      }
     },
     "type": "object",
@@ -42363,6 +42801,20 @@
      "estimation"
     ],
     "title": "Circulation"
+   },
+   "ClotureBsiIn": {
+    "properties": {
+     "cloture_le": {
+      "type": "string",
+      "format": "date",
+      "title": "Cloture Le"
+     }
+    },
+    "type": "object",
+    "required": [
+     "cloture_le"
+    ],
+    "title": "ClotureBsiIn"
    },
    "ClotureDispositifIn": {
     "properties": {
@@ -44959,6 +45411,19 @@
       "minimum": 0.0,
       "title": "Km Ik Jour",
       "default": 0
+     },
+     "autre_cabinet_km": {
+      "anyOf": [
+       {
+        "type": "number",
+        "maximum": 500.0,
+        "minimum": 0.0
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Autre Cabinet Km"
      }
     },
     "type": "object",
@@ -49674,13 +50139,29 @@
       },
       "type": "object",
       "maxProperties": 22,
-      "title": "Durees"
+      "title": "Durees",
+      "default": {}
+     },
+     "marges": {
+      "additionalProperties": {
+       "anyOf": [
+        {
+         "type": "integer",
+         "maximum": 180.0,
+         "minimum": 0.0
+        },
+        {
+         "type": "null"
+        }
+       ]
+      },
+      "type": "object",
+      "maxProperties": 22,
+      "title": "Marges",
+      "default": {}
      }
     },
     "type": "object",
-    "required": [
-     "durees"
-    ],
     "title": "DureesIn"
    },
    "EcartIn": {
