@@ -12707,6 +12707,74 @@
     }
    }
   },
+  "/actes-prescrits/{acte_prescrit_id}/ald": {
+   "put": {
+    "tags": [
+     "prescriptions"
+    ],
+    "summary": "Renseigner Ligne",
+    "description": "Plan de soins : la ligne de l'ordonnance, en rapport avec l'ALD ou non — dit ou corrigé après la saisie. Les\nfeuilles de soins déjà faites ne changent pas ; les soins à facturer suivent la réponse.",
+    "operationId": "renseigner_ligne_actes_prescrits__acte_prescrit_id__ald_put",
+    "parameters": [
+     {
+      "name": "acte_prescrit_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "format": "uuid",
+       "title": "Acte Prescrit Id"
+      }
+     },
+     {
+      "name": "authorization",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Authorization"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/LigneAldIn"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
   "/facturation/reglages": {
    "get": {
     "tags": [
@@ -13458,6 +13526,64 @@
       }
      }
     ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/facturation/ald": {
+   "post": {
+    "tags": [
+     "facturation"
+    ],
+    "summary": "Post Precision Ald",
+    "description": "Audit du 26/11 (ALD par acte) : « ALD à préciser » levé depuis « À facturer », pour les soins que le motif cite.\n« en_rapport » : leurs lignes prescrites disent désormais « en rapport avec l'ALD » (un soin sans ligne se précise\nseul) ; « sans_ald » : ces soins-là au taux normal, choix tracé au journal (qui, quand). Seul un soin à préciser se\nprécise ici ; déjà dit, il se corrige au plan de soins.",
+    "operationId": "post_precision_ald_facturation_ald_post",
+    "parameters": [
+     {
+      "name": "authorization",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Authorization"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/PrecisionAldIn"
+       }
+      }
+     }
+    },
     "responses": {
      "200": {
       "description": "Successful Response",
@@ -39108,6 +39234,17 @@
        }
       ],
       "title": "Sans Controle Glycemique"
+     },
+     "en_rapport_ald": {
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "En Rapport Ald"
      }
     },
     "type": "object",
@@ -55194,6 +55331,19 @@
     "title": "LigneActe",
     "description": "Structure commune : réponse obligatoire (UGD-RG-01), champs propres à l'acte, commentaire C2 ; la photo C10 se\nverse au passage. « Fait par le patient » n'est ni passage ni acte : la donnée va à la série (UGD-RG-15)."
    },
+   "LigneAldIn": {
+    "properties": {
+     "en_rapport": {
+      "type": "boolean",
+      "title": "En Rapport"
+     }
+    },
+    "type": "object",
+    "required": [
+     "en_rapport"
+    ],
+    "title": "LigneAldIn"
+   },
    "LigneCotationIn": {
     "properties": {
      "code": {
@@ -60755,6 +60905,34 @@
      "donnees"
     ],
     "title": "Pourquoi"
+   },
+   "PrecisionAldIn": {
+    "properties": {
+     "acte_ids": {
+      "items": {
+       "type": "string",
+       "format": "uuid"
+      },
+      "type": "array",
+      "maxItems": 200,
+      "minItems": 1,
+      "title": "Acte Ids"
+     },
+     "decision": {
+      "type": "string",
+      "enum": [
+       "en_rapport",
+       "sans_ald"
+      ],
+      "title": "Decision"
+     }
+    },
+    "type": "object",
+    "required": [
+     "acte_ids",
+     "decision"
+    ],
+    "title": "PrecisionAldIn"
    },
    "PremiereInjection": {
     "properties": {

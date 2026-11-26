@@ -39,6 +39,28 @@ Les 4 éléments bloqués attendent un tiers : un hébergeur certifié HDS, un 
 
 - Agent de poste et télétransmission réels : attendent l'agrément SESAM-Vitale.
 
+## [0.43] — 26 novembre 2026 — L'ALD acte par acte, une cotation plus juste, la démo sans serveur à jour
+
+Seuls les soins en rapport avec l'affection de longue durée sont pris en charge à 100 % : chaque acte le dit. Six règles de cotation sont corrigées, et le banc de vérification passe de 230 à 282 cas. La démonstration sans serveur montre les écrans de la 0.42.
+
+### Nouveau
+
+- **Poste fixe ·** ALD acte par acte : quand le patient a une exonération ALD, chaque soin de l'ordonnance porte la question « En rapport avec l'ALD ? », sans rien de coché d'avance. Le plan de soins permet de corriger la réponse.
+- **Poste fixe ·** Facturation : une feuille de soins peut mêler des soins à 100 % (ALD) et des soins au taux normal. Les droits ALD se lisent à la date du soin : après la fin de l'exonération, le soin n'est plus à 100 %.
+- **Poste fixe ·** « ALD à préciser » : un soin sans réponse bloque sa facturation, avec deux gestes, « En rapport avec l'ALD » ou « Facturer sans ALD ». Ce second choix est tracé dans le journal.
+
+### Amélioré
+
+- **Poste fixe ·** Banc de cotation : 52 cas de plus (forfait BSI, majorations, télésoin, télé-expertise, plafonds, indemnités kilométriques), tous conformes.
+- **Poste fixe et terminal ·** Démonstration sans serveur réenregistrée sur la 0.42 : « Aujourd'hui » et Paramètres en version A, planning lisible, nouvelle ordonnance en pleine page.
+
+### Corrigé
+
+- **Poste fixe ·** Passage sous forfait BSI réduit à l'IFI : la nuit, le dimanche et le férié, les soins palliatifs (MCI) et l'enfant (MIE) sont maintenant cotés sur l'IFI.
+- **Poste fixe ·** Administration et surveillance (article 10) : l'AMI 1,2 au-delà du premier mois attend l'accord préalable ; au cabinet, elle n'est pas cotée.
+- **Poste fixe ·** Télé-expertise : au plus quatre demandes par infirmière et par patient sur douze mois. Accompagnement de la prise médicamenteuse : ni au cabinet, ni pour un patient sous forfait BSI. Supplément de perfusion : refusé quand la perfusion courte n'est pas facturée.
+- **Poste fixe ·** Indemnités kilométriques : les IK à pied ou à ski comptent dans les kilomètres du jour, et l'arrondi au kilomètre ne dépend plus des décimales de la distance.
+
 ## [0.42] — 26 novembre 2026 — Vos décisions du 25 novembre, « Aujourd'hui » et les Paramètres en version A, un planning qui se lit
 
 Les 41 réponses du cabinet testeur du 25 novembre sont en place. Le cabinet n'ayant pas répondu au ticket #20, les choix conseillés s'appliquent : « Aujourd'hui » et les Paramètres en version A, la double identification avec. Le planning se lit d'un coup d'œil, et l'ordonnance se saisit en pleine page en disant ce qui sera prévu.
