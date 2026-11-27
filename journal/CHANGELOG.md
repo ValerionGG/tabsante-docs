@@ -2,7 +2,7 @@
 
 FPLS, anciennement TabSanté. Ce qui change dans FPLS, la plateforme des infirmières libérales à domicile, version par version : au poste fixe du cabinet, sur le terminal de tournée et dans la démo.
 
-*Mis à jour le 27 novembre 2026.*
+*Mis à jour le 28 novembre 2026.*
 
 [Portail](https://valeriongg.github.io/tabsante-docs/) · [Démo](https://valeriongg.github.io/tabsante-docs/demo/) · [Vidéos](https://valeriongg.github.io/tabsante-docs/videos/) · [Design](https://valeriongg.github.io/tabsante-docs/design/) · [Questions](https://valeriongg.github.io/tabsante-docs/questions/) · [Démo en ligne](https://tabsante.217-160-124-232.nip.io/poste/) · [Donner mon avis](https://github.com/ValerionGG/tabsante-docs/issues/new?template=retour.yml&application=Journal&title=%5BRetour%5D%20Journal)
 
@@ -38,6 +38,26 @@ Les 4 éléments bloqués attendent un tiers : un hébergeur certifié HDS, un 
 ### Raccordements réels
 
 - Agent de poste et télétransmission réels : attendent l'agrément SESAM-Vitale.
+
+## [0.46] — 28 novembre 2026 — Zéro saisie, vague 1 : l'infirmière ne choisit plus ni acte ni catégorie, et rien ne s'oublie en silence
+
+Les perfusions, les injections, les pansements et les soins urinaires et digestifs se cotent à partir du soin décrit, sans choix de catégorie. La lecture d'ordonnance reconnaît tous les soins du catalogue, et une ligne non reconnue n'est plus jamais perdue. Les cotations, les ordonnances échues, les accords préalables, les délais de facturation et les transmissions urgentes ne s'oublient plus.
+
+### Nouveau
+
+- **Poste fixe et terminal ·** Perfusion : la surveillance se déduit de la durée prescrite et de la présence de l'infirmière ; le forfait journalier d'organisation se déclenche seul ; le retrait du dispositif n'est coté que s'il a lieu.
+- **Poste fixe et terminal ·** Injections par chambre implantable et par cathéter central ; chimiothérapie bien proposée ; IVD en série lue sur le rythme.
+- **Poste fixe et terminal ·** Pansements : questions sur la plaie au lieu d'une catégorie (pansement lourd et complexe), pression négative, anesthésie topique, chirurgie mammaire et abdominoplastie, greffe, varices.
+- **Poste fixe et terminal ·** Sondages, instillation, autosondage, injection vaginale, soins de bouche, fécalome et étui pénien : chaque soin prescrit pré-remplit sa ligne.
+- **Poste fixe ·** Ordonnance : aérosol, trachéotomie, dialyse, pousse-seringue, PCA, cathéter, Redon, saignée, IDR et les soins fins sont reconnus ; une ligne non reconnue devient la question « De quel soin s'agit-il ? ». RAAC, suivi après hospitalisation, séance hebdomadaire, accompagnement médicamenteux et CIA se proposent seuls.
+- **Poste fixe ·** « À ne pas oublier » dans « Aujourd'hui » : cotations à confirmer, ordonnance échue sans renouvellement, ordonnance sans durée, renouvellement non envoyé, feuilles de soins à mettre en lot, actes non facturés, accord préalable créé seul, accord implicite acquis, BSI à clôturer sur AmeliPro.
+- **Poste fixe et terminal ·** Transmission urgente : en tête, avec une sonnerie et des relances tant qu'elle n'est pas lue.
+
+### Amélioré
+
+- **Poste fixe ·** La nuit, les cotations sont confirmées seules et les passages du jour et du lendemain sont créés, même si personne n'ouvre la tournée. Un passage du matin non fait apparaît dès midi.
+- **Poste fixe et terminal ·** Corriger un soin choisi dans une liste se fait par un choix contrôlé, jamais en texte libre.
+- **Poste fixe ·** Le niveau du forfait BSI se lit sur le BSI déposé ; plus de niveau coché d'avance.
 
 ## [0.45] — 27 novembre 2026 — La consultation CIA facturable, le pansement du cathéter péridural tranché
 
