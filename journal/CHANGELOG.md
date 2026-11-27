@@ -39,6 +39,25 @@ Les 4 éléments bloqués attendent un tiers : un hébergeur certifié HDS, un 
 
 - Agent de poste et télétransmission réels : attendent l'agrément SESAM-Vitale.
 
+## [0.47] — 28 novembre 2026 — Zéro saisie, vague 2 : « À envoyer », les documents lus, le téléphone qui prévient, la dictée du passage
+
+FPLS dit à tout moment quoi envoyer, à qui, comment et avant quand. Un bilan, un compte rendu d'hospitalisation ou un courrier de la caisse s'ajoutent d'un geste et sont lus. Le téléphone prévient même fermé. Le passage se dicte : la fiche se remplit, à relire et signer.
+
+### Nouveau
+
+- **Poste fixe et terminal ·** « À envoyer » : feuilles de soins, lots, feuilles papier de secours, pièces jointes, accords préalables, BSI à clôturer, documents au DMP, comptes rendus au médecin, renouvellements, rejets et relevés de rétrocession, chacun avec son destinataire, son canal, sa date limite et son bouton.
+- **Poste fixe ·** La nuit, les retours de la caisse sont relevés seuls ; les rejets et les lots sans retour arrivent dans « À envoyer ». Les accusés de réception sont suivis et relancés.
+- **Poste fixe ·** BSI lu sur le PDF d'AmeliPro : type, niveau et date proposés, sans rien de coché d'avance.
+- **Poste fixe ·** Déclarations d'infirmier référent et bordereau d'astreinte PDSA : formulaire, PDF et suivi de l'envoi.
+- **Poste fixe et terminal ·** « Ajouter un document » : bilan biologique (INR, plaquettes, glycémie, HbA1c, créatinine, potassium…), compte rendu d'hospitalisation, réponse de la caisse à un accord préalable, attestation de droits, courrier de la caisse. Chaque valeur lue montre son extrait ; rien n'est créé sans validation.
+- **Terminal ·** Le téléphone sonne même fermé : premier passage, heure fixe, heure prescrite, fin de pompe. Les notifications du cabinet sont prêtes pour le téléphone fermé, sans aucune donnée de santé dans le message.
+- **Terminal ·** « Dicter le passage » : pansement, constantes, glycémie, injection et transmission se remplissent depuis la voix, reconnue sur le téléphone seulement ; chaque valeur montre la phrase dite, l'infirmière relit et signe. La preuve de chaque champ dicté est gardée, jamais le son.
+
+### Corrigé
+
+- **Terminal ·** Le son des alertes du téléphone était muet sur un vrai téléphone.
+- **Poste fixe et terminal ·** La dictée ne passe jamais par le micro du clavier, qui peut envoyer le son à un service extérieur.
+
 ## [0.46] — 28 novembre 2026 — Zéro saisie, vague 1 : l'infirmière ne choisit plus ni acte ni catégorie, et rien ne s'oublie en silence
 
 Les perfusions, les injections, les pansements et les soins urinaires et digestifs se cotent à partir du soin décrit, sans choix de catégorie. La lecture d'ordonnance reconnaît tous les soins du catalogue, et une ligne non reconnue n'est plus jamais perdue. Les cotations, les ordonnances échues, les accords préalables, les délais de facturation et les transmissions urgentes ne s'oublient plus.
