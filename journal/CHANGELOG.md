@@ -39,6 +39,19 @@ Les 4 éléments bloqués attendent un tiers : un hébergeur certifié HDS, un 
 
 - Agent de poste et télétransmission réels : attendent l'agrément SESAM-Vitale.
 
+## [0.45] — 27 novembre 2026 — La consultation CIA facturable, le pansement du cathéter péridural tranché
+
+Réponses du cabinet du 27 novembre : la CIA se facture depuis le 6 novembre 2026, après l'avis favorable de la HAS ; le pansement d'un cathéter péridural ou intrathécal est compris dans la séance de surveillance, après accord de l'anesthésiste.
+
+### Nouveau
+
+- **Poste fixe ·** Consultation CIA facturable depuis le 6 novembre 2026 (avis de la HAS du 22 octobre 2026) : 20 € en métropole, 21 € dans les départements d'outre-mer. Une CIA d'avant cette date reste tracée, non facturée.
+- **Poste fixe et terminal ·** Cathéter péridural ou intrathécal : le pansement refait demande si l'anesthésiste a donné son accord ; sans accord noté, une alerte le dit et une transmission est proposée.
+
+### Corrigé
+
+- **Poste fixe ·** Le pansement d'un cathéter péridural ou intrathécal n'est plus jamais coté à part : il est compris dans la séance de surveillance. La règle provisoire et son réglage disparaissent.
+
 ## [0.44] — 27 novembre 2026 — L'agenda de consultation IPA, l'équipe en deux listes, des documents de facturation complets
 
 L'IPA reçoit sur rendez-vous, à l'heure, hors des tournées. L'équipe se lit en deux listes, la pratique avancée remplace PCA et cathéter dans les formations, et les tournées se séparent par métier. La facturation gagne le prescripteur complet, le profil de la carte CPS, la feuille de soins papier de secours, la file des accords préalables et le suivi des rejets et des paiements.
