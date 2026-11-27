@@ -2,7 +2,7 @@
 
 FPLS, anciennement TabSanté. Ce qui change dans FPLS, la plateforme des infirmières libérales à domicile, version par version : au poste fixe du cabinet, sur le terminal de tournée et dans la démo.
 
-*Mis à jour le 26 novembre 2026.*
+*Mis à jour le 27 novembre 2026.*
 
 [Portail](https://valeriongg.github.io/tabsante-docs/) · [Démo](https://valeriongg.github.io/tabsante-docs/demo/) · [Vidéos](https://valeriongg.github.io/tabsante-docs/videos/) · [Design](https://valeriongg.github.io/tabsante-docs/design/) · [Questions](https://valeriongg.github.io/tabsante-docs/questions/) · [Démo en ligne](https://tabsante.217-160-124-232.nip.io/poste/) · [Donner mon avis](https://github.com/ValerionGG/tabsante-docs/issues/new?template=retour.yml&application=Journal&title=%5BRetour%5D%20Journal)
 
@@ -27,7 +27,7 @@ Les 4 éléments bloqués attendent un tiers : un hébergeur certifié HDS, un 
 
 ### À trancher avec le cabinet testeur
 
-- Écrans « Aujourd'hui » et Paramètres (ticket #20) : sans réponse le 26 novembre, les choix proposés par défaut sont retenus, puis codés.
+- Écrans « Aujourd'hui » et Paramètres (ticket #20) : version A retenue ; les changements demandés par le cabinet le 26/11 (équipe en deux listes, IPA dans les formations, tournées séparées) arrivent dans la version suivante.
 - Indemnités kilométriques : la règle d'un autre cabinet à moins de 4 km du patient attend sa référence écrite (NGAP, convention ou courrier de la caisse).
 - Infirmier référent choisi dans le dossier du patient, agenda de l'infirmier en pratique avancée : en attente de la réponse du cabinet.
 
@@ -38,6 +38,33 @@ Les 4 éléments bloqués attendent un tiers : un hébergeur certifié HDS, un 
 ### Raccordements réels
 
 - Agent de poste et télétransmission réels : attendent l'agrément SESAM-Vitale.
+
+## [0.44] — 27 novembre 2026 — L'agenda de consultation IPA, l'équipe en deux listes, des documents de facturation complets
+
+L'IPA reçoit sur rendez-vous, à l'heure, hors des tournées. L'équipe se lit en deux listes, la pratique avancée remplace PCA et cathéter dans les formations, et les tournées se séparent par métier. La facturation gagne le prescripteur complet, le profil de la carte CPS, la feuille de soins papier de secours, la file des accords préalables et le suivi des rejets et des paiements.
+
+### Nouveau
+
+- **Poste fixe ·** Agenda de consultation IPA (Planning et tournées › Planning › IPA) : rendez-vous à l'heure avec une durée, au cabinet ou à domicile, en présence ou en visio ; vue jour et vue semaine ; un nouveau patient se reçoit dès le premier contact. La séance s'ouvre depuis le rendez-vous, qui passe « honoré » à la signature.
+- **Poste fixe ·** Accès direct IPA selon le type de structure (décret 2025-55), CPTS en expérimentation avec sa déclaration à l'ARS ; médecin traitant exigé, ou « aucun médecin traitant ».
+- **Poste fixe ·** Équipe en deux listes, Infirmiers et Aides-soignantes (SELAS seulement) ; ligne « Infirmier en pratique avancée (IPA) » avec les cinq domaines de l'art. R. 4301-2 du code de la santé publique.
+- **Poste fixe ·** Statut « Responsable de la structure » en SELAS, administrateur d'office. Écran « Postes » : les ordinateurs du cabinet, leur lecteur et leurs travaux.
+- **Poste fixe ·** Facturation : prescripteur complet sur la feuille de soins, profil de facturation lu sur la carte CPS, feuille de soins papier de secours en PDF, file des accords préalables du cabinet avec la demande préremplie, pièces jointes par nature et en versions.
+- **Poste fixe ·** Tableau de bord de la facturation : taux et motifs de rejet, délai de paiement, virements à rapprocher, encaissé par soignant. Montant estimé pendant la saisie de l'ordonnance.
+- **Poste fixe ·** Couverture du patient par périodes datées ; organisme de la caisse vérifié sur la table des organismes. Rétrocession détaillée par feuille de soins.
+- **Terminal ·** « Je quitte le domicile » : le passage se termine à la sortie. Lecture du code de la boîte de médicament. Notifications du téléphone. Ordonnance en PDF et prescripteur saisis au dépôt.
+
+### Amélioré
+
+- **Poste fixe et terminal ·** Tournées séparées par métier sur tous les onglets : carte du jour, Préparer demain, échanges, absences, passages du jour.
+- **Poste fixe ·** Perfusion : volume et débit séparés, durée calculée. Un nouveau rythme ajoute un palier daté à la même fréquence.
+- **Poste fixe et terminal ·** Invitation : le nouveau membre crée son mot de passe depuis le lien ; double identification pour tous les comptes.
+- **Terminal ·** L'accord préalable acquis sans réponse de la caisse s'affiche « accordé implicitement », comme au poste.
+
+### Corrigé
+
+- **Poste fixe ·** Les droits de chacun ne sont visibles que par qui gère l'équipe. Seul l'intéressé retire son rôle d'administrateur. La signature des aides-soignantes suit la forme juridique du cabinet.
+- **Poste fixe ·** Consultation CIA : diabète de type 2 exigé, compte rendu au DMP. Limite du midi à 14 h partout.
 
 ## [0.43] — 26 novembre 2026 — L'ALD acte par acte, une cotation plus juste, la démo sans serveur à jour
 
@@ -63,7 +90,7 @@ Seuls les soins en rapport avec l'affection de longue durée sont pris en charge
 
 ## [0.42] — 26 novembre 2026 — Vos décisions du 25 novembre, « Aujourd'hui » et les Paramètres en version A, un planning qui se lit
 
-Les 41 réponses du cabinet testeur du 25 novembre sont en place. Le cabinet n'ayant pas répondu au ticket #20, les choix conseillés s'appliquent : « Aujourd'hui » et les Paramètres en version A, la double identification avec. Le planning se lit d'un coup d'œil, et l'ordonnance se saisit en pleine page en disant ce qui sera prévu.
+La plupart des décisions du cabinet testeur du 25 novembre sont en place ; les rappels par SMS, la reprise depuis un autre logiciel et quelques points en attente d'une réponse du cabinet restent à faire. « Aujourd'hui » et les Paramètres passent en version A, avec la double identification. Le planning se lit d'un coup d'œil, et l'ordonnance se saisit en pleine page en disant ce qui sera prévu.
 
 ### Nouveau
 

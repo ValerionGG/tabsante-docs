@@ -55,10 +55,140 @@ details.sommaire ul{padding-left:20px;margin:8px 0 0}
 <header class="entete"><div><b>FPLS — documents</b><a href="../">← Retour au portail</a></div></header>
 <main>
 <p class="chemin">docs/feuille_de_route.html</p>
-<h1 id="feuille-de-route-produit--tabsanté-v2">Feuille de route produit — FPLS</h1>
+<h1 id="feuille-de-route-produit--fpls">Feuille de route produit — FPLS</h1>
+<details class="sommaire"><summary>Sommaire</summary><ul><li><a href="#fin-novembre-2026--ce-qui-est-fait-ce-qui-est-en-cours-ce-qui-attend">Fin novembre 2026 : ce qui est fait, ce qui est en cours, ce qui attend</a></li><li><a href="#octobre-2026-fait">Octobre 2026 (fait)</a></li><li><a href="#prochaines-étapes-par-valeur">Prochaines étapes, par valeur</a></li><li><a href="#idées-différenciantes-à-instruire">Idées différenciantes à instruire</a></li></ul></details>
 <p>Établie le 3 octobre 2026 à partir du CDC V2, du benchmark concurrentiel (<code>docs/reference/benchmark_tabsante.md</code>), du benchmark design, de la veille Dribbble/Behance et de l'étude UX (<code>docs/reference/etude_ux.md</code>).
 Fil conducteur : <strong>facturer sur preuve</strong>, montrer le <strong>progrès du patient</strong>, et faire gagner du temps à l'infirmière dès le premier jour.</p>
-<h2 id="en-cours-octobre-2026">En cours (octobre 2026)</h2>
+<h2 id="fin-novembre-2026--ce-qui-est-fait-ce-qui-est-en-cours-ce-qui-attend">Fin novembre 2026 : ce qui est fait, ce qui est en cours, ce qui attend</h2>
+<p>Mise à jour le 27 novembre 2026, après les réponses du cabinet testeur (tickets #20, #22 à #64).</p>
+<h3 id="fait-et-en-ligne-dans-la-démo-version-044-2711">Fait et en ligne dans la démo (version 0.44, 27/11)</h3>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Quoi</th>
+<th>Ticket</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Équipe en deux listes : Infirmiers, et Aides-soignantes (cette liste seulement pour une SELAS)</td>
+<td>#20</td>
+</tr>
+<tr>
+<td>Formations : PCA et cathéter ne se proposent plus ; ligne « Infirmier en pratique avancée (IPA) » avec les 5 domaines de l'art. R. 4301-2 du code de la santé publique</td>
+<td>#20</td>
+</tr>
+<tr>
+<td>Tournées séparées par métier sur tous les onglets (carte du jour, Préparer demain, échanges, absences)</td>
+<td>#20</td>
+</tr>
+<tr>
+<td>Les droits de chacun ne sont visibles que par qui gère l'équipe</td>
+<td>#17</td>
+</tr>
+<tr>
+<td>Seul l'intéressé retire son rôle d'administrateur ou de responsable</td>
+<td>#45 (Q-65)</td>
+</tr>
+<tr>
+<td>Aides-soignantes : la signature suit la forme juridique (SELAS)</td>
+<td>#6, #40</td>
+</tr>
+<tr>
+<td>Accord implicite affiché au téléphone comme au poste</td>
+<td>#28</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="aussi-dans-la-044">Aussi dans la 0.44</h3>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Chantier</th>
+<th>Ce que ça change</th>
+<th>Ticket</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Agenda de consultation IPA</strong></td>
+<td>Rendez-vous à l'heure avec une durée, au cabinet ou à domicile, en présence ou en visio, hors des tournées ; la séance s'ouvre depuis le rendez-vous ; accès direct selon le type de structure (décret 2025-55)</td>
+<td>#4, #5, #17, #20, #64</td>
+</tr>
+<tr>
+<td><strong>Documents de facturation</strong></td>
+<td>Prescripteur complet sur la feuille de soins ; profil de facturation lu sur la carte CPS ; feuille de soins papier de secours en PDF ; accords préalables suivis pour tout le cabinet, demande préremplie ; pièces jointes par nature</td>
+<td>#23, #28</td>
+</tr>
+<tr>
+<td><strong>Pilotage de la facturation</strong></td>
+<td>Taux et motifs de rejet, délai de paiement, encaissé par soignant ; montant estimé pendant la saisie de l'ordonnance ; couverture du patient par périodes ; détail de la rétrocession</td>
+<td>#18</td>
+</tr>
+<tr>
+<td><strong>Soins et terrain</strong></td>
+<td>Bouton « Je quitte le domicile » ; perfusion en volume et débit ; lecture du code de la boîte de médicament ; notifications du téléphone ; petites corrections du calcul des IK</td>
+<td>#3, #7, #8, #37</td>
+</tr>
+<tr>
+<td><strong>Équipe et accès</strong></td>
+<td>Création du mot de passe depuis l'invitation et double identification pour tous les comptes ; responsable de la structure en SELAS ; écran « Postes »</td>
+<td>#13, #17</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="en-attente-dune-réponse-du-cabinet-rien-nest-changé-avant">En attente d'une réponse du cabinet (rien n'est changé avant)</h3>
+<div class="tableau"><table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Ticket</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Accord préalable : compter les 15 jours depuis la réception par la caisse ?</td>
+<td>#28</td>
+</tr>
+<tr>
+<td>Indemnités kilométriques : d'où vient la règle des 4 km ?</td>
+<td>#35</td>
+</tr>
+<tr>
+<td>Passage sans ordonnance : 7 jours puis non facturé, ou toujours décidé par l'infirmier ?</td>
+<td>#63</td>
+</tr>
+<tr>
+<td>Perfusion : que veut dire « plus de dépose » ?</td>
+<td>#34</td>
+</tr>
+<tr>
+<td>Aides-soignantes en SELAS : confirmation de l'Ordre ou du syndicat</td>
+<td>#40</td>
+</tr>
+<tr>
+<td>Hébergement : certification de FPLS ou infogérance par l'hébergeur ?</td>
+<td>#53</td>
+</tr>
+<tr>
+<td>Agenda IPA : nombre d'IPA et domaines, lieu, patients adressés ou en accès direct</td>
+<td>#20</td>
+</tr>
+<tr>
+<td>Consultation IPA : majorations MIE, MCI et MAU, en attente de la CPAM</td>
+<td>#64</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="ensuite">Ensuite</h3>
+<ol>
+<li>Facturation IPA (forfaits PAI, rang), une fois les points ouverts tranchés et la CPAM consultée.</li>
+<li>Intégration du composant SESAM-Vitale choisi (jFSE), à partir de janvier 2027.</li>
+<li>Rappels aux patients par SMS, après le choix du prestataire.</li>
+<li>Reprise des dossiers depuis un autre logiciel, sur exports réels.</li>
+<li>Ségur vague 2 : dossier à déposer avant le 17 février 2027.</li>
+</ol>
+<h2 id="octobre-2026-fait">Octobre 2026 (fait)</h2>
 <div class="tableau"><table>
 <thead>
 <tr>
