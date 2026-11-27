@@ -39,6 +39,16 @@ Les 4 éléments bloqués attendent un tiers : un hébergeur certifié HDS, un 
 
 - Agent de poste et télétransmission réels : attendent l'agrément SESAM-Vitale.
 
+## [0.48] — 28 novembre 2026 — Demander à l'application, et le compte rendu d'appel dicté
+
+On pose une question à FPLS, à voix haute ou par écrit, et il répond à partir des données du jour, même sans réseau. Le compte rendu d'un appel se dicte juste après et part en transmission.
+
+### Nouveau
+
+- **Terminal ·** « Demander », en tête de la tournée : « Qu'est-ce qu'il me reste ? », « Qui est le suivant ? », « Quand expire l'ordonnance de M. X ? », la dernière glycémie ou le dernier INR, les allergies, le code de la porte, ce qu'il faut envoyer. Réponse à l'écran et lue à voix haute par la voix française du téléphone, sans réseau. En cas de doute sur le patient, FPLS demande lequel.
+- **Poste fixe ·** « Demander » dans la recherche (Ctrl K), avec les mêmes questions ; la lecture du patient est tracée.
+- **Poste fixe et terminal ·** Compte rendu d'appel : interlocuteur, dictée rangée en transmission ciblée, relue puis envoyée avec la mention « Appel ». L'appel lui-même n'est jamais enregistré.
+
 ## [0.47] — 28 novembre 2026 — Zéro saisie, vague 2 : « À envoyer », les documents lus, le téléphone qui prévient, la dictée du passage
 
 FPLS dit à tout moment quoi envoyer, à qui, comment et avant quand. Un bilan, un compte rendu d'hospitalisation ou un courrier de la caisse s'ajoutent d'un geste et sont lus. Le téléphone prévient même fermé. Le passage se dicte : la fiche se remplit, à relire et signer.
