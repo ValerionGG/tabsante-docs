@@ -39,6 +39,16 @@ Les 4 éléments bloqués attendent un tiers : un hébergeur certifié HDS, un 
 
 - Agent de poste et télétransmission réels : attendent l'agrément SESAM-Vitale.
 
+## [0.49] — 28 novembre 2026 — Le suivi régulier IPA facturé, la liste des prescriptions de l'infirmière, l'audit copié hors site
+
+Réponses du cabinet du 27 novembre : le rang de chaque séance du suivi régulier IPA se calcule seul et donne son forfait ; la liste de ce que l'infirmière peut prescrire suit l'arrêté du 26 juin 2026, avec ses conditions ; la chaîne d'audit est copiée dans un stockage non modifiable.
+
+### Nouveau
+
+- **Poste fixe ·** Suivi régulier IPA : semestre civil, forfait d'initiation, deux forfaits de suivi par semestre, suivi rapproché pour les 4e et 5e consultations, acte traceur au-delà, plafonds selon l'adressage ou l'accès direct. L'agenda et la fiche de suivi disent le forfait attendu et la consultation en présence de l'année.
+- **Poste fixe ·** Prescription de l'infirmière : la liste de l'arrêté du 26 juin 2026, rubrique par rubrique, avec ses conditions (âge des vaccins, pansements pour 7 jours, examens des diabétiques à 3 mois, contraceptifs, INR) vérifiées ou posées en question. La source et la date de vérification au Journal officiel sont affichées.
+- **Poste fixe ·** Chaîne d'audit : chaque ancre est copiée dans un stockage non modifiable de l'hébergeur, relu au contrôle complet.
+
 ## [0.48] — 28 novembre 2026 — Demander à l'application, et le compte rendu d'appel dicté
 
 On pose une question à FPLS, à voix haute ou par écrit, et il répond à partir des données du jour, même sans réseau. Le compte rendu d'un appel se dicte juste après et part en transmission.
